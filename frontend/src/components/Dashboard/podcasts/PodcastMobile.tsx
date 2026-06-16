@@ -74,7 +74,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
 
   return (
     <div className={`relative ${moreOpen ? 'z-50' : 'z-0'}`}>
-      <div className="absolute inset-y-0 right-0 w-20 bg-red-500 flex flex-col items-center justify-center text-white md:hidden">
+      <div className="absolute inset-y-0 right-0 w-20 bg-red-500 flex flex-col items-center justify-center text-white">
         <button 
           type="button"
           className="flex flex-col items-center justify-center w-full h-full active:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent"
@@ -118,7 +118,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
         <div className="flex-1 min-w-0 relative">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
-              <h3 className="text-[12px] md:text-[12px] font-medium text-(--color-text-primary) leading-tight line-clamp-2">
+              <h3 className="text-[12px] font-medium text-(--color-text-primary) leading-tight line-clamp-2">
                 {episode.title}
               </h3>
               
@@ -211,7 +211,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
   )
 })
 
-export default function Podcasts() {
+export default function PodcastMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
 
   const handleFilterChange = useCallback((key: string) => {

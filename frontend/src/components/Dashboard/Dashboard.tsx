@@ -9,7 +9,8 @@ import SubTabBar from '../commonfiles/TabBar/SubTabBar'
 import FooterNav from '../commonfiles/FooterNav'
 import { NAV_ITEMS, type NavKey } from '../commonfiles/sidebar/data'
 import ActivityBoard from './activityBoard/ActivityBoard'
-import Podcasts from './podcasts/Podcasts'
+import PodcastDesktop from './podcasts/PodcastDesktop'
+import PodcastMobile from './podcasts/PodcastMobile'
 import Spotlight from './spotlight/Spotlight'
 import Learn from './learn/Learn'
 import Directory from './directory/Directory'
@@ -130,7 +131,7 @@ function DesktopDashboard() {
         {activeTab === 'activityBoard' ? (
           <ActivityBoard />
         ) : activeTab === 'podcasts' ? (
-          <Podcasts />
+          <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
           <Spotlight />
         ) : activeTab === 'learn' ? (
@@ -204,7 +205,7 @@ function MobileDashboard() {
         {activeTab === 'activityBoard' ? (
           <ActivityBoard />
         ) : activeTab === 'podcasts' ? (
-          <Podcasts />
+          <PodcastMobile />
         ) : activeTab === 'spotlight' ? (
           <Spotlight />
         ) : activeTab === 'learn' ? (

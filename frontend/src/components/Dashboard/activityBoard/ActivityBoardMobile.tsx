@@ -20,11 +20,11 @@ interface ActivityCardProps {
 const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardProps) {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isSaved, setIsSaved] = useState(false)
-  
+
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
   const [tooltipPos, setTooltipPos] = useState<'top' | 'bottom'>(index === 0 ? 'bottom' : 'top')
-  
+
   const startX = useRef(0)
   const initialOffset = useRef(0)
   const maxSwipe = 80
@@ -40,10 +40,10 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
   const handleTouchMove = (e: React.TouchEvent) => {
     const diff = e.touches[0].clientX - startX.current
     let nextOffset = initialOffset.current + diff
-    
+
     if (nextOffset > 0) nextOffset = 0
     if (nextOffset < -maxSwipe) nextOffset = -maxSwipe
-    
+
     setSwipeOffset(nextOffset)
   }
 
@@ -71,9 +71,8 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
   return (
     <div className="relative mb-2.5">
       <div className="relative z-10 rounded-lg">
-        {/* Swipe Action Background */}
-        <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-lg flex flex-col items-center justify-center text-white md:hidden z-0">
-          <button 
+        <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-lg flex flex-col items-center justify-center text-white z-0">
+          <button
             type="button"
             className="flex flex-col items-center justify-center w-full h-full active:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
             onClick={() => console.log('Not Interested in', item.id)}
@@ -85,12 +84,11 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
           </button>
         </div>
 
-        {/* Main Card */}
-        <div 
+        <div
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          style={{ 
+          style={{
             transform: `translateX(${swipeOffset}px)`,
             transitionDuration: isSwiping ? '0ms' : '200ms',
             backgroundColor: item.cardBg || '#FFFFFF'
@@ -98,30 +96,28 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
           className="relative flex flex-col p-2.5 @md:p-3 border border-gray-100 rounded-lg z-10 transition-colors min-h-20 ease-out hover:border-gray-200 hover:shadow-[0_4px_16px_rgba(0,0,0,0.03)]"
         >
           <div className="absolute top-2 right-2 bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none">
-            
-            {/* Save Button */}
             <div className="flex items-center pointer-events-auto">
-              <div 
+              <div
                 ref={saveBtnRef}
                 onMouseEnter={handleTooltipPosition}
                 onTouchStart={handleTooltipPosition}
                 className="relative group/save flex items-center justify-center"
               >
-                <button 
+                <button
                   onClick={toggleSave}
                   className="flex items-center justify-center p-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 transition-transform duration-300 active:scale-90 text-[#6a5fc1] bg-transparent border-none hover:bg-gray-50"
                   aria-label={isSaved ? "Saved" : "Save"}
                 >
                   {isSaved ? <BookmarkIcon sx={{ fontSize: 16 }} /> : <BookmarkBorderIcon sx={{ fontSize: 16 }} />}
                 </button>
-                
-                <span 
+
+                <span
                   className={`absolute right-0 px-2 py-1 bg-gray-900 text-white text-[9px] font-bold rounded-sm opacity-0 group-hover/save:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-100 ${
                     tooltipPos === 'top' ? 'bottom-full mb-1.5' : 'top-full mt-1.5'
                   }`}
                 >
                   {isSaved ? 'Saved to List' : 'Save for Later'}
-                  <div 
+                  <div
                     className={`absolute right-2 w-1.5 h-1.5 bg-gray-900 rotate-45 ${
                       tooltipPos === 'top' ? '-bottom-0.5' : '-top-0.5'
                     }`}
@@ -130,42 +126,39 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
               </div>
             </div>
 
-            {/* Expand Toggle */}
-            <button 
+            <button
               onClick={(e) => { e.stopPropagation(); setIsExpanded(!isExpanded); }}
-              className="flex items-center gap-0.5 px-2 py-1 bg-white hover:bg-gray-50 rounded-md border border-pink-500/20 text-pink-600 font-bold text-[9px] @md:text-[10px] transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm"
+              className="flex items-center gap-0.5 px-2 py-1 bg-white hover:bg-gray-50 rounded-md border border-pink-500/20 text-pink-600 font-bold text-[9px] @md:text-[10px] transition-all active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer"
             >
-              {isExpanded ? 'Hide' : 'View'} 
-              <KeyboardArrowDownIcon 
-                sx={{ fontSize: 14 }} 
-                className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} 
+              {isExpanded ? 'Hide' : 'View'}
+              <KeyboardArrowDownIcon
+                sx={{ fontSize: 14 }}
+                className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
               />
             </button>
           </div>
 
           <div className="flex items-start gap-2.5 w-full overflow-hidden pr-12">
-            {/* Logo */}
             {item.logoImg ? (
-              <img 
-                src={item.logoImg} 
-                alt={item.company} 
-                className="w-10 h-10 @md:w-12 @md:h-12 rounded-md object-cover shrink-0 border border-black/5" 
+              <img
+                src={item.logoImg}
+                alt={item.company}
+                className="w-10 h-10 @md:w-12 @md:h-12 rounded-md object-cover shrink-0 border border-black/5"
               />
             ) : (
-              <div 
+              <div
                 className="w-10 h-10 @md:w-12 @md:h-12 rounded-md flex items-center justify-center shrink-0 border border-black/5"
                 style={{ backgroundColor: item.logoBg, color: item.logoColor }}
               >
-                <span 
-                  className="text-center font-bold text-[9px] @md:text-[10px] leading-tight whitespace-pre-wrap tracking-wide" 
+                <span
+                  className="text-center font-bold text-[9px] @md:text-[10px] leading-tight whitespace-pre-wrap tracking-wide"
                   style={{ color: item.logoColor }}
                 >
                   {item.logoText}
                 </span>
               </div>
             )}
-            
-            {/* Content Info */}
+
             <div className="flex flex-col min-w-0 w-full py-0.5">
               <div className="flex items-center gap-1">
                 <span className="text-[11px] @md:text-[12px] font-semibold text-[#1f1633] truncate">
@@ -173,13 +166,13 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
                 </span>
                 {item.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
               </div>
-              
+
               <h3 className="text-[12px] @md:text-[13px] font-bold text-[#1f1633] mt-0.5 leading-snug truncate">
                 {item.title}
               </h3>
-              
+
               <div className="flex items-center w-full mt-2 gap-1.5 min-w-0">
-                <span 
+                <span
                   className="px-1.5 py-0.5 rounded-sm text-[8px] @md:text-[9px] font-bold tracking-wide uppercase shrink-0"
                   style={{ backgroundColor: item.tagBg, color: item.tagColor }}
                 >
@@ -194,8 +187,7 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
         </div>
       </div>
 
-      {/* Expanded Details Section */}
-      <div 
+      <div
         className={`transition-all duration-300 ease-in-out overflow-hidden transform origin-top ${
           isExpanded ? 'max-h-56 opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95'
         }`}
@@ -205,10 +197,10 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
             <BusinessCenterIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1] shrink-0 mt-0.5" />
             <div>
               <span className="font-bold text-[#1f1633] block mb-0.5">Role Overview</span>
-              We are actively looking for candidates/agencies specializing in <strong className="text-[#1f1633]">{item.tag}</strong> to fulfill the requirements for <strong className="text-[#1f1633]">{item.title}</strong>. 
+              We are actively looking for candidates/agencies specializing in <strong className="text-[#1f1633]">{item.tag}</strong> to fulfill the requirements for <strong className="text-[#1f1633]">{item.title}</strong>.
             </div>
           </div>
-          
+
           <div className="pl-4 text-[10px] @md:text-[11px] text-gray-500 border-l-2 border-gray-200 ml-1.5 mt-2">
             <ul className="list-disc pl-3 space-y-0.5 marker:text-gray-300">
               <li><strong className="text-gray-600">Budget:</strong> {item.detail}</li>
@@ -219,9 +211,9 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
 
           <div className="mt-3 flex justify-end">
             <button className="
-              px-4 py-1.5 rounded-md text-[10px] @md:text-[11px] font-bold text-white
-              bg-linear-to-r from-pink-500 to-rose-500 
-              hover:from-rose-500 hover:to-pink-500 
+              px-4 py-1.5 rounded-md text-[10px] @md:text-[11px] font-bold text-white cursor-pointer border-none
+              bg-linear-to-r from-pink-500 to-rose-500
+              hover:from-rose-500 hover:to-pink-500
               shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)]
               transition-all duration-300 active:scale-95
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50
@@ -235,7 +227,7 @@ const ActivityCard = memo(function ActivityCard({ item, index }: ActivityCardPro
   )
 })
 
-export default function ActivityBoard() {
+export default function ActivityBoardMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [visibleCount, setVisibleCount] = useState(ITEMS_PER_PAGE)
   const [isLoading, setIsLoading] = useState(false)
@@ -265,9 +257,8 @@ export default function ActivityBoard() {
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl">
         <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
-      
-      <div className="w-full pt-1 pb-16 @md:pb-10 max-w-5xl mx-auto px-3 @md:px-6">
-        
+
+      <div className="w-full pt-1 pb-16 max-w-5xl mx-auto px-3">
         {displayedItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center">
             <div className="w-12 h-12 mb-3 rounded-lg bg-gray-50 border border-gray-100 flex items-center justify-center">
@@ -284,21 +275,20 @@ export default function ActivityBoard() {
           </div>
         )}
 
-        {/* Animated Purple Load More Button */}
         {hasMore && (
-          <div className="flex justify-center mt-4 @md:mt-5 mb-4">
-            <button 
+          <div className="flex justify-center mt-4 mb-4">
+            <button
               onClick={handleLoadMore}
               disabled={isLoading}
               className="
-                group flex items-center justify-center gap-2 px-6 py-2.5 min-w-35 
-                text-xs font-bold text-white rounded-md
+                group flex items-center justify-center gap-2 px-6 py-2.5 min-w-35
+                text-xs font-bold text-white rounded-md cursor-pointer border-none
                 bg-linear-to-r from-[#6a5fc1] via-[#8b5cf6] to-[#6a5fc1] bg-size-[200%_auto]
                 shadow-[0_4px_12px_rgba(106,95,193,0.25)]
-                hover:bg-position-[100%_center] hover:shadow-[0_6px_16px_rgba(106,95,193,0.4)] 
+                hover:bg-position-[100%_center] hover:shadow-[0_6px_16px_rgba(106,95,193,0.4)]
                 hover:-translate-y-px hover:scale-[1.02]
-                transition-all duration-500 ease-out active:scale-95 
-                disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none 
+                transition-all duration-500 ease-out active:scale-95
+                disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none
                 disabled:hover:shadow-[0_4px_12px_rgba(106,95,193,0.25)] disabled:hover:bg-position-[0%_center]
                 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/70
               "
@@ -314,7 +304,6 @@ export default function ActivityBoard() {
             </button>
           </div>
         )}
-
       </div>
     </div>
   )

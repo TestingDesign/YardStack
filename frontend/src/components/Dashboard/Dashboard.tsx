@@ -8,7 +8,8 @@ import TabBar from '../commonfiles/TabBar'
 import SubTabBar from '../commonfiles/TabBar/SubTabBar'
 import FooterNav from '../commonfiles/FooterNav'
 import { NAV_ITEMS, type NavKey } from '../commonfiles/sidebar/data'
-import ActivityBoard from './activityBoard/ActivityBoard'
+import ActivityBoardDesktop from './activityBoard/ActivityBoardDesktop'
+import ActivityBoardMobile from './activityBoard/ActivityBoardMobile'
 import PodcastDesktop from './podcasts/PodcastDesktop'
 import PodcastMobile from './podcasts/PodcastMobile'
 import Spotlight from './spotlight/Spotlight'
@@ -42,6 +43,15 @@ const TAB_ITEMS = NAV_ITEMS.map(({ key, label, Icon, activeIcon, badge, subTabs 
   activeIcon,
   badge,
   subTabs: subTabs ?? [],
+}))
+
+/** Nav items shaped for the desktop header's integrated nav cards */
+const HEADER_NAV_ITEMS = NAV_ITEMS.map(({ key, label, Icon, activeIcon, badge }) => ({
+  key,
+  label,
+  Icon: Icon || '',
+  activeIcon,
+  badge,
 }))
 
 const StatCards = memo(function StatCards() {
@@ -110,26 +120,24 @@ function DesktopDashboard() {
 
   return (
     <main className="flex flex-col h-full overflow-hidden bg-white">
-      <DashboardHeader />
+      {/* Header with integrated navigation cards */}
+      <DashboardHeader
+        navItems={HEADER_NAV_ITEMS}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+      />
 
-      <nav aria-label="Main Navigation" className="shrink-0 bg-white z-10">
-        <TabBar
-          tabs={TAB_ITEMS}
-          active={activeTab}
-          onChange={handleTabChange}
-          onSubTabChange={setActiveSubTab}
-        />
-      </nav>
-
+      {/* Sub-tabs (only shown for tabs that have them) */}
       {currentSubTabs.length > 0 && (
         <nav aria-label="Secondary Navigation" className="shrink-0 border-b border-[#eef0f3] bg-white/60 backdrop-blur-md px-6 py-1">
           <SubTabBar subTabs={currentSubTabs} active={activeSubTab} onChange={setActiveSubTab} variant="desktop" />
         </nav>
       )}
 
+      {/* Content area */}
       <div className="flex-1 overflow-hidden flex flex-col focus-visible:outline-none" tabIndex={-1}>
         {activeTab === 'activityBoard' ? (
-          <ActivityBoard />
+          <ActivityBoardDesktop />
         ) : activeTab === 'podcasts' ? (
           <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
@@ -203,7 +211,7 @@ function MobileDashboard() {
 
       <div className="flex-1 overflow-hidden flex flex-col [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none focus-visible:outline-none" tabIndex={-1}>
         {activeTab === 'activityBoard' ? (
-          <ActivityBoard />
+          <ActivityBoardMobile />
         ) : activeTab === 'podcasts' ? (
           <PodcastMobile />
         ) : activeTab === 'spotlight' ? (

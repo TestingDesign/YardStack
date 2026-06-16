@@ -12,7 +12,8 @@ import ActivityBoardDesktop from './activityBoard/ActivityBoardDesktop'
 import ActivityBoardMobile from './activityBoard/ActivityBoardMobile'
 import PodcastDesktop from './podcasts/PodcastDesktop'
 import PodcastMobile from './podcasts/PodcastMobile'
-import Spotlight from './spotlight/Spotlight'
+import SpotlightDesktop from './spotlight/SpotlightDesktop'
+import SpotlightMobile from './spotlight/SpotlightMobile'
 import Learn from './learn/Learn'
 import Directory from './directory/Directory'
 import CityInventory from './cityInventory/CityInventory'
@@ -141,7 +142,7 @@ function DesktopDashboard() {
         ) : activeTab === 'podcasts' ? (
           <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
-          <Spotlight />
+          <SpotlightDesktop />
         ) : activeTab === 'learn' ? (
           <Learn />
         ) : activeTab === 'directory' ? (
@@ -215,7 +216,7 @@ function MobileDashboard() {
         ) : activeTab === 'podcasts' ? (
           <PodcastMobile />
         ) : activeTab === 'spotlight' ? (
-          <Spotlight />
+          <SpotlightMobile />
         ) : activeTab === 'learn' ? (
           <Learn />
         ) : activeTab === 'directory' ? (

@@ -149,7 +149,7 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { 
   )
 })
 
-export default function Spotlight() {
+export default function SpotlightMobile() {
   const [activeFilter, setActiveFilter] = useState('forYou')
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
 
@@ -171,7 +171,7 @@ export default function Spotlight() {
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             {SPOTLIGHT_VIDEOS.map((video) => (
               <VideoCard 
                 key={video.id} 

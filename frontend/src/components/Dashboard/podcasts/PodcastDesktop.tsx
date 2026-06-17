@@ -7,26 +7,10 @@ import ShareIcon from '@mui/icons-material/Share'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
-
-const PER_PAGE_OPTIONS = [8, 12, 16, 24]
-
-function buildPages(current: number, total: number): (number | '...')[] {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
-  const pages: (number | '...')[] = [1]
-  if (current > 3) pages.push('...')
-  for (let i = Math.max(2, current - 1); i <= Math.min(total - 1, current + 1); i++) {
-    pages.push(i)
-  }
-  if (current < total - 2) pages.push('...')
-  pages.push(total)
-  return pages
-}
 
 const MoreMenu = memo(function MoreMenu({
   open,
@@ -44,9 +28,9 @@ const MoreMenu = memo(function MoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-150 border-none cursor-pointer outline-none ${
+        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none ${
           open
-            ? 'bg-black/10 text-gray-800'
+            ? 'bg-black/10 text-gray-800 scale-105'
             : 'bg-transparent text-gray-500 opacity-0 group-hover:opacity-100 hover:bg-black/10 hover:text-gray-800'
         }`}
         aria-label="More options"
@@ -58,7 +42,7 @@ const MoreMenu = memo(function MoreMenu({
 
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-48 bg-white rounded-xl shadow-xl border border-gray-100 z-50 py-1 origin-top-right animate-[fadeScale_0.15s_ease-out]"
+          className="absolute right-0 top-[110%] w-48 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-200 ease-out"
           role="menu"
         >
           {[
@@ -69,18 +53,18 @@ const MoreMenu = memo(function MoreMenu({
               key={label}
               type="button"
               onClick={onAction}
-              className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-normal text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
+              className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-gray-600 hover:bg-gray-50 hover:text-[#6B21A8] transition-colors border-none bg-transparent cursor-pointer text-left"
               role="menuitem"
             >
               <Icon sx={{ fontSize: 17 }} />
               {label}
             </button>
           ))}
-          <div className="h-px bg-gray-100 my-1" />
+          <div className="h-px bg-gray-100 my-1 mx-2" />
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-normal text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
             <VisibilityOffIcon sx={{ fontSize: 17 }} />
@@ -89,7 +73,7 @@ const MoreMenu = memo(function MoreMenu({
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-normal text-red-500 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-red-500 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
             <FlagOutlinedIcon sx={{ fontSize: 17 }} />
@@ -123,44 +107,49 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <article
-      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-200 hover:-translate-y-0.5 ${moreOpen ? 'z-50 relative' : ''}`}
+      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-300 hover:-translate-y-1 ${moreOpen ? 'z-50 relative' : ''}`}
     >
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0">
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0 bg-gray-100">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-black/35 transition-colors duration-200 flex items-center justify-center">
-          <div className="w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-[#6B21A8] shadow-lg scale-75 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200">
-            <PlayArrowIcon sx={{ fontSize: 26 }} />
+        
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 transition-opacity duration-300" />
+
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-300 flex items-center justify-center">
+          <div className="relative w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center justify-center text-white opacity-0 scale-75 translate-y-4 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 cubic-bezier(0.34,1.56,0.64,1) hover:bg-white/30 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]">
+            <div className="absolute inset-0 rounded-full border border-white/20 animate-[spin_4s_linear_infinite] opacity-50" />
+            <PlayArrowIcon sx={{ fontSize: 32 }} className="drop-shadow-md ml-0.5" />
           </div>
         </div>
-        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1 bg-black/70 text-white text-[11px] font-normal px-1.5 py-0.5 rounded pointer-events-none group-hover:opacity-0 transition-opacity duration-200">
-          <GraphicEqIcon sx={{ fontSize: 11 }} />
+
+        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/50 backdrop-blur-md border border-white/10 text-white text-[11px] font-medium px-2 py-1 rounded-md pointer-events-none group-hover:opacity-0 group-hover:-translate-y-1 transition-all duration-300 shadow-sm">
+          <GraphicEqIcon sx={{ fontSize: 12 }} className="text-[#D946EF]" />
           {episode.duration}
         </div>
       </div>
 
-      <div className="flex items-start justify-between gap-1 px-0.5">
+      <div className="flex items-start justify-between gap-2 px-0.5">
         <div className="min-w-0 flex-1">
-          <h3 className="text-[13px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-1.5">
+          <h3 className="text-[14px] font-medium text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-[#6B21A8] transition-colors duration-200">
             {episode.title}
           </h3>
-          <div className="flex items-center gap-1.5">
-            <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center shadow-sm">
-              <span className="text-[9px] font-semibold text-white select-none">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
+              <span className="text-[10px] font-bold text-white select-none">
                 {speakerInitial}
               </span>
             </div>
-            <span className="text-[12px] font-medium text-gray-700 truncate">
+            <span className="text-[12px] font-semibold text-gray-700 truncate">
               {episode.speaker}
             </span>
             {episode.verified && (
-              <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />
+              <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-500 shrink-0" />
             )}
           </div>
-          <p className="text-[11px] text-gray-500 mt-0.5 truncate font-normal">
+          <p className="text-[10px] text-gray-500 -mt-1 truncate font-medium ml-7">
             {episode.role}
           </p>
         </div>
@@ -182,129 +171,13 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   )
 })
 
-const Pagination = memo(function Pagination({
-  current,
-  total,
-  perPage,
-  perPageOptions,
-  onPage,
-  onPerPage,
-}: {
-  current: number
-  total: number
-  perPage: number
-  perPageOptions: number[]
-  onPage: (p: number) => void
-  onPerPage: (n: number) => void
-}) {
-  const [perPageOpen, setPerPageOpen] = useState(false)
-  const ppRef = useRef<HTMLDivElement>(null)
-  const pages = buildPages(current, total)
-
-  useEffect(() => {
-    function onOut(e: MouseEvent) {
-      if (ppRef.current && !ppRef.current.contains(e.target as Node)) setPerPageOpen(false)
-    }
-    document.addEventListener('mousedown', onOut)
-    return () => document.removeEventListener('mousedown', onOut)
-  }, [])
-
-  return (
-    <div className="flex items-center justify-between mt-6 px-1 select-none">
-      <div />
-
-      <div className="flex items-center gap-1">
-        <button
-          type="button"
-          disabled={current === 1}
-          onClick={() => onPage(current - 1)}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer outline-none"
-          aria-label="Previous page"
-        >
-          <ChevronLeftIcon sx={{ fontSize: 18 }} />
-        </button>
-
-        {pages.map((p, idx) =>
-          p === '...' ? (
-            <span key={`ellipsis-${idx}`} className="w-8 h-8 flex items-center justify-center text-[13px] text-gray-400">
-              …
-            </span>
-          ) : (
-            <button
-              key={p}
-              type="button"
-              onClick={() => onPage(p as number)}
-              className={`w-8 h-8 flex items-center justify-center rounded-lg text-[13px] font-semibold transition-all cursor-pointer outline-none border ${
-                current === p
-                  ? 'bg-[#6B21A8] text-white border-[#6B21A8] shadow-[0_3px_10px_rgba(107,33,168,0.35)]'
-                  : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-              }`}
-              aria-current={current === p ? 'page' : undefined}
-            >
-              {p}
-            </button>
-          )
-        )}
-
-        <button
-          type="button"
-          disabled={current === total}
-          onClick={() => onPage(current + 1)}
-          className="w-8 h-8 flex items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-500 hover:bg-gray-50 hover:border-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer outline-none"
-          aria-label="Next page"
-        >
-          <ChevronRightIcon sx={{ fontSize: 18 }} />
-        </button>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <span className="text-[12px] text-gray-500">Show</span>
-        <div className="relative" ref={ppRef}>
-          <button
-            type="button"
-            onClick={() => setPerPageOpen((v) => !v)}
-            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-gray-200 bg-white text-[12px] font-semibold text-gray-700 hover:border-gray-300 hover:bg-gray-50 transition-all cursor-pointer outline-none min-w-[52px] justify-between"
-          >
-            {perPage}
-            <KeyboardArrowDownIcon sx={{ fontSize: 15 }} className={`transition-transform duration-200 ${perPageOpen ? 'rotate-180' : ''}`} />
-          </button>
-          {perPageOpen && (
-            <div className="absolute bottom-full mb-1 right-0 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50 min-w-[64px] animate-[fadeScale_0.15s_ease-out] origin-bottom-right">
-              {perPageOptions.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => { onPerPage(n); setPerPageOpen(false) }}
-                  className={`w-full px-3 py-1.5 text-[12px] text-left cursor-pointer border-none transition-colors ${
-                    n === perPage
-                      ? 'bg-[#6B21A8]/10 text-[#6B21A8] font-semibold'
-                      : 'bg-transparent text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        <span className="text-[12px] text-gray-500">per page</span>
-      </div>
-    </div>
-  )
-})
-
 export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
-  const [perPage, setPerPage] = useState(8)
+  const perPage = 8
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
-    setPage(1)
-  }, [])
-
-  const handlePerPage = useCallback((n: number) => {
-    setPerPage(n)
     setPage(1)
   }, [])
 
@@ -312,38 +185,49 @@ export default function PodcastDesktop() {
     ? PODCAST_EPISODES
     : PODCAST_EPISODES.filter((ep) => ep.category === activeFilter)
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage))
-  const safePage = Math.min(page, totalPages)
-  const pageEpisodes = filtered.slice((safePage - 1) * perPage, safePage * perPage)
+  const displayedCount = page * perPage
+  const displayedEpisodes = filtered.slice(0, displayedCount)
+  const hasMore = displayedEpisodes.length < filtered.length
+
+  const handleLoadMore = () => {
+    setPage((prev) => prev + 1)
+  }
 
   return (
-    <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit'] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-      <div className="sticky top-0 z-20 bg-white border-b border-gray-100 shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
+    <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-500">
+      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
-      <div className="px-6 py-5">
-        {pageEpisodes.length > 0 ? (
-          <>
-            <div className="grid grid-cols-2 xl:grid-cols-4 gap-x-5 gap-y-6">
-              {pageEpisodes.map((ep) => (
+      <div className="px-4 py-4 max-w-[1600px] mx-auto">
+        {displayedEpisodes.length > 0 ? (
+          <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out fill-mode-both">
+            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
+              {displayedEpisodes.map((ep) => (
                 <DesktopEpisodeCard key={ep.id} episode={ep} />
               ))}
             </div>
 
-            <Pagination
-              current={safePage}
-              total={totalPages}
-              perPage={perPage}
-              perPageOptions={PER_PAGE_OPTIONS}
-              onPage={setPage}
-              onPerPage={handlePerPage}
-            />
-          </>
+            {hasMore && (
+              <div className="mt-12 flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={handleLoadMore}
+                  className="group flex items-center gap-2 px-6 py-1.5 rounded-[4px] bg-white border border-gray-200 text-[14px] font-bold text-gray-700 hover:text-[#6B21A8] hover:border-[#C4B5FD] hover:bg-[#FAFAFF] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.15)] transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED]/30"
+                >
+                  <AutorenewIcon sx={{ fontSize: 18 }} className="transition-transform duration-500 group-hover:rotate-180" />
+                  Load More Episodes
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <p className="text-[15px] font-semibold text-gray-800">No episodes found</p>
-            <p className="text-[13px] text-gray-500 mt-1">Try selecting a different category</p>
+          <div className="flex flex-col items-center justify-center py-32 text-center animate-in zoom-in-95 fade-in duration-500">
+            <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+              <GraphicEqIcon sx={{ fontSize: 32 }} className="text-gray-400" />
+            </div>
+            <p className="text-[18px] font-bold text-gray-800">No episodes found</p>
+            <p className="text-[14px] font-medium text-gray-500 mt-1.5">Try selecting a different category or clearing filters</p>
           </div>
         )}
       </div>

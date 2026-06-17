@@ -11,12 +11,14 @@ import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
+import PodcastVideoPlayer from './PodcastVideoPlayer'
 
 interface EpisodeCardProps {
   episode: PodcastEpisode
+  onPlay: (ep: PodcastEpisode) => void
 }
 
-const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
+const EpisodeCard = memo(function EpisodeCard({ episode, onPlay }: EpisodeCardProps) {
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -79,7 +81,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
         <button 
           type="button"
           className="flex flex-col items-center justify-center w-full h-full active:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent"
-          onClick={() => console.log('Delete episode', episode.id)}
+          onClick={() => {}}
           aria-label="Delete episode"
         >
           <DeleteIcon sx={{ fontSize: 24 }} className="drop-shadow-sm" />
@@ -97,7 +99,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
           type="button"
           className="relative shrink-0 w-[110px] h-[80px] rounded-xl overflow-hidden shadow-sm flex items-center justify-center border-none outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)]"
           aria-label={`Play ${episode.title}`}
-          onClick={(e) => { e.stopPropagation(); console.log('Play', episode.id) }}
+          onClick={(e) => { e.stopPropagation(); onPlay(episode) }}
         >
           <img
             src={episode.thumbnail}
@@ -215,6 +217,7 @@ const EpisodeCard = memo(function EpisodeCard({ episode }: EpisodeCardProps) {
 
 export default function PodcastMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
+  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -223,6 +226,10 @@ export default function PodcastMobile() {
   const filteredEpisodes = activeFilter === 'all'
     ? PODCAST_EPISODES
     : PODCAST_EPISODES.filter(ep => ep.category === activeFilter)
+
+  const activeIdx = activeEpisode
+    ? PODCAST_EPISODES.findIndex(ep => ep.id === activeEpisode.id)
+    : -1
 
   return (
     <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-300">
@@ -234,7 +241,7 @@ export default function PodcastMobile() {
         {filteredEpisodes.length > 0 ? (
           <div className="animate-in slide-in-from-bottom-2 fade-in duration-500 fill-mode-both">
             {filteredEpisodes.map((episode) => (
-              <EpisodeCard key={episode.id} episode={episode} />
+              <EpisodeCard key={episode.id} episode={episode} onPlay={setActiveEpisode} />
             ))}
           </div>
         ) : (
@@ -247,6 +254,26 @@ export default function PodcastMobile() {
           </div>
         )}
       </div>
+
+      <PodcastVideoPlayer
+        episode={activeEpisode}
+        onClose={() => setActiveEpisode(null)}
+        onNext={() =>
+          setActiveEpisode(
+            activeIdx < PODCAST_EPISODES.length - 1
+              ? PODCAST_EPISODES[activeIdx + 1]
+              : null
+          )
+        }
+        onPrev={() =>
+          setActiveEpisode(
+            activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
+          )
+        }
+        hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+        hasPrev={activeIdx > 0}
+        initialLayout="auto"
+      />
     </div>
   )
 }

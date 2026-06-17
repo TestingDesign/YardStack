@@ -11,6 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
+import PodcastVideoPlayer from './PodcastVideoPlayer'
 
 const MoreMenu = memo(function MoreMenu({
   open,
@@ -87,8 +88,10 @@ const MoreMenu = memo(function MoreMenu({
 
 const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   episode,
+  onPlay,
 }: {
   episode: PodcastEpisode
+  onPlay: (ep: PodcastEpisode) => void
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -108,6 +111,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   return (
     <article
       className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-300 hover:-translate-y-1 ${moreOpen ? 'z-50 relative' : ''}`}
+      onClick={() => onPlay(episode)}
     >
       <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0 bg-gray-100">
         <img
@@ -174,6 +178,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
+  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
   const perPage = 8
 
   const handleFilterChange = useCallback((key: string) => {
@@ -193,6 +198,10 @@ export default function PodcastDesktop() {
     setPage((prev) => prev + 1)
   }
 
+  const activeIdx = activeEpisode
+    ? PODCAST_EPISODES.findIndex(ep => ep.id === activeEpisode.id)
+    : -1
+
   return (
     <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-500">
       <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md">
@@ -204,7 +213,7 @@ export default function PodcastDesktop() {
           <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out fill-mode-both">
             <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
               {displayedEpisodes.map((ep) => (
-                <DesktopEpisodeCard key={ep.id} episode={ep} />
+                <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
               ))}
             </div>
 
@@ -231,6 +240,26 @@ export default function PodcastDesktop() {
           </div>
         )}
       </div>
+
+      <PodcastVideoPlayer
+        episode={activeEpisode}
+        onClose={() => setActiveEpisode(null)}
+        onNext={() =>
+          setActiveEpisode(
+            activeIdx < PODCAST_EPISODES.length - 1
+              ? PODCAST_EPISODES[activeIdx + 1]
+              : null
+          )
+        }
+        onPrev={() =>
+          setActiveEpisode(
+            activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
+          )
+        }
+        hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+        hasPrev={activeIdx > 0}
+        initialLayout="auto"
+      />
     </div>
   )
 }

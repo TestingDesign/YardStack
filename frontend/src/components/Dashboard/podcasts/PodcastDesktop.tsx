@@ -258,7 +258,7 @@ export default function PodcastDesktop() {
         }
         hasNext={activeIdx < PODCAST_EPISODES.length - 1}
         hasPrev={activeIdx > 0}
-        initialLayout="auto"
+
       />
     </div>
   )

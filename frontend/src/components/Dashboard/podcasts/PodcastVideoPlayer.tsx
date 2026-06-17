@@ -73,24 +73,27 @@ const ProgressBar = memo(function ProgressBar({
   return (
     <div
       ref={trackRef}
-      className="group relative w-full cursor-pointer select-none"
-      style={{ height: hovering ? (compact ? '8px' : '12px') : '3px', transition: 'height 0.15s ease' }}
+      className="group relative w-full cursor-pointer select-none py-2"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onClick={e => onChange(getPct(e))}
       onTouchEnd={e => onChange(getPct(e))}
     >
-      <div className="absolute inset-0 rounded-full bg-white/20" />
+      <div 
+        className="w-full rounded-full bg-white/20 backdrop-blur-sm relative overflow-hidden"
+        style={{ height: hovering ? (compact ? '6px' : '8px') : '4px', transition: 'height 0.2s ease' }}
+      >
+        <div
+          className="absolute inset-y-0 left-0 bg-white/30 transition-all duration-300"
+          style={{ width: `${buffered * 100}%` }}
+        />
+        <div
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#8b5cf6] to-[#c2ef4e] shadow-[0_0_10px_rgba(194,239,78,0.5)]"
+          style={{ width: `${progress * 100}%`, transition: 'width 0.1s linear' }}
+        />
+      </div>
       <div
-        className="absolute inset-y-0 left-0 rounded-full bg-white/25 transition-all duration-300"
-        style={{ width: `${buffered * 100}%` }}
-      />
-      <div
-        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#422082] to-[#6a5fc1]"
-        style={{ width: `${progress * 100}%`, transition: 'width 0.1s linear' }}
-      />
-      <div
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-white shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200"
         style={{ left: `${progress * 100}%` }}
       />
     </div>
@@ -109,22 +112,21 @@ const RotateBtn = memo(function RotateBtn({
   onLock: () => void
 }) {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md p-1 rounded-full border border-white/10">
       <button
         type="button"
         onClick={onToggle}
-        title={landscape ? 'Switch to portrait' : 'Rotate to landscape'}
-        className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold transition-all duration-200 border ${
+        className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide transition-all duration-300 ${
           landscape
-            ? 'bg-[#422082]/30 border-[#6a5fc1]/50 text-[#c2ef4e]'
-            : 'bg-white/10 border-white/10 text-white hover:bg-white/20'
+            ? 'bg-gradient-to-r from-[#422082] to-[#6a5fc1] text-white shadow-lg'
+            : 'text-white/70 hover:text-white hover:bg-white/10'
         }`}
       >
         <ScreenRotationIcon
           sx={{
-            fontSize: 12,
+            fontSize: 14,
             transform: landscape ? 'rotate(90deg)' : 'none',
-            transition: 'transform 0.3s ease',
+            transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         />
         {landscape ? 'Portrait' : 'Rotate'}
@@ -132,10 +134,55 @@ const RotateBtn = memo(function RotateBtn({
       <button
         type="button"
         onClick={onLock}
-        title={locked ? 'Unlock rotation' : 'Lock rotation'}
-        className="p-1 rounded-full bg-white/10 text-white/60 hover:bg-white/20 hover:text-white transition-all duration-150"
+        className={`p-1.5 rounded-full transition-all duration-200 ${
+          locked ? 'bg-white/20 text-[#c2ef4e]' : 'text-white/50 hover:bg-white/10 hover:text-white'
+        }`}
       >
-        {locked ? <LockIcon sx={{ fontSize: 11 }} /> : <LockOpenIcon sx={{ fontSize: 11 }} />}
+        {locked ? <LockIcon sx={{ fontSize: 13 }} /> : <LockOpenIcon sx={{ fontSize: 13 }} />}
+      </button>
+    </div>
+  )
+})
+
+const VerticalVolumeControl = memo(function VerticalVolumeControl({
+  volume,
+  muted,
+  setVolume,
+  setMuted,
+}: {
+  volume: number
+  muted: boolean
+  setVolume: (v: number) => void
+  setMuted: (v: boolean) => void
+}) {
+  return (
+    <div className="relative flex items-center justify-center group/vol">
+      <div className="absolute bottom-full mb-3 w-9 h-28 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center opacity-0 invisible group-hover/vol:opacity-100 group-hover/vol:visible transition-all duration-300 shadow-[0_8px_24px_rgba(0,0,0,0.6)] origin-bottom scale-90 group-hover/vol:scale-100 z-50">
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={muted ? 0 : volume}
+          onChange={e => {
+            const val = Number(e.target.value)
+            setVolume(val)
+            if (val > 0 && muted) setMuted(false)
+            if (val === 0 && !muted) setMuted(true)
+          }}
+          className="w-20 h-1.5 cursor-pointer accent-[#c2ef4e] bg-white/20 rounded-full appearance-none -rotate-90 hover:accent-white transition-all"
+        />
+      </div>
+      <button
+        type="button"
+        onClick={() => setMuted(!muted)}
+        className="p-2 rounded-full hover:bg-white/20 text-white transition-all duration-200 active:scale-90"
+      >
+        {muted || volume === 0 ? (
+          <VolumeOffIcon sx={{ fontSize: 20 }} />
+        ) : (
+          <VolumeUpIcon sx={{ fontSize: 20 }} />
+        )}
       </button>
     </div>
   )
@@ -165,6 +212,7 @@ export default function PodcastVideoPlayer({
   const totalDuration = episode ? parseDuration(episode.duration) : 0
 
   const [isNarrowViewport, setIsNarrowViewport] = useState(() => window.innerWidth < 768)
+
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 767px)')
     const h = (e: MediaQueryListEvent) => setIsNarrowViewport(e.matches)
@@ -185,6 +233,7 @@ export default function PodcastVideoPlayer({
     }
     window.addEventListener('orientationchange', handleOrientation)
     window.addEventListener('resize', handleOrientation)
+    handleOrientation()
     return () => {
       window.removeEventListener('orientationchange', handleOrientation)
       window.removeEventListener('resize', handleOrientation)
@@ -207,7 +256,7 @@ export default function PodcastVideoPlayer({
     setControlsVisible(true)
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
     if (isPlaying) {
-      hideTimerRef.current = setTimeout(() => setControlsVisible(false), 3000)
+      hideTimerRef.current = setTimeout(() => setControlsVisible(false), 3500)
     }
   }, [isPlaying])
 
@@ -279,14 +328,14 @@ export default function PodcastVideoPlayer({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   const eqBars = (
-    <div className="absolute top-2 left-2 flex items-end gap-[2px]">
-      {[1, 2, 3, 4].map(i => (
+    <div className="flex items-end gap-[3px] bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/10">
+      {[1, 2, 3, 4, 5].map(i => (
         <div
           key={i}
-          className="w-0.5 rounded-full bg-[#c2ef4e]"
+          className="w-1 rounded-full bg-[#c2ef4e]"
           style={{
-            height: `${5 + i * 3}px`,
-            animation: `pvp-eq ${0.3 + i * 0.1}s ease-in-out infinite alternate`,
+            height: `${8 + i * 3}px`,
+            animation: `pvp-eq ${0.3 + i * 0.15}s ease-in-out infinite alternate`,
           }}
         />
       ))}
@@ -296,386 +345,125 @@ export default function PodcastVideoPlayer({
 
   const centerPlayBtn = (size: number) => (
     <div
-      className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-opacity duration-200 ${
-        controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0'
+      className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-500 z-20 ${
+        controlsVisible || !isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-125'
       }`}
     >
       <div
-        className={`rounded-full bg-[#150f23]/60 backdrop-blur-md border border-[#6a5fc1]/40 flex items-center justify-center text-white transition-all duration-300 shadow-[0_0_24px_rgba(66,32,130,0.5)] ${
-          !isPlaying ? 'scale-100' : 'scale-50 opacity-0'
+        className={`rounded-full bg-black/50 backdrop-blur-xl border border-white/20 flex items-center justify-center text-white transition-all duration-500 shadow-[0_0_40px_rgba(0,0,0,0.5)] ${
+          !isPlaying ? 'scale-100' : 'scale-75 opacity-0'
         }`}
         style={{ width: size, height: size }}
       >
         {isPlaying
-          ? <PauseIcon sx={{ fontSize: size * 0.5 }} />
-          : <PlayArrowIcon sx={{ fontSize: size * 0.5 }} className="ml-[2px]" />}
+          ? <PauseIcon sx={{ fontSize: size * 0.45 }} />
+          : <PlayArrowIcon sx={{ fontSize: size * 0.45 }} className="ml-[4px]" />}
       </div>
     </div>
-  )
-
-  const volumeBtn = (
-    <button
-      type="button"
-      onClick={() => setMuted(v => !v)}
-      className="p-1 rounded-full hover:bg-white/10 text-white transition-all duration-150"
-    >
-      {muted || volume === 0
-        ? <VolumeOffIcon sx={{ fontSize: 18 }} />
-        : <VolumeUpIcon sx={{ fontSize: 18 }} />}
-    </button>
   )
 
   if (effectiveLayout === 'mobile') {
     return (
       <div
-        className="absolute inset-0 z-[500] flex flex-col bg-[#150f23] overflow-hidden"
-        style={landscape ? { flexDirection: 'row' } : {}}
-      >
-        {landscape ? (
-          <>
-            <div
-              className="relative flex-1 bg-[#0a0714] flex items-center justify-center overflow-hidden"
-              onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-              onTouchEnd={() => resetHideTimer()}
-            >
-              <img
-                src={episode.thumbnail}
-                alt={episode.title}
-                className={`w-full h-full object-contain transition-all duration-500 ${isPlaying ? 'scale-[1.01]' : 'scale-100'}`}
-              />
-              {!isPlaying && <div className="absolute inset-0 bg-[#150f23]/40" />}
-              {isPlaying && eqBars}
-              {centerPlayBtn(48)}
-
-              <div
-                className={`absolute inset-x-0 bottom-0 transition-opacity duration-300 ${controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-                onClick={e => e.stopPropagation()}
-              >
-                <div className="bg-gradient-to-t from-[#150f23]/90 to-transparent px-3 pt-6 pb-2">
-                  <ProgressBar
-                    progress={progress}
-                    buffered={Math.min(1, progress + 0.15)}
-                    onChange={setProgress}
-                    compact
-                  />
-                  <div className="flex items-center justify-between mt-1.5">
-                    <div className="flex items-center gap-0.5">
-                      <button type="button" disabled={!hasPrev} onClick={onPrev}
-                        className="p-0.5 text-white disabled:opacity-30">
-                        <SkipPreviousIcon sx={{ fontSize: 18 }} />
-                      </button>
-                      <button type="button"
-                        onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))}
-                        className="p-0.5 text-white">
-                        <Replay10Icon sx={{ fontSize: 16 }} />
-                      </button>
-                      <button type="button"
-                        onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-                        className="p-1 text-white active:scale-90 transition-transform">
-                        {isPlaying
-                          ? <PauseIcon sx={{ fontSize: 22 }} />
-                          : <PlayArrowIcon sx={{ fontSize: 22 }} />}
-                      </button>
-                      <button type="button"
-                        onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))}
-                        className="p-0.5 text-white">
-                        <Forward10Icon sx={{ fontSize: 16 }} />
-                      </button>
-                      <button type="button" disabled={!hasNext} onClick={onNext}
-                        className="p-0.5 text-white disabled:opacity-30">
-                        <SkipNextIcon sx={{ fontSize: 18 }} />
-                      </button>
-                      <span className="text-white/50 text-[9px] font-medium ml-1 tabular-nums">
-                        {currentTime}/{episode.duration}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {volumeBtn}
-                      <RotateBtn
-                        landscape={landscape}
-                        locked={rotationLocked}
-                        onToggle={() => setLandscape(v => !v)}
-                        onLock={() => setRotationLocked(v => !v)}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="w-8 flex flex-col items-center pt-2 bg-[#150f23] shrink-0">
-              <button type="button" onClick={onClose}
-                className="w-6 h-6 rounded-full bg-[#1f1633] border border-[#cfcfdb]/20 flex items-center justify-center text-white/70 hover:bg-[#422082] hover:text-white transition-all duration-150">
-                <CloseIcon sx={{ fontSize: 13 }} />
-              </button>
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="shrink-0 flex items-center justify-between px-3 pt-3 pb-1.5">
-              <div className="flex items-center gap-1.5">
-                <GraphicEqIcon sx={{ fontSize: 13 }} className="text-[#6a5fc1]" />
-                <span className="text-[10px] font-bold text-[#79628c] uppercase tracking-widest">
-                  Now Playing
-                </span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <RotateBtn
-                  landscape={landscape}
-                  locked={rotationLocked}
-                  onToggle={() => setLandscape(v => !v)}
-                  onLock={() => setRotationLocked(v => !v)}
-                />
-                <button type="button" onClick={onClose}
-                  className="w-6 h-6 rounded-full bg-[#1f1633] border border-[#cfcfdb]/20 flex items-center justify-center text-[#79628c] hover:bg-[#422082] hover:text-white transition-all duration-150">
-                  <CloseIcon sx={{ fontSize: 13 }} />
-                </button>
-              </div>
-            </div>
-
-            <div
-              className="relative shrink-0 w-full bg-[#0a0714] overflow-hidden"
-              style={{ aspectRatio: '16/9' }}
-              onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-              onTouchEnd={() => resetHideTimer()}
-            >
-              <img
-                src={episode.thumbnail}
-                alt={episode.title}
-                className={`absolute inset-0 w-full h-full object-contain transition-all duration-500 ${isPlaying ? 'scale-[1.01]' : 'scale-100'}`}
-              />
-              {!isPlaying && <div className="absolute inset-0 bg-[#150f23]/40" />}
-              {isPlaying && eqBars}
-              {centerPlayBtn(48)}
-
-              <button
-                type="button"
-                onClick={e => { e.stopPropagation(); handleToggleFullscreen() }}
-                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-[#150f23]/60 border border-[#6a5fc1]/30 flex items-center justify-center text-white hover:bg-[#422082] transition-all duration-150"
-                title="Full screen (f)"
-              >
-                {isFullscreen
-                  ? <FullscreenExitIcon sx={{ fontSize: 15 }} />
-                  : <FullscreenIcon sx={{ fontSize: 15 }} />}
-              </button>
-            </div>
-
-            <div className="shrink-0 px-3 pt-2.5">
-              <ProgressBar
-                progress={progress}
-                buffered={Math.min(1, progress + 0.15)}
-                onChange={setProgress}
-                compact
-              />
-              <div className="flex justify-between mt-0.5">
-                <span className="text-[9px] text-[#79628c] tabular-nums">{currentTime}</span>
-                <span className="text-[9px] text-[#79628c] tabular-nums">{episode.duration}</span>
-              </div>
-            </div>
-
-            <div className="shrink-0 flex items-start gap-2.5 px-3 py-2">
-              <div className="w-8 h-8 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-md">
-                <span className="text-[11px] font-bold text-white select-none">
-                  {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
-                </span>
-              </div>
-              <div className="min-w-0 flex-1">
-                <h2 className="text-[12px] font-semibold text-white leading-snug line-clamp-2">
-                  {episode.title}
-                </h2>
-                <div className="flex items-center gap-1 mt-0.5">
-                  <span className="text-[10px] text-[#79628c] truncate">{episode.speaker}</span>
-                  {episode.verified && (
-                    <VerifiedIcon sx={{ fontSize: 11 }} className="text-[#6a5fc1] shrink-0" />
-                  )}
-                  <span className="text-[#cfcfdb]/30 text-[9px]">·</span>
-                  <span className="text-[9px] text-[#79628c]/70 truncate">{episode.role}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="shrink-0 flex items-center justify-center gap-3 px-3 pb-1.5">
-              <button type="button" disabled={!hasPrev} onClick={onPrev}
-                className="p-1 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                <SkipPreviousIcon sx={{ fontSize: 22 }} />
-              </button>
-              <button type="button"
-                onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))}
-                className="p-1 text-[#bdb8c0] hover:text-white transition-colors">
-                <Replay10Icon sx={{ fontSize: 20 }} />
-              </button>
-              <button type="button"
-                onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-                className="w-11 h-11 rounded-full bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center text-white shadow-[0_0_20px_rgba(66,32,130,0.5)] active:scale-90 transition-transform">
-                {isPlaying
-                  ? <PauseIcon sx={{ fontSize: 24 }} />
-                  : <PlayArrowIcon sx={{ fontSize: 24 }} className="ml-0.5" />}
-              </button>
-              <button type="button"
-                onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))}
-                className="p-1 text-[#bdb8c0] hover:text-white transition-colors">
-                <Forward10Icon sx={{ fontSize: 20 }} />
-              </button>
-              <button type="button" disabled={!hasNext} onClick={onNext}
-                className="p-1 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                <SkipNextIcon sx={{ fontSize: 22 }} />
-              </button>
-            </div>
-
-            <div className="shrink-0 flex items-center gap-2 px-5 pb-2">
-              <VolumeOffIcon sx={{ fontSize: 13 }} className="text-[#79628c] shrink-0" />
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step={0.01}
-                value={muted ? 0 : volume}
-                onChange={e => {
-                  setVolume(Number(e.target.value))
-                  setMuted(Number(e.target.value) === 0)
-                }}
-                className="flex-1 h-0.5 cursor-pointer accent-[#6a5fc1]"
-              />
-              <VolumeUpIcon sx={{ fontSize: 13 }} className="text-[#79628c] shrink-0" />
-            </div>
-
-            <div className="shrink-0 flex items-end justify-center gap-[3px] h-7 px-6 pb-1">
-              {Array.from({ length: 28 }).map((_, i) => (
-                <div
-                  key={i}
-                  className="w-0.5 rounded-full bg-[#422082]/50"
-                  style={{
-                    height: `${4 + Math.sin(i * 0.8) * 8 + 6}px`,
-                    opacity: isPlaying ? 1 : 0.4,
-                    animation: isPlaying
-                      ? `pvp-wave ${0.4 + (i % 5) * 0.12}s ease-in-out infinite alternate`
-                      : 'none',
-                  }}
-                />
-              ))}
-              <style>{`@keyframes pvp-wave{from{transform:scaleY(.5)}to{transform:scaleY(1.3)}}`}</style>
-            </div>
-          </>
-        )}
-      </div>
-    )
-  }
-
-  if (effectiveLayout === 'desktop-theater') {
-    return (
-      <div
-        className="fixed inset-0 z-[9000] flex items-center justify-center bg-[#150f23]/90 backdrop-blur-sm animate-in fade-in duration-300"
-        onClick={e => { if (e.target === e.currentTarget) onClose() }}
+        className="fixed inset-0 z-[9000] flex flex-col bg-[#05030a] overflow-hidden animate-in fade-in duration-300"
+        ref={containerRef}
       >
         <div
-          ref={containerRef}
-          className="relative w-full max-w-[1100px] mx-4 rounded-2xl overflow-hidden bg-[#1f1633] shadow-[0_40px_120px_rgba(21,15,35,0.9)] border border-[#cfcfdb]/10"
+          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
+          onTouchEnd={() => resetHideTimer()}
         >
-          <button type="button" onClick={onClose}
-            className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-[#150f23]/70 backdrop-blur-md border border-[#cfcfdb]/15 flex items-center justify-center text-[#bdb8c0] hover:bg-[#422082] hover:text-white hover:scale-105 transition-all duration-150">
-            <CloseIcon sx={{ fontSize: 18 }} />
-          </button>
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-30 blur-3xl scale-110 transition-opacity duration-1000"
+            style={{ backgroundImage: `url(${episode.thumbnail})` }}
+          />
+          <img
+            src={episode.thumbnail}
+            alt={episode.title}
+            className={`relative z-10 w-full h-full ${landscape ? 'object-contain' : 'object-cover'} transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.03]' : 'scale-100'}`}
+          />
+          <div className={`absolute inset-0 z-20 bg-gradient-to-b from-black/80 via-transparent to-black/95 transition-opacity duration-500 ${isPlaying && !controlsVisible ? 'opacity-0' : 'opacity-100'}`} />
+          {centerPlayBtn(72)}
+        </div>
 
-          <button type="button" onClick={handleToggleFullscreen}
-            className="absolute top-3 right-14 z-10 w-9 h-9 rounded-full bg-[#150f23]/70 backdrop-blur-md border border-[#cfcfdb]/15 flex items-center justify-center text-[#bdb8c0] hover:bg-[#422082] hover:text-white hover:scale-105 transition-all duration-150"
-            title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}>
-            {isFullscreen
-              ? <FullscreenExitIcon sx={{ fontSize: 18 }} />
-              : <FullscreenIcon sx={{ fontSize: 18 }} />}
-          </button>
+        <div 
+          className={`absolute top-0 inset-x-0 z-30 flex items-center justify-between p-4 transition-all duration-500 ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
+        >
+          <div className="flex items-center gap-3">
+            {isPlaying ? eqBars : (
+               <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
+                 <GraphicEqIcon sx={{ fontSize: 16 }} className="text-[#6a5fc1]" />
+                 <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">Paused</span>
+               </div>
+            )}
+          </div>
+          <div className="flex items-center gap-3">
+            <RotateBtn landscape={landscape} locked={rotationLocked} onToggle={() => setLandscape(v => !v)} onLock={() => setRotationLocked(v => !v)} />
+            <button type="button" onClick={onClose} className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+              <CloseIcon sx={{ fontSize: 18 }} />
+            </button>
+          </div>
+        </div>
 
-          <div
-            className="relative w-full bg-[#0a0714] aspect-video"
-            style={{ maxHeight: 'calc(80vh - 68px)' }}
-            onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-            onMouseMove={resetHideTimer}
-          >
-            <img
-              src={episode.thumbnail}
-              alt={episode.title}
-              className={`absolute inset-0 w-full h-full object-contain transition-all duration-700 ${isPlaying ? 'scale-[1.01]' : 'scale-100'}`}
-            />
-            {!isPlaying && <div className="absolute inset-0 bg-[#150f23]/40" />}
-
-           {/*  {isPlaying && (
-              <div className="absolute top-3 left-3 flex items-end gap-[3px]">
-                {[1, 2, 3, 4].map(i => (
-                  <div key={i} className="w-1 rounded-full bg-[#c2ef4e]"
-                    style={{
-                      height: `${7 + i * 3}px`,
-                      animation: `pvp-eq ${0.4 + i * 0.1}s ease-in-out infinite alternate`,
-                    }}
-                  />
-                ))}
-              </div>
-            )} */}
-
-            {centerPlayBtn(64)}
-
-            <div
-              className={`absolute inset-x-0 bottom-0 transition-opacity duration-300 ${controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-              onClick={e => e.stopPropagation()}
-              onMouseMove={resetHideTimer}
-            >
-              <div className="bg-gradient-to-t from-[#150f23]/95 via-[#150f23]/60 to-transparent px-4 pt-10 pb-3 flex flex-col gap-2">
-                <ProgressBar
-                  progress={progress}
-                  buffered={Math.min(1, progress + 0.15)}
-                  onChange={setProgress}
-                />
-                <div className="flex items-center gap-1">
-                  <button type="button" disabled={!hasPrev} onClick={onPrev}
-                    className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                    <SkipPreviousIcon sx={{ fontSize: 20 }} />
-                  </button>
-                  <button type="button"
-                    onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))}
-                    className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] hover:text-white transition-colors">
-                    <Replay10Icon sx={{ fontSize: 18 }} />
-                  </button>
-                  <button type="button"
-                    onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-                    className="p-1.5 rounded-full hover:bg-[#422082]/40 text-white active:scale-90 transition-all">
-                    {isPlaying
-                      ? <PauseIcon sx={{ fontSize: 24 }} />
-                      : <PlayArrowIcon sx={{ fontSize: 24 }} />}
-                  </button>
-                  <button type="button"
-                    onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))}
-                    className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] hover:text-white transition-colors">
-                    <Forward10Icon sx={{ fontSize: 18 }} />
-                  </button>
-                  <button type="button" disabled={!hasNext} onClick={onNext}
-                    className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                    <SkipNextIcon sx={{ fontSize: 20 }} />
-                  </button>
-                  {volumeBtn}
-                  <span className="text-[#79628c] text-[11px] font-medium ml-1 tabular-nums">
-                    {currentTime} / {episode.duration}
-                  </span>
-                </div>
+        <div 
+          className={`absolute bottom-0 inset-x-0 z-30 flex flex-col justify-end px-5 transition-all duration-500 ease-out ${
+            controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
+          } ${landscape ? 'pb-4 pt-16' : 'pb-8 pt-32'}`}
+          onClick={e => e.stopPropagation()}
+          onTouchStart={e => e.stopPropagation()}
+        >
+          <div className={`flex items-end gap-4 ${landscape ? 'mb-2' : 'mb-6'}`}>
+            <div className={`${landscape ? 'w-10 h-10' : 'w-14 h-14'} rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-[0_8px_24px_rgba(66,32,130,0.6)] border-2 border-white/20 transition-all duration-300`}>
+              <span className={`${landscape ? 'text-[14px]' : 'text-[18px]'} font-bold text-white select-none`}>
+                {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
+              </span>
+            </div>
+            <div className="min-w-0 flex-1 drop-shadow-lg">
+              <h2 className={`${landscape ? 'text-[15px]' : 'text-[18px]'} font-bold text-white leading-tight mb-1.5 line-clamp-2 transition-all duration-300`}>
+                {episode.title}
+              </h2>
+              <div className="flex items-center gap-2 text-[13px]">
+                <span className="text-[#c2ef4e] font-semibold truncate">{episode.speaker}</span>
+                {episode.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1] shrink-0" />}
+                <span className="text-white/30">·</span>
+                <span className="text-white/70 truncate">{episode.role}</span>
               </div>
             </div>
           </div>
 
-          <div className="flex items-start gap-3 px-4 py-3 bg-[#1f1633]">
-            <div className="w-9 h-9 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-md">
-              <span className="text-[13px] font-bold text-white">
-                {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
-              </span>
+          <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
+          
+          <div className={`flex justify-between ${landscape ? 'mt-0 mb-2' : 'mt-1 mb-5'}`}>
+            <span className="text-[11px] text-white/70 tabular-nums font-medium drop-shadow-md">{currentTime}</span>
+            <span className="text-[11px] text-white/70 tabular-nums font-medium drop-shadow-md">{episode.duration}</span>
+          </div>
+
+          <div className="flex items-center justify-between px-2">
+            <div className="flex items-center gap-4">
+              <button type="button" disabled={!hasPrev} onClick={onPrev} className="p-2 text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
+                <SkipPreviousIcon sx={{ fontSize: landscape ? 22 : 26 }} />
+              </button>
+              <button type="button" onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))} className="p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
+                <Replay10Icon sx={{ fontSize: landscape ? 20 : 24 }} />
+              </button>
             </div>
-            <div className="min-w-0 flex-1">
-              <h2 className="text-[14px] font-semibold text-white leading-snug line-clamp-1">
-                {episode.title}
-              </h2>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[12px] text-[#79628c] truncate">{episode.speaker}</span>
-                {episode.verified && (
-                  <VerifiedIcon sx={{ fontSize: 13 }} className="text-[#6a5fc1] shrink-0" />
-                )}
-                <span className="text-[#cfcfdb]/30 text-[11px]">·</span>
-                <span className="text-[11px] text-[#79628c]/70">{episode.role}</span>
-              </div>
+            <button 
+              type="button"
+              onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
+              className={`${landscape ? 'w-12 h-12' : 'w-16 h-16'} rounded-full bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center text-white shadow-[0_8px_32px_rgba(66,32,130,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20`}
+            >
+              {isPlaying ? <PauseIcon sx={{ fontSize: landscape ? 24 : 32 }} /> : <PlayArrowIcon sx={{ fontSize: landscape ? 24 : 32 }} className="ml-1" />}
+            </button>
+            <div className="flex items-center gap-4">
+              <button type="button" onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))} className="p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
+                <Forward10Icon sx={{ fontSize: landscape ? 20 : 24 }} />
+              </button>
+              <button type="button" disabled={!hasNext} onClick={onNext} className="p-2 text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
+                <SkipNextIcon sx={{ fontSize: landscape ? 22 : 26 }} />
+              </button>
+            </div>
+            <div className="absolute right-4 bottom-2 hidden sm:block">
+              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
             </div>
           </div>
         </div>
@@ -685,78 +473,96 @@ export default function PodcastVideoPlayer({
 
   return (
     <div
-      ref={containerRef}
-      className="fixed inset-0 z-[9000] flex flex-col bg-[#0a0714] animate-in fade-in duration-200"
+      className="fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400"
+      onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
-      <button type="button" onClick={onClose}
-        className="absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-[#150f23]/70 backdrop-blur-md border border-[#cfcfdb]/15 flex items-center justify-center text-[#bdb8c0] hover:bg-[#422082] hover:text-white transition-all duration-150">
-        <CloseIcon sx={{ fontSize: 18 }} />
-      </button>
-
-      <button type="button" onClick={exitFullscreen}
-        className="absolute top-3 right-14 z-10 w-9 h-9 rounded-full bg-[#150f23]/70 backdrop-blur-md border border-[#cfcfdb]/15 flex items-center justify-center text-[#bdb8c0] hover:bg-[#422082] hover:text-white transition-all duration-150"
-        title="Exit fullscreen (f)">
-        <FullscreenExitIcon sx={{ fontSize: 18 }} />
-      </button>
-
       <div
-        className="relative flex-1 overflow-hidden bg-[#0a0714]"
-        onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-        onMouseMove={resetHideTimer}
+        ref={containerRef}
+        className={`relative w-full ${effectiveLayout === 'fullscreen' ? 'h-full max-w-none rounded-none' : 'max-w-[1200px] mx-6 rounded-2xl aspect-video max-h-[85vh] shadow-[0_20px_80px_rgba(66,32,130,0.2)]'} overflow-hidden bg-[#05030a] border border-white/10 group`}
       >
-        <img
-          src={episode.thumbnail}
-          alt={episode.title}
-          className="w-full h-full object-contain"
-        />
-        {!isPlaying && <div className="absolute inset-0 bg-[#150f23]/30" />}
-        {centerPlayBtn(80)}
-      </div>
-
-      <div
-        className={`absolute inset-x-0 bottom-0 transition-opacity duration-300 ${controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0'}`}
-        onMouseMove={resetHideTimer}
-        onClick={e => e.stopPropagation()}
-      >
-        <div className="bg-gradient-to-t from-[#150f23]/95 to-transparent px-4 pt-14 pb-5">
-          <h2 className="text-white text-[16px] font-semibold mb-0.5 line-clamp-1">{episode.title}</h2>
-          <p className="text-[#79628c] text-[12px] mb-3">{episode.speaker} · {episode.role}</p>
-          <ProgressBar
-            progress={progress}
-            buffered={Math.min(1, progress + 0.15)}
-            onChange={setProgress}
+        <div 
+          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
+          onMouseMove={resetHideTimer}
+        >
+          <div 
+            className="absolute inset-0 bg-cover bg-center opacity-20 blur-3xl scale-110 transition-opacity duration-1000"
+            style={{ backgroundImage: `url(${episode.thumbnail})` }}
           />
-          <div className="flex items-center justify-between gap-2 mt-2">
-            <div className="flex items-center gap-1">
-              <button type="button" disabled={!hasPrev} onClick={onPrev}
-                className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                <SkipPreviousIcon sx={{ fontSize: 22 }} />
-              </button>
-              <button type="button"
-                onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))}
-                className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] hover:text-white transition-colors">
-                <Replay10Icon sx={{ fontSize: 20 }} />
-              </button>
-              <button type="button"
-                onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-                className="p-1.5 rounded-full hover:bg-[#422082]/40 text-white active:scale-90 transition-all">
-                {isPlaying
-                  ? <PauseIcon sx={{ fontSize: 26 }} />
-                  : <PlayArrowIcon sx={{ fontSize: 26 }} />}
-              </button>
-              <button type="button"
-                onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))}
-                className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] hover:text-white transition-colors">
-                <Forward10Icon sx={{ fontSize: 20 }} />
-              </button>
-              <button type="button" disabled={!hasNext} onClick={onNext}
-                className="p-1 rounded-full hover:bg-white/10 text-[#bdb8c0] disabled:opacity-30 hover:text-white transition-colors">
-                <SkipNextIcon sx={{ fontSize: 22 }} />
-              </button>
-              {volumeBtn}
-              <span className="text-[#79628c] text-[11px] ml-1 tabular-nums">
-                {currentTime} / {episode.duration}
+          <img
+            src={episode.thumbnail}
+            alt={episode.title}
+            className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.02]' : 'scale-100'}`}
+          />
+          <div className={`absolute inset-0 z-20 bg-gradient-to-b from-black/60 via-transparent to-black/90 transition-opacity duration-500 ${isPlaying && !controlsVisible ? 'opacity-0' : 'opacity-100'}`} />
+          {centerPlayBtn(80)}
+        </div>
+
+        <div className={`absolute top-4 right-4 z-30 flex gap-3 transition-all duration-500 ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
+          <button type="button" onClick={handleToggleFullscreen} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95" title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}>
+            {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 20 }} /> : <FullscreenIcon sx={{ fontSize: 20 }} />}
+          </button>
+          <button type="button" onClick={onClose} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+            <CloseIcon sx={{ fontSize: 20 }} />
+          </button>
+        </div>
+
+        <div
+          className={`absolute bottom-0 inset-x-0 z-30 flex flex-col justify-end px-8 pb-8 pt-32 transition-all duration-500 ease-out ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
+          onMouseMove={resetHideTimer}
+          onClick={e => e.stopPropagation()}
+        >
+          <div className="flex items-end gap-5 mb-6">
+            <div className="w-16 h-16 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-[0_8px_24px_rgba(66,32,130,0.6)] border-2 border-white/20">
+              <span className="text-[22px] font-bold text-white select-none">
+                {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
               </span>
+            </div>
+            <div className="min-w-0 flex-1 drop-shadow-lg">
+              <h2 className="text-[24px] font-bold text-white leading-tight mb-2 line-clamp-1">
+                {episode.title}
+              </h2>
+              <div className="flex items-center gap-3 text-[14px]">
+                <span className="text-[#c2ef4e] font-semibold">{episode.speaker}</span>
+                {episode.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-[#6a5fc1] shrink-0" />}
+                <span className="text-white/30">·</span>
+                <span className="text-white/70">{episode.role}</span>
+              </div>
+            </div>
+          </div>
+
+          <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
+          
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center gap-6">
+              <button type="button" disabled={!hasPrev} onClick={onPrev} className="text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
+                <SkipPreviousIcon sx={{ fontSize: 28 }} />
+              </button>
+              <button type="button" onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))} className="text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
+                <Replay10Icon sx={{ fontSize: 24 }} />
+              </button>
+              <button 
+                type="button"
+                onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
+                className="w-14 h-14 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/20 transition-all hover:scale-105 active:scale-95"
+              >
+                {isPlaying ? <PauseIcon sx={{ fontSize: 32 }} /> : <PlayArrowIcon sx={{ fontSize: 32 }} className="ml-1" />}
+              </button>
+              <button type="button" onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))} className="text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
+                <Forward10Icon sx={{ fontSize: 24 }} />
+              </button>
+              <button type="button" disabled={!hasNext} onClick={onNext} className="text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
+                <SkipNextIcon sx={{ fontSize: 28 }} />
+              </button>
+              
+              <div className="h-6 w-px bg-white/20 mx-2" />
+              <span className="text-[13px] text-white/70 tabular-nums font-medium drop-shadow-md">
+                {currentTime} <span className="text-white/30 mx-1">/</span> {episode.duration}
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-4">
+              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { memo, useRef, useState, useEffect, ReactNode } from 'react'
+import { memo, useRef, useState, useEffect } from 'react'
+import type { ReactNode } from 'react'
 import TuneIcon from '@mui/icons-material/Tune'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'

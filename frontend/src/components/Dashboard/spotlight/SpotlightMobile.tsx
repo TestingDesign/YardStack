@@ -6,6 +6,8 @@ import VerifiedIcon from '@mui/icons-material/Verified'
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
+import FullscreenIcon from '@mui/icons-material/Fullscreen'
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
@@ -41,6 +43,7 @@ const VideoCard = memo(function VideoCard({ video, onClick }: VideoCardProps) {
 
 const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { video: SpotlightVideo, onClose: () => void }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isCleanMode, setIsCleanMode] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -54,10 +57,10 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { 
   }, [])
 
   return (
-    <div className="relative w-full h-full bg-black flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-      <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} opacity-90`} />
+    <div className={`relative w-full h-full bg-black flex flex-col overflow-hidden transition-all ${isCleanMode ? 'z-[100]' : ''}`}>
+      <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} transition-opacity duration-300 ${isCleanMode ? 'opacity-0' : 'opacity-90'}`} />
       
-      <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-30">
+      <div className={`absolute top-3 left-3 right-3 flex items-center justify-between z-30 transition-opacity duration-300 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <button 
           onClick={onClose}
           className="w-8 h-8 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition-colors"
@@ -118,13 +121,13 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { 
         </div>
       </div>
 
-      <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+      <div className={`absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-opacity duration-300 ${isCleanMode ? 'opacity-0' : 'opacity-100'}`}>
         <div className="w-14 h-14 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-xl">
           <PlayArrowOutlinedIcon sx={{ fontSize: 36 }} />
         </div>
       </div>
 
-      <div className="absolute bottom-6 left-3 right-3 flex flex-col gap-2.5 z-20 pointer-events-none">
+      <div className={`absolute bottom-6 left-3 right-12 flex flex-col gap-2.5 z-20 pointer-events-none transition-opacity duration-300 ${isCleanMode ? 'opacity-0' : 'opacity-100'}`}>
         <h2 className="text-white text-[15px] md:text-[16px] font-extrabold leading-tight drop-shadow-lg pr-2">
           {video.title}
         </h2>
@@ -141,8 +144,18 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { 
           </div>
         </div>
       </div>
+      <button 
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsCleanMode(!isCleanMode)
+        }}
+        className={`absolute bottom-4 right-3 z-40 w-10 h-10 flex items-center justify-center backdrop-blur-md rounded-full transition-all duration-300 ${isCleanMode ? 'bg-[#FF0000] text-white scale-110 shadow-[0_0_15px_rgba(255,0,0,0.5)]' : 'bg-black/40 text-white hover:bg-black/60'}`}
+        aria-label={isCleanMode ? "Exit full screen" : "View full screen"}
+      >
+        {isCleanMode ? <FullscreenExitIcon sx={{ fontSize: 24 }} /> : <FullscreenIcon sx={{ fontSize: 22 }} />}
+      </button>
 
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30">
+      <div className={`absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30 transition-opacity duration-300 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="h-full bg-[#FF0000] w-1/3 rounded-r-full shadow-[0_0_8px_rgba(255,0,0,0.8)]" />
       </div>
     </div>
@@ -152,27 +165,48 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({ video, onClose }: { 
 export default function SpotlightMobile() {
   const [activeFilter, setActiveFilter] = useState('forYou')
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
   }, [])
 
+  const filteredVideos = activeFilter === 'forYou' 
+    ? SPOTLIGHT_VIDEOS 
+    : SPOTLIGHT_VIDEOS.filter((v) => v.tag?.toLowerCase() === activeFilter.toLowerCase())
+
+  useEffect(() => {
+    if (activeVideo && scrollRef.current) {
+      const index = filteredVideos.findIndex(v => v.id === activeVideo.id)
+      if (index !== -1) {
+        scrollRef.current.scrollTop = index * scrollRef.current.clientHeight
+      }
+    }
+  }, [activeVideo, filteredVideos])
+
   return (
     <div className="flex-1 w-full h-full flex flex-col bg-white overflow-hidden relative">
       {!activeVideo && (
-        <div className="shrink-0 z-20 bg-white/95 backdrop-blur-md border-b border-gray-100">
+        <div className="shrink-0 z-20 bg-white backdrop-blur-md ">
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
       )}
 
       {activeVideo ? (
-        <div className="flex-1 w-full h-full relative">
-          <ActiveVideoPlayer video={activeVideo} onClose={() => setActiveVideo(null)} />
+        <div 
+          ref={scrollRef}
+          className="flex-1 w-full h-full relative bg-black overflow-y-auto snap-y snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in slide-in-from-bottom-8 duration-300"
+        >
+          {filteredVideos.map((video) => (
+            <div key={video.id} className="w-full h-full snap-start shrink-0 relative">
+              <ActiveVideoPlayer video={video} onClose={() => setActiveVideo(null)} />
+            </div>
+          ))}
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-          <div className="grid grid-cols-2 gap-2">
-            {SPOTLIGHT_VIDEOS.map((video) => (
+        <div className="flex-1 overflow-y-auto p-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none w-full">
+          <div className="grid grid-cols-3 gap-1 w-full">
+            {filteredVideos.map((video) => (
               <VideoCard 
                 key={video.id} 
                 video={video} 
@@ -185,3 +219,4 @@ export default function SpotlightMobile() {
     </div>
   )
 }
+

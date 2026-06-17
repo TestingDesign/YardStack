@@ -393,7 +393,7 @@ export default function ActivityBoardDesktop() {
 
   return (
     <div className="flex flex-col w-full h-full bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none outline-none overflow-hidden">
-      <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-100 shrink-0">
+      <div className="sticky top-0 z-30 bg-white backdrop-blur-xl  shrink-0">
         <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 

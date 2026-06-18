@@ -12,7 +12,6 @@ import VolumeUpIcon from '@mui/icons-material/VolumeUp'
 import VolumeOffIcon from '@mui/icons-material/VolumeOff'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
-import GraphicEqIcon from '@mui/icons-material/GraphicEq'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 import Replay10Icon from '@mui/icons-material/Replay10'
@@ -73,7 +72,7 @@ const ProgressBar = memo(function ProgressBar({
   return (
     <div
       ref={trackRef}
-      className="group relative w-full cursor-pointer select-none py-2"
+      className="group relative w-full cursor-pointer select-none py-1.5"
       onMouseEnter={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
       onClick={e => onChange(getPct(e))}
@@ -81,20 +80,20 @@ const ProgressBar = memo(function ProgressBar({
     >
       <div 
         className="w-full rounded-full bg-white/20 backdrop-blur-sm relative overflow-hidden"
-        style={{ height: hovering ? (compact ? '6px' : '8px') : '4px', transition: 'height 0.2s ease' }}
+        style={{ height: hovering ? (compact ? '4px' : '6px') : (compact ? '2px' : '4px'), transition: 'height 0.2s ease' }}
       >
         <div
           className="absolute inset-y-0 left-0 bg-white/30 transition-all duration-300"
           style={{ width: `${buffered * 100}%` }}
         />
         <div
-          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#8b5cf6] to-[#c2ef4e] shadow-[0_0_10px_rgba(194,239,78,0.5)]"
+          className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#8b5cf6] to-[#c2ef4e]"
           style={{ width: `${progress * 100}%`, transition: 'width 0.1s linear' }}
         />
       </div>
       <div
-        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3.5 h-3.5 rounded-full bg-white shadow-[0_0_10px_rgba(255,255,255,0.8)] opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200"
-        style={{ left: `${progress * 100}%` }}
+        className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full bg-[#c2ef4e] shadow-[0_0_10px_rgba(194,239,78,0.8)] opacity-0 group-hover:opacity-100 scale-50 group-hover:scale-100 transition-all duration-200"
+        style={{ left: `${progress * 100}%`, width: compact ? '12px' : '14px', height: compact ? '12px' : '14px' }}
       />
     </div>
   )
@@ -112,33 +111,32 @@ const RotateBtn = memo(function RotateBtn({
   onLock: () => void
 }) {
   return (
-    <div className="flex items-center gap-1 bg-black/20 backdrop-blur-md p-1 rounded-full border border-white/10">
+    <div className="flex items-center gap-0.5 bg-black/40 backdrop-blur-md p-1 rounded-full border border-white/10">
       <button
         type="button"
         onClick={onToggle}
-        className={`flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide transition-all duration-300 ${
+        className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ${
           landscape
-            ? 'bg-gradient-to-r from-[#422082] to-[#6a5fc1] text-white shadow-lg'
-            : 'text-white/70 hover:text-white hover:bg-white/10'
+            ? 'bg-gradient-to-r from-[#422082] to-[#6a5fc1] text-white'
+            : 'text-white/70 hover:text-white'
         }`}
       >
         <ScreenRotationIcon
           sx={{
-            fontSize: 14,
+            fontSize: 16,
             transform: landscape ? 'rotate(90deg)' : 'none',
             transition: 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         />
-        {landscape ? 'Portrait' : 'Rotate'}
       </button>
       <button
         type="button"
         onClick={onLock}
-        className={`p-1.5 rounded-full transition-all duration-200 ${
-          locked ? 'bg-white/20 text-[#c2ef4e]' : 'text-white/50 hover:bg-white/10 hover:text-white'
+        className={`flex items-center justify-center w-8 h-8 rounded-full transition-all duration-200 ${
+          locked ? 'bg-white/20 text-[#c2ef4e]' : 'text-white/50 hover:text-white'
         }`}
       >
-        {locked ? <LockIcon sx={{ fontSize: 13 }} /> : <LockOpenIcon sx={{ fontSize: 13 }} />}
+        {locked ? <LockIcon sx={{ fontSize: 14 }} /> : <LockOpenIcon sx={{ fontSize: 14 }} />}
       </button>
     </div>
   )
@@ -327,23 +325,7 @@ export default function PodcastVideoPlayer({
 
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
-  const eqBars = (
-    <div className="flex items-end gap-[3px] bg-black/40 backdrop-blur-md p-2 rounded-lg border border-white/10">
-      {[1, 2, 3, 4, 5].map(i => (
-        <div
-          key={i}
-          className="w-1 rounded-full bg-[#c2ef4e]"
-          style={{
-            height: `${8 + i * 3}px`,
-            animation: `pvp-eq ${0.3 + i * 0.15}s ease-in-out infinite alternate`,
-          }}
-        />
-      ))}
-      <style>{`@keyframes pvp-eq{from{transform:scaleY(.3)}to{transform:scaleY(1.1)}}`}</style>
-    </div>
-  )
-
-  const centerPlayBtn = (size: number) => (
+  const centerPlayBtnDesktop = (size: number) => (
     <div
       className={`absolute inset-0 flex items-center justify-center pointer-events-none transition-all duration-500 z-20 ${
         controlsVisible || !isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-125'
@@ -365,108 +347,112 @@ export default function PodcastVideoPlayer({
   if (effectiveLayout === 'mobile') {
     return (
       <div
-        className="fixed inset-0 z-[9000] flex flex-col bg-[#05030a] overflow-hidden animate-in fade-in duration-300"
+        className="fixed inset-0 z-[9000] flex flex-col bg-[#0f0f0f] animate-in fade-in duration-300"
         ref={containerRef}
       >
+        {!landscape && (
+          <div className="w-full flex items-center justify-between p-2 shrink-0 bg-black">
+            <button onClick={onClose} className="p-2 text-white/80 hover:text-white">
+              <CloseIcon sx={{ fontSize: 24 }} />
+            </button>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setLandscape(true)} className="p-2 text-white/80 hover:text-white">
+                <FullscreenIcon sx={{ fontSize: 22 }} />
+              </button>
+            </div>
+          </div>
+        )}
+
         <div
-          className="absolute inset-0 w-full h-full flex items-center justify-center"
+          className={`relative w-full bg-black shrink-0 flex items-center justify-center overflow-hidden ${
+            landscape ? 'absolute inset-0 z-10 h-full' : 'aspect-video'
+          }`}
           onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
           onTouchEnd={() => resetHideTimer()}
         >
-          <div 
-            className="absolute inset-0 bg-cover bg-center opacity-30 blur-3xl scale-110 transition-opacity duration-1000"
-            style={{ backgroundImage: `url(${episode.thumbnail})` }}
-          />
           <img
             src={episode.thumbnail}
             alt={episode.title}
-            className={`relative z-10 w-full h-full ${landscape ? 'object-contain' : 'object-cover'} transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.03]' : 'scale-100'}`}
+            className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.02]' : 'scale-100'}`}
           />
-          <div className={`absolute inset-0 z-20 bg-gradient-to-b from-black/80 via-transparent to-black/95 transition-opacity duration-500 ${isPlaying && !controlsVisible ? 'opacity-0' : 'opacity-100'}`} />
-          {centerPlayBtn(72)}
-        </div>
 
-        <div 
-          className={`absolute top-0 inset-x-0 z-30 flex items-center justify-between p-4 transition-all duration-500 ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}
-        >
-          <div className="flex items-center gap-3">
-            {isPlaying ? eqBars : (
-               <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10">
-                 <GraphicEqIcon sx={{ fontSize: 16 }} className="text-[#6a5fc1]" />
-                 <span className="text-[10px] font-bold text-white/80 uppercase tracking-widest">Paused</span>
-               </div>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            <RotateBtn landscape={landscape} locked={rotationLocked} onToggle={() => setLandscape(v => !v)} onLock={() => setRotationLocked(v => !v)} />
-            <button type="button" onClick={onClose} className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
-              <CloseIcon sx={{ fontSize: 18 }} />
+          <div className={`absolute inset-0 z-20 bg-black/50 transition-opacity duration-300 ${isPlaying && !controlsVisible ? 'opacity-0' : 'opacity-100'}`} />
+
+          <div className={`absolute inset-0 z-30 flex items-center justify-center gap-8 sm:gap-16 transition-all duration-300 ${controlsVisible || !isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-110 pointer-events-none'}`}>
+            <button onClick={(e) => { e.stopPropagation(); setProgress(p => Math.max(0, p - 10 / totalDuration)) }} className="p-2 text-white hover:text-[#c2ef4e] transition-transform active:scale-90">
+              <Replay10Icon sx={{ fontSize: landscape ? 36 : 30 }} />
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); setIsPlaying(v => !v); resetHideTimer() }} className={`${landscape ? 'w-16 h-16' : 'w-14 h-14'} rounded-full bg-black/40 backdrop-blur-xl flex items-center justify-center text-white border border-white/20 transition-transform active:scale-90`}>
+              {isPlaying ? <PauseIcon sx={{ fontSize: landscape ? 36 : 32 }} /> : <PlayArrowIcon sx={{ fontSize: landscape ? 36 : 32 }} className="ml-1" />}
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); setProgress(p => Math.min(1, p + 10 / totalDuration)) }} className="p-2 text-white hover:text-[#c2ef4e] transition-transform active:scale-90">
+              <Forward10Icon sx={{ fontSize: landscape ? 36 : 30 }} />
             </button>
           </div>
+
+          {landscape && (
+            <div className={`absolute top-0 inset-x-0 z-40 flex items-start justify-between p-4 bg-gradient-to-b from-black/80 to-transparent transition-opacity duration-300 ${controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+              <div className="flex items-center gap-3">
+                <button type="button" onClick={onClose} className="p-1 text-white hover:text-[#c2ef4e] transition-transform active:scale-90">
+                  <CloseIcon sx={{ fontSize: 26 }} />
+                </button>
+                <h2 className="text-white text-[15px] font-semibold line-clamp-1 drop-shadow-md">{episode.title}</h2>
+              </div>
+              <RotateBtn landscape={landscape} locked={rotationLocked} onToggle={() => setLandscape(v => !v)} onLock={() => setRotationLocked(v => !v)} />
+            </div>
+          )}
+
+          <div 
+            className={`absolute bottom-0 inset-x-0 z-40 px-3 pb-1 pt-12 bg-gradient-to-t from-black/80 to-transparent flex flex-col transition-opacity duration-300 ${controlsVisible || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+            onClick={e => e.stopPropagation()}
+            onTouchStart={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-1 mb-1">
+              <span className="text-white/90 text-[12px] tabular-nums font-medium drop-shadow-md">
+                {currentTime} <span className="text-white/40 mx-0.5">/</span> {episode.duration}
+              </span>
+              {landscape && (
+                <div className="flex items-center gap-4 text-white">
+                  <button disabled={!hasPrev} onClick={onPrev} className="disabled:opacity-30 active:scale-90 transition-transform"><SkipPreviousIcon sx={{fontSize: 24}}/></button>
+                  <button disabled={!hasNext} onClick={onNext} className="disabled:opacity-30 active:scale-90 transition-transform"><SkipNextIcon sx={{fontSize: 24}}/></button>
+                </div>
+              )}
+            </div>
+            <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} compact />
+          </div>
         </div>
 
-        <div 
-          className={`absolute bottom-0 inset-x-0 z-30 flex flex-col justify-end px-5 transition-all duration-500 ease-out ${
-            controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          } ${landscape ? 'pb-4 pt-16' : 'pb-8 pt-32'}`}
-          onClick={e => e.stopPropagation()}
-          onTouchStart={e => e.stopPropagation()}
-        >
-          <div className={`flex items-end gap-4 ${landscape ? 'mb-2' : 'mb-6'}`}>
-            <div className={`${landscape ? 'w-10 h-10' : 'w-14 h-14'} rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-[0_8px_24px_rgba(66,32,130,0.6)] border-2 border-white/20 transition-all duration-300`}>
-              <span className={`${landscape ? 'text-[14px]' : 'text-[18px]'} font-bold text-white select-none`}>
-                {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
-              </span>
-            </div>
-            <div className="min-w-0 flex-1 drop-shadow-lg">
-              <h2 className={`${landscape ? 'text-[15px]' : 'text-[18px]'} font-bold text-white leading-tight mb-1.5 line-clamp-2 transition-all duration-300`}>
-                {episode.title}
-              </h2>
-              <div className="flex items-center gap-2 text-[13px]">
-                <span className="text-[#c2ef4e] font-semibold truncate">{episode.speaker}</span>
-                {episode.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1] shrink-0" />}
-                <span className="text-white/30">·</span>
-                <span className="text-white/70 truncate">{episode.role}</span>
+        {!landscape && (
+          <div className="flex-1 p-4 overflow-y-auto">
+            <h2 className="text-[18px] font-bold text-white leading-snug mb-3">
+              {episode.title}
+            </h2>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-md">
+                <span className="text-[14px] font-bold text-white">{episode.speaker?.charAt(0).toUpperCase()}</span>
+              </div>
+              <div className="flex flex-col">
+                <div className="flex items-center gap-1">
+                  <span className="text-white font-medium text-[15px]">{episode.speaker}</span>
+                  {episode.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1]" />}
+                </div>
+                <span className="text-white/60 text-[12px]">{episode.role}</span>
               </div>
             </div>
-          </div>
-
-          <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
-          
-          <div className={`flex justify-between ${landscape ? 'mt-0 mb-2' : 'mt-1 mb-5'}`}>
-            <span className="text-[11px] text-white/70 tabular-nums font-medium drop-shadow-md">{currentTime}</span>
-            <span className="text-[11px] text-white/70 tabular-nums font-medium drop-shadow-md">{episode.duration}</span>
-          </div>
-
-          <div className="flex items-center justify-between px-2">
-            <div className="flex items-center gap-4">
-              <button type="button" disabled={!hasPrev} onClick={onPrev} className="p-2 text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
-                <SkipPreviousIcon sx={{ fontSize: landscape ? 22 : 26 }} />
+            
+            <div className="flex items-center justify-around py-4 border-y border-white/10">
+              <button type="button" disabled={!hasPrev} onClick={onPrev} className="flex flex-col items-center gap-1.5 text-white/80 hover:text-white disabled:opacity-30 active:scale-95 transition-transform">
+                <SkipPreviousIcon sx={{ fontSize: 26 }} />
+                <span className="text-[11px] font-medium">Previous</span>
               </button>
-              <button type="button" onClick={() => setProgress(p => Math.max(0, p - 10 / totalDuration))} className="p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
-                <Replay10Icon sx={{ fontSize: landscape ? 20 : 24 }} />
+              <RotateBtn landscape={landscape} locked={rotationLocked} onToggle={() => setLandscape(v => !v)} onLock={() => setRotationLocked(v => !v)} />
+              <button type="button" disabled={!hasNext} onClick={onNext} className="flex flex-col items-center gap-1.5 text-white/80 hover:text-white disabled:opacity-30 active:scale-95 transition-transform">
+                <SkipNextIcon sx={{ fontSize: 26 }} />
+                <span className="text-[11px] font-medium">Next</span>
               </button>
             </div>
-            <button 
-              type="button"
-              onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
-              className={`${landscape ? 'w-12 h-12' : 'w-16 h-16'} rounded-full bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center text-white shadow-[0_8px_32px_rgba(66,32,130,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 border border-white/20`}
-            >
-              {isPlaying ? <PauseIcon sx={{ fontSize: landscape ? 24 : 32 }} /> : <PlayArrowIcon sx={{ fontSize: landscape ? 24 : 32 }} className="ml-1" />}
-            </button>
-            <div className="flex items-center gap-4">
-              <button type="button" onClick={() => setProgress(p => Math.min(1, p + 10 / totalDuration))} className="p-2 text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95">
-                <Forward10Icon sx={{ fontSize: landscape ? 20 : 24 }} />
-              </button>
-              <button type="button" disabled={!hasNext} onClick={onNext} className="p-2 text-white/70 hover:text-white disabled:opacity-30 transition-all hover:scale-110 active:scale-95">
-                <SkipNextIcon sx={{ fontSize: landscape ? 22 : 26 }} />
-              </button>
-            </div>
-            <div className="absolute right-4 bottom-2 hidden sm:block">
-              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
-            </div>
           </div>
-        </div>
+        )}
       </div>
     )
   }
@@ -495,7 +481,7 @@ export default function PodcastVideoPlayer({
             className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.02]' : 'scale-100'}`}
           />
           <div className={`absolute inset-0 z-20 bg-gradient-to-b from-black/60 via-transparent to-black/90 transition-opacity duration-500 ${isPlaying && !controlsVisible ? 'opacity-0' : 'opacity-100'}`} />
-          {centerPlayBtn(80)}
+          {centerPlayBtnDesktop(80)}
         </div>
 
         <div className={`absolute top-4 right-4 z-30 flex gap-3 transition-all duration-500 ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>

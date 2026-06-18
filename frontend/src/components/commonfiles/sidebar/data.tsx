@@ -7,12 +7,12 @@ import spotlightactiveIcon from './Images/spotlight.png'
 import directoryactiveIcon from './Images/directory.png'
 import cityactiveIcon from './Images/city.png'
 
-import micWhite from './Images1/mic1.png'
+/* import micWhite from './Images1/mic1.png'
 import activityWhite from './Images1/activity1.png'
 import learnWhite from './Images1/learn1.png'
 import spotlightWhite from './Images1/spotlight1.png'
 import directoryWhite from './Images1/directory1.png'
-import cityWhite from './Images1/city1.png'
+import cityWhite from './Images1/city1.png' */
 
 export type NavKey =
   | 'activityBoard'

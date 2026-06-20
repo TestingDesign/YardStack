@@ -244,14 +244,14 @@ export default function PodcastDesktop() {
     : -1
 
   return (
-    <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-500">
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md">
+    <div className={`flex-1 w-full h-full flex flex-col bg-white font-['Outfit',sans-serif] animate-in fade-in duration-500 ${activeEpisode ? 'overflow-hidden' : 'overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none'}`}>
+      <div className="sticky top-0 z-20 shrink-0 bg-white/95 backdrop-blur-md">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
       {activeEpisode ? (
-        <div className="flex flex-col lg:flex-row gap-6 px-4 py-4 max-w-[1800px] mx-auto min-h-[calc(100vh-140px)] lg:h-[calc(100vh-140px)] animate-in fade-in duration-500">
-          <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-sm">
+        <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 px-4 py-4 max-w-[1800px] w-full mx-auto animate-in fade-in duration-500">
+          <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-sm pb-1">
             <PodcastVideoPlayerDesktop
               episode={activeEpisode}
               onClose={() => setActiveEpisode(null)}

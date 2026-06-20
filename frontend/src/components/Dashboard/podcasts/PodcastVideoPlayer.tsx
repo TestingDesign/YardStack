@@ -33,6 +33,7 @@ interface PodcastVideoPlayerProps {
   hasNext?: boolean
   hasPrev?: boolean
   initialLayout?: ViewLayout
+  inline?: boolean
 }
 
 function fmtTime(secs: number) {
@@ -194,6 +195,7 @@ export default function PodcastVideoPlayer({
   hasNext = false,
   hasPrev = false,
   initialLayout,
+  inline = false,
 }: PodcastVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -345,9 +347,10 @@ export default function PodcastVideoPlayer({
   )
 
   if (effectiveLayout === 'mobile') {
+    const isFixed = landscape || !inline;
     return (
       <div
-        className="fixed inset-0 z-[9000] flex flex-col bg-[#0f0f0f] animate-in fade-in duration-300"
+        className={isFixed ? "fixed inset-0 z-[9000] flex flex-col bg-[#0f0f0f] animate-in fade-in duration-300" : "relative w-full flex flex-col bg-[#0f0f0f] animate-in fade-in duration-300"}
         ref={containerRef}
       >
         {!landscape && (
@@ -459,12 +462,12 @@ export default function PodcastVideoPlayer({
 
   return (
     <div
-      className="fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400"
-      onClick={e => { if (e.target === e.currentTarget) onClose() }}
+      className={inline ? "relative w-full flex items-center justify-center bg-black/95 animate-in fade-in duration-400 rounded-2xl overflow-hidden" : "fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400"}
+      onClick={e => { if (e.target === e.currentTarget && !inline) onClose() }}
     >
       <div
         ref={containerRef}
-        className={`relative w-full ${effectiveLayout === 'fullscreen' ? 'h-full max-w-none rounded-none' : 'max-w-[1200px] mx-6 rounded-2xl aspect-video max-h-[85vh] shadow-[0_20px_80px_rgba(66,32,130,0.2)]'} overflow-hidden bg-[#05030a] border border-white/10 group`}
+        className={`relative w-full ${inline ? 'h-full aspect-video' : effectiveLayout === 'fullscreen' ? 'h-full max-w-none rounded-none' : 'max-w-[1200px] mx-6 rounded-2xl aspect-video max-h-[85vh] shadow-[0_20px_80px_rgba(66,32,130,0.2)]'} overflow-hidden bg-[#05030a] ${inline ? '' : 'border border-white/10'} group`}
       >
         <div 
           className="absolute inset-0 w-full h-full flex items-center justify-center"
@@ -485,10 +488,7 @@ export default function PodcastVideoPlayer({
         </div>
 
         <div className={`absolute top-4 right-4 z-30 flex gap-3 transition-all duration-500 ${controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'}`}>
-          <button type="button" onClick={handleToggleFullscreen} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95" title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}>
-            {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 20 }} /> : <FullscreenIcon sx={{ fontSize: 20 }} />}
-          </button>
-          <button type="button" onClick={onClose} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-105 active:scale-95">
+          <button type="button" onClick={onClose} className="w-10 h-10 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-105 active:scale-95" aria-label="Close player">
             <CloseIcon sx={{ fontSize: 20 }} />
           </button>
         </div>
@@ -547,8 +547,11 @@ export default function PodcastVideoPlayer({
               </span>
             </div>
             
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-5">
               <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+              <button type="button" onClick={handleToggleFullscreen} className="text-white/70 hover:text-white transition-all hover:scale-110 active:scale-95" title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}>
+                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 24 }} /> : <FullscreenIcon sx={{ fontSize: 24 }} />}
+              </button>
             </div>
           </div>
         </div>

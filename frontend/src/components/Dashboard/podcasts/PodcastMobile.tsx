@@ -232,16 +232,50 @@ export default function PodcastMobile() {
     : -1
 
   return (
-    <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-300">
-      <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-md">
+    <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-gray-50 font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none animate-in fade-in duration-300 flex flex-col">
+      <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300 border-b border-gray-100">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
       
-      <div className="max-w-3xl mx-auto w-full overflow-x-hidden">
+      {activeEpisode && (
+        <div className="w-full flex-shrink-0 relative z-30 bg-black animate-in slide-in-from-top-4 fade-in duration-500 shadow-xl">
+          <PodcastVideoPlayer
+            episode={activeEpisode}
+            onClose={() => setActiveEpisode(null)}
+            onNext={() =>
+              setActiveEpisode(
+                activeIdx < PODCAST_EPISODES.length - 1
+                  ? PODCAST_EPISODES[activeIdx + 1]
+                  : null
+              )
+            }
+            onPrev={() =>
+              setActiveEpisode(
+                activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
+              )
+            }
+            hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+            hasPrev={activeIdx > 0}
+            inline
+          />
+        </div>
+      )}
+
+      <div className="max-w-3xl mx-auto w-full overflow-x-hidden flex-1">
+        {activeEpisode && (
+          <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100 bg-white">
+            <h3 className="text-[16px] font-bold text-gray-900">Up Next</h3>
+          </div>
+        )}
         {filteredEpisodes.length > 0 ? (
-          <div className="animate-in slide-in-from-bottom-2 fade-in duration-500 fill-mode-both">
+          <div className="animate-in slide-in-from-bottom-2 fade-in duration-500 fill-mode-both pb-24">
             {filteredEpisodes.map((episode) => (
-              <EpisodeCard key={episode.id} episode={episode} onPlay={setActiveEpisode} />
+              <div 
+                key={episode.id} 
+                className={`transition-colors ${episode.id === activeEpisode?.id ? 'bg-[#FAFAFF] shadow-[inset_4px_0_0_#7C3AED]' : ''}`}
+              >
+                <EpisodeCard episode={episode} onPlay={setActiveEpisode} />
+              </div>
             ))}
           </div>
         ) : (
@@ -254,26 +288,6 @@ export default function PodcastMobile() {
           </div>
         )}
       </div>
-
-      <PodcastVideoPlayer
-        episode={activeEpisode}
-        onClose={() => setActiveEpisode(null)}
-        onNext={() =>
-          setActiveEpisode(
-            activeIdx < PODCAST_EPISODES.length - 1
-              ? PODCAST_EPISODES[activeIdx + 1]
-              : null
-          )
-        }
-        onPrev={() =>
-          setActiveEpisode(
-            activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
-          )
-        }
-        hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-        hasPrev={activeIdx > 0}
-
-      />
     </div>
   )
 }

@@ -13,6 +13,47 @@ import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import PodcastVideoPlayer from './PodcastVideoPlayer'
 
+const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
+  episode,
+  onPlay,
+  isActive
+}: {
+  episode: PodcastEpisode
+  onPlay: (ep: PodcastEpisode) => void
+  isActive?: boolean
+}) {
+  const speakerInitial = episode.speaker ? episode.speaker.charAt(0).toUpperCase() : '?'
+  return (
+    <div 
+      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all ${isActive ? 'bg-[#FAFAFF] border border-[#E0D8FE] shadow-sm' : 'hover:bg-gray-50 border border-transparent'}`}
+      onClick={() => onPlay(episode)}
+    >
+      <div className="relative shrink-0 w-[160px] aspect-video rounded-lg overflow-hidden bg-gray-100 shadow-sm group">
+        <img src={episode.thumbnail} alt={episode.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+           <PlayArrowIcon className="text-white drop-shadow-md" />
+        </div>
+        <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded font-medium backdrop-blur-sm">
+          {episode.duration}
+        </div>
+      </div>
+      <div className="flex-1 min-w-0 py-0.5">
+        <h4 className="text-[13px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-1.5 group-hover:text-[#6B21A8]">
+          {episode.title}
+        </h4>
+        <div className="flex items-center gap-1.5 mb-0.5">
+           <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
+             <span className="text-[8px] font-bold text-white select-none">{speakerInitial}</span>
+           </div>
+           <div className="text-[12px] text-gray-700 truncate font-semibold">{episode.speaker}</div>
+           {episode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
+        </div>
+        <div className="text-[11px] text-gray-500 truncate ml-5">{episode.role}</div>
+      </div>
+    </div>
+  )
+})
+
 const MoreMenu = memo(function MoreMenu({
   open,
   menuRef,
@@ -208,58 +249,77 @@ export default function PodcastDesktop() {
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
-      <div className="px-4 py-4 max-w-[1600px] mx-auto">
-        {displayedEpisodes.length > 0 ? (
-          <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out fill-mode-both">
-            <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
-              {displayedEpisodes.map((ep) => (
-                <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+      {activeEpisode ? (
+        <div className="flex flex-col lg:flex-row gap-6 px-4 py-4 max-w-[1800px] mx-auto h-[calc(100vh-140px)] animate-in fade-in duration-500">
+          <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-sm">
+            <PodcastVideoPlayer
+              episode={activeEpisode}
+              onClose={() => setActiveEpisode(null)}
+              onNext={() =>
+                setActiveEpisode(
+                  activeIdx < PODCAST_EPISODES.length - 1
+                    ? PODCAST_EPISODES[activeIdx + 1]
+                    : null
+                )
+              }
+              onPrev={() =>
+                setActiveEpisode(
+                  activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
+                )
+              }
+              hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+              hasPrev={activeIdx > 0}
+              inline
+            />
+          </div>
+          <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
+            <h3 className="text-[18px] font-bold text-gray-900 mb-4 px-2">Up Next</h3>
+            <div className="flex flex-col gap-2">
+              {filtered.map((ep) => (
+                <SidebarEpisodeCard 
+                  key={ep.id} 
+                  episode={ep} 
+                  onPlay={setActiveEpisode} 
+                  isActive={ep.id === activeEpisode.id} 
+                />
               ))}
             </div>
-
-            {hasMore && (
-              <div className="mt-12 flex items-center justify-center">
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  className="group flex items-center gap-2 px-6 py-1.5 rounded-[4px] bg-white border border-gray-200 text-[14px] font-bold text-gray-700 hover:text-[#6B21A8] hover:border-[#C4B5FD] hover:bg-[#FAFAFF] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.15)] transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED]/30"
-                >
-                  <AutorenewIcon sx={{ fontSize: 18 }} className="transition-transform duration-500 group-hover:rotate-180" />
-                  Load More Episodes
-                </button>
+          </div>
+        </div>
+      ) : (
+        <div className="px-4 py-4 max-w-[1600px] mx-auto">
+          {displayedEpisodes.length > 0 ? (
+            <div className="animate-in slide-in-from-bottom-4 fade-in duration-700 ease-out fill-mode-both">
+              <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
+                {displayedEpisodes.map((ep) => (
+                  <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                ))}
               </div>
-            )}
-          </div>
-        ) : (
-          <div className="flex flex-col items-center justify-center py-32 text-center animate-in zoom-in-95 fade-in duration-500">
-            <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-              <GraphicEqIcon sx={{ fontSize: 32 }} className="text-gray-400" />
+
+              {hasMore && (
+                <div className="mt-12 flex items-center justify-center">
+                  <button
+                    type="button"
+                    onClick={handleLoadMore}
+                    className="group flex items-center gap-2 px-6 py-1.5 rounded-[4px] bg-white border border-gray-200 text-[14px] font-bold text-gray-700 hover:text-[#6B21A8] hover:border-[#C4B5FD] hover:bg-[#FAFAFF] shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.15)] transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED]/30"
+                  >
+                    <AutorenewIcon sx={{ fontSize: 18 }} className="transition-transform duration-500 group-hover:rotate-180" />
+                    Load More Episodes
+                  </button>
+                </div>
+              )}
             </div>
-            <p className="text-[18px] font-bold text-gray-800">No episodes found</p>
-            <p className="text-[14px] font-medium text-gray-500 mt-1.5">Try selecting a different category or clearing filters</p>
-          </div>
-        )}
-      </div>
-
-      <PodcastVideoPlayer
-        episode={activeEpisode}
-        onClose={() => setActiveEpisode(null)}
-        onNext={() =>
-          setActiveEpisode(
-            activeIdx < PODCAST_EPISODES.length - 1
-              ? PODCAST_EPISODES[activeIdx + 1]
-              : null
-          )
-        }
-        onPrev={() =>
-          setActiveEpisode(
-            activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
-          )
-        }
-        hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-        hasPrev={activeIdx > 0}
-
-      />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-32 text-center animate-in zoom-in-95 fade-in duration-500">
+              <div className="w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+                <GraphicEqIcon sx={{ fontSize: 32 }} className="text-gray-400" />
+              </div>
+              <p className="text-[18px] font-bold text-gray-800">No episodes found</p>
+              <p className="text-[14px] font-medium text-gray-500 mt-1.5">Try selecting a different category or clearing filters</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

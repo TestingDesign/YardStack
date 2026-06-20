@@ -11,7 +11,7 @@ import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
-import PodcastVideoPlayer from './PodcastVideoPlayer'
+import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 
 interface EpisodeCardProps {
   episode: PodcastEpisode
@@ -239,7 +239,7 @@ export default function PodcastMobile() {
       
       {activeEpisode && (
         <div className="w-full flex-shrink-0 relative z-30 bg-black animate-in slide-in-from-top-4 fade-in duration-500 shadow-xl">
-          <PodcastVideoPlayer
+          <PodcastVideoPlayerMobile
             episode={activeEpisode}
             onClose={() => setActiveEpisode(null)}
             onNext={() =>
@@ -261,9 +261,9 @@ export default function PodcastMobile() {
         </div>
       )}
 
-      <div className="max-w-3xl mx-auto w-full overflow-x-hidden flex-1">
+      <div className="max-w-3xl mx-auto w-full overflow-x-hidden flex-1 bg-white">
         {activeEpisode && (
-          <div className="px-4 py-3 flex items-center justify-between border-b border-gray-100 bg-white">
+          <div className="px-4 py-3 flex items-center justify-between  bg-white">
             <h3 className="text-[16px] font-bold text-gray-900">Up Next</h3>
           </div>
         )}

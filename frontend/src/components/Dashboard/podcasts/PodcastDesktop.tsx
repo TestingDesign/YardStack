@@ -11,7 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
-import PodcastVideoPlayer from './PodcastVideoPlayer'
+import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 
 const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
   episode,
@@ -250,9 +250,9 @@ export default function PodcastDesktop() {
       </div>
 
       {activeEpisode ? (
-        <div className="flex flex-col lg:flex-row gap-6 px-4 py-4 max-w-[1800px] mx-auto h-[calc(100vh-140px)] animate-in fade-in duration-500">
+        <div className="flex flex-col lg:flex-row gap-6 px-4 py-4 max-w-[1800px] mx-auto min-h-[calc(100vh-140px)] lg:h-[calc(100vh-140px)] animate-in fade-in duration-500">
           <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-sm">
-            <PodcastVideoPlayer
+            <PodcastVideoPlayerDesktop
               episode={activeEpisode}
               onClose={() => setActiveEpisode(null)}
               onNext={() =>
@@ -272,7 +272,7 @@ export default function PodcastDesktop() {
               inline
             />
           </div>
-          <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-gray-200 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-gray-300">
+          <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none scroll-smooth">
             <h3 className="text-[18px] font-bold text-gray-900 mb-4 px-2">Up Next</h3>
             <div className="flex flex-col gap-2">
               {filtered.map((ep) => (

@@ -139,11 +139,79 @@ export default function PodcastVideoPlayerDesktop({
 
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
+  const closeButton = (
+    <div
+      className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 transition-all duration-500 ease-out ${
+        controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
+      }`}
+    >
+      <button
+        type="button"
+        onClick={onClose}
+        className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-110 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
+        aria-label="Close player"
+      >
+        <CloseIcon sx={{ fontSize: 20 }} />
+      </button>
+    </div>
+  )
+
+  const bottomControls = (
+    <div
+      className={`absolute bottom-0 left-0 w-full z-30 flex flex-col justify-end pb-4 sm:pb-6 pt-24 bg-gradient-to-t from-black via-black/80 to-transparent transition-all duration-500 ease-out ${
+        controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'
+      }`}
+      onMouseMove={resetHideTimer}
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="w-full mb-4 px-4 sm:px-8">
+        <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} compact />
+      </div>
+
+      <div className="flex items-center justify-between w-full px-4 sm:px-8">
+        <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
+          <div className="w-10 h-10 border border-white/20 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-md">
+            <span className="text-[14px] font-bold text-white select-none">
+              {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
+            </span>
+          </div>
+          <div className="min-w-0 drop-shadow-lg">
+            <h2 className="text-[13px] font-bold text-white leading-tight mb-0.5 break-words">
+              {episode.title}
+            </h2>
+            <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
+              <span className="text-[#c2ef4e] font-semibold break-words">{episode.speaker}</span>
+              {episode.verified && <VerifiedIcon sx={{ fontSize: 11 }} className="text-[#6a5fc1] shrink-0" />}
+              <span className="text-white/30 hidden sm:inline">·</span>
+              <span className="text-white/70 break-words hidden sm:inline">{episode.role}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-4 shrink-0">
+          <span className="text-[12px] text-white/90 tabular-nums font-medium drop-shadow-md tracking-wide hidden sm:block">
+            {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
+          </span>
+          <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+          <button
+            type="button"
+            onClick={handleToggleFullscreen}
+            className="text-white/80 hover:text-white transition-transform hover:scale-110 active:scale-95 outline-none p-1"
+            aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+            title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}
+          >
+            {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 24 }} /> : <FullscreenIcon sx={{ fontSize: 24 }} />}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div
       className={
         inline
-          ? 'relative w-full flex items-center justify-center bg-black/95 animate-in fade-in zoom-in-[0.98] duration-500 rounded-[32px] overflow-hidden'
+          ? 'relative w-full h-full flex items-center justify-center bg-black/95 animate-in fade-in zoom-in-[0.98] duration-500 rounded-[32px] overflow-hidden'
           : 'fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400 p-3 sm:p-5'
       }
       onClick={(e) => {
@@ -174,7 +242,7 @@ export default function PodcastVideoPlayerDesktop({
           <img
             src={episode.thumbnail}
             alt={episode.title}
-            className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${
+            className={`relative z-10 w-full h-full object-contain transition-transform duration-2000 ease-out ${
               isPlaying ? 'scale-[1.02]' : 'scale-100'
             }`}
           />
@@ -185,7 +253,7 @@ export default function PodcastVideoPlayerDesktop({
           />
 
           <div
-            className={`absolute inset-0 flex items-center justify-center gap-4 sm:gap-10 z-20 pointer-events-none transition-all duration-500 ${
+            className={`absolute inset-0 flex items-center justify-center gap-4 sm:gap-4 z-20 pointer-events-none transition-all duration-500 ${
               controlsVisible || !isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
             }`}
           >
@@ -249,70 +317,11 @@ export default function PodcastVideoPlayerDesktop({
           </div>
         </div>
 
-        <div
-          className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 transition-all duration-500 ease-out ${
-            controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
-          }`}
-        >
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-110 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
-            aria-label="Close player"
-          >
-            <CloseIcon sx={{ fontSize: 20 }} />
-          </button>
-        </div>
-
-        <div
-          className={`absolute bottom-0 left-0 w-full z-30 flex flex-col justify-end pb-4 sm:pb-6 pt-24 bg-gradient-to-t from-black via-black/80 to-transparent transition-all duration-500 ease-out ${
-            controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'
-          }`}
-          onMouseMove={resetHideTimer}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <div className="w-full mb-4 px-4 sm:px-8">
-            <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} compact />
-          </div>
-
-          <div className="flex items-center justify-between w-full px-4 sm:px-8">
-            <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
-              <div className="w-10 h-10 border border-white/20 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-md">
-                <span className="text-[14px] font-bold text-white select-none">
-                  {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
-                </span>
-              </div>
-              <div className="min-w-0 drop-shadow-lg">
-                <h2 className="text-[13px] font-bold text-white leading-tight mb-0.5 break-words">
-                  {episode.title}
-                </h2>
-                <div className="flex flex-wrap items-center gap-1.5 text-[10px]">
-                  <span className="text-[#c2ef4e] font-semibold break-words">{episode.speaker}</span>
-                  {episode.verified && <VerifiedIcon sx={{ fontSize: 11 }} className="text-[#6a5fc1] shrink-0" />}
-                  <span className="text-white/30 hidden sm:inline">·</span>
-                  <span className="text-white/70 break-words hidden sm:inline">{episode.role}</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-4 shrink-0">
-              <span className="text-[12px] text-white/90 tabular-nums font-medium drop-shadow-md tracking-wide hidden sm:block">
-                {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
-              </span>
-              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
-              <button
-                type="button"
-                onClick={handleToggleFullscreen}
-                className="text-white/80 hover:text-white transition-transform hover:scale-110 active:scale-95 outline-none p-1"
-                aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-                title={isFullscreen ? 'Exit fullscreen (f)' : 'Full screen (f)'}
-              >
-                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 24 }} /> : <FullscreenIcon sx={{ fontSize: 24 }} />}
-              </button>
-            </div>
-          </div>
-        </div>
+        {!inline && closeButton}
+        {!inline && bottomControls}
       </div>
+      {inline && closeButton}
+      {inline && bottomControls}
     </div>
   )
 }

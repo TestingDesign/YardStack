@@ -89,7 +89,6 @@ export default function PodcastVideoPlayerMobile({
     try {
       await document.exitFullscreen()
     } catch {
-      // Ignore fullscreen exit failures and still recover the player state.
     } finally {
       setIsFullscreen(false)
     }
@@ -180,7 +179,7 @@ export default function PodcastVideoPlayerMobile({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   return (
-    <div className="w-full flex flex-col bg-[#0f0f0f] font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 shrink-0">
+    <div className="w-full flex flex-col bg-[#05030a] font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 shrink-0">
       
       <div 
         ref={containerRef}
@@ -208,7 +207,7 @@ export default function PodcastVideoPlayerMobile({
         />
         
         <div 
-          className={`absolute inset-0 z-20 bg-black/50 transition-opacity duration-300 pointer-events-none ${
+          className={`absolute inset-0 z-20 bg-gradient-to-b from-black/60 via-transparent to-black/90 transition-opacity duration-300 pointer-events-none ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
           }`} 
         />
@@ -229,7 +228,7 @@ export default function PodcastVideoPlayerMobile({
             type="button" 
             onClick={(e) => { e.stopPropagation(); void handleClose(); }} 
             onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); void handleClose(); }} 
-            className="text-white drop-shadow-md p-2 -m-1 hover:bg-white/10 rounded-full transition-colors shrink-0 pointer-events-auto ml-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            className="text-white/80 drop-shadow-md p-2 -m-1 hover:bg-[#422082] hover:text-white rounded-full transition-colors shrink-0 pointer-events-auto ml-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             aria-label="Close player"
           >
             <CloseIcon sx={{ fontSize: 16 }} />
@@ -245,7 +244,7 @@ export default function PodcastVideoPlayerMobile({
             type="button" 
             disabled={!hasPrev} 
             onClick={(e) => { e.stopPropagation(); onPrev?.(); }} 
-            className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Previous episode"
           >
             <SkipPreviousIcon sx={{ fontSize: 18 }} />
@@ -253,7 +252,7 @@ export default function PodcastVideoPlayerMobile({
           <button 
             type="button" 
             onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.max(0, p - 10 / totalDuration)); resetHideTimer(); }} 
-            className="text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Rewind 10 seconds"
           >
             <Replay10Icon sx={{ fontSize: 16 }} />
@@ -262,7 +261,7 @@ export default function PodcastVideoPlayerMobile({
           <button 
             type="button"
             onClick={(e) => { e.stopPropagation(); setIsPlaying((v) => !v); resetHideTimer(); }}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black"
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white bg-black/80 hover:bg-black backdrop-blur-sm border border-white/10 hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black shadow-2xl"
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <PauseIcon sx={{ fontSize: 26 }} /> : <PlayArrowIcon sx={{ fontSize: 26 }} />}
@@ -271,7 +270,7 @@ export default function PodcastVideoPlayerMobile({
           <button 
             type="button" 
             onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.min(1, p + 10 / totalDuration)); resetHideTimer(); }} 
-            className="text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Fast forward 10 seconds"
           >
             <Forward10Icon sx={{ fontSize: 16 }} />
@@ -280,7 +279,7 @@ export default function PodcastVideoPlayerMobile({
             type="button" 
             disabled={!hasNext} 
             onClick={(e) => { e.stopPropagation(); onNext?.(); }} 
-            className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Next episode"
           >
             <SkipNextIcon sx={{ fontSize: 18 }} />
@@ -288,20 +287,20 @@ export default function PodcastVideoPlayerMobile({
         </div>
 
         <div 
-          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-1 pt-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-300 ${
+          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-1 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
           <div className="flex items-center justify-between text-white text-[10px] font-medium mb-1 drop-shadow-md">
-            <span className="tabular-nums opacity-90 tracking-wide">
-              {currentTime} <span className="opacity-60 mx-1">/</span> {episode.duration}
+            <span className="tabular-nums text-white/90 tracking-wide">
+              {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
             </span>
             <div className="flex items-center gap-2 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
               <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
               <button 
                 type="button" 
                 onClick={() => handleToggleFullscreen()} 
-                className="hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
+                className="text-white/80 hover:text-white hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
               >
                 {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 14 }} /> : <FullscreenIcon sx={{ fontSize: 14 }} />}

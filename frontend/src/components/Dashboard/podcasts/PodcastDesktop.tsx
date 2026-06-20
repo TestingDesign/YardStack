@@ -13,6 +13,15 @@ import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 
+const AdPlaceholder = memo(function AdPlaceholder({ className = '' }: { className?: string }) {
+  return (
+    <div className={`bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center ${className}`}>
+      <span className="text-gray-400 font-bold tracking-widest uppercase text-xs mb-1">Advertisement</span>
+      <span className="text-gray-300 text-[10px]"></span>
+    </div>
+  )
+})
+
 const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
   episode,
   onPlay,
@@ -25,14 +34,13 @@ const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
   index?: number
 }) {
   const speakerInitial = episode.speaker ? episode.speaker.charAt(0).toUpperCase() : '?'
-  
+
   return (
-    <div 
-      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all duration-300 animate-in slide-in-from-right-4 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] ${
-        isActive 
-          ? 'bg-purple-50/50 border border-purple-200 shadow-sm' 
+    <div
+      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all duration-300 animate-in slide-in-from-right-4 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] ${isActive
+          ? 'bg-purple-50/50 border border-purple-200 shadow-sm'
           : 'hover:bg-gray-50 border border-transparent'
-      }`}
+        }`}
       style={{ animationDelay: `${index * 40}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
@@ -45,10 +53,10 @@ const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
       }}
     >
       <div className="relative shrink-0 w-[160px] aspect-video rounded-lg overflow-hidden bg-gray-100 shadow-sm group">
-        <img 
-          src={episode.thumbnail} 
-          alt={episode.title} 
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" 
+        <img
+          src={episode.thumbnail}
+          alt={episode.title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[1px]">
           <div className="w-8 h-8 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg">
@@ -92,11 +100,10 @@ const MoreMenu = memo(function MoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
-          open
+        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${open
             ? 'bg-black/10 text-gray-800 scale-105'
             : 'bg-transparent text-gray-500 opacity-0 group-hover:opacity-100 hover:bg-black/10 hover:text-gray-800'
-        }`}
+          }`}
         aria-label="More options"
         aria-expanded={open}
         aria-haspopup="menu"
@@ -175,9 +182,8 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <article
-      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-400 ease-out hover:-translate-y-1.5 animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
-        moreOpen ? 'z-50 relative' : ''
-      }`}
+      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-400 ease-out hover:-translate-y-1.5 animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${moreOpen ? 'z-50 relative' : ''
+        }`}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
@@ -195,7 +201,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
           alt={episode.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
         />
-        
+
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 transition-opacity duration-300" />
 
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-300 flex items-center justify-center">
@@ -307,17 +313,20 @@ export default function PodcastDesktop() {
               inline
             />
           </div>
-          
+
           <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none scroll-smooth">
             <div className="sticky top-0 bg-white/95 backdrop-blur-md z-10 pb-2 mb-2 pt-1">
               <h3 className="text-[18px] font-bold text-gray-900 px-2 tracking-tight">Up Next</h3>
             </div>
             <div className="flex flex-col gap-1 pb-12">
+              <div className="px-2 mb-3">
+                <AdPlaceholder className="w-full h-[250px]" />
+              </div>
               {filtered.map((ep, idx) => (
-                <SidebarEpisodeCard 
-                  key={ep.id} 
-                  episode={ep} 
-                  onPlay={setActiveEpisode} 
+                <SidebarEpisodeCard
+                  key={ep.id}
+                  episode={ep}
+                  onPlay={setActiveEpisode}
                   isActive={ep.id === activeEpisode.id}
                   index={idx}
                 />
@@ -331,7 +340,14 @@ export default function PodcastDesktop() {
             <div className="pb-16">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">
                 {displayedEpisodes.map((ep, idx) => (
-                  <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+                  <React.Fragment key={ep.id}>
+                    <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    {idx === 1 && (
+                      <div className="col-span-2 animate-in fade-in zoom-in-95 duration-500 w-full h-full">
+                        <AdPlaceholder className="w-full h-full min-h-[240px] shadow-sm" />
+                      </div>
+                    )}
+                  </React.Fragment>
                 ))}
               </div>
 

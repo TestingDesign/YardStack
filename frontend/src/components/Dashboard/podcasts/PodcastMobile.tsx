@@ -13,6 +13,15 @@ import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 
+const AdPlaceholder = memo(function AdPlaceholder({ className = '' }: { className?: string }) {
+  return (
+    <div className={`bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center ${className}`}>
+      <span className="text-gray-400 font-bold tracking-widest uppercase text-xs mb-1">Advertisement</span>
+      <span className="text-gray-300 text-[10px]"></span>
+    </div>
+  )
+})
+
 interface EpisodeCardProps {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
@@ -81,14 +90,14 @@ const EpisodeCard = memo(function EpisodeCard({ episode, onPlay }: EpisodeCardPr
         <button
           type="button"
           className="flex flex-col items-center justify-center w-full h-full hover:bg-red-600 active:bg-red-700 transition-colors duration-200 cursor-pointer bg-transparent"
-          onClick={() => {}}
+          onClick={() => { }}
           aria-label="Delete episode"
         >
           <DeleteIcon sx={{ fontSize: 24 }} className="drop-shadow-sm mb-0.5" />
           <span className="text-[11px] font-semibold mt-1">Delete</span>
         </button>
       </div>
-      
+
       <div
         ref={swipeRef}
         onTouchStart={handleTouchStart}
@@ -158,9 +167,8 @@ const EpisodeCard = memo(function EpisodeCard({ episode, onPlay }: EpisodeCardPr
                   e.stopPropagation()
                   setMoreOpen(!moreOpen)
                 }}
-                className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] ${
-                  moreOpen ? 'text-gray-900 bg-gray-100 rotate-90' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
-                }`}
+                className={`w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] ${moreOpen ? 'text-gray-900 bg-gray-100 rotate-90' : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
                 aria-label="More options"
                 aria-expanded={moreOpen}
                 aria-haspopup="menu"
@@ -275,14 +283,22 @@ export default function PodcastMobile() {
 
         {filteredEpisodes.length > 0 ? (
           <div className="pb-8 pt-1">
+            {activeEpisode ? (
+              <div className="px-4 mb-4 mt-2">
+                <AdPlaceholder className="w-full h-[220px] shadow-sm" />
+              </div>
+            ) : (
+              <div className="px-4 mb-4 mt-2">
+                <AdPlaceholder className="w-full h-[100px] shadow-sm" />
+              </div>
+            )}
             {filteredEpisodes.map((episode, index) => (
               <div
                 key={episode.id}
-                className={`transition-all duration-300 ease-in-out animate-in slide-in-from-bottom-4 fade-in fill-mode-both ${
-                  episode.id === activeEpisode?.id
+                className={`transition-all duration-300 ease-in-out animate-in slide-in-from-bottom-4 fade-in fill-mode-both ${episode.id === activeEpisode?.id
                     ? 'bg-purple-50/50 shadow-[inset_4px_0_0_#7C3AED]'
                     : ''
-                }`}
+                  }`}
                 style={{ animationDelay: `${index * 50}ms` }}
               >
                 <EpisodeCard episode={episode} onPlay={setActiveEpisode} />

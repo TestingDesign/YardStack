@@ -238,27 +238,25 @@ export default function PodcastMobile() {
       </div>
       
       {activeEpisode && (
-        <div className="w-full flex-shrink-0 relative z-30 bg-black animate-in slide-in-from-top-4 fade-in duration-500 shadow-xl">
-          <PodcastVideoPlayerMobile
-            episode={activeEpisode}
-            onClose={() => setActiveEpisode(null)}
-            onNext={() =>
-              setActiveEpisode(
-                activeIdx < PODCAST_EPISODES.length - 1
-                  ? PODCAST_EPISODES[activeIdx + 1]
-                  : null
-              )
-            }
-            onPrev={() =>
-              setActiveEpisode(
-                activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
-              )
-            }
-            hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-            hasPrev={activeIdx > 0}
-            inline
-          />
-        </div>
+        <PodcastVideoPlayerMobile
+          episode={activeEpisode}
+          onClose={() => setActiveEpisode(null)}
+          onNext={() =>
+            setActiveEpisode(
+              activeIdx < PODCAST_EPISODES.length - 1
+                ? PODCAST_EPISODES[activeIdx + 1]
+                : null
+            )
+          }
+          onPrev={() =>
+            setActiveEpisode(
+              activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
+            )
+          }
+          hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+          hasPrev={activeIdx > 0}
+          inline={false}
+        />
       )}
 
       <div className="max-w-3xl mx-auto w-full overflow-x-hidden flex-1 bg-white">

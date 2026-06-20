@@ -143,7 +143,7 @@ export default function PodcastVideoPlayerDesktop({
     <div
       className={
         inline
-          ? 'relative w-full flex items-center justify-center bg-black/95 animate-in fade-in zoom-in-[0.98] duration-500 rounded-[32px] overflow-hidden h-full'
+          ? 'relative w-full flex items-center justify-center bg-black/95 animate-in fade-in zoom-in-[0.98] duration-500 rounded-[32px] overflow-hidden'
           : 'fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400 p-3 sm:p-5'
       }
       onClick={(e) => {
@@ -152,13 +152,11 @@ export default function PodcastVideoPlayerDesktop({
     >
       <div
         ref={containerRef}
-        className={`relative w-full ${
-          inline ? 'aspect-video' : 'h-full'
-        } overflow-hidden bg-[#05030a] ${
+        className={`relative w-full aspect-video overflow-hidden bg-[#05030a] group outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
           inline
             ? 'rounded-[32px]'
-            : 'border border-white/10 w-full rounded-[32px] shadow-[0_20px_80px_rgba(66,32,130,0.2)]'
-        } group outline-none focus-visible:ring-2 focus-visible:ring-purple-500`}
+            : 'max-w-[1280px] border border-white/10 rounded-[32px] shadow-[0_20px_80px_rgba(66,32,130,0.2)]'
+        } ${isFullscreen ? '!max-w-none !rounded-none !border-none !aspect-auto h-full' : ''}`}
         tabIndex={-1}
       >
         <div

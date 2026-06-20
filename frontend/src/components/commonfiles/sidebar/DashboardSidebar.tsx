@@ -6,8 +6,7 @@ import React, {
   type FocusEvent,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { X, Home, Users, Settings2, Bookmark, PlusSquare } from 'lucide-react'
-import YardLogo from '../Images/YardStockLogowithouttext.png'
+import { Home, Users, Settings2, Bookmark, PlusSquare, PanelLeftClose, PanelLeft, Menu } from 'lucide-react'
 
 export type DashboardNavKey = 'home' | 'leads' | 'manage' | 'saved' | 'post'
 
@@ -33,36 +32,11 @@ interface TooltipState {
 const HIDDEN_TOOLTIP: TooltipState = { label: '', x: 0, y: 0, visible: false }
 
 const DASHBOARD_NAV_ITEMS: DashboardNavItem[] = [
-  {
-    key: 'home',
-    label: 'Home',
-    Icon: Home,
-    description: 'Dashboard overview & activity feed',
-  },
-  {
-    key: 'leads',
-    label: 'Leads',
-    Icon: Users,
-    description: 'Manage and track your lead pipeline',
-  },
-  {
-    key: 'manage',
-    label: 'Manage',
-    Icon: Settings2,
-    description: 'Listings, settings & configurations',
-  },
-  {
-    key: 'saved',
-    label: 'Saved',
-    Icon: Bookmark,
-    description: 'Bookmarked properties & searches',
-  },
-  {
-    key: 'post',
-    label: 'Post',
-    Icon: PlusSquare,
-    description: 'Create & publish new listings',
-  },
+  { key: 'home', label: 'Home', Icon: Home, description: 'Dashboard overview & activity feed' },
+  { key: 'leads', label: 'Leads', Icon: Users, description: 'Manage and track your lead pipeline' },
+  { key: 'manage', label: 'Manage', Icon: Settings2, description: 'Listings, settings & configurations' },
+  { key: 'saved', label: 'Saved', Icon: Bookmark, description: 'Bookmarked properties & searches' },
+  { key: 'post', label: 'Post', Icon: PlusSquare, description: 'Create & publish new listings' },
 ]
 
 function getPos(el: HTMLElement) {
@@ -78,7 +52,6 @@ export default function DashboardSidebar({
   const [tooltip, setTooltip] = useState<TooltipState>(HIDDEN_TOOLTIP)
   const [mounted, setMounted] = useState(false)
 
-  // Avoid SSR hydration mismatches with Portals
   useEffect(() => {
     setMounted(true)
   }, [])
@@ -106,52 +79,60 @@ export default function DashboardSidebar({
 
   return (
     <>
+      <style>
+        {`
+          @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(-15px); }
+            to { opacity: 1; transform: translateX(0); }
+          }
+          .nav-item-enter {
+            animation: slideInRight 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+          }
+        `}
+      </style>
+
       <aside
         aria-label="Dashboard Navigation Sidebar"
-        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.2,0.8,0.2,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.4)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${
-          !isOpen ? 'w-[72px]' : 'w-64'
+        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${
+          !isOpen ? 'w-[72px]' : 'w-60'
         }`}
       >
-        <div className="flex flex-col w-full overflow-hidden shrink-0 mt-3 px-4">
-          <div className="flex items-center w-full h-12">
-            <button
-              onClick={() => setIsOpen((prev) => !prev)}
-              aria-expanded={isOpen}
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
-              className="flex flex-col items-center justify-center gap-[5px] w-10 h-10 rounded-full border-none cursor-pointer bg-transparent hover:bg-white/10 active:scale-95 transition-all duration-300 shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
-            >
-              <span className={`block w-5 h-[2px] bg-white rounded-full transition-all duration-300 ${isOpen ? 'translate-y-[7px] rotate-45' : ''}`} />
-              <span className={`block w-5 h-[2px] bg-white rounded-full transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`} />
-              <span className={`block w-5 h-[2px] bg-white rounded-full transition-all duration-300 ${isOpen ? '-translate-y-[7px] -rotate-45' : ''}`} />
-            </button>
-
-            <div className={`flex items-center gap-3 overflow-hidden transition-all duration-300 ease-in-out ${!isOpen ? 'w-0 opacity-0 ml-0' : 'w-auto opacity-100 ml-4'}`}>
-              <img
-                src={YardLogo}
-                alt="YardStock"
-                className="w-8 h-8 object-contain shrink-0"
-              />
-              <div className="flex flex-col whitespace-nowrap">
-                <p className="text-[1.1rem] font-serif tracking-wider leading-none text-white m-0">YARDStock</p>
+        <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3">
+          <div className="flex items-center w-full h-10">
+            <div className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'justify-center w-full' : 'gap-3 px-1'}`}>
+              <button 
+                onClick={() => setIsOpen(!isOpen)}
+                className="hover:scale-110 hover:bg-white/10 p-1.5 rounded-sm transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
+                aria-label="Toggle menu"
+              >
+                <Menu size={24} className="text-white shrink-0" aria-hidden="true" />
+              </button>
+              <div className={`flex flex-col whitespace-nowrap transition-all duration-500 overflow-hidden ${!isOpen ? 'w-0 opacity-0 translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
+                <p className="text-[1.1rem] font-serif tracking-wider leading-none text-white m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">YARDStock</p>
                 <p className="text-[0.45rem] font-medium tracking-[0.18em] uppercase text-white/55 mt-1">Dashboard</p>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="px-3 my-3">
-          <div className="border-t border-white/10 w-full" aria-hidden="true" />
+        <div className="px-3 my-2">
+          <div className="border-t border-white/10 w-full shadow-[0_1px_2px_rgba(255,255,255,0.05)]" aria-hidden="true" />
         </div>
 
         <nav
           aria-label="Sidebar Menu"
-          className="flex-1 overflow-y-auto overflow-x-hidden pb-4 flex flex-col [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none px-2"
+          className="flex-1 overflow-y-auto overflow-x-hidden pb-2 flex flex-col [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none px-2"
         >
-          <ul className="list-none p-0 m-0 flex flex-col gap-1.5 flex-1" role="list">
-            {DASHBOARD_NAV_ITEMS.map(({ key, label, Icon, description }) => {
+          <ul className="list-none p-0 m-0 flex flex-col gap-1 flex-1" role="list">
+            {DASHBOARD_NAV_ITEMS.map(({ key, label, Icon }, index) => {
               const isActive = key === active
               return (
-                <li key={key} className="relative group">
+                <li 
+                  key={key} 
+                  className="relative group nav-item-enter"
+                  style={{ animationDelay: `${index * 60}ms` }}
+                >
                   <button
                     onClick={() => handleNavigate(key)}
                     onMouseEnter={(e) => showTooltip(e, label)}
@@ -160,41 +141,38 @@ export default function DashboardSidebar({
                     onBlur={hideTooltip}
                     aria-label={label}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`w-full flex items-center py-2.5 rounded-xl transition-all duration-200 bg-transparent border-none cursor-pointer active:scale-[0.98] active:opacity-80 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E] motion-reduce:transition-none motion-reduce:transform-none ${
+                    className={`w-full flex items-center py-2 rounded-[8px] transition-all duration-300 bg-transparent border-none cursor-pointer active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E] motion-reduce:transition-none motion-reduce:transform-none ${
                       !isOpen ? 'justify-center px-0' : 'justify-start px-3 gap-3.5'
                     } ${
                       isActive
-                        ? 'bg-white/10 shadow-[inset_0_0_20px_rgba(217,70,239,0.15)]'
-                        : 'hover:bg-white/5'
+                        ? 'bg-white/10 shadow-[inset_0_0_20px_rgba(217,70,239,0.2),0_4px_12px_rgba(0,0,0,0.2)]'
+                        : 'hover:bg-white/5 hover:translate-x-1'
                     }`}
                   >
-                    <div className={`flex items-center justify-center rounded-lg shrink-0 transition-all duration-200 ${!isOpen ? 'w-full' : 'w-9 h-9'} ${isActive && isOpen ? 'bg-[#D946EF]/20 shadow-[0_0_12px_rgba(217,70,239,0.3)]' : ''}`}>
+                    <div className={`flex items-center justify-center rounded-[8px] shrink-0 transition-all duration-300 ${!isOpen ? 'w-full' : 'w-8 h-8'} ${isActive && isOpen ? 'bg-[#D946EF]/20 shadow-[0_0_15px_rgba(217,70,239,0.4)]' : 'group-hover:scale-110'}`}>
                       <Icon
                         size={!isOpen ? 22 : 18}
                         aria-hidden="true"
                         className={`shrink-0 transition-all duration-300 motion-reduce:transition-none ${
-                          isActive ? 'text-[#D946EF] stroke-[2.5]' : 'text-white/65 stroke-[1.8] group-hover:text-white'
+                          isActive ? 'text-[#D946EF] stroke-[2.5] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]' : 'text-white/65 stroke-[1.8] group-hover:text-white'
                         }`}
                       />
                     </div>
                     
                     <div
-                      className={`flex flex-col items-start transition-all duration-400 ease-in-out motion-reduce:transition-none ${
-                        !isOpen ? 'w-0 opacity-0 overflow-hidden' : 'flex-1 opacity-100 overflow-hidden'
+                      className={`flex flex-col justify-center transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none ${
+                        !isOpen ? 'w-0 opacity-0 overflow-hidden translate-x-4' : 'flex-1 opacity-100 overflow-hidden translate-x-0'
                       }`}
                     >
-                      <span className={`text-[0.875rem] leading-tight font-semibold truncate transition-colors ${isActive ? 'text-white' : 'text-white/80 group-hover:text-white'}`}>
+                      <span className={`text-[0.875rem] text-left leading-tight font-semibold truncate transition-colors duration-300 ${isActive ? 'text-white drop-shadow-md' : 'text-white/80 group-hover:text-white'}`}>
                         {label}
-                      </span>
-                      <span className="text-[0.65rem] text-white/40 leading-tight truncate mt-0.5 text-left w-full">
-                        {description}
                       </span>
                     </div>
 
                     {isActive && !isOpen && (
                       <span
                         aria-hidden="true"
-                        className="absolute right-1 top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-[#D946EF] shadow-[0_0_8px_rgba(217,70,239,0.7)]"
+                        className="absolute right-1 top-1/2 -translate-y-1/2 w-1 h-5 rounded-full bg-[#D946EF] shadow-[0_0_12px_rgba(217,70,239,0.9)] animate-pulse"
                       />
                     )}
                   </button>
@@ -204,18 +182,46 @@ export default function DashboardSidebar({
           </ul>
 
           <div
-            className={`mx-1 mt-2 mb-4 rounded-xl transition-all duration-500 overflow-hidden flex flex-col items-center justify-center bg-[linear-gradient(160deg,#2a1550_0%,#1A1A2E_60%,#16213E_100%)] shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_4px_16px_rgba(0,0,0,0.4)] ${
-              !isOpen ? 'max-h-0 opacity-0 border-none m-0 p-0' : 'max-h-32 p-3.5 opacity-100 border border-[#D946EF]/25'
+            className={`mx-2 mt-2 mb-2 rounded-[8px] transition-all duration-500 overflow-hidden flex flex-col items-center justify-center bg-[linear-gradient(160deg,#2a1550_0%,#1A1A2E_60%,#16213E_100%)] shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_8px_24px_rgba(0,0,0,0.4)] hover:shadow-[inset_0_0_30px_rgba(217,70,239,0.15),0_12px_32px_rgba(0,0,0,0.5)] hover:border-[#D946EF]/40 hover:-translate-y-0.5 cursor-pointer ${
+              !isOpen ? 'max-h-0 opacity-0 border-none m-0 p-0 scale-95' : 'max-h-32 p-3 opacity-100 border border-[#D946EF]/25 scale-100'
             }`}
           >
-            <p className="text-[0.62rem] font-extrabold tracking-[0.14em] uppercase text-[#D946EF] m-0 mb-1.5 whitespace-nowrap">
+            <p className="text-[0.62rem] font-extrabold tracking-[0.14em] uppercase text-[#D946EF] m-0 mb-1 whitespace-nowrap drop-shadow-[0_0_5px_rgba(217,70,239,0.3)] transition-all duration-300 hover:scale-105">
               Premium Platform
             </p>
-            <p className="text-[0.7rem] text-center text-white/65 leading-relaxed m-0 whitespace-nowrap">
+            <p className="text-[0.7rem] text-center text-white/65 leading-tight m-0 whitespace-nowrap transition-colors duration-300 hover:text-white/90">
               Built for visionaries.<br />Designed for excellence.
             </p>
           </div>
         </nav>
+
+        <div className="px-2 pb-3 mt-auto">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-expanded={isOpen}
+            aria-label={isOpen ? 'Collapse menu' : 'Expand menu'}
+            className={`group w-full flex items-center py-2 rounded-[8px] transition-all duration-300 bg-transparent border-none cursor-pointer active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] hover:bg-white/10 hover:shadow-lg ${
+              !isOpen ? 'justify-center px-0' : 'justify-start px-3 gap-3.5'
+            }`}
+          >
+            <div className={`flex items-center justify-center rounded-[8px] shrink-0 transition-all duration-300 group-hover:scale-110 ${!isOpen ? 'w-full' : 'w-8 h-8'}`}>
+              {isOpen ? (
+                <PanelLeftClose size={!isOpen ? 22 : 18} className="text-white/65 stroke-[1.8] group-hover:text-white shrink-0 transition-all duration-300 group-hover:-translate-x-0.5" aria-hidden="true" />
+              ) : (
+                <PanelLeft size={!isOpen ? 22 : 18} className="text-white/65 stroke-[1.8] group-hover:text-white shrink-0 transition-all duration-300 group-hover:translate-x-0.5" aria-hidden="true" />
+              )}
+            </div>
+            <div
+              className={`flex flex-col justify-center transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] motion-reduce:transition-none ${
+                !isOpen ? 'w-0 opacity-0 overflow-hidden translate-x-4' : 'flex-1 opacity-100 overflow-hidden translate-x-0'
+              }`}
+            >
+              <span className="text-[0.875rem] leading-tight font-semibold truncate text-white/80 group-hover:text-white text-left transition-colors duration-300">
+                Collapse
+              </span>
+            </div>
+          </button>
+        </div>
       </aside>
 
       {mounted &&
@@ -225,13 +231,13 @@ export default function DashboardSidebar({
           <div
             role="tooltip"
             style={{ left: `${tooltip.x}px`, top: `${tooltip.y}px` }}
-            className="fixed -translate-y-1/2 z-[10000] pointer-events-none flex items-center gap-0 animate-in fade-in slide-in-from-left-1 duration-200"
+            className="fixed -translate-y-1/2 z-[10000] pointer-events-none flex items-center gap-0 animate-in fade-in zoom-in-95 slide-in-from-left-2 duration-200"
           >
             <div
               className="w-0 h-0 shrink-0 border-y-[6px] border-y-transparent border-r-[7px] border-r-[#2a1550]"
               aria-hidden="true"
             />
-            <div className="bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] border border-white/15 rounded-lg px-3.5 py-1.5 text-white/90 text-[13px] font-semibold whitespace-nowrap shadow-[0_4px_16px_rgba(0,0,0,0.5)]">
+            <div className="bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] border border-white/15 rounded-[8px] px-3 py-1.5 text-white/90 text-[12px] font-semibold whitespace-nowrap shadow-[0_8px_24px_rgba(0,0,0,0.6)]">
               {tooltip.label}
             </div>
           </div>,

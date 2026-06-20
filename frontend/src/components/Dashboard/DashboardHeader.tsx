@@ -125,16 +125,20 @@ export default function DashboardHeader({
       <div className="flex items-center h-14 md:h-16 px-3 sm:px-2 w-full gap-4">
         
         <div className="flex items-center gap-2 sm:gap-1 min-w-0">
-          <button
-            type="button"
-            onClick={onMenuClick}
-            className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
-            aria-label="Toggle menu"
-          >
-            <MenuIcon sx={{ fontSize: 22 }} />
-          </button>
+          {onMenuClick && (
+            <>
+              <button
+                type="button"
+                onClick={onMenuClick}
+                className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
+                aria-label="Toggle menu"
+              >
+                <MenuIcon sx={{ fontSize: 22 }} />
+              </button>
 
-          <div className="w-px h-5 bg-[var(--color-border-default)] shrink-0" aria-hidden="true" />
+              <div className="w-px h-5 bg-[var(--color-border-default)] shrink-0" aria-hidden="true" />
+            </>
+          )}
 
           <div ref={cityRef} className="relative min-w-0 shrink">
             <button

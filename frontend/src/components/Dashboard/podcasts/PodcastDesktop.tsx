@@ -285,7 +285,7 @@ export default function PodcastDesktop() {
       </div>
 
       {activeEpisode ? (
-        <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 px-6 py-6 max-w-[1800px] w-full mx-auto animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
+        <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 px-3 py-3 max-w-[1800px] w-full mx-auto animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
           <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 bg-black">
             <PodcastVideoPlayerDesktop
               episode={activeEpisode}

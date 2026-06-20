@@ -110,7 +110,6 @@ function DesktopDashboard() {
   const [activeTab, setActiveTab] = useState<NavKey>('podcasts')
   const [activeSubTab, setActiveSubTab] = useState(TAB_ITEMS[0]?.subTabs?.[0]?.label ?? '')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   const activeItem = TAB_ITEMS.find(t => t.key === activeTab)
   const currentSubTabs = activeTab === 'podcasts' ? [] : (activeItem?.subTabs ?? [])
@@ -125,28 +124,13 @@ function DesktopDashboard() {
 
   return (
     <div className="flex h-full w-full relative overflow-hidden bg-white">
-      {/* Sidebar Overlay */}
-      {isSidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-[90] transition-opacity duration-300"
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-      
-      {/* Fixed Sidebar */}
-      <div 
-        className={`fixed top-0 left-0 h-full z-[100] transform transition-transform duration-300 ease-in-out ${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <DashboardSidebar 
-          active={activeFooterTab} 
-          onNavigate={(k) => {
-            setActiveFooterTab(k)
-            setIsSidebarOpen(false)
-          }} 
-        />
-      </div>
+      {/* Inline Sidebar */}
+      <DashboardSidebar 
+        active={activeFooterTab} 
+        onNavigate={(k) => {
+          setActiveFooterTab(k)
+        }} 
+      />
 
       <main className="flex-1 flex flex-col h-full overflow-hidden">
         {/* Header with integrated navigation cards */}
@@ -154,7 +138,6 @@ function DesktopDashboard() {
           navItems={HEADER_NAV_ITEMS}
           activeTab={activeTab}
           onTabChange={handleTabChange}
-          onMenuClick={() => setIsSidebarOpen(true)}
         />
 
       {/* Sub-tabs (only shown for tabs that have them) */}

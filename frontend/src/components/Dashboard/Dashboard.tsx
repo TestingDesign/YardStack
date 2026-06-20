@@ -280,7 +280,7 @@ function MobileDashboard() {
         )}
       </div>
 
-      <FooterNav active={activeFooterTab} onChange={setActiveFooterTab} />
+      <FooterNav active={activeFooterTab} onChange={(k) => setActiveFooterTab(k as DashboardNavKey)} />
       </main>
     </div>
   )

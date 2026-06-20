@@ -262,7 +262,7 @@ export default function PodcastVideoPlayerDesktop({
               disabled={!hasPrev}
               onClick={(e) => {
                 e.stopPropagation()
-                onPrev()
+                onPrev?.()
               }}
               className="pointer-events-auto text-white/70 hover:text-white disabled:opacity-30 transition-transform hover:scale-110 active:scale-95 p-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full"
             >
@@ -308,7 +308,7 @@ export default function PodcastVideoPlayerDesktop({
               disabled={!hasNext}
               onClick={(e) => {
                 e.stopPropagation()
-                onNext()
+                onNext?.()
               }}
               className="pointer-events-auto text-white/70 hover:text-white disabled:opacity-30 transition-transform hover:scale-110 active:scale-95 p-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full"
             >

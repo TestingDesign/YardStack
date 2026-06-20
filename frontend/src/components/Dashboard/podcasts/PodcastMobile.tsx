@@ -127,7 +127,6 @@ const EpisodeCard = memo(function EpisodeCard({ episode, onPlay }: EpisodeCardPr
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
               <h3 className="text-[14px] font-semibold text-gray-900 leading-tight line-clamp-2 group-hover:text-[var(--color-brand-purple)] transition-colors duration-200">
-              <h3 className="text-[14px] font-medium text-black-900 leading-tight line-clamp-2 group-hover:text-[var(--color-brand-purple)] transition-colors duration-200">
                 {episode.title}
               </h3>
 

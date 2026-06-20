@@ -42,13 +42,18 @@ export default function PodcastVideoPlayerMobile({
   useEffect(() => {
     if (isPlaying && totalDuration > 0) {
       progressTimerRef.current = setInterval(() => {
-        setProgress(prev => {
-          if (prev >= 1) { setIsPlaying(false); return 1 }
+        setProgress((prev) => {
+          if (prev >= 1) {
+            setIsPlaying(false)
+            return 1
+          }
           return prev + 1 / totalDuration
         })
       }, 1000)
     }
-    return () => { if (progressTimerRef.current) clearInterval(progressTimerRef.current) }
+    return () => {
+      if (progressTimerRef.current) clearInterval(progressTimerRef.current)
+    }
   }, [isPlaying, totalDuration])
 
   const resetHideTimer = useCallback(() => {
@@ -61,10 +66,15 @@ export default function PodcastVideoPlayerMobile({
 
   useEffect(() => {
     resetHideTimer()
-    return () => { if (hideTimerRef.current) clearTimeout(hideTimerRef.current) }
+    return () => {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+    }
   }, [isPlaying, resetHideTimer])
 
-  useEffect(() => { setIsPlaying(false); setProgress(0) }, [episode?.id])
+  useEffect(() => {
+    setIsPlaying(false)
+    setProgress(0)
+  }, [episode?.id])
 
   useEffect(() => {
     closingRef.current = false
@@ -97,33 +107,40 @@ export default function PodcastVideoPlayerMobile({
   }, [exitFullscreen, onClose])
 
   useEffect(() => {
-    const h = (e: KeyboardEvent) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (!episode) return
+      
+      if (e.key === ' ') {
+        if (e.target === document.body || e.target === containerRef.current) {
+          e.preventDefault()
+        }
+      }
+
       switch (e.key) {
         case ' ':
         case 'k':
           e.preventDefault()
-          setIsPlaying(v => !v)
+          setIsPlaying((v) => !v)
           break
         case 'Escape':
           void handleClose()
           break
         case 'm':
-          setMuted(v => !v)
+          setMuted((v) => !v)
           break
         case 'ArrowRight':
-          setProgress(p => Math.min(1, p + 10 / totalDuration))
+          setProgress((p) => Math.min(1, p + 10 / totalDuration))
           break
         case 'ArrowLeft':
-          setProgress(p => Math.max(0, p - 10 / totalDuration))
+          setProgress((p) => Math.max(0, p - 10 / totalDuration))
           break
         case 'f':
           handleToggleFullscreen()
           break
       }
     }
-    window.addEventListener('keydown', h)
-    return () => window.removeEventListener('keydown', h)
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
   }, [episode, totalDuration, handleClose])
 
   const handleToggleFullscreen = () => {
@@ -136,11 +153,11 @@ export default function PodcastVideoPlayerMobile({
   }
 
   useEffect(() => {
-    const h = () => {
+    const handleFullscreenChange = () => {
       if (!document.fullscreenElement) setIsFullscreen(false)
     }
-    document.addEventListener('fullscreenchange', h)
-    return () => document.removeEventListener('fullscreenchange', h)
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
 
   useEffect(() => {
@@ -163,12 +180,18 @@ export default function PodcastVideoPlayerMobile({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   return (
-    <div className={`w-full flex flex-col bg-[#0f0f0f] font-['Outfit',sans-serif] animate-in slide-in-from-top-4 duration-300 shrink-0`}>
+    <div className="w-full flex flex-col bg-[#0f0f0f] font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 shrink-0">
       
       <div 
         ref={containerRef}
-        className={`relative shrink-0 bg-black flex items-center justify-center overflow-hidden transition-all duration-300 ${isFullscreen ? 'w-full h-full z-[9999]' : 'w-full aspect-[20/9]'}`}
-        onClick={() => { setIsPlaying(v => !v); resetHideTimer() }}
+        className={`relative shrink-0 bg-black flex items-center justify-center overflow-hidden transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+          isFullscreen ? 'w-full h-full z-[9999]' : 'w-full aspect-[20/9]'
+        }`}
+        tabIndex={-1}
+        onClick={() => {
+          setIsPlaying((v) => !v)
+          resetHideTimer()
+        }}
         onMouseMove={resetHideTimer}
         onTouchStart={resetHideTimer}
       >
@@ -179,12 +202,22 @@ export default function PodcastVideoPlayerMobile({
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${isPlaying ? 'scale-[1.02]' : 'scale-100'}`}
+          className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${
+            isPlaying ? 'scale-[1.02]' : 'scale-100'
+          }`}
         />
         
-        <div className={`absolute inset-0 z-20 bg-black/50 transition-opacity duration-300 ${!isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'}`} />
+        <div 
+          className={`absolute inset-0 z-20 bg-black/50 transition-opacity duration-300 pointer-events-none ${
+            !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
+          }`} 
+        />
 
-        <div className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start justify-between transition-opacity duration-300 ${!isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'} pointer-events-none`}>
+        <div 
+          className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start justify-between transition-opacity duration-300 pointer-events-none ${
+            !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+        >
           <div className="flex flex-col gap-1.5 items-start pointer-events-auto max-w-[75%]">
             <div className="flex flex-col gap-1 px-1.5 drop-shadow-lg">
               <h2 className="text-[11px] sm:text-[13px] font-bold text-white leading-tight line-clamp-2">
@@ -192,46 +225,90 @@ export default function PodcastVideoPlayerMobile({
               </h2>
             </div>
           </div>
-          <button type="button" onClick={(e) => { e.stopPropagation(); void handleClose(); }} onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); void handleClose(); }} className="text-white drop-shadow-md p-2 -m-1 hover:bg-white/10 rounded-full transition-colors shrink-0 pointer-events-auto ml-2">
+          <button 
+            type="button" 
+            onClick={(e) => { e.stopPropagation(); void handleClose(); }} 
+            onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); void handleClose(); }} 
+            className="text-white drop-shadow-md p-2 -m-1 hover:bg-white/10 rounded-full transition-colors shrink-0 pointer-events-auto ml-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            aria-label="Close player"
+          >
             <CloseIcon sx={{ fontSize: 16 }} />
           </button>
         </div>
 
-        <div className={`absolute inset-0 flex items-center justify-center gap-1.5 sm:gap-3 z-30 transition-opacity duration-300 ${!isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-          <button type="button" disabled={!hasPrev} onClick={(e) => { e.stopPropagation(); onPrev?.(); }} className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-transform">
-            <SkipPreviousIcon sx={{ fontSize: 16 }} />
+        <div 
+          className={`absolute inset-0 flex items-center justify-center gap-1.5 sm:gap-3 z-30 transition-opacity duration-300 ${
+            !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <button 
+            type="button" 
+            disabled={!hasPrev} 
+            onClick={(e) => { e.stopPropagation(); onPrev?.(); }} 
+            className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            aria-label="Previous episode"
+          >
+            <SkipPreviousIcon sx={{ fontSize: 18 }} />
           </button>
-          <button type="button" onClick={(e) => { e.stopPropagation(); setProgress(p => Math.max(0, p - 10 / totalDuration)); resetHideTimer(); }} className="text-white hover:scale-110 active:scale-95 transition-transform">
-            <Replay10Icon sx={{ fontSize: 14 }} />
+          <button 
+            type="button" 
+            onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.max(0, p - 10 / totalDuration)); resetHideTimer(); }} 
+            className="text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            aria-label="Rewind 10 seconds"
+          >
+            <Replay10Icon sx={{ fontSize: 16 }} />
           </button>
           
           <button 
             type="button"
-            onClick={(e) => { e.stopPropagation(); setIsPlaying(v => !v); resetHideTimer(); }}
-            className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center text-white hover:scale-105 active:scale-95 transition-all"
+            onClick={(e) => { e.stopPropagation(); setIsPlaying((v) => !v); resetHideTimer(); }}
+            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black"
+            aria-label={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? <PauseIcon sx={{ fontSize: 28 }} /> : <PlayArrowIcon sx={{ fontSize: 28 }} />}
+            {isPlaying ? <PauseIcon sx={{ fontSize: 26 }} /> : <PlayArrowIcon sx={{ fontSize: 26 }} />}
           </button>
 
-          <button type="button" onClick={(e) => { e.stopPropagation(); setProgress(p => Math.min(1, p + 10 / totalDuration)); resetHideTimer(); }} className="text-white hover:scale-110 active:scale-95 transition-transform">
-            <Forward10Icon sx={{ fontSize: 14 }} />
+          <button 
+            type="button" 
+            onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.min(1, p + 10 / totalDuration)); resetHideTimer(); }} 
+            className="text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            aria-label="Fast forward 10 seconds"
+          >
+            <Forward10Icon sx={{ fontSize: 16 }} />
           </button>
-          <button type="button" disabled={!hasNext} onClick={(e) => { e.stopPropagation(); onNext?.(); }} className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-transform">
-            <SkipNextIcon sx={{ fontSize: 16 }} />
+          <button 
+            type="button" 
+            disabled={!hasNext} 
+            onClick={(e) => { e.stopPropagation(); onNext?.(); }} 
+            className="text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            aria-label="Next episode"
+          >
+            <SkipNextIcon sx={{ fontSize: 18 }} />
           </button>
         </div>
 
-        <div className={`absolute bottom-0 inset-x-0 z-30 px-1.5 pb-1 pt-4 bg-gradient-to-t from-black/80 to-transparent transition-opacity duration-300 ${!isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div 
+          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-1 pt-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent transition-opacity duration-300 ${
+            !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
           <div className="flex items-center justify-between text-white text-[10px] font-medium mb-1 drop-shadow-md">
-            <span className="tabular-nums opacity-90 tracking-wide">{currentTime} <span className="opacity-60 mx-1">/</span> {episode.duration}</span>
-            <div className="flex items-center gap-2 pointer-events-auto" onClick={e => e.stopPropagation()}>
-               <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
-               <button type="button" onClick={() => { handleToggleFullscreen(); }} className="hover:scale-110 active:scale-95 transition-transform">
-                 {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 11 }} /> : <FullscreenIcon sx={{ fontSize: 11 }} />}
-               </button>
+            <span className="tabular-nums opacity-90 tracking-wide">
+              {currentTime} <span className="opacity-60 mx-1">/</span> {episode.duration}
+            </span>
+            <div className="flex items-center gap-2 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+              <button 
+                type="button" 
+                onClick={() => handleToggleFullscreen()} 
+                className="hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
+                aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+              >
+                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 14 }} /> : <FullscreenIcon sx={{ fontSize: 14 }} />}
+              </button>
             </div>
           </div>
-          <div className="w-full px-1" onClick={e => e.stopPropagation()}>
+          <div className="w-full px-0.5" onClick={(e) => e.stopPropagation()}>
              <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
           </div>
         </div>

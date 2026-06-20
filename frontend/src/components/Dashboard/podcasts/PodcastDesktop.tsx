@@ -280,7 +280,7 @@ export default function PodcastDesktop() {
 
   return (
     <div className={`flex-1 w-full h-full flex flex-col bg-white font-['Outfit',sans-serif] animate-in fade-in duration-500 ${activeEpisode ? 'overflow-hidden' : 'overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none'}`}>
-      <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-lg border-b border-gray-100 transition-all duration-300">
+      <div className="sticky top-0 z-40 shrink-0 bg-white/90  transition-all duration-300">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
@@ -326,7 +326,7 @@ export default function PodcastDesktop() {
           </div>
         </div>
       ) : (
-        <div className="px-6 py-8 max-w-[1800px] mx-auto w-full">
+        <div className="px-3 py-4 max-w-[1800px] mx-auto w-full">
           {displayedEpisodes.length > 0 ? (
             <div className="pb-16">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-x-6 gap-y-10">

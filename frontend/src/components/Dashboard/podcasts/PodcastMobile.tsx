@@ -240,7 +240,7 @@ export default function PodcastMobile() {
 
   return (
     <div className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] hide-scrollbar animate-in fade-in duration-500 flex flex-col">
-      <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-lg shadow-sm border-b border-gray-100 transition-all duration-300">
+      <div className="sticky top-0 z-40 bg-white transition-all duration-300">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
@@ -274,7 +274,7 @@ export default function PodcastMobile() {
         )}
 
         {filteredEpisodes.length > 0 ? (
-          <div className="pb-24 pt-2">
+          <div className="pb-8 pt-1">
             {filteredEpisodes.map((episode, index) => (
               <div
                 key={episode.id}

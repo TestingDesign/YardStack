@@ -232,9 +232,7 @@ export default function PodcastMobile() {
     : -1
 
   return (
-    <>
-      <style>{`.hide-scrollbar::-webkit-scrollbar { display: none !important; } .hide-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }`}</style>
-      <div className="flex-1 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] hide-scrollbar animate-in fade-in duration-300 flex flex-col">
+    <div className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] hide-scrollbar animate-in fade-in duration-300 flex flex-col">
         <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md shadow-sm transition-all duration-300 ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
@@ -261,7 +259,7 @@ export default function PodcastMobile() {
           />
         )}
 
-        <div className="max-w-3xl mx-auto w-full overflow-x-hidden flex-1 bg-white">
+        <div className="max-w-3xl mx-auto w-full  flex-1 bg-white">
           {activeEpisode && (
             <div className="px-4 py-2 flex items-center justify-between bg-white">
               <h3 className="text-[16px] font-bold text-gray-900">Up Next</h3>
@@ -289,6 +287,5 @@ export default function PodcastMobile() {
           )}
         </div>
       </div>
-    </>
   )
 }

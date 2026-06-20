@@ -44,6 +44,17 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 @keyframes ys-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }

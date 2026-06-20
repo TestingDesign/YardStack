@@ -210,7 +210,7 @@ function MobileDashboard() {
         </nav>
       )}
 
-      <div className="flex-1 overflow-hidden flex flex-col [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none focus-visible:outline-none" tabIndex={-1}>
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col hide-scrollbar focus-visible:outline-none" tabIndex={-1}>
         {activeTab === 'activityBoard' ? (
           <ActivityBoardMobile />
         ) : activeTab === 'podcasts' ? (

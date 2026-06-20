@@ -36,6 +36,7 @@ export default function PodcastVideoPlayerMobile({
   const containerRef = useRef<HTMLDivElement>(null)
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const progressTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const closingRef = useRef(false)
   const totalDuration = episode ? parseDuration(episode.duration) : 0
 
   useEffect(() => {
@@ -66,6 +67,36 @@ export default function PodcastVideoPlayerMobile({
   useEffect(() => { setIsPlaying(false); setProgress(0) }, [episode?.id])
 
   useEffect(() => {
+    closingRef.current = false
+  }, [episode?.id])
+
+  const exitFullscreen = useCallback(async () => {
+    if (!document.fullscreenElement || !document.exitFullscreen) {
+      setIsFullscreen(false)
+      return
+    }
+
+    try {
+      await document.exitFullscreen()
+    } catch {
+      // Ignore fullscreen exit failures and still recover the player state.
+    } finally {
+      setIsFullscreen(false)
+    }
+  }, [])
+
+  const handleClose = useCallback(async () => {
+    if (closingRef.current) return
+    closingRef.current = true
+
+    setIsPlaying(false)
+    setControlsVisible(true)
+
+    await exitFullscreen()
+    onClose()
+  }, [exitFullscreen, onClose])
+
+  useEffect(() => {
     const h = (e: KeyboardEvent) => {
       if (!episode) return
       switch (e.key) {
@@ -75,8 +106,7 @@ export default function PodcastVideoPlayerMobile({
           setIsPlaying(v => !v)
           break
         case 'Escape':
-          if (isFullscreen) exitFullscreen()
-          else onClose()
+          void handleClose()
           break
         case 'm':
           setMuted(v => !v)
@@ -94,7 +124,7 @@ export default function PodcastVideoPlayerMobile({
     }
     window.addEventListener('keydown', h)
     return () => window.removeEventListener('keydown', h)
-  }, [episode, isFullscreen, totalDuration, onClose])
+  }, [episode, totalDuration, handleClose])
 
   const handleToggleFullscreen = () => {
     if (!document.fullscreenElement) {
@@ -103,11 +133,6 @@ export default function PodcastVideoPlayerMobile({
     } else {
       exitFullscreen()
     }
-  }
-
-  const exitFullscreen = () => {
-    document.exitFullscreen?.()
-    setIsFullscreen(false)
   }
 
   useEffect(() => {
@@ -134,20 +159,6 @@ export default function PodcastVideoPlayerMobile({
   }, [])
 
   if (!episode) return null
-
-  const handleClose = () => {
-    try {
-      if (document.fullscreenElement && document.exitFullscreen) {
-        const promise = document.exitFullscreen()
-        if (promise && typeof promise.catch === 'function') {
-          promise.catch(() => {})
-        }
-      }
-    } catch (e) {
-      // Ignore fullscreen exit errors
-    }
-    onClose()
-  }
 
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
@@ -181,7 +192,7 @@ export default function PodcastVideoPlayerMobile({
               </h2>
             </div>
           </div>
-          <button type="button" onClick={(e) => { e.stopPropagation(); handleClose(); }} onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); handleClose(); }} className="text-white drop-shadow-md p-2 -m-1 hover:bg-white/10 rounded-full transition-colors shrink-0 pointer-events-auto ml-2">
+          <button type="button" onClick={(e) => { e.stopPropagation(); void handleClose(); }} onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); void handleClose(); }} className="text-white drop-shadow-md p-2 -m-1 hover:bg-white/10 rounded-full transition-colors shrink-0 pointer-events-auto ml-2">
             <CloseIcon sx={{ fontSize: 16 }} />
           </button>
         </div>

@@ -15,7 +15,7 @@ import {
   fmtTime,
   parseDuration,
   ProgressBar,
-  VerticalVolumeControl
+  HorizontalVolumeControl
 } from './PodcastVideoPlayerShared'
 
 export default function PodcastVideoPlayerMobile({
@@ -32,6 +32,7 @@ export default function PodcastVideoPlayerMobile({
   const [volume, setVolume] = useState(0.8)
   const [controlsVisible, setControlsVisible] = useState(true)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isLandscape, setIsLandscape] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -94,16 +95,19 @@ export default function PodcastVideoPlayerMobile({
     }
   }, [])
 
-  const handleClose = useCallback(async () => {
+  const handleClose = useCallback(() => {
     if (closingRef.current) return
     closingRef.current = true
 
     setIsPlaying(false)
     setControlsVisible(true)
 
-    await exitFullscreen()
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {})
+    }
+    setIsFullscreen(false)
     onClose()
-  }, [exitFullscreen, onClose])
+  }, [onClose])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -161,17 +165,24 @@ export default function PodcastVideoPlayerMobile({
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const handleOrientation = () => {
-      const isLandscape = window.screen?.orientation?.type?.startsWith('landscape') || window.innerWidth > window.innerHeight
+    const checkOrientation = () => {
       const isTouch = window.matchMedia('(pointer: coarse)').matches
-      if (isLandscape && isTouch && containerRef.current) {
-        if (!document.fullscreenElement) {
-          containerRef.current.requestFullscreen().catch(() => {})
-        }
+      const landscape = isTouch && (
+        window.screen?.orientation?.type?.startsWith('landscape') ||
+        window.innerWidth > window.innerHeight
+      )
+      setIsLandscape(landscape)
+      if (landscape && containerRef.current && !document.fullscreenElement) {
+        containerRef.current.requestFullscreen().catch(() => {})
       }
     }
-    window.addEventListener('orientationchange', handleOrientation)
-    return () => window.removeEventListener('orientationchange', handleOrientation)
+    checkOrientation()
+    window.addEventListener('resize', checkOrientation)
+    window.addEventListener('orientationchange', checkOrientation)
+    return () => {
+      window.removeEventListener('resize', checkOrientation)
+      window.removeEventListener('orientationchange', checkOrientation)
+    }
   }, [])
 
   if (!episode) return null
@@ -179,12 +190,18 @@ export default function PodcastVideoPlayerMobile({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   return (
-    <div className="w-full flex flex-col bg-[#05030a] font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 shrink-0">
+    <div className={`font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 ${
+      isLandscape && !isFullscreen
+        ? 'fixed inset-0 z-[9999] bg-[#05030a]'
+        : 'w-full flex flex-col bg-[#05030a] shrink-0'
+    }`}>
       
       <div 
         ref={containerRef}
-        className={`relative shrink-0 bg-black flex items-center justify-center overflow-hidden transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
-          isFullscreen ? 'w-full h-full z-[9999]' : 'w-full aspect-[20/9]'
+        className={`relative bg-black flex items-center justify-center overflow-hidden transition-all duration-300 outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+          isFullscreen ? 'w-full h-full z-[9999]' :
+          isLandscape ? 'w-full h-full' :
+          'w-full shrink-0 aspect-[20/9]'
         }`}
         tabIndex={-1}
         onClick={() => {
@@ -212,27 +229,31 @@ export default function PodcastVideoPlayerMobile({
           }`} 
         />
 
+        {/* Always-visible close button – never hidden with controls */}
+        <div className="absolute top-2 right-2 z-40">
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); handleClose() }}
+            className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
+            aria-label="Close player"
+          >
+            <CloseIcon sx={{ fontSize: 16 }} />
+          </button>
+        </div>
+
+        {/* Fading top overlay – title only */}
         <div 
-          className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start justify-between transition-opacity duration-300 pointer-events-none ${
+          className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <div className="flex flex-col gap-1.5 items-start pointer-events-auto max-w-[75%]">
+          <div className="flex flex-col gap-1.5 items-start pointer-events-auto max-w-[calc(100%-2.5rem)]">
             <div className="flex flex-col gap-1 px-1.5 drop-shadow-lg">
               <h2 className="text-[11px] sm:text-[13px] font-bold text-white leading-tight line-clamp-2">
                 {episode.title}
               </h2>
             </div>
           </div>
-          <button 
-            type="button" 
-            onClick={(e) => { e.stopPropagation(); void handleClose(); }} 
-            onTouchEnd={(e) => { e.preventDefault(); e.stopPropagation(); void handleClose(); }} 
-            className="text-white/80 drop-shadow-md p-2 -m-1 hover:bg-[#422082] hover:text-white rounded-full transition-colors shrink-0 pointer-events-auto ml-2 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
-            aria-label="Close player"
-          >
-            <CloseIcon sx={{ fontSize: 16 }} />
-          </button>
         </div>
 
         <div 
@@ -296,7 +317,7 @@ export default function PodcastVideoPlayerMobile({
               {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
             </span>
             <div className="flex items-center gap-2 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-              <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+              <HorizontalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
               <button 
                 type="button" 
                 onClick={() => handleToggleFullscreen()} 

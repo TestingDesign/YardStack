@@ -145,3 +145,44 @@ export const VerticalVolumeControl = memo(function VerticalVolumeControl({
     </div>
   )
 })
+
+export const HorizontalVolumeControl = memo(function HorizontalVolumeControl({
+  volume,
+  muted,
+  setVolume,
+  setMuted,
+}: VerticalVolumeControlProps) {
+  return (
+    <div className="relative flex items-center justify-center group/vol">
+      <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-24 h-8 bg-black/70 backdrop-blur-xl border border-white/10 rounded-full flex items-center justify-center opacity-0 invisible group-hover/vol:opacity-100 group-hover/vol:visible transition-all duration-300 ease-[cubic-bezier(0.2,0.8,0.2,1)] shadow-[0_8px_32px_rgba(0,0,0,0.6)] origin-bottom scale-90 group-hover/vol:scale-100 z-50 px-3">
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={muted ? 0 : volume}
+          onChange={(e) => {
+            const val = Number(e.target.value)
+            setVolume(val)
+            if (val > 0 && muted) setMuted(false)
+            if (val === 0 && !muted) setMuted(true)
+          }}
+          aria-label="Volume"
+          className="w-full h-1.5 cursor-pointer accent-[#c2ef4e] bg-white/20 rounded-full appearance-none hover:accent-white transition-all outline-none focus-visible:ring-2 focus-visible:ring-[#c2ef4e] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+        />
+      </div>
+      <button
+        type="button"
+        onClick={() => setMuted(!muted)}
+        aria-label={muted || volume === 0 ? "Unmute" : "Mute"}
+        className="p-1.5 rounded-full hover:bg-white/20 text-white transition-all duration-200 active:scale-90 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+      >
+        {muted || volume === 0 ? (
+          <VolumeOffIcon sx={{ fontSize: 18 }} />
+        ) : (
+          <VolumeUpIcon sx={{ fontSize: 18 }} />
+        )}
+      </button>
+    </div>
+  )
+})

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { Menu } from 'lucide-react'
@@ -48,6 +48,35 @@ export default function App() {
   const location = useLocation()
 
   const [isHeaderVisible, setIsHeaderVisible] = useState(false)
+  const [isHoverEnabled, setIsHoverEnabled] = useState(true)
+
+  const toggleHeader = useCallback(() => {
+    setIsHeaderVisible(prev => {
+      if (prev) {
+        // If it was visible and we're toggling it off, disable hover
+        setIsHoverEnabled(false);
+      }
+      return !prev;
+    });
+  }, []);
+
+  const closeHeader = useCallback(() => {
+    setIsHeaderVisible(false);
+    setIsHoverEnabled(false);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Toggle header with Ctrl+M or Cmd+M
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'm') {
+        e.preventDefault();
+        toggleHeader();
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Parse routing
   const pathParts = location.pathname.split('/').filter(Boolean)
@@ -98,10 +127,12 @@ export default function App() {
     <div className="flex flex-col h-screen overflow-hidden font-['Outfit'] relative bg-[#f5f6f8]">
       
       {/* Invisible Hover Trigger for Header */}
-      <div 
-        className="absolute top-0 left-0 right-0 h-4 z-[60]"
-        onMouseEnter={() => setIsHeaderVisible(true)}
-      />
+      {isHoverEnabled && (
+        <div 
+          className="absolute top-0 left-0 right-0 h-4 z-[60]"
+          onMouseEnter={() => setIsHeaderVisible(true)}
+        />
+      )}
 
       {/* Header Container */}
       <div 
@@ -113,7 +144,7 @@ export default function App() {
           viewMode={viewMode}
           onViewModeChange={handleViewModeChange}
           showViewControls={showViewControls}
-          onClose={() => setIsHeaderVisible(false)}
+          onClose={closeHeader}
         />
       </div>
 
@@ -148,9 +179,10 @@ export default function App() {
 
       {/* Floating Action Button */}
       <button
-        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+        onClick={toggleHeader}
         className="absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all z-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#6B21A8]"
-        aria-label="Toggle navigation menu"
+        aria-label="Toggle navigation menu (Ctrl+M)"
+        title="Toggle Menu (Ctrl+M)"
       >
         <Menu size={24} />
       </button>

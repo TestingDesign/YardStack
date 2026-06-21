@@ -1,5 +1,15 @@
 import { memo, useCallback, type ElementType } from 'react'
-import { Home, Users, Plus, SlidersHorizontal, Bookmark } from 'lucide-react'
+import { Users, Plus, SlidersHorizontal, Bookmark } from 'lucide-react'
+import LogoPng from '../sidebar/Logo.png'
+
+const LogoIcon = ({ className }: any) => (
+  <img 
+    src={LogoPng} 
+    alt="N4RE" 
+    className={`${className} w-auto h-12 mt-1`}
+    style={{ objectFit: 'contain' }} 
+  />
+)
 
 export interface FooterNavItem {
   key: string
@@ -8,7 +18,7 @@ export interface FooterNavItem {
 }
 
 const FOOTER_NAV_ITEMS: FooterNavItem[] = [
-  { key: 'home',   label: 'Home',   Icon: Home },
+  { key: 'home',   label: '',   Icon: LogoIcon },
   { key: 'leads',  label: 'Leads',  Icon: Users },
   { key: 'post',   label: 'Post',   Icon: Plus },
   { key: 'manage', label: 'Manage', Icon: SlidersHorizontal },
@@ -45,15 +55,17 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
         />
       </div>
 
-      <span
-        className={`relative z-10 font-['Outfit',sans-serif] text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 motion-reduce:transition-none ${
-          isActive
-            ? 'font-bold text-[#D946EF] -translate-y-0.5'
-            : 'font-semibold text-gray-400 group-hover:text-[#D946EF] translate-y-0'
-        }`}
-      >
-        {label}
-      </span>
+      {label && (
+        <span
+          className={`relative z-10 font-['Outfit',sans-serif] text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 motion-reduce:transition-none ${
+            isActive
+              ? 'font-bold text-[#D946EF] -translate-y-0.5'
+              : 'font-semibold text-gray-400 group-hover:text-[#D946EF] translate-y-0'
+          }`}
+        >
+          {label}
+        </span>
+      )}
 
       {isActive && (
         <div

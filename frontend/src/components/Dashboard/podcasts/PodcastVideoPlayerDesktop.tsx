@@ -6,8 +6,6 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
-import Replay10Icon from '@mui/icons-material/Replay10'
-import Forward10Icon from '@mui/icons-material/Forward10'
 import VerifiedIcon from '@mui/icons-material/Verified'
 
 import {

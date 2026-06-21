@@ -402,14 +402,16 @@ export default function PodcastDesktop() {
             
             <div className="relative group/slider w-full mt-2">
               {canScrollLeft && (
-                <div className="absolute left-0 top-[69px] z-30 flex items-center justify-center">
-                  <button 
-                    onClick={scrollLeft}
-                    className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
-                    aria-label="Scroll left"
-                  >
-                    <ChevronLeft size={20} />
-                  </button>
+                <div className="absolute left-0 top-0 bottom-0 w-24 z-30 pointer-events-none bg-gradient-to-r from-white via-white/90 to-transparent">
+                  <div className="absolute left-1 top-[69px] pointer-events-auto">
+                    <button 
+                      onClick={scrollLeft}
+                      className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
+                      aria-label="Scroll left"
+                    >
+                      <ChevronLeft size={20} />
+                    </button>
+                  </div>
                 </div>
               )}
               
@@ -429,14 +431,16 @@ export default function PodcastDesktop() {
               </div>
 
               {canScrollRight && (
-                <div className="absolute right-0 top-[69px] z-30 flex items-center justify-center">
-                  <button 
-                    onClick={scrollRight}
-                    className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
-                    aria-label="Scroll right"
-                  >
-                    <ChevronRight size={20} />
-                  </button>
+                <div className="absolute right-0 top-0 bottom-0 w-24 z-30 pointer-events-none bg-gradient-to-l from-white via-white/90 to-transparent">
+                  <div className="absolute right-1 top-[69px] pointer-events-auto">
+                    <button 
+                      onClick={scrollRight}
+                      className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
+                      aria-label="Scroll right"
+                    >
+                      <ChevronRight size={20} />
+                    </button>
+                  </div>
                 </div>
               )}
             </div>

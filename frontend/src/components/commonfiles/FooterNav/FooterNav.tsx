@@ -1,12 +1,12 @@
 import { memo, useCallback, type ElementType } from 'react'
-import { Users, Plus, SlidersHorizontal, Bookmark } from 'lucide-react'
+import { Users, Plus, LayoutDashboard, Bookmark } from 'lucide-react'
 import LogoPng from '../sidebar/Logo.png'
 
 const LogoIcon = ({ className }: any) => (
   <img 
     src={LogoPng} 
     alt="N4RE" 
-    className={`${className} w-auto h-12 mt-1`}
+    className={`${className} w-auto h-10 mt-0.5`}
     style={{ objectFit: 'contain' }} 
   />
 )
@@ -18,10 +18,10 @@ export interface FooterNavItem {
 }
 
 const FOOTER_NAV_ITEMS: FooterNavItem[] = [
-  { key: 'home',   label: '',   Icon: LogoIcon },
+  { key: 'home',   label: '',       Icon: LogoIcon },
   { key: 'leads',  label: 'Leads',  Icon: Users },
   { key: 'post',   label: 'Post',   Icon: Plus },
-  { key: 'manage', label: 'Manage', Icon: SlidersHorizontal },
+  { key: 'manage', label: 'Manage', Icon: LayoutDashboard },
   { key: 'saved',  label: 'Saved',  Icon: Bookmark },
 ]
 
@@ -39,28 +39,28 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
-      className="group relative flex w-full flex-col items-center justify-center gap-1.5 min-w-0 py-2 sm:py-2.5 px-1 border-none outline-none cursor-pointer bg-transparent transition-all duration-300 ease-out active:scale-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]/50 focus-visible:ring-inset motion-reduce:transition-none motion-reduce:transform-none tap-highlight-transparent"
+      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-all duration-300 ease-out active:scale-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]/50 focus-visible:ring-inset tap-highlight-transparent"
     >
       <div className="relative z-10">
         <Icon
-          size={20}
-          strokeWidth={isActive ? 2.2 : 1.8}
+          size={18}
+          strokeWidth={isActive ? 2.2 : 2}
           fill={isActive ? 'currentColor' : 'none'}
           aria-hidden="true"
-          className={`transition-all duration-300 motion-reduce:transition-none ${
+          className={`transition-all duration-300 ${
             isActive
-              ? 'text-[#D946EF] drop-shadow-[0_2px_4px_rgba(217,70,239,0.3)] -translate-y-0.5'
-              : 'text-gray-400 group-hover:text-[#D946EF] translate-y-0'
+              ? 'text-[#D946EF] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] -translate-y-0.5'
+              : 'text-white/65 group-hover:text-white translate-y-0'
           }`}
         />
       </div>
 
       {label && (
         <span
-          className={`relative z-10 font-['Outfit',sans-serif] text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 motion-reduce:transition-none ${
+          className={`relative z-10 font-['Outfit',sans-serif] text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 ${
             isActive
               ? 'font-bold text-[#D946EF] -translate-y-0.5'
-              : 'font-semibold text-gray-400 group-hover:text-[#D946EF] translate-y-0'
+              : 'font-semibold text-white/65 group-hover:text-white translate-y-0'
           }`}
         >
           {label}
@@ -70,7 +70,7 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       {isActive && (
         <div
           aria-hidden="true"
-          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-0.75 rounded-sm bg-[#D946EF] shadow-[0_0_8px_rgba(217,70,239,0.8)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
         />
       )}
     </button>
@@ -85,36 +85,35 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
-      className="group relative flex w-full flex-col items-center justify-end min-w-0 py-2 sm:py-2.5 px-1 border-none outline-none cursor-pointer bg-transparent focus-visible:outline-none tap-highlight-transparent"
+      className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent focus-visible:outline-none tap-highlight-transparent"
     >
-      <div className="absolute -top-4.5 left-1/2 -translate-x-1/2 z-20">
+      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
         <div
-          className={`relative flex items-center justify-center w-12 h-12 rounded-xl bg-linear-to-tr from-[#7C3AED] to-[#D946EF] transition-all duration-300 ease-out border border-white/20 group-active:scale-90 ${
+          className={`relative flex items-center justify-center w-11 h-11 rounded-xl bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] transition-all duration-300 ease-out border border-[#D946EF]/25 group-active:scale-90 ${
             isActive 
-              ? 'shadow-[0_0_15px_rgba(217,70,239,0.5)] translate-y-0.5' 
-              : 'shadow-[0_4px_12px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(217,70,239,0.5)]'
+              ? 'shadow-[inset_0_0_20px_rgba(217,70,239,0.2),0_4px_16px_rgba(0,0,0,0.5)] translate-y-0.5 bg-[#D946EF]/20' 
+              : 'shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_4px_12px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 hover:shadow-[inset_0_0_30px_rgba(217,70,239,0.15),0_6px_16px_rgba(0,0,0,0.5)] hover:border-[#D946EF]/40'
           }`}
         >
           <Icon
-            size={24}
+            size={22}
             strokeWidth={2.5}
             fill={isActive ? 'currentColor' : 'none'}
             aria-hidden="true"
-            className={`text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+            className={`transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
               isActive 
-                ? 'rotate-135 scale-110' 
-                : 'rotate-0 scale-100 group-hover:rotate-90'
+                ? 'rotate-135 scale-110 text-[#D946EF] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]' 
+                : 'rotate-0 scale-100 text-[#D946EF] group-hover:rotate-90 group-hover:drop-shadow-[0_0_5px_rgba(217,70,239,0.3)]'
             }`}
           />
-          <div className="absolute inset-0 rounded-xl bg-linear-to-b from-white/30 to-transparent opacity-50 pointer-events-none" />
         </div>
       </div>
 
       <span
-        className={`relative z-10 font-['Outfit',sans-serif] text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 mt-6.5 ${
+        className={`relative z-10 font-['Outfit',sans-serif] text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 mt-5 sm:mt-6 ${
           isActive
             ? 'font-bold text-[#D946EF]'
-            : 'font-semibold text-gray-400 group-hover:text-[#D946EF]'
+            : 'font-semibold text-white/65 group-hover:text-white'
         }`}
       >
         {label}
@@ -123,7 +122,7 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
       {isActive && (
         <div
           aria-hidden="true"
-          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-0.75 rounded-sm bg-[#D946EF] shadow-[0_0_8px_rgba(217,70,239,0.8)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
         />
       )}
     </button>
@@ -141,12 +140,8 @@ export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
   return (
     <nav
       aria-label="Bottom Navigation"
-      className="shrink-0 relative z-40 bg-[#16213E]/95 backdrop-blur-2xl backdrop-saturate-150 border-t border-white/10"
+      className="shrink-0 relative z-40 bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] shadow-[0_-4px_32px_rgba(0,0,0,0.5)] border-t border-white/10"
     >
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-linear-to-t from-[#1A1A2E]/80 to-transparent" />
-      </div>
-
       <ul className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0">
         {FOOTER_NAV_ITEMS.map((item) => {
           const isActive = item.key === active

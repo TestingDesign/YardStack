@@ -8,7 +8,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2 } from 'lucide-react'
+import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
@@ -89,7 +89,7 @@ function MobileMoreMenu({
           role="menu"
         >
           {[
-            { Icon: ShareIcon,         label: 'Share episode'   },
+            { Icon: ShareIcon,        label: 'Share episode'   },
             { Icon: BookmarkBorderIcon, label: 'Save to playlist' },
           ].map(({ Icon, label }) => (
             <button key={label} type="button" onClick={onAction}
@@ -402,7 +402,9 @@ export default function PodcastMobile() {
                       {filtered[0].speaker} shares insights on market trends, investment opportunities, and strategies for long-term growth.
                     </p>
                     <div className="flex items-center gap-2 text-[9.5px] text-gray-500 font-semibold mb-2.5">
-                      <span className="flex items-center gap-1 whitespace-nowrap"><Eye size={9} className="text-purple-500" /> 28K Views</span>
+                      <span className="flex items-center gap-1 whitespace-nowrap">
+                        <Eye size={9} className="text-purple-500" /> 28K Views
+                      </span>
                       <span className="w-0.5 h-0.5 rounded-full bg-gray-300 shrink-0" />
                       <span className="whitespace-nowrap">{filtered[0].duration}</span>
                     </div>
@@ -410,6 +412,13 @@ export default function PodcastMobile() {
                   <div className="flex items-center gap-1.5 mt-auto pt-2">
                     <button className="m-hero-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[10px] font-bold rounded-[2px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
                       <PlayArrowIcon sx={{ fontSize: 13 }} />Watch Now
+                    </button>
+                    
+                    <button 
+                      className="flex items-center justify-center shrink-0 w-[28px] h-[28px] rounded-[2px] border border-gray-200 text-gray-500 hover:text-purple-600 hover:border-purple-200 hover:bg-purple-50 transition-all duration-300 hover:scale-[1.05] active:scale-[0.95]"
+                      aria-label="Save for later"
+                    >
+                      <Bookmark size={13} />
                     </button>
                   </div>
                 </div>
@@ -494,34 +503,34 @@ export default function PodcastMobile() {
           </div>
 
           <div className="mt-8 mx-3">
-  <div className="p-2 rounded-[4px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
-    <div className="flex items-center gap-1.5 mb-3">
-      <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
-    </div>
-    <div className="grid grid-cols-2 gap-3">
-      {[
-        { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'bg-purple-100 text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
-        { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'bg-orange-100 text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
-        { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'bg-blue-100 text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
-        { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'bg-green-100 text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
-      ].map((s) => (
-        <div 
-          key={s.label} 
-          className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
-          style={{ animationDelay: `${s.delay}ms` }}
-        >
-          <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>
-            {s.icon}
+            <div className="p-2 rounded-[4px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <div className="flex items-center gap-1.5 mb-3">
+                <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'bg-purple-100 text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
+                  { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'bg-orange-100 text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
+                  { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'bg-blue-100 text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
+                  { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'bg-green-100 text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
+                ].map((s) => (
+                  <div 
+                    key={s.label} 
+                    className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
+                    style={{ animationDelay: `${s.delay}ms` }}
+                  >
+                    <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>
+                      {s.icon}
+                    </div>
+                    <div>
+                      <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
+                      <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <div>
-            <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
-            <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-</div>
 
           <div className="mt-8 px-3">
             <div className="flex items-center justify-between mb-3">

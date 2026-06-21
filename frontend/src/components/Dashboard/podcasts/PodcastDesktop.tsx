@@ -198,10 +198,12 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 transition-opacity duration-300" />
 
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-300 flex items-center justify-center">
-          <div className="relative w-14 h-14 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center justify-center text-white opacity-0 scale-75 translate-y-4 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-white/30 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)]">
-            <div className="absolute inset-0 rounded-full border border-white/20 animate-[spin_4s_linear_infinite] opacity-50" />
-            <PlayArrowIcon sx={{ fontSize: 32 }} className="drop-shadow-md ml-0.5" />
+        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-300 pointer-events-none" />
+        
+        <div className="absolute bottom-2 right-2 z-20 flex items-center justify-center opacity-0 scale-75 translate-y-4 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+          <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 cursor-pointer">
+            <div className="absolute inset-0 rounded-full border border-white/20 animate-[spin_4s_linear_infinite] opacity-50 pointer-events-none" />
+            <PlayArrowIcon sx={{ fontSize: 24 }} className="drop-shadow-md ml-0.5" />
           </div>
         </div>
 
@@ -281,8 +283,8 @@ export default function PodcastDesktop() {
   const handleScroll = useCallback(() => {
     if (sliderRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
-      setCanScrollLeft(scrollLeft > 0)
-      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 1)
+      setCanScrollLeft(scrollLeft > 5)
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 24)
     }
   }, [])
 
@@ -349,8 +351,8 @@ export default function PodcastDesktop() {
             <div className="w-full bg-white rounded-2xl overflow-hidden shadow-sm border border-[var(--color-border-default)] flex flex-col lg:flex-row group cursor-pointer" onClick={() => setActiveEpisode(filtered[0])}>
               <div className="relative w-full lg:w-[60%] aspect-video bg-black shrink-0">
                 <img src={filtered[0]?.thumbnail || "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80"} alt="Featured" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg">
+                <div className="absolute bottom-4 right-4 z-20">
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white scale-90 group-hover:scale-100 hover:scale-110 hover:bg-white/40 transition-all duration-300 shadow-lg cursor-pointer">
                     <PlayArrowIcon sx={{ fontSize: 36 }} className="drop-shadow-md ml-1" />
                   </div>
                 </div>
@@ -415,7 +417,7 @@ export default function PodcastDesktop() {
               <div 
                 ref={sliderRef}
                 onScroll={handleScroll}
-                className="flex gap-4 overflow-x-auto pb-4 pt-4 px-4 -mx-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+                className="flex gap-4 overflow-x-auto pb-4 pt-4 px-4 -mx-4 scroll-pl-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
               >
                 {filtered.slice(0,10).map((ep, idx) => (
                   <div key={ep.id} className="min-w-[260px] w-[260px] snap-start relative">

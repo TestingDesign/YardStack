@@ -85,7 +85,7 @@ function MobileMoreMenu({
       </button>
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-44 bg-white rounded-xl shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
+          className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
           role="menu"
         >
           {[
@@ -132,8 +132,8 @@ const TrendingCard = memo(function TrendingCard({
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative w-full aspect-video rounded-xl shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2 ml-1.5">
-        <div className="absolute inset-0 rounded-xl overflow-hidden">
+      <div className="relative w-full aspect-video rounded-[4px] shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2 ml-1.5">
+        <div className="absolute inset-0 rounded-[4px] overflow-hidden">
           <img src={episode.thumbnail} alt={episode.title}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
@@ -197,14 +197,14 @@ const EpisodeListCard = memo(function EpisodeListCard({
 
   return (
     <div
-      className="m-card-shimmer group relative flex items-start gap-3.5 py-3 cursor-pointer animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:bg-purple-50/40 rounded-xl px-2 -mx-2 transition-all duration-300"
+      className="m-card-shimmer group relative flex items-start gap-3.5 py-3 cursor-pointer animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-all duration-300"
       style={{ animationDelay: `${index * 45}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative shrink-0 w-[155px] aspect-[16/10] rounded-xl overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)]">
+      <div className="relative shrink-0 w-[155px] aspect-[16/10] rounded-[4px] overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)]">
         <img src={episode.thumbnail} alt={episode.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-600 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
@@ -262,7 +262,7 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden mb-2 shadow-[0_3px_12px_rgba(0,0,0,0.09)] transition-all duration-500 group-hover:shadow-[0_12px_28px_rgba(124,58,237,0.2)] group-hover:-translate-y-0.5">
+      <div className="relative w-full aspect-video rounded-[4px] overflow-hidden mb-2 shadow-[0_3px_12px_rgba(0,0,0,0.09)] transition-all duration-500 group-hover:shadow-[0_12px_28px_rgba(124,58,237,0.2)] group-hover:-translate-y-0.5">
         <img src={episode.thumbnail} alt={episode.title}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
@@ -345,7 +345,7 @@ export default function PodcastMobile() {
 
       <div className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] animate-in fade-in duration-500 flex flex-col">
 
-        <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-[0_1px_10px_rgba(0,0,0,0.06)]">
+        <div className="sticky top-0 z-40 bg-white backdrop-blur-sm ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
@@ -365,7 +365,7 @@ export default function PodcastMobile() {
 
           {!activeEpisode && filtered[0] && (
             <div
-              className="mx-3 mt-5 rounded-xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
+              className="mx-2 mt-2 rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
               onClick={() => setActiveEpisode(filtered[0])}
             >
               <div className="flex gap-0">
@@ -408,7 +408,7 @@ export default function PodcastMobile() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 mt-auto pt-2">
-                    <button className="m-hero-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[10px] font-bold rounded-lg shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
+                    <button className="m-hero-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[10px] font-bold rounded-[2px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
                       <PlayArrowIcon sx={{ fontSize: 13 }} />Watch Now
                     </button>
                   </div>
@@ -469,7 +469,7 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-6 mx-3 rounded-xl overflow-hidden relative shadow-[0_6px_24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:shadow-[0_12px_36px_rgba(66,32,130,0.3)] hover:-translate-y-0.5 cursor-pointer group/ad animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+          <div className="mt-6 mx-3 rounded-[4px] overflow-hidden relative shadow-[0_6px_24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:shadow-[0_12px_36px_rgba(66,32,130,0.3)] hover:-translate-y-0.5 cursor-pointer group/ad animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
             <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2a1550] to-[#0f1035]" />
             <div className="absolute inset-0 opacity-35" style={{ backgroundImage: 'radial-gradient(ellipse 130% 80% at 90% 10%, rgba(217,70,239,0.45) 0%, transparent 55%)' }} />
             <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-purple-700/20 blur-3xl translate-y-1/3 translate-x-1/4 group-hover/ad:bg-purple-600/30 transition-colors duration-500" />
@@ -487,14 +487,14 @@ export default function PodcastMobile() {
                   </p>
                 </div>
               </div>
-              <button className="mt-4 px-4 py-2.5 bg-white text-gray-900 hover:bg-purple-50 text-[11px] font-black rounded-xl w-full transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer text-center border-none">
+              <button className="mt-4 px-4 py-2.5 bg-white text-gray-900 hover:bg-purple-50 text-[11px] font-black rounded-[4px] w-full transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer text-center border-none">
                 Explore Listings →
               </button>
             </div>
           </div>
 
           <div className="mt-8 mx-3">
-  <div className="p-4 rounded-xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.07)] border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+  <div className="p-2 rounded-[4px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
     <div className="flex items-center gap-1.5 mb-3">
       <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
     </div>
@@ -507,7 +507,7 @@ export default function PodcastMobile() {
       ].map((s) => (
         <div 
           key={s.label} 
-          className={`p-2.5 rounded-xl ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
+          className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
           style={{ animationDelay: `${s.delay}ms` }}
         >
           <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>
@@ -609,7 +609,7 @@ export default function PodcastMobile() {
               </>
             ) : (
               <div className="flex flex-col items-center justify-center py-16 text-center animate-in zoom-in-95 fade-in duration-500">
-                <div className="w-14 h-14 mb-4 rounded-xl bg-purple-50 flex items-center justify-center shadow-[0_4px_14px_rgba(124,58,237,0.1)] border border-purple-100">
+                <div className="w-14 h-14 mb-4 rounded-[4px] bg-purple-50 flex items-center justify-center shadow-[0_4px_14px_rgba(124,58,237,0.1)] border border-purple-100">
                   <GraphicEqIcon sx={{ fontSize: 26 }} className="text-purple-300" />
                 </div>
                 <p className="text-[15px] font-bold text-gray-900 tracking-tight">No episodes found</p>

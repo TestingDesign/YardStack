@@ -8,79 +8,64 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import { Search, SlidersHorizontal, Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid } from 'lucide-react'
+import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import PodcastTabs from './PodcastTabs'
+import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 
-const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
-  episode,
-  onPlay,
-  isActive,
-  index = 0
-}: {
-  episode: PodcastEpisode
-  onPlay: (ep: PodcastEpisode) => void
-  isActive?: boolean
-  index?: number
-}) {
-  const speakerInitial = episode.speaker ? episode.speaker.charAt(0).toUpperCase() : '?'
-  
-  return (
-    <div 
-      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] animate-in slide-in-from-right-4 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(124,58,237,0.12)] ${
-        isActive 
-          ? 'bg-purple-50/50 border border-purple-200 shadow-[0_4px_16px_rgba(124,58,237,0.08)]' 
-          : 'hover:bg-purple-50/30 border border-transparent hover:border-purple-100'
-      }`}
-      style={{ animationDelay: `${index * 40}ms` }}
-      onClick={() => onPlay(episode)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onPlay(episode)
-        }
-      }}
-    >
-      <div className="relative shrink-0 w-[160px] aspect-video rounded-lg overflow-hidden bg-gray-100 shadow-sm group">
-        <img 
-          src={episode.thumbnail} 
-          alt={episode.title} 
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105" 
-        />
-        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[1px]">
-          <div className="w-8 h-8 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-300 shadow-lg">
-            <PlayArrowIcon fontSize="small" className="drop-shadow-md ml-0.5" />
-          </div>
-        </div>
-        <div className="absolute bottom-1 right-1 bg-black/70 text-white text-[10px] px-1.5 py-0.5 rounded font-medium backdrop-blur-sm group-hover:opacity-0 transition-opacity duration-200">
-          {episode.duration}
-        </div>
-      </div>
-      <div className="flex-1 min-w-0 py-0.5">
-        <h4 className="text-[13px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-1.5 group-hover:text-purple-700 transition-colors duration-200">
-          {episode.title}
-        </h4>
-        <div className="flex items-center gap-1.5 mb-0.5">
-          <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
-            <span className="text-[8px] font-bold text-white select-none">{speakerInitial}</span>
-          </div>
-          <div className="text-[12px] text-gray-700 truncate font-semibold">{episode.speaker}</div>
-          {episode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
-        </div>
-        <div className="text-[11px] text-gray-500 truncate ml-5 font-medium">{episode.role}</div>
-      </div>
-    </div>
-  )
-})
+const STYLES = `
+  @keyframes shimmer {
+    0%   { background-position: -200% center; }
+    100% { background-position:  200% center; }
+  }
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-4px); }
+  }
+  @keyframes pulseRing {
+    0%   { transform: scale(1);   opacity: .6; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+  @keyframes gradShift {
+    0%,100% { background-position: 0% 50%; }
+    50%     { background-position: 100% 50%; }
+  }
+  .card-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.18) 50%, transparent 60%);
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity .3s;
+    pointer-events: none;
+  }
+  .card-shimmer:hover::after {
+    opacity: 1;
+    animation: shimmer .7s ease forwards;
+  }
+  .stat-card {
+    transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  }
+  .stat-card:hover {
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 8px 24px rgba(0,0,0,.10);
+  }
+  .expert-row {
+    transition: background .2s ease, transform .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .expert-row:hover {
+    transform: translateX(4px);
+  }
+  .hero-gradient-btn {
+    background-size: 200% 200%;
+    animation: gradShift 4s ease infinite;
+  }
+`
 
 const MoreMenu = memo(function MoreMenu({
-  open,
-  menuRef,
-  onToggle,
-  onAction,
+  open, menuRef, onToggle, onAction,
 }: {
   open: boolean
   menuRef: React.RefObject<HTMLDivElement | null>
@@ -94,8 +79,8 @@ const MoreMenu = memo(function MoreMenu({
         onClick={onToggle}
         className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
           open
-            ? 'bg-black/10 text-gray-800 scale-105'
-            : 'bg-transparent text-gray-500 opacity-0 group-hover:opacity-100 hover:bg-black/10 hover:text-gray-800'
+            ? 'bg-purple-100 text-purple-700 scale-105 shadow-sm'
+            : 'bg-transparent text-gray-400 opacity-0 group-hover:opacity-100 hover:bg-purple-50 hover:text-purple-600'
         }`}
         aria-label="More options"
         aria-expanded={open}
@@ -106,7 +91,7 @@ const MoreMenu = memo(function MoreMenu({
 
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-48 bg-white rounded-xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200 ease-out"
+          className="absolute right-0 top-[110%] w-48 bg-white rounded-2xl shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
           role="menu"
         >
           {[
@@ -117,30 +102,30 @@ const MoreMenu = memo(function MoreMenu({
               key={label}
               type="button"
               onClick={onAction}
-              className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left"
+              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left rounded-lg mx-1 w-[calc(100%-8px)]"
               role="menuitem"
             >
-              <Icon sx={{ fontSize: 17 }} />
+              <Icon sx={{ fontSize: 16 }} />
               {label}
             </button>
           ))}
-          <div className="h-px bg-gray-100 my-1 mx-2" />
+          <div className="h-px bg-purple-50 my-1.5 mx-3" />
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
-            <VisibilityOffIcon sx={{ fontSize: 17 }} />
+            <VisibilityOffIcon sx={{ fontSize: 16 }} />
             Remove from feed
           </button>
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
-            <FlagOutlinedIcon sx={{ fontSize: 17 }} />
+            <FlagOutlinedIcon sx={{ fontSize: 16 }} />
             Report episode
           </button>
         </div>
@@ -150,9 +135,7 @@ const MoreMenu = memo(function MoreMenu({
 })
 
 const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
-  episode,
-  onPlay,
-  index = 0
+  episode, onPlay, index = 0,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
@@ -175,63 +158,62 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <article
-      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2 animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
+      className={`card-shimmer group flex flex-col rounded-2xl overflow-visible cursor-pointer transition-all duration-500 ease-out animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{ animationDelay: `${index * 50}ms` }}
+      style={{
+        animationDelay: `${index * 55}ms`,
+      }}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault()
-          onPlay(episode)
-        }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0 bg-gray-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:shadow-[0_16px_40px_rgba(124,58,237,0.25)]">
+      <div className="relative w-full aspect-video rounded-[8px] overflow-hidden mb-3 flex-shrink-0 bg-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:shadow-[0_20px_48px_rgba(124,58,237,0.22),0_8px_24px_rgba(0,0,0,0.12)] group-hover:-translate-y-1">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
-        
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-transparent opacity-60 transition-opacity duration-300" />
 
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 backdrop-blur-[2px] transition-all duration-300 pointer-events-none" />
-        
-        <div className="absolute bottom-2 right-2 z-20 flex items-center justify-center opacity-0 scale-75 translate-y-4 group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
-          <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.25)] flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all duration-300 cursor-pointer">
-            <div className="absolute inset-0 rounded-full border border-white/20 animate-[spin_4s_linear_infinite] opacity-50 pointer-events-none" />
-            <PlayArrowIcon sx={{ fontSize: 24 }} className="drop-shadow-md ml-0.5" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-90" />
+
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-400" />
+
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
+          <div className="relative w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.35),0_0_20px_rgba(217,70,239,0.4)] flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-white/30 hover:shadow-[0_0_30px_rgba(217,70,239,0.7)]">
+            <div className="absolute inset-0 rounded-full border border-white/30 animate-[spin_5s_linear_infinite] opacity-60 pointer-events-none" />
+            <PlayArrowIcon sx={{ fontSize: 26 }} className="drop-shadow-lg ml-0.5" />
           </div>
         </div>
 
-        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[11px] font-medium px-2 py-1 rounded-md pointer-events-none group-hover:opacity-0 transition-opacity duration-200 shadow-sm">
-          <GraphicEqIcon sx={{ fontSize: 12 }} className="text-fuchsia-400" />
+        <div className="absolute bottom-2 left-2.5 z-10 flex items-center gap-1.5 bg-black/65 backdrop-blur-md border border-white/10 text-white text-[10px] font-semibold px-2 py-0.5 rounded-lg pointer-events-none group-hover:opacity-0 transition-opacity duration-300 shadow-sm">
+          <GraphicEqIcon sx={{ fontSize: 11 }} className="text-fuchsia-400" />
           {episode.duration}
         </div>
+
+        <div className="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-purple-500/40 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
       </div>
 
       <div className="flex items-start justify-between gap-2 px-0.5">
         <div className="min-w-0 flex-1">
-          <h3 className="text-[15px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-purple-700 transition-colors duration-200">
+          <h3 className="text-[14.5px] font-bold text-gray-900 leading-snug line-clamp-2 mb-2 group-hover:text-purple-700 transition-colors duration-250">
             {episode.title}
           </h3>
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
-              <span className="text-[10px] font-bold text-white select-none">
-                {speakerInitial}
-              </span>
+            <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
+              <span className="text-[9px] font-bold text-white select-none">{speakerInitial}</span>
             </div>
-            <span className="text-[12px] font-semibold text-gray-700 truncate">
+            <span className="text-[12px] font-semibold text-gray-700 truncate group-hover:text-purple-600 transition-colors duration-200">
               {episode.speaker}
             </span>
             {episode.verified && (
-              <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-500 shrink-0" />
+              <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />
             )}
           </div>
-          <p className="text-[11px] text-gray-500 -mt-0.5 truncate font-medium ml-7">
+          <p className="text-[11px] text-gray-400 mt-0.5 truncate font-medium ml-7">
             {episode.role}
           </p>
         </div>
@@ -239,25 +221,63 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         <MoreMenu
           open={moreOpen}
           menuRef={menuRef}
-          onToggle={(e) => {
-            e.stopPropagation()
-            setMoreOpen((v) => !v)
-          }}
-          onAction={(e) => {
-            e.stopPropagation()
-            setMoreOpen(false)
-          }}
+          onToggle={(e) => { e.stopPropagation(); setMoreOpen((v) => !v) }}
+          onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
         />
       </div>
     </article>
   )
 })
 
+function StatCard({
+  icon, value, label, color, bg, border, delay = 0,
+}: {
+  icon: React.ReactNode
+  value: string
+  label: string
+  color: string
+  bg: string
+  border: string
+  delay?: number
+}) {
+  return (
+    <div
+      className={`stat-card p-3 rounded-[6px] ${bg} border ${border} flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-4 fill-mode-both`}
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      <div className={`w-7 h-7 rounded-lg ${color} flex items-center justify-center shadow-sm shrink-0`}>
+        {icon}
+      </div>
+      <div className="flex flex-col min-w-0">
+        <span className="text-[16px] font-black text-[var(--color-text-primary)] leading-none tracking-tight">{value}</span>
+        <span className="text-[11px] font-medium text-[var(--color-text-secondary)] truncate mt-0.5">{label}</span>
+      </div>
+    </div>
+  )
+}
+
+function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: string; badge?: string }) {
+  return (
+    <div className="flex items-center gap-2.5 animate-in fade-in slide-in-from-left-4 duration-500">
+      <div className="relative flex items-center justify-center">
+        {icon}
+      </div>
+      <h3 className="text-[16px] font-black text-[var(--color-text-primary)] tracking-tight">{title}</h3>
+      {badge && (
+        <span className="ml-1 px-2 py-0.5 rounded-full bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-bold uppercase tracking-wider animate-in zoom-in-75 duration-500 delay-200">
+          {badge}
+        </span>
+      )}
+    </div>
+  )
+}
+
 export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
-  const perPage = 10 
+  const [modalEpisode, setModalEpisode] = useState<PodcastEpisode | null>(null)
+  const perPage = 10
 
   const sliderRef = useRef<HTMLDivElement>(null)
   const [canScrollRight, setCanScrollRight] = useState(true)
@@ -272,13 +292,16 @@ export default function PodcastDesktop() {
     ? PODCAST_EPISODES
     : PODCAST_EPISODES.filter((ep) => ep.category === activeFilter)
 
-  const displayedCount = page * perPage
-  const displayedEpisodes = filtered.slice(0, displayedCount)
-  const hasMore = displayedEpisodes.length < filtered.length
+  // Identify the episode shown at the top (either playing or featured hero)
+  const topEpisodeId = activeEpisode ? activeEpisode.id : filtered[0]?.id;
+  // Filter out the top episode so it doesn't repeat at the bottom
+  const filteredWithoutTop = filtered.filter((ep) => ep.id !== topEpisodeId);
 
-  const handleLoadMore = () => {
-    setPage((prev) => prev + 1)
-  }
+  const displayedCount = page * perPage
+  const displayedEpisodes = filteredWithoutTop.slice(0, displayedCount)
+  const hasMore = displayedEpisodes.length < filteredWithoutTop.length
+
+  const handleLoadMore = () => setPage((prev) => prev + 1)
 
   const handleScroll = useCallback(() => {
     if (sliderRef.current) {
@@ -292,304 +315,317 @@ export default function PodcastDesktop() {
     handleScroll()
     const timer = setTimeout(() => handleScroll(), 50)
     window.addEventListener('resize', handleScroll)
-    return () => {
-      clearTimeout(timer)
-      window.removeEventListener('resize', handleScroll)
-    }
-  }, [handleScroll, filtered])
+    return () => { clearTimeout(timer); window.removeEventListener('resize', handleScroll) }
+  }, [handleScroll, filteredWithoutTop])
 
-  const scrollRight = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: 280, behavior: 'smooth' })
-    }
-  }
-
-  const scrollLeft = () => {
-    if (sliderRef.current) {
-      sliderRef.current.scrollBy({ left: -280, behavior: 'smooth' })
-    }
-  }
+  const scrollRight = () => sliderRef.current?.scrollBy({ left: 280, behavior: 'smooth' })
+  const scrollLeft  = () => sliderRef.current?.scrollBy({ left: -280, behavior: 'smooth' })
 
   const activeIdx = activeEpisode
     ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
     : -1
 
   return (
-    <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] font-['Outfit',sans-serif] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
-      
-      <div className="sticky top-0 z-40 shrink-0 bg-white px-2 py-1 ">
-        <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
-      </div>
+    <>
+      <style>{STYLES}</style>
 
-      <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-4 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-        
-        <div className="flex-1 min-w-0 flex flex-col gap-6">
-          
-          {activeEpisode ? (
-            <div className="w-full bg-black rounded-2xl overflow-hidden shadow-sm border border-[var(--color-border-default)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out aspect-[21/9]">
-              <PodcastVideoPlayerDesktop
-                episode={activeEpisode}
-                onClose={() => setActiveEpisode(null)}
-                onNext={() =>
-                  setActiveEpisode(
-                    activeIdx < PODCAST_EPISODES.length - 1
-                      ? PODCAST_EPISODES[activeIdx + 1]
-                      : null
-                  )
-                }
-                onPrev={() =>
-                  setActiveEpisode(
-                    activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null
-                  )
-                }
-                hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-                hasPrev={activeIdx > 0}
-                inline
-              />
-            </div>
-          ) : (
-            <div className="w-full bg-white rounded-2xl overflow-hidden shadow-sm border border-[var(--color-border-default)] flex flex-col lg:flex-row group cursor-pointer" onClick={() => setActiveEpisode(filtered[0])}>
-              <div className="relative w-full lg:w-[60%] aspect-video bg-black shrink-0">
-                <img src={filtered[0]?.thumbnail || "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80"} alt="Featured" className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="absolute bottom-4 right-4 z-20">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white scale-90 group-hover:scale-100 hover:scale-110 hover:bg-white/40 transition-all duration-300 shadow-lg cursor-pointer">
-                    <PlayArrowIcon sx={{ fontSize: 36 }} className="drop-shadow-md ml-1" />
+      <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] font-['Outfit',sans-serif] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+        <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
+          <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
+        </div>
+
+        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex-1 min-w-0 flex flex-col gap-7">
+            {activeEpisode ? (
+              <div className="w-full bg-black rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out aspect-[21/9] border border-white/5">
+                <PodcastVideoPlayerDesktop
+                  episode={activeEpisode}
+                  onClose={() => setActiveEpisode(null)}
+                  onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
+                  onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
+                  hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+                  hasPrev={activeIdx > 0}
+                  inline
+                />
+              </div>
+            ) : (
+              <div
+                className="w-full bg-white rounded-[8px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.07),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_16px_48px_rgba(124,58,237,0.14),0_4px_16px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
+                onClick={() => setActiveEpisode(filtered[0])}
+              >
+                <div className="relative w-full lg:w-[58%] aspect-video bg-black shrink-0 overflow-hidden">
+                  <img
+                    src={filtered[0]?.thumbnail || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80'}
+                    alt="Featured"
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  <div className="absolute bottom-4 right-4 z-20">
+                    <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_40px_rgba(217,70,239,0.6)] hover:bg-white/35">
+                      <div className="absolute inset-0 rounded-full bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-500 ease-out" />
+                      <PlayArrowIcon sx={{ fontSize: 36 }} className="drop-shadow-lg ml-1 relative z-10" />
+                    </div>
+                  </div>
+
+                  <div className="absolute bottom-4 left-4 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[11px] px-2.5 py-1 rounded-lg font-semibold">
+                    <GraphicEqIcon sx={{ fontSize: 12 }} className="text-fuchsia-400" />
+                    {filtered[0]?.duration || '28:10'}
                   </div>
                 </div>
-                <div className="absolute bottom-4 left-4 bg-black/70 text-white text-[12px] px-2 py-1 rounded font-medium backdrop-blur-sm">
-                  {filtered[0]?.duration || '28:10'}
-                </div>
-              </div>
-              
-              <div className="p-5 lg:p-6 flex flex-col justify-center flex-1">
-                <span className="inline-block px-2.5 py-1 bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[11px] font-bold uppercase tracking-wider rounded w-fit mb-3">
-                  Trending #1
-                </span>
-                <h2 className="text-[20px] lg:text-[24px] font-bold text-[var(--color-text-primary)] leading-tight mb-3 group-hover:text-[var(--color-primary-600)] transition-colors line-clamp-2">
-                  {filtered[0]?.title || 'The Future of Real Estate: What to Expect in 2027'}
-                </h2>
-                <p className="text-[13px] text-[var(--color-text-secondary)] leading-relaxed mb-4 line-clamp-2">
-                  Ritika Sharma shares insights on real estate market trends, investment opportunities, and strategies for long-term growth.
-                </p>
-                
-                <div className="flex items-center gap-4 text-[12px] text-[var(--color-text-muted)] font-medium mb-6">
-                  <span className="flex items-center gap-1.5"><Eye size={14} /> 28K Views</span>
-                  <span className="w-1 h-1 rounded-full bg-gray-300" />
-                  <span>{filtered[0]?.duration || '28:10'}</span>
-                </div>
-                
-                <div className="flex items-center gap-3 mt-auto">
-                  <button className="flex items-center gap-2 px-5 py-2.5 bg-[var(--color-primary-600)] text-white text-[13px] font-semibold rounded-xl hover:bg-[var(--color-primary-500)] transition-colors shadow-sm cursor-pointer">
-                    <PlayArrowIcon sx={{ fontSize: 18 }} />
-                    Watch
-                  </button>
-                  <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-[var(--color-border-default)] text-[var(--color-text-primary)] text-[13px] font-semibold rounded-xl hover:bg-[var(--color-bg-muted)] transition-colors cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                    <BookmarkBorderIcon sx={{ fontSize: 18 }} />
-                    Save
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          <div className="w-full flex flex-col gap-3 mt-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Flame className="text-[var(--color-secondary-500)]" size={20} />
-                <h3 className="text-[16px] font-bold text-[var(--color-text-primary)]">Trending This Week</h3>
-              </div>
-            </div>
-            
-            <div className="relative group/slider w-full mt-2">
-              {canScrollLeft && (
-                <div className="absolute left-0 top-0 bottom-0 w-24 z-30 pointer-events-none bg-gradient-to-r from-white via-white/90 to-transparent">
-                  <div className="absolute left-1 top-[69px] pointer-events-auto">
-                    <button 
-                      onClick={scrollLeft}
-                      className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
-                      aria-label="Scroll left"
+
+                <div className="p-5 lg:p-7 flex flex-col justify-center flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-black uppercase tracking-widest rounded-full">
+                      <TrendingUp size={10} />
+                      Trending #1
+                    </span>
+                  </div>
+                  <h2 className="text-[20px] lg:text-[22px] font-black text-[var(--color-text-primary)] leading-tight mb-3 group-hover:text-[var(--color-primary-600)] transition-colors duration-300 line-clamp-2">
+                    {filtered[0]?.title || 'The Future of Real Estate: What to Expect in 2027'}
+                  </h2>
+                  <p className="text-[13px] text-[var(--color-text-secondary)] leading-relaxed mb-4 line-clamp-2">
+                    Ritika Sharma shares insights on real estate market trends, investment opportunities, and strategies for long-term growth.
+                  </p>
+
+                  <div className="flex items-center gap-4 text-[11.5px] text-[var(--color-text-muted)] font-semibold mb-6">
+                    <span className="flex items-center gap-1.5 bg-gray-50 px-2.5 py-1 rounded-full">
+                      <Eye size={12} className="text-purple-500" /> 28K Views
+                    </span>
+                    <span className="w-1 h-1 rounded-full bg-gray-300" />
+                    <span className="flex items-center gap-1.5 bg-gray-50 px-2.5 py-1 rounded-full">
+                      <GraphicEqIcon sx={{ fontSize: 12 }} className="text-fuchsia-500" />
+                      {filtered[0]?.duration || '28:10'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-3 mt-auto">
+                    <button className="hero-gradient-btn flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[13px] font-bold rounded-[6px] hover:shadow-[0_6px_24px_rgba(124,58,237,0.45)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] shadow-[0_2px_12px_rgba(124,58,237,0.3)] cursor-pointer">
+                      <PlayArrowIcon sx={{ fontSize: 18 }} />
+                      Watch Now
+                    </button>
+                    <button
+                      className="flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-200 text-[var(--color-text-primary)] text-[13px] font-semibold rounded-[6px] hover:bg-gray-50 hover:border-purple-200 hover:text-purple-700 hover:shadow-[0_4px_16px_rgba(124,58,237,0.12)] transition-all duration-300 cursor-pointer"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <ChevronLeft size={20} />
+                      <BookmarkBorderIcon sx={{ fontSize: 17 }} />
+                      Save
                     </button>
                   </div>
                 </div>
-              )}
-              
-              <div 
-                ref={sliderRef}
-                onScroll={handleScroll}
-                className="flex gap-4 overflow-x-auto pb-6 pt-4 px-4 scroll-px-12 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
-              >
-                {filtered.slice(0,10).map((ep, idx) => (
-                  <div key={ep.id} className="min-w-[260px] w-[260px] snap-start relative transition-transform duration-300 hover:scale-[1.02]">
-                    <div className="absolute -top-3 -left-3 w-6 h-6 rounded-md bg-[var(--color-secondary-500)] text-white flex items-center justify-center text-[12px] font-bold z-20 shadow-sm border border-white">
-                      {idx + 1}
+              </div>
+            )}
+
+            <div className="w-full flex flex-col gap-3">
+              <SectionHeader
+                icon={<Flame className="text-orange-500 drop-shadow-[0_2px_6px_rgba(249,115,22,0.5)]" size={20} />}
+                title="Trending This Week"
+              />
+
+              <div className="relative group/slider w-full">
+                {canScrollLeft && (
+                  <div className="absolute left-0 top-0 bottom-0 w-20 z-30 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent">
+                    <div className="absolute left-1 top-1/2 -translate-y-1/2 pointer-events-auto">
+                      <button
+                        onClick={scrollLeft}
+                        className="w-9 h-9 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.14)] border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 hover:scale-110 hover:shadow-[0_6px_24px_rgba(124,58,237,0.2)] transition-all duration-300 cursor-pointer"
+                        aria-label="Scroll left"
+                      >
+                        <ChevronLeft size={18} />
+                      </button>
                     </div>
-                    <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={idx} />
+                  </div>
+                )}
+
+                <div
+                  ref={sliderRef}
+                  onScroll={handleScroll}
+                  className="flex gap-4 overflow-x-auto pb-6 pt-5 px-4 scroll-px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+                >
+                  {filteredWithoutTop.slice(0, 10).map((ep, mapIdx) => {
+                    // Calculate the true global rank of the episode
+                    const actualIdx = filtered.findIndex((e) => e.id === ep.id);
+                    const rank = actualIdx + 1;
+                    
+                    return (
+                      <div key={ep.id} className="min-w-[255px] w-[255px] snap-start relative">
+                        <div className={`absolute -top-2.5 -left-2 w-[26px] h-[26px] rounded-lg z-20 flex items-center justify-center text-[11px] font-black border-2 border-white shadow-[0_3px_10px_rgba(0,0,0,0.15)] ${
+                          rank === 1 ? 'bg-amber-400 text-amber-900' :
+                          rank === 2 ? 'bg-gray-300 text-gray-700' :
+                          rank === 3 ? 'bg-amber-600 text-amber-100' :
+                          'bg-[var(--color-secondary-500)] text-white'
+                        }`}>
+                          {rank}
+                        </div>
+                        <DesktopEpisodeCard episode={ep} onPlay={setModalEpisode} index={mapIdx} />
+                      </div>
+                    )
+                  })}
+                </div>
+
+                {canScrollRight && (
+                  <div className="absolute right-0 top-0 bottom-0 w-20 z-30 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent">
+                    <div className="absolute right-1 top-1/2 -translate-y-1/2 pointer-events-auto">
+                      <button
+                        onClick={scrollRight}
+                        className="w-9 h-9 rounded-full bg-white shadow-[0_4px_20px_rgba(0,0,0,0.14)] border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 hover:scale-110 hover:shadow-[0_6px_24px_rgba(124,58,237,0.2)] transition-all duration-300 cursor-pointer"
+                        aria-label="Scroll right"
+                      >
+                        <ChevronRight size={18} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="w-full flex flex-col gap-4 pb-4">
+              <SectionHeader
+                icon={
+                  <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-lg text-white shadow-[0_3px_10px_rgba(124,58,237,0.4)]">
+                    <LayoutGrid size={14} />
+                  </div>
+                }
+                title="All Real Estate Episodes"
+              />
+
+              {displayedEpisodes.length > 0 ? (
+                <>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-9 pt-1">
+                    {displayedEpisodes.map((ep, idx) => (
+                      <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setModalEpisode} index={idx} />
+                    ))}
+                  </div>
+
+                  {hasMore && (
+                    <div className="mt-4 flex items-center justify-center">
+                      <button
+                        type="button"
+                        onClick={handleLoadMore}
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                      >
+                        <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                        Load More Episodes
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-16 text-center animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="w-16 h-16 mb-4 rounded-2xl bg-purple-50 flex items-center justify-center shadow-[0_4px_16px_rgba(124,58,237,0.1)] border border-purple-100">
+                    <LayoutGrid size={26} className="text-purple-300" />
+                  </div>
+                  <p className="text-[16px] font-bold text-[var(--color-text-primary)] tracking-tight">No episodes found</p>
+                  <p className="text-[13px] font-medium text-[var(--color-text-muted)] mt-1 max-w-[240px] leading-relaxed">
+                    Try selecting a different category or clearing your filters
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="w-full xl:w-[310px] shrink-0 flex flex-col gap-6 h-fit animate-in fade-in slide-in-from-right-6 duration-600 delay-150">
+            <div className="flex flex-col gap-3.5 p-4  ">
+              <div className="flex items-center gap-2 mb-0.5">
+                <h3 className="text-[14px] font-black text-[var(--color-text-primary)] tracking-tight">Platform Highlights</h3>
+                <div className="flex-1 h-px bg-gradient-to-r from-purple-100 to-transparent" />
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                <StatCard icon={<Mic size={15} />} value="12K+" label="Episodes" color=" text-purple-600" bg="bg-purple-50/60" border="border-purple-100" delay={0} />
+                <StatCard icon={<Users size={15} />} value="500+" label="Experts" color=" text-orange-500" bg="bg-orange-50/60" border="border-orange-100" delay={60} />
+                <StatCard icon={<Building2 size={15} />} value="35" label="Cities" color=" text-blue-500" bg="bg-blue-50/60" border="border-blue-100" delay={120} />
+                <StatCard icon={<Eye size={15} />} value="20M+" label="Views" color=" text-green-600" bg="bg-green-50/60" border="border-green-100" delay={180} />
+              </div>
+            </div>
+
+            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+            <div className="rounded-[8px] overflow-hidden relative cursor-pointer w-full shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.1)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(66,32,130,0.35),0_4px_16px_rgba(0,0,0,0.12)] hover:-translate-y-1 group/ad">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2a1550] to-[#0f1035]" />
+              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(ellipse 120% 80% at 90% 10%, rgba(217,70,239,0.45) 0%, transparent 60%)' }} />
+              <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-purple-700/20 blur-3xl translate-y-1/2 -translate-x-1/4 group-hover/ad:bg-purple-600/30 transition-colors duration-500" />
+
+              <div className="relative z-10 flex flex-col p-5 text-white" style={{ minHeight: 220 }}>
+                <span className="text-[9px] font-black text-purple-300 uppercase tracking-[0.18em] mb-3 border border-purple-400/30 rounded-full px-2.5 py-0.5 w-fit bg-purple-400/10">
+                  Advertisement
+                </span>
+                <h3 className="text-[19px] font-black leading-tight mb-2 text-white drop-shadow-sm">
+                  Find Your Next<br />Real Estate<br />Opportunity
+                </h3>
+                <p className="text-[12px] text-white/65 leading-relaxed mb-5 font-medium">
+                  Discover verified listings, connect with experts, and close deals today.
+                </p>
+                <button className="px-5 py-2 bg-white text-gray-900 hover:bg-purple-50 text-[12px] font-black rounded-xl w-fit transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 cursor-pointer">
+                  Explore Listings →
+                </button>
+              </div>
+            </div>
+
+            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+            <div className="flex flex-col gap-3 p-4 ">
+              <div className="flex items-center justify-between mb-0.5">
+                <h3 className="text-[14px] font-black text-[var(--color-text-primary)] tracking-tight">Top Experts</h3>
+                <button className="text-purple-600 text-[11px] font-bold hover:text-purple-700 hover:underline cursor-pointer bg-transparent border-none transition-colors">
+                  View all
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                {[
+                  { name: 'Ritika Sharma', role: 'Real Estate Analyst', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80' },
+                  { name: 'Amit Verma', role: 'Real Estate Consultant', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80' },
+                  { name: 'Rahul Prasad', role: 'Property Investment Expert', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80' },
+                  { name: 'Neha Iyer', role: 'Real Estate Strategist', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80' },
+                ].map((expert, idx) => (
+                  <div
+                    key={idx}
+                    className="expert-row flex items-center justify-between group cursor-pointer hover:bg-purple-50/70 p-2 -mx-1 rounded-xl animate-in fade-in slide-in-from-right-3 fill-mode-both"
+                    style={{ animationDelay: `${200 + idx * 60}ms` }}
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-9 h-9 rounded-full overflow-hidden shadow-[0_3px_10px_rgba(0,0,0,0.15)] shrink-0 transition-shadow duration-300 group-hover:shadow-[0_4px_16px_rgba(124,58,237,0.3)]">
+                        <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex flex-col">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[13px] font-bold text-[var(--color-text-primary)] group-hover:text-purple-700 transition-colors leading-tight">{expert.name}</span>
+                          <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500" />
+                        </div>
+                        <span className="text-[11px] font-medium text-[var(--color-text-secondary)] leading-tight">{expert.role}</span>
+                      </div>
+                    </div>
+                    <div className="w-6 h-6 rounded-full bg-transparent group-hover:bg-purple-100 flex items-center justify-center transition-all duration-300">
+                      <ChevronRight size={14} className="text-gray-300 group-hover:text-purple-500 transition-colors" />
+                    </div>
                   </div>
                 ))}
               </div>
+            </div>
 
-              {canScrollRight && (
-                <div className="absolute right-0 top-0 bottom-0 w-24 z-30 pointer-events-none bg-gradient-to-l from-white via-white/90 to-transparent">
-                  <div className="absolute right-1 top-[69px] pointer-events-auto">
-                    <button 
-                      onClick={scrollRight}
-                      className="w-10 h-10 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.15)] flex items-center justify-center text-[var(--color-text-primary)] border border-gray-200 hover:bg-gray-50 hover:scale-105 transition-all cursor-pointer"
-                      aria-label="Scroll right"
-                    >
-                      <ChevronRight size={20} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
           </div>
-          
-          <div className="w-full flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="p-1 bg-[var(--color-primary-600)] rounded-md text-white">
-                   <LayoutGrid size={16} />
-                </div>
-                <h3 className="text-[16px] font-bold text-[var(--color-text-primary)]">All Real Estate Episodes</h3>
-              </div>
-            </div>
-            
-            {displayedEpisodes.length > 0 ? (
-              <>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-8 pt-2">
-                  {displayedEpisodes.map((ep, idx) => (
-                    <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
-                  ))}
-                </div>
-                
-                {hasMore && (
-                  <div className="mt-6 flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={handleLoadMore}
-                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-white border border-[var(--color-primary-300)] text-[13px] font-bold text-[var(--color-primary-600)] hover:bg-[var(--color-primary-600)] hover:text-white transition-all duration-300 cursor-pointer shadow-sm group"
-                    >
-                      <AutorenewIcon sx={{ fontSize: 18 }} className="group-hover:rotate-180 transition-transform duration-700" />
-                      Load More Episodes
-                    </button>
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-center animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
-                <div className="w-14 h-14 mb-4 rounded-full bg-gray-50 flex items-center justify-center shadow-inner">
-                  <LayoutGrid size={24} className="text-gray-300" />
-                </div>
-                <p className="text-[16px] font-bold text-[var(--color-text-primary)] tracking-tight">No episodes found</p>
-                <p className="text-[13px] font-medium text-[var(--color-text-muted)] mt-1 max-w-[250px] leading-relaxed">
-                  Try selecting a different category or clearing your filters
-                </p>
-              </div>
-            )}
-          </div>
-          
-        </div>
-        
-        <div className="w-full xl:w-[320px] shrink-0 flex flex-col gap-6 bg-white rounded-2xl h-fit">
-          
-          <div className="flex flex-col gap-4">
-            <h3 className="text-[15px] font-bold text-[var(--color-text-primary)]">Platform Highlights</h3>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="p-3 rounded-xl bg-[var(--color-primary-600)]/5 border border-[var(--color-primary-600)]/10 flex flex-col gap-1.5">
-                <div className="w-7 h-7 rounded-lg bg-[var(--color-primary-600)]/10 text-[var(--color-primary-600)] flex items-center justify-center">
-                  <Mic size={16} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[16px] font-bold text-[var(--color-text-primary)] leading-tight">12,000+</span>
-                  <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">Episodes</span>
-                </div>
-              </div>
-              <div className="p-3 rounded-xl bg-orange-50 border border-orange-500/10 flex flex-col gap-1.5">
-                <div className="w-7 h-7 rounded-lg bg-orange-500/10 text-orange-500 flex items-center justify-center">
-                  <Users size={16} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[16px] font-bold text-[var(--color-text-primary)] leading-tight">500+</span>
-                  <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">Experts</span>
-                </div>
-              </div>
-              <div className="p-3 rounded-xl bg-blue-50 border border-blue-500/10 flex flex-col gap-1.5">
-                <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center">
-                  <Building2 size={16} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[16px] font-bold text-[var(--color-text-primary)] leading-tight">35</span>
-                  <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">Cities</span>
-                </div>
-              </div>
-              <div className="p-3 rounded-xl bg-green-50 border border-green-500/10 flex flex-col gap-1.5">
-                <div className="w-7 h-7 rounded-lg bg-green-500/10 text-green-500 flex items-center justify-center">
-                  <Eye size={16} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[16px] font-bold text-[var(--color-text-primary)] leading-tight">20M+</span>
-                  <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">Views</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="w-full h-px bg-[var(--color-border-default)]" />
-          
-          <div className="rounded-2xl overflow-hidden relative group cursor-pointer aspect-square w-full flex items-center justify-center shadow-inner">
-             <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-neutral-900)] to-[var(--color-neutral-800)] opacity-95" />
-             <div className="absolute right-0 top-0 w-24 h-24 bg-[var(--color-primary-600)]/20 blur-2xl rounded-full mix-blend-screen" />
-             
-             <div className="absolute inset-0 flex flex-col justify-center p-5 text-white z-10">
-               <span className="text-[9px] font-bold text-[var(--color-primary-300)] uppercase tracking-widest mb-2 border border-[var(--color-primary-300)]/30 rounded px-1.5 py-0.5 w-fit">Advertisement</span>
-               <h3 className="text-[20px] font-bold leading-tight mb-2 text-white">Find Your Next<br/>Real Estate<br/>Opportunity</h3>
-               <p className="text-[12px] text-white/70 leading-relaxed mb-4 font-medium">Discover verified listings, connect with experts, and close the best deals today.</p>
-               <button className="px-4 py-2 bg-white text-[var(--color-neutral-900)] hover:bg-gray-100 text-[12px] font-bold rounded-xl w-fit transition-colors shadow-md">
-                 Explore Listings
-               </button>
-             </div>
-          </div>
-          
-          <div className="w-full h-px bg-[var(--color-border-default)]" />
-
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[15px] font-bold text-[var(--color-text-primary)]">Top Experts in Real Estate</h3>
-              <button className="text-[var(--color-primary-600)] text-[11px] font-bold hover:underline cursor-pointer bg-transparent border-none">
-                View all
-              </button>
-            </div>
-            
-            <div className="flex flex-col gap-3">
-              {[
-                { name: 'Ritika Sharma', role: 'Real Estate Analyst', initial: 'R' },
-                { name: 'Amit Verma', role: 'Real Estate Consultant', initial: 'A' },
-                { name: 'Rahul Prasad', role: 'Property Investment Expert', initial: 'R' },
-                { name: 'Neha Iyer', role: 'Real Estate Strategist', initial: 'N' },
-              ].map((expert, idx) => (
-                <div key={idx} className="flex items-center justify-between group cursor-pointer hover:bg-[var(--color-bg-muted)] p-1.5 -mx-1.5 rounded-xl transition-colors">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 rounded-full bg-[image:var(--color-brand-gradient)] flex items-center justify-center text-white shadow-sm shrink-0">
-                      <span className="text-[13px] font-bold">{expert.initial}</span>
-                    </div>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-1">
-                        <span className="text-[13px] font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-primary-600)] transition-colors">{expert.name}</span>
-                        <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />
-                      </div>
-                      <span className="text-[11px] font-medium text-[var(--color-text-secondary)]">{expert.role}</span>
-                    </div>
-                  </div>
-                  <ChevronRight size={16} className="text-[var(--color-text-muted)] group-hover:text-[var(--color-primary-600)] transition-colors" />
-                </div>
-              ))}
-            </div>
-          </div>
-          
         </div>
       </div>
-    </div>
+
+      {modalEpisode && (
+        <ModalPlayer episode={modalEpisode} onClose={() => setModalEpisode(null)} />
+      )}
+    </>
+  )
+}
+
+function ModalPlayer({ episode, onClose }: { episode: PodcastEpisode; onClose: () => void }) {
+  const [modalEpisode, setModalEpisode] = React.useState<PodcastEpisode>(episode)
+  const modalIdx = PODCAST_EPISODES.findIndex((ep) => ep.id === modalEpisode.id)
+  return (
+    <PodcastVideoPlayerDesktop
+      episode={modalEpisode}
+      onClose={onClose}
+      onNext={() => setModalEpisode(modalIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[modalIdx + 1] : modalEpisode)}
+      onPrev={() => setModalEpisode(modalIdx > 0 ? PODCAST_EPISODES[modalIdx - 1] : modalEpisode)}
+      hasNext={modalIdx < PODCAST_EPISODES.length - 1}
+      hasPrev={modalIdx > 0}
+    />
   )
 }

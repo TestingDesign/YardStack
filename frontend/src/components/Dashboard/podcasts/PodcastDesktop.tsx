@@ -334,7 +334,7 @@ export default function PodcastDesktop() {
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-5 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex-1 min-w-0 flex flex-col gap-7">
             {activeEpisode ? (
               <div className="w-full bg-black rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out aspect-[21/9] border border-white/5">
@@ -441,10 +441,9 @@ export default function PodcastDesktop() {
                 <div
                   ref={sliderRef}
                   onScroll={handleScroll}
-                  className="flex gap-4 overflow-x-auto pb-6 pt-5 px-4 scroll-px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+                  className="flex gap-3 overflow-x-auto pb-6 pt-5 px-4 scroll-px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
                 >
                   {filteredWithoutTop.slice(0, 10).map((ep, mapIdx) => {
-                    // Calculate the true global rank of the episode
                     const actualIdx = filtered.findIndex((e) => e.id === ep.id);
                     const rank = actualIdx + 1;
                     

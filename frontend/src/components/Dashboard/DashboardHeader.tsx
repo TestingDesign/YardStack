@@ -123,7 +123,23 @@ export default function DashboardHeader({
   return (
     <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] font-['Outfit',sans-serif]">
       <div className="flex items-center h-14 md:h-16 px-3 sm:px-2 w-full gap-4">
-        
+
+        {navItems.length > 0 && (
+          <nav
+            aria-label="Primary Navigation"
+            className="flex-1 flex items-center justify-start gap-1.5 md:gap-2 min-w-0 px-1"
+          >
+            {navItems.map((item) => (
+              <NavCard
+                key={item.key}
+                item={item}
+                isActive={item.key === activeTab}
+                onClick={(key) => onTabChange?.(key)}
+              />
+            ))}
+          </nav>
+        )}
+
         <div className="flex items-center gap-2 sm:gap-1 min-w-0">
           {onMenuClick && (
             <>
@@ -176,23 +192,7 @@ export default function DashboardHeader({
               </ul>
             )}
           </div>
-        </div>
-
-        {navItems.length > 0 && (
-          <nav
-            aria-label="Primary Navigation"
-            className="flex-1 flex items-center justify-center gap-1.5 md:gap-2 min-w-0 px-1"
-          >
-            {navItems.map((item) => (
-              <NavCard
-                key={item.key}
-                item={item}
-                isActive={item.key === activeTab}
-                onClick={(key) => onTabChange?.(key)}
-              />
-            ))}
-          </nav>
-        )}
+        </div>  
 
         <div className="flex items-center shrink-0 ml-auto">
           <div ref={profileRef} className="relative">

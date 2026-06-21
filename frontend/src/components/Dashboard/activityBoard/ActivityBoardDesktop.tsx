@@ -57,7 +57,10 @@ const DesktopExpandingCard = memo(function DesktopExpandingCard({ item, index, i
   if (isDismissed) return null
 
   return (
-    <div className="flex flex-col relative shrink-0 mb-3 group/card">
+    <div 
+      className="flex flex-col relative shrink-0 mb-3 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
+      style={{ animationDelay: `${index * 50}ms` }}
+    >
       {isDismissing && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/95 backdrop-blur-sm rounded-lg border border-gray-200 transition-all duration-300">
           <p className="text-[12px] font-bold text-[#1f1633] mb-2.5">Not interested in this post?</p>
@@ -80,8 +83,8 @@ const DesktopExpandingCard = memo(function DesktopExpandingCard({ item, index, i
 
       <div
         style={{ backgroundColor: item.cardBg || '#FFFFFF' }}
-        className={`relative flex flex-col rounded-lg transition-all ease-out border p-3 min-h-[80px] z-10 hover:border-gray-300 hover:shadow-[0_4px_16px_rgba(0,0,0,0.03)] ${
-          isExpanded ? 'border-[#6a5fc1] shadow-[0_0_0_1px_rgba(106,95,193,0.15)] bg-gray-50/80' : 'border-gray-100'
+        className={`relative flex flex-col rounded-lg transition-all duration-300 ease-out border p-3 min-h-[80px] z-10 hover:-translate-y-1 hover:border-[#6a5fc1]/30 hover:shadow-[0_12px_32px_rgba(106,95,193,0.15)] ${
+          isExpanded ? 'border-[#6a5fc1]/50 shadow-[0_8px_24px_rgba(106,95,193,0.12)] bg-gray-50/80 scale-[1.01]' : 'border-gray-100 shadow-sm'
         }`}
       >
         <div className="absolute top-2 right-2 bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none">
@@ -296,7 +299,7 @@ export default function ActivityBoardDesktop() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 gap-2 auto-rows-max w-[80%] max-w-[540px] mx-auto">
+                <div className="grid grid-cols-1 gap-2 auto-rows-max w-[80%] max-w-100 mx-auto">
                   {displayedItems.map((item, index) => (
                     <DesktopExpandingCard
                       key={item.id}

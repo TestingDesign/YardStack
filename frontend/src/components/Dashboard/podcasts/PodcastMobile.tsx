@@ -441,7 +441,7 @@ export default function PodcastMobile() {
               <div
                 ref={trendingRef}
                 onScroll={handleTrendingScroll}
-                className="flex gap-2 overflow-x-auto pb-4 pr-12 pt-1 -mx-3 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
+                className="flex gap-2 overflow-x-auto pb-2 pt-1 px-1 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
               >
                 {filteredWithoutTop.slice(0, 8).map((ep, mapIdx) => {
                   const actualIdx = filtered.findIndex((e) => e.id === ep.id);
@@ -494,29 +494,34 @@ export default function PodcastMobile() {
           </div>
 
           <div className="mt-8 mx-3">
-            <div className="p-4 rounded-xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.07)] border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
-              <div className="flex items-center gap-1.5 mb-3">
-                <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'bg-purple-100 text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
-                  { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'bg-orange-100 text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
-                  { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'bg-blue-100 text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
-                  { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'bg-green-100 text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
-                ].map((s) => (
-                  <div key={s.label} className={`p-2.5 rounded-xl ${s.bg} border ${s.border} flex flex-col gap-1.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
-                    style={{ animationDelay: `${s.delay}ms` }}>
-                    <div className={`w-7 h-7 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>{s.icon}</div>
-                    <div>
-                      <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
-                      <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+  <div className="p-4 rounded-xl bg-white shadow-[0_2px_12px_rgba(0,0,0,0.07)] border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="flex items-center gap-1.5 mb-3">
+      <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
+      {[
+        { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'bg-purple-100 text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
+        { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'bg-orange-100 text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
+        { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'bg-blue-100 text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
+        { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'bg-green-100 text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
+      ].map((s) => (
+        <div 
+          key={s.label} 
+          className={`p-2.5 rounded-xl ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
+          style={{ animationDelay: `${s.delay}ms` }}
+        >
+          <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>
+            {s.icon}
           </div>
+          <div>
+            <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
+            <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
 
           <div className="mt-8 px-3">
             <div className="flex items-center justify-between mb-3">

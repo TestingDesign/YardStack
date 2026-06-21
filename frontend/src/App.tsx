@@ -177,15 +177,16 @@ export default function App() {
         </div>
       </main>
 
-      {/* Floating Action Button */}
-      <button
-        onClick={toggleHeader}
-        className="absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all z-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#6B21A8]"
-        aria-label="Toggle navigation menu (Ctrl+M)"
-        title="Toggle Menu (Ctrl+M)"
-      >
-        <Menu size={24} />
-      </button>
+      {/* Floating Action Button (Mobile Only) */}
+      {viewMode === 'mobile' && (
+        <button
+          onClick={toggleHeader}
+          className="absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all z-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#6B21A8]"
+          aria-label="Toggle navigation menu"
+        >
+          <Menu size={24} />
+        </button>
+      )}
 
     </div>
   )

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useId, useCallback } from 'react'
-import { Monitor, Smartphone, ChevronDown } from 'lucide-react'
+import { Monitor, Smartphone, ChevronDown, X } from 'lucide-react'
 import Dropdown from '../commonfiles/Dropdown'
 
 export type Page = 'dashboard' | 'forms' | 'login' | 'createAccount'
@@ -11,6 +11,7 @@ interface HeaderProps {
   viewMode: ViewMode
   onViewModeChange: (v: ViewMode) => void
   showViewControls?: boolean
+  onClose?: () => void
 }
 
 const PAGE_LABELS: Record<Page, string> = {
@@ -31,6 +32,7 @@ export default function Header({
   viewMode,
   onViewModeChange,
   showViewControls = true,
+  onClose,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const mobileMenuRef = useRef<HTMLDivElement>(null)
@@ -215,6 +217,27 @@ export default function Header({
                 </div>
               )}
             </div>
+
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="hidden sm:flex items-center justify-center w-8 h-8 rounded-[8px] bg-white border border-[#eef0f3] text-[#9199a8] hover:bg-red-50 hover:text-red-500 hover:border-red-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 transition-all duration-200 ml-2 shadow-sm"
+                aria-label="Close navigation"
+              >
+                <X size={16} strokeWidth={2.5} />
+              </button>
+            )}
+            {onClose && (
+              <button
+                type="button"
+                onClick={onClose}
+                className="sm:hidden flex items-center justify-center w-8 h-8 rounded-[8px] bg-white border border-[#eef0f3] text-[#9199a8] hover:bg-red-50 hover:text-red-500 focus-visible:outline-none transition-all duration-200 shadow-sm"
+                aria-label="Close navigation"
+              >
+                <X size={16} strokeWidth={2.5} />
+              </button>
+            )}
           </div>
         </div>
       </div>

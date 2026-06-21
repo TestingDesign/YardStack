@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo } from 'react'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { Menu } from 'lucide-react'
 import Header from './components/Header/Header'
 import type { Page, ViewMode } from './components/Header/Header'
 import Login from './components/Login/Login'
@@ -46,15 +47,19 @@ export default function App() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const [viewMode, setViewMode] = useState<ViewMode>('desktop')
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false)
+
+  // Parse routing
+  const pathParts = location.pathname.split('/').filter(Boolean)
+  const viewMode: ViewMode = pathParts[0] === 'mobile' ? 'mobile' : 'desktop'
+  const activeRoute = pathParts[1] || 'login'
 
   const activePage = useMemo<Page>(() => {
-    const path = location.pathname
-    if (path.startsWith('/create-account')) return 'createAccount'
-    if (path.startsWith('/dashboard')) return 'dashboard'
-    if (path.startsWith('/forms')) return 'forms'
+    if (activeRoute.startsWith('create-account')) return 'createAccount'
+    if (activeRoute.startsWith('dashboard')) return 'dashboard'
+    if (activeRoute.startsWith('forms')) return 'forms'
     return 'login'
-  }, [location.pathname])
+  }, [activeRoute])
 
   const showViewControls = useMemo(() => {
     return ['login', 'createAccount', 'dashboard'].includes(activePage)
@@ -62,17 +67,21 @@ export default function App() {
 
   const handleNavigate = useCallback((page: Page) => {
     switch (page) {
-      case 'login': navigate('/login'); break;
-      case 'createAccount': navigate('/create-account'); break;
-      case 'dashboard': navigate('/dashboard'); break;
-      case 'forms': navigate('/forms'); break;
+      case 'login': navigate(`/${viewMode}/login`); break;
+      case 'createAccount': navigate(`/${viewMode}/create-account`); break;
+      case 'dashboard': navigate(`/${viewMode}/dashboard`); break;
+      case 'forms': navigate(`/${viewMode}/forms`); break;
     }
-  }, [navigate])
+  }, [navigate, viewMode])
 
-  const handleLogin = useCallback(() => navigate('/dashboard'), [navigate])
-  const handleCreateAccountClick = useCallback(() => navigate('/create-account'), [navigate])
-  const handleCreateAccount = useCallback(() => navigate('/dashboard'), [navigate])
-  const handleLoginClick = useCallback(() => navigate('/login'), [navigate])
+  const handleViewModeChange = useCallback((newMode: ViewMode) => {
+    navigate(`/${newMode}/${activeRoute}`)
+  }, [navigate, activeRoute])
+
+  const handleLogin = useCallback(() => navigate(`/${viewMode}/dashboard`), [navigate, viewMode])
+  const handleCreateAccountClick = useCallback(() => navigate(`/${viewMode}/create-account`), [navigate, viewMode])
+  const handleCreateAccount = useCallback(() => navigate(`/${viewMode}/dashboard`), [navigate, viewMode])
+  const handleLoginClick = useCallback(() => navigate(`/${viewMode}/login`), [navigate, viewMode])
 
   const wrapWithViewport = (component: React.ReactNode) => {
     if (viewMode === 'mobile') {
@@ -86,14 +95,27 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden font-['Outfit']">
-      <Header
-        activePage={activePage}
-        onNavigate={handleNavigate}
-        viewMode={viewMode}
-        onViewModeChange={setViewMode}
-        showViewControls={showViewControls}
+    <div className="flex flex-col h-screen overflow-hidden font-['Outfit'] relative bg-[#f5f6f8]">
+      
+      {/* Invisible Hover Trigger for Header */}
+      <div 
+        className="absolute top-0 left-0 right-0 h-4 z-[60]"
+        onMouseEnter={() => setIsHeaderVisible(true)}
       />
+
+      {/* Header Container */}
+      <div 
+        className={`absolute top-0 left-0 w-full z-50 transition-transform duration-300 ease-in-out ${isHeaderVisible ? 'translate-y-0' : '-translate-y-full'}`}
+      >
+        <Header
+          activePage={activePage}
+          onNavigate={handleNavigate}
+          viewMode={viewMode}
+          onViewModeChange={handleViewModeChange}
+          showViewControls={showViewControls}
+          onClose={() => setIsHeaderVisible(false)}
+        />
+      </div>
 
       <main 
         id="main-content"
@@ -106,15 +128,33 @@ export default function App() {
           className="ys-page-enter h-full w-full motion-reduce:animate-none motion-reduce:transform-none motion-reduce:opacity-100"
         >
           <Routes>
-            <Route path="/" element={<Navigate to="/login" replace />} />
-            <Route path="/login" element={wrapWithViewport(<Login viewMode={viewMode} onLogin={handleLogin} onCreateAccountClick={handleCreateAccountClick} />)} />
-            <Route path="/create-account" element={wrapWithViewport(<CreateAccount viewMode={viewMode} onCreateAccount={handleCreateAccount} onLoginClick={handleLoginClick} />)} />
-            <Route path="/dashboard" element={wrapWithViewport(<Dashboard viewMode={viewMode} />)} />
-            <Route path="/forms" element={wrapWithViewport(<FormsPlaceholder />)} />
+            <Route path="/" element={<Navigate to="/desktop/login" replace />} />
+            
+            <Route path="/:viewMode/login" element={wrapWithViewport(<Login viewMode={viewMode} onLogin={handleLogin} onCreateAccountClick={handleCreateAccountClick} />)} />
+            <Route path="/:viewMode/create-account" element={wrapWithViewport(<CreateAccount viewMode={viewMode} onCreateAccount={handleCreateAccount} onLoginClick={handleLoginClick} />)} />
+            <Route path="/:viewMode/dashboard" element={wrapWithViewport(<Dashboard viewMode={viewMode} />)} />
+            <Route path="/:viewMode/forms" element={wrapWithViewport(<FormsPlaceholder />)} />
+            
+            {/* Fallback for old routes without viewMode */}
+            <Route path="/login" element={<Navigate to="/desktop/login" replace />} />
+            <Route path="/create-account" element={<Navigate to="/desktop/create-account" replace />} />
+            <Route path="/dashboard" element={<Navigate to="/desktop/dashboard" replace />} />
+            <Route path="/forms" element={<Navigate to="/desktop/forms" replace />} />
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </main>
+
+      {/* Floating Action Button */}
+      <button
+        onClick={() => setIsHeaderVisible(!isHeaderVisible)}
+        className="absolute bottom-6 right-6 w-14 h-14 bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white rounded-full flex items-center justify-center shadow-xl hover:scale-105 active:scale-95 transition-all z-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#6B21A8]"
+        aria-label="Toggle navigation menu"
+      >
+        <Menu size={24} />
+      </button>
+
     </div>
   )
 }

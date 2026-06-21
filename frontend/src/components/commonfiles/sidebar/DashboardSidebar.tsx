@@ -48,7 +48,7 @@ export default function DashboardSidebar({
   active = 'home',
   onNavigate,
 }: DashboardSidebarProps) {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
   const [tooltip, setTooltip] = useState<TooltipState>(HIDDEN_TOOLTIP)
   const [mounted, setMounted] = useState(false)
 

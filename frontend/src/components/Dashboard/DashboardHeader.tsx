@@ -43,19 +43,19 @@ const NavCard = memo(function NavCard({
     <button
       type="button"
       onClick={() => onClick(item.key)}
-      className={`relative flex flex-col items-center justify-center gap-1 min-w-[90px] md:min-w-[100px] h-[50px] md:h-[58px] rounded-xl transition-all duration-250 ease-out cursor-pointer outline-none border ${
+      className={`relative shrink-0 flex flex-row items-center justify-center gap-2 md:gap-2.5 transition-all duration-300 outline-none cursor-pointer px-3 md:px-4 h-[44px] md:h-[48px] rounded-[8px] border ${
         isActive
-          ? 'bg-[var(--color-primary-600)] text-white border-transparent shadow-[0_4px_16px_rgba(90,29,238,0.3)] scale-[1.02]'
-          : 'bg-white text-[var(--color-text-primary)] border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] hover:shadow-sm hover:-translate-y-0.5'
+          ? 'bg-linear-to-r from-[#7C3AED] to-[#EC4899] border-transparent shadow-[0_4px_16px_rgba(124,58,237,0.25)] scale-[1.02]'
+          : 'bg-white text-[#374151] border-gray-200 hover:border-gray-300 hover:shadow-sm hover:-translate-y-0.5'
       }`}
     >
       {item.badge && (
-        <span className="absolute -top-1.5 -right-1.5 whitespace-nowrap text-[9px] font-bold px-1.5 py-[2px] rounded-full bg-[var(--color-secondary-500)] text-white leading-none z-10 shadow-sm">
+        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold px-2 py-[2px] rounded-full bg-[#7C3AED] text-white leading-none z-10 shadow-sm">
           {item.badge}
         </span>
       )}
 
-      <span className={`flex items-center justify-center transition-all duration-200 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-4 h-4 md:w-5 md:h-5 text-[var(--color-primary-600)]'}`}>
+      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-5 h-5 md:w-6 md:h-6 text-[#374151]'}`}>
         {isImage ? (
           <img src={icon} alt={item.label} className="w-full h-full object-contain" draggable={false} />
         ) : (
@@ -64,8 +64,8 @@ const NavCard = memo(function NavCard({
       </span>
 
       <span
-        className={`text-[10px] md:text-[11px] leading-[1.15] text-center whitespace-nowrap transition-all duration-200 ${
-          isActive ? 'font-bold text-white' : 'font-bold text-[var(--color-text-primary)]'
+        className={`text-[12px] md:text-[13px] leading-[1.15] text-center whitespace-nowrap transition-all duration-200 ${
+          isActive ? 'font-semibold text-white' : 'font-semibold text-[#374151]'
         }`}
       >
         {item.label}

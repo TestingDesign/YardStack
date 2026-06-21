@@ -6,7 +6,7 @@ import React, {
   type FocusEvent,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { Home, Users, SlidersHorizontal, Bookmark, PlusSquare, PanelLeftClose, PanelLeft, Menu, Crown } from 'lucide-react'
+import { Home, Users, Settings2, Bookmark, PlusSquare, PanelLeftClose, PanelLeft, Menu } from 'lucide-react'
 import LogoPng from './Logo.png'
 
 export type DashboardNavKey = 'home' | 'leads' | 'manage' | 'saved' | 'post'
@@ -35,7 +35,7 @@ const HIDDEN_TOOLTIP: TooltipState = { label: '', x: 0, y: 0, visible: false }
 const DASHBOARD_NAV_ITEMS: DashboardNavItem[] = [
   { key: 'home', label: 'Home', Icon: Home, description: 'Dashboard overview & activity feed' },
   { key: 'leads', label: 'Leads', Icon: Users, description: 'Manage and track your lead pipeline' },
-  { key: 'manage', label: 'Manage', Icon: SlidersHorizontal, description: 'Listings, settings & configurations' },
+  { key: 'manage', label: 'Manage', Icon: Settings2, description: 'Listings, settings & configurations' },
   { key: 'saved', label: 'Saved', Icon: Bookmark, description: 'Bookmarked properties & searches' },
   { key: 'post', label: 'Post', Icon: PlusSquare, description: 'Create & publish new listings' },
 ]
@@ -95,7 +95,7 @@ export default function DashboardSidebar({
 
       <aside
         aria-label="Dashboard Navigation Sidebar"
-        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[var(--color-bg-page)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
+        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
           }`}
       >
         <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3">
@@ -140,17 +140,17 @@ export default function DashboardSidebar({
                     onBlur={hideTooltip}
                     aria-label={label}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`w-full flex items-center py-2.5 rounded-[8px] transition-all duration-300 border-none cursor-pointer active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-bg-page)] motion-reduce:transition-none motion-reduce:transform-none ${!isOpen ? 'justify-center px-0' : 'justify-start px-3 gap-3.5'
+                    className={`w-full flex items-center py-2 rounded-[8px] transition-all duration-300 bg-transparent border-none cursor-pointer active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E] motion-reduce:transition-none motion-reduce:transform-none ${!isOpen ? 'justify-center px-0' : 'justify-start px-3 gap-3.5'
                       } ${isActive
-                        ? 'bg-[image:var(--color-brand-gradient)] shadow-[0_4px_16px_rgba(123,44,255,0.4)]'
-                        : 'bg-transparent hover:bg-white/5 hover:translate-x-1'
+                        ? 'bg-white/10 shadow-[inset_0_0_20px_rgba(217,70,239,0.2),0_4px_12px_rgba(0,0,0,0.2)]'
+                        : 'hover:bg-white/5 hover:translate-x-1'
                       }`}
                   >
-                    <div className={`flex items-center justify-center rounded-[8px] shrink-0 transition-all duration-300 ${!isOpen ? 'w-full' : 'w-8 h-8'} ${isActive && isOpen ? '' : 'group-hover:scale-110'}`}>
+                    <div className={`flex items-center justify-center rounded-[8px] shrink-0 transition-all duration-300 ${!isOpen ? 'w-full' : 'w-8 h-8'} ${isActive && isOpen ? 'bg-[#D946EF]/20 shadow-[0_0_15px_rgba(217,70,239,0.4)]' : 'group-hover:scale-110'}`}>
                       <Icon
-                        size={!isOpen ? 22 : 20}
+                        size={!isOpen ? 22 : 18}
                         aria-hidden="true"
-                        className={`shrink-0 transition-all duration-300 motion-reduce:transition-none ${isActive ? 'text-white stroke-[2.5]' : 'text-white/65 stroke-[1.8] group-hover:text-white'
+                        className={`shrink-0 transition-all duration-300 motion-reduce:transition-none ${isActive ? 'text-[#D946EF] stroke-[2.5] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]' : 'text-white/65 stroke-[1.8] group-hover:text-white'
                           }`}
                       />
                     </div>
@@ -177,19 +177,15 @@ export default function DashboardSidebar({
           </ul>
 
           <div
-            className={`mx-3 mt-2 mb-2 rounded-[16px] transition-all duration-500 overflow-hidden flex flex-col items-center justify-center bg-[var(--color-bg-card)] shadow-[0_8px_24px_rgba(0,0,0,0.4)] border border-[var(--color-border)] hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(0,0,0,0.5)] ${!isOpen ? 'max-h-0 opacity-0 border-none m-0 p-0 scale-95' : 'max-h-48 p-4 opacity-100 scale-100'
+            className={`mx-2 mt-2 mb-2 rounded-[8px] transition-all duration-500 overflow-hidden flex flex-col items-center justify-center bg-[linear-gradient(160deg,#2a1550_0%,#1A1A2E_60%,#16213E_100%)] shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_8px_24px_rgba(0,0,0,0.4)] hover:shadow-[inset_0_0_30px_rgba(217,70,239,0.15),0_12px_32px_rgba(0,0,0,0.5)] hover:border-[#D946EF]/40 hover:-translate-y-0.5 cursor-pointer ${!isOpen ? 'max-h-0 opacity-0 border-none m-0 p-0 scale-95' : 'max-h-32 p-3 opacity-100 border border-[#D946EF]/25 scale-100'
               }`}
           >
-            <Crown size={20} className="text-[var(--color-primary-300)] mb-2" />
-            <p className="text-[11px] font-bold tracking-[0.08em] uppercase text-[var(--color-primary-300)] m-0 mb-2 whitespace-nowrap drop-shadow-[0_0_8px_rgba(179,136,255,0.4)]">
+            <p className="text-[0.62rem] font-extrabold tracking-[0.14em] uppercase text-[#D946EF] m-0 mb-1 whitespace-nowrap drop-shadow-[0_0_5px_rgba(217,70,239,0.3)] transition-all duration-300 hover:scale-105">
               Premium Platform
             </p>
-            <p className="text-[10.5px] text-center text-[var(--color-text-secondary)] leading-snug m-0 mb-4 whitespace-nowrap">
+            <p className="text-[0.7rem] text-center text-white/65 leading-tight m-0 whitespace-nowrap transition-colors duration-300 hover:text-white/90">
               Built for visionaries.<br />Designed for excellence.
             </p>
-            <button className="w-full py-2 rounded-[8px] bg-[var(--color-primary-600)] text-white text-[11px] font-semibold hover:bg-[var(--color-primary-500)] transition-colors border border-white/10 cursor-pointer">
-              Upgrade Now
-            </button>
           </div>
         </nav>
 

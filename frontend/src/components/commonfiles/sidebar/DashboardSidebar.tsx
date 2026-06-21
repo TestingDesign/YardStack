@@ -110,7 +110,7 @@ export default function DashboardSidebar({
               </button>
               <div className={`flex flex-col whitespace-nowrap transition-all duration-500 overflow-hidden ${!isOpen ? 'w-0 opacity-0 translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
                 <img 
-                  src=".." 
+                  src="./Logo.svg" 
                   alt="N4RE Logo" 
                   className="h-8 w-auto object-contain brightness-0 invert opacity-95 drop-shadow-md" 
                 />

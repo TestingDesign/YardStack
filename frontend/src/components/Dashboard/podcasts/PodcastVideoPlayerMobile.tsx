@@ -257,7 +257,7 @@ export default function PodcastVideoPlayerMobile({
         </div>
 
         <div 
-          className={`absolute inset-0 flex items-center justify-center gap-1.5 sm:gap-3 z-30 transition-opacity duration-300 ${
+          className={`absolute inset-0 flex items-center justify-center gap-2 sm:gap-4 z-30 transition-opacity duration-300 ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
@@ -265,70 +265,70 @@ export default function PodcastVideoPlayerMobile({
             type="button" 
             disabled={!hasPrev} 
             onClick={(e) => { e.stopPropagation(); onPrev?.(); }} 
-            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Previous episode"
           >
-            <SkipPreviousIcon sx={{ fontSize: 18 }} />
+            <SkipPreviousIcon sx={{ fontSize: 24 }} />
           </button>
           <button 
             type="button" 
             onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.max(0, p - 10 / totalDuration)); resetHideTimer(); }} 
-            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Rewind 10 seconds"
           >
-            <Replay10Icon sx={{ fontSize: 16 }} />
+            <Replay10Icon sx={{ fontSize: 22 }} />
           </button>
           
           <button 
             type="button"
             onClick={(e) => { e.stopPropagation(); setIsPlaying((v) => !v); resetHideTimer(); }}
-            className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white bg-black/80 hover:bg-black backdrop-blur-sm border border-white/10 hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-1 focus-visible:ring-offset-black shadow-2xl"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white bg-black/60 hover:bg-black active:bg-black backdrop-blur-sm border border-white/10 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-105 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-xl mx-2"
             aria-label={isPlaying ? 'Pause' : 'Play'}
           >
-            {isPlaying ? <PauseIcon sx={{ fontSize: 26 }} /> : <PlayArrowIcon sx={{ fontSize: 26 }} />}
+            {isPlaying ? <PauseIcon sx={{ fontSize: 32 }} /> : <PlayArrowIcon sx={{ fontSize: 32 }} />}
           </button>
 
           <button 
             type="button" 
             onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.min(1, p + 10 / totalDuration)); resetHideTimer(); }} 
-            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Fast forward 10 seconds"
           >
-            <Forward10Icon sx={{ fontSize: 16 }} />
+            <Forward10Icon sx={{ fontSize: 22 }} />
           </button>
           <button 
             type="button" 
             disabled={!hasNext} 
             onClick={(e) => { e.stopPropagation(); onNext?.(); }} 
-            className="text-white/70 hover:text-white hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
+            className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 disabled:opacity-30 transition-all outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-full p-1"
             aria-label="Next episode"
           >
-            <SkipNextIcon sx={{ fontSize: 18 }} />
+            <SkipNextIcon sx={{ fontSize: 24 }} />
           </button>
         </div>
 
         <div 
-          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-1 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${
+          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-2 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <div className="flex items-center justify-between text-white text-[10px] font-medium mb-1 drop-shadow-md">
+          <div className="flex items-center justify-between text-white text-[12px] font-medium mb-1.5 px-1 drop-shadow-md">
             <span className="tabular-nums text-white/90 tracking-wide">
               {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
             </span>
-            <div className="flex items-center gap-2 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
               <HorizontalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
               <button 
                 type="button" 
                 onClick={() => handleToggleFullscreen()} 
-                className="text-white/80 hover:text-white hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
+                className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
               >
-                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 14 }} /> : <FullscreenIcon sx={{ fontSize: 14 }} />}
+                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 20 }} /> : <FullscreenIcon sx={{ fontSize: 20 }} />}
               </button>
             </div>
           </div>
-          <div className="w-full px-0.5" onClick={(e) => e.stopPropagation()}>
+          <div className="w-full px-2" onClick={(e) => e.stopPropagation()}>
              <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
           </div>
         </div>

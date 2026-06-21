@@ -137,9 +137,9 @@ export const VerticalVolumeControl = memo(function VerticalVolumeControl({
         className="p-2 rounded-full hover:bg-white/20 text-white transition-all duration-200 active:scale-90 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
       >
         {muted || volume === 0 ? (
-          <VolumeOffIcon sx={{ fontSize: 22 }} />
+          <VolumeOffIcon sx={{ fontSize: 26 }} />
         ) : (
-          <VolumeUpIcon sx={{ fontSize: 22 }} />
+          <VolumeUpIcon sx={{ fontSize: 26 }} />
         )}
       </button>
     </div>
@@ -175,12 +175,12 @@ export const HorizontalVolumeControl = memo(function HorizontalVolumeControl({
         type="button"
         onClick={() => setMuted(!muted)}
         aria-label={muted || volume === 0 ? "Unmute" : "Mute"}
-        className="p-1.5 rounded-full hover:bg-white/20 text-white transition-all duration-200 active:scale-90 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+        className="p-1.5 rounded-full hover:bg-white/20 text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] transition-all duration-200 active:scale-90 outline-none focus-visible:ring-2 focus-visible:ring-white/50"
       >
         {muted || volume === 0 ? (
-          <VolumeOffIcon sx={{ fontSize: 18 }} />
+          <VolumeOffIcon sx={{ fontSize: 22 }} />
         ) : (
-          <VolumeUpIcon sx={{ fontSize: 18 }} />
+          <VolumeUpIcon sx={{ fontSize: 22 }} />
         )}
       </button>
     </div>

@@ -28,10 +28,10 @@ const SidebarEpisodeCard = memo(function SidebarEpisodeCard({
   
   return (
     <div 
-      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all duration-300 animate-in slide-in-from-right-4 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] ${
+      className={`flex items-start gap-3 p-2 rounded-xl cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] animate-in slide-in-from-right-4 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(124,58,237,0.12)] ${
         isActive 
-          ? 'bg-purple-50/50 border border-purple-200 shadow-sm' 
-          : 'hover:bg-gray-50 border border-transparent'
+          ? 'bg-purple-50/50 border border-purple-200 shadow-[0_4px_16px_rgba(124,58,237,0.08)]' 
+          : 'hover:bg-purple-50/30 border border-transparent hover:border-purple-100'
       }`}
       style={{ animationDelay: `${index * 40}ms` }}
       onClick={() => onPlay(episode)}
@@ -175,7 +175,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <article
-      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-400 ease-out hover:-translate-y-1.5 animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
+      className={`group flex flex-col rounded-xl overflow-visible cursor-pointer transition-all duration-500 ease-out hover:-translate-y-2 animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
         moreOpen ? 'z-50 relative' : ''
       }`}
       style={{ animationDelay: `${index * 50}ms` }}
@@ -189,7 +189,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         }
       }}
     >
-      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0 bg-gray-100 group-hover:shadow-lg transition-shadow duration-400">
+      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm mb-3 flex-shrink-0 bg-gray-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:shadow-[0_16px_40px_rgba(124,58,237,0.25)]">
         <img
           src={episode.thumbnail}
           alt={episode.title}
@@ -279,14 +279,14 @@ export default function PodcastDesktop() {
     : -1
 
   return (
-    <div className={`flex-1 w-full h-full flex flex-col bg-white font-['Outfit',sans-serif] animate-in fade-in duration-500 ${activeEpisode ? 'overflow-hidden' : 'overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none'}`}>
+    <div className="flex-1 w-full h-full flex flex-col bg-white font-['Outfit',sans-serif] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
       <div className="sticky top-0 z-40 shrink-0 bg-white/90  transition-all duration-300">
         <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
       {activeEpisode ? (
-        <div className="flex-1 min-h-0 flex flex-col lg:flex-row gap-6 px-3 py-3 max-w-[1800px] w-full mx-auto animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
-          <div className="flex-1 min-w-0 flex flex-col h-full rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 bg-black">
+        <div className="flex-1 flex flex-col gap-8 px-4 py-6 max-w-[1400px] w-full mx-auto animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
+          <div className="w-full h-[65vh] min-h-[400px] max-h-[800px] bg-black rounded-[8px] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 shrink-0 relative">
             <PodcastVideoPlayerDesktop
               episode={activeEpisode}
               onClose={() => setActiveEpisode(null)}
@@ -308,11 +308,14 @@ export default function PodcastDesktop() {
             />
           </div>
           
-          <div className="w-full lg:w-[420px] xl:w-[480px] shrink-0 h-full overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none scroll-smooth">
-            <div className="sticky top-0 bg-white/95 backdrop-blur-md z-10 pb-2 mb-2 pt-1">
-              <h3 className="text-[18px] font-bold text-gray-900 px-2 tracking-tight">Up Next</h3>
+          <div className="w-full shrink-0 flex flex-col">
+            <div className="pb-3 mb-2 border-b border-gray-100">
+              <h3 className="text-[20px] font-extrabold text-gray-900 tracking-tight">Up Next</h3>
             </div>
-            <div className="flex flex-col gap-1 pb-12">
+            <div 
+              className="grid gap-x-6 gap-y-2 pb-12 pt-2"
+              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))' }}
+            >
               {filtered.map((ep, idx) => (
                 <SidebarEpisodeCard 
                   key={ep.id} 

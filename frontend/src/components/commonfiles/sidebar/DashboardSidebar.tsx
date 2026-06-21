@@ -6,7 +6,7 @@ import React, {
   type FocusEvent,
 } from 'react'
 import { createPortal } from 'react-dom'
-import { Home, Users, Settings2, Bookmark, PlusSquare, PanelLeftClose, PanelLeft, Menu } from 'lucide-react'
+import { Home, Users, SlidersHorizontal, Bookmark, PlusSquare, PanelLeftClose, PanelLeft, Menu } from 'lucide-react'
 import LogoPng from './Logo.png'
 
 export type DashboardNavKey = 'home' | 'leads' | 'manage' | 'saved' | 'post'
@@ -35,7 +35,7 @@ const HIDDEN_TOOLTIP: TooltipState = { label: '', x: 0, y: 0, visible: false }
 const DASHBOARD_NAV_ITEMS: DashboardNavItem[] = [
   { key: 'home', label: 'Home', Icon: Home, description: 'Dashboard overview & activity feed' },
   { key: 'leads', label: 'Leads', Icon: Users, description: 'Manage and track your lead pipeline' },
-  { key: 'manage', label: 'Manage', Icon: Settings2, description: 'Listings, settings & configurations' },
+  { key: 'manage', label: 'Manage', Icon: SlidersHorizontal, description: 'Listings, settings & configurations' },
   { key: 'saved', label: 'Saved', Icon: Bookmark, description: 'Bookmarked properties & searches' },
   { key: 'post', label: 'Post', Icon: PlusSquare, description: 'Create & publish new listings' },
 ]
@@ -95,7 +95,7 @@ export default function DashboardSidebar({
 
       <aside
         aria-label="Dashboard Navigation Sidebar"
-        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-52'
+        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
           }`}
       >
         <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3">

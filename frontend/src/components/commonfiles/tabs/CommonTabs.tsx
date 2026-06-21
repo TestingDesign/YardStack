@@ -37,8 +37,8 @@ const TabButton = memo(function TabButton({
       onClick={() => onClick(tab.key)}
       className={`group shrink-0 flex items-center justify-center gap-1.5 px-2 @md:px-3 py-1 @md:py-1.5 rounded-md @md:rounded-lg text-[11px] @md:text-xs font-semibold transition-all duration-300 ease-out active:scale-95 border outline-none cursor-pointer ${
         isActive
-          ? 'bg-[var(--color-brand-purple)] text-white border-[var(--color-brand-purple)] shadow-[0_4px_12px_rgba(107,33,168,0.35)] hover:shadow-[0_6px_16px_rgba(107,33,168,0.45)] hover:-translate-y-px'
-          : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:shadow-sm hover:-translate-y-px hover:border-[var(--color-brand-purple)]/30 hover:text-[var(--color-brand-purple)]'
+          ? 'bg-[var(--color-primary-600)] text-white border-[var(--color-primary-600)] shadow-[0_4px_12px_rgba(90,29,238,0.35)] hover:shadow-[0_6px_16px_rgba(90,29,238,0.45)] hover:-translate-y-px'
+          : 'bg-white text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:shadow-sm hover:-translate-y-px hover:border-[var(--color-primary-600)]/30 hover:text-[var(--color-primary-600)]'
       }`}
       style={!isActive && tab.color ? {
         backgroundColor: `${tab.color}08`,
@@ -126,7 +126,7 @@ export const CommonTabs = memo(function CommonTabs({
             <button
               type="button"
               onClick={() => scrollByAmount('left')}
-              className="flex items-center justify-center w-6 h-6 @md:w-7 @md:h-7 bg-[var(--color-bg-surface)] rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer outline-none"
+              className="flex items-center justify-center w-6 h-6 @md:w-7 @md:h-7 bg-[var(--color-bg-surface)] rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary-600)] hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer outline-none"
               aria-label="Scroll left"
             >
               <ChevronLeftIcon className="text-[16px] @md:text-[20px]" />
@@ -160,7 +160,7 @@ export const CommonTabs = memo(function CommonTabs({
             <button
               type="button"
               onClick={() => scrollByAmount('right')}
-              className="flex items-center justify-center w-6 h-6 @md:w-7 @md:h-7 bg-[var(--color-bg-surface)] rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer outline-none"
+              className="flex items-center justify-center w-6 h-6 @md:w-7 @md:h-7 bg-[var(--color-bg-surface)] rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] text-[var(--color-text-secondary)] hover:text-[var(--color-primary-600)] hover:scale-110 active:scale-95 transition-all pointer-events-auto cursor-pointer outline-none"
               aria-label="Scroll right"
             >
               <ChevronRightIcon className="text-[16px] @md:text-[20px]" />
@@ -177,11 +177,11 @@ export const CommonTabs = memo(function CommonTabs({
 
         <button
           type="button"
-          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-8 @md:h-9 rounded-md @md:rounded-lg border border-[var(--color-border-default)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)] hover:border-[var(--color-brand-purple)]/30 hover:text-[var(--color-brand-purple)] transition-all duration-300 ease-out active:scale-95 hover:shadow-sm font-semibold text-[12px] @md:text-[13px] outline-none cursor-pointer"
+          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-8 @md:h-9 rounded-md @md:rounded-lg border border-[var(--color-border-default)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] hover:bg-[var(--color-bg-muted)] hover:border-[var(--color-primary-600)]/30 hover:text-[var(--color-primary-600)] transition-all duration-300 ease-out active:scale-95 hover:shadow-sm font-semibold text-[12px] @md:text-[13px] outline-none cursor-pointer"
           aria-label="Filter options"
         >
           <TuneIcon 
-            className="text-[var(--color-brand-purple)] transition-transform duration-300 ease-out group-hover:rotate-90 text-[16px] @md:text-[18px]" 
+            className="text-[var(--color-primary-600)] transition-transform duration-300 ease-out group-hover:rotate-90 text-[16px] @md:text-[18px]" 
             aria-hidden="true"
           />
           Filter

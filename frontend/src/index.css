@@ -2,29 +2,50 @@
 @import "tailwindcss";
 
 :root {
-  --color-brand-purple: #6B21A8;
-  --color-brand-magenta: #E91E8C;
-  --color-brand-purple-mid: #7C3AED;
-  --color-brand-magenta-mid: #D946EF;
-  --color-brand-gradient: linear-gradient(90deg, #7C3AED, #D946EF);
-  --color-brand-violet: #7B2FBE;
-  --color-brand-tagline: #9333EA;
+  /* Color System - Neutrals */
+  --color-neutral-900: #0F1021;
+  --color-neutral-800: #1A1B2E;
+  --color-neutral-700: #24263A;
+  --color-neutral-600: #3B3D52;
+  --color-neutral-500: #6B7280;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-100: #F8FAFC;
+  --color-white: #FFFFFF;
 
-  --color-accent-teal: #0D9488;
-  --color-accent-lime: #22C55E;
+  /* Color System - Primary & Secondary */
+  --color-primary-500: #7B2CFF;
+  --color-primary-600: #5A1DEE;
+  --color-primary-300: #B388FF;
+  --color-secondary-500: #FF686B;
 
-  --color-bg-dark: #1A1A2E;
-  --color-bg-dark-surface: #16213E;
+  /* Color System - Functional */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  --color-accent: #7B2CFF;
+
+  /* Color System - Backgrounds */
+  --color-bg-page: #0F1021;
+  --color-bg-sidebar: #1A1B2E;
+  --color-bg-elevated: #24263A;
+  --color-bg-card: #2E3047;
+  --color-border: #3B3D52;
+  
+  /* Fallbacks & Light Theme Mappings */
   --color-bg-surface: #FFFFFF;
-  --color-bg-muted: #F3F4F6;
-
-  --color-text-primary: #1A1A2E;
-  --color-text-secondary: #4B5563;
-  --color-text-inverse: #FFFFFF;
-  --color-text-brand: #6B21A8;
-
+  --color-bg-muted: #F8FAFC;
   --color-border-default: #E5E7EB;
-  --color-border-brand: #7B2FBE;
+
+  /* Color System - Text Colors */
+  --color-text-primary: #1A1A2E; /* In light mode, primary text is dark */
+  --color-text-secondary: #6B7280;
+  --color-text-inverse: #FFFFFF;
+  --color-text-muted: #9CA3AF;
+  
+  /* Gradients */
+  --color-brand-gradient: linear-gradient(90deg, #7B2CFF, #5A1DEE);
+  --color-dark-gradient: linear-gradient(90deg, #1A1B2E, #7B2CFF);
 }
 
 *,

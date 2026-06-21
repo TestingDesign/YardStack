@@ -43,29 +43,29 @@ const NavCard = memo(function NavCard({
     <button
       type="button"
       onClick={() => onClick(item.key)}
-      className={`relative flex flex-col items-center justify-center gap-0.5 w-[90px] md:w-[100px] h-[46px] md:h-[56px] rounded-lg transition-all duration-250 ease-out cursor-pointer outline-none border ${
+      className={`relative flex flex-col items-center justify-center gap-1 min-w-[90px] md:min-w-[100px] h-[50px] md:h-[58px] rounded-xl transition-all duration-250 ease-out cursor-pointer outline-none border ${
         isActive
-          ? 'bg-[image:var(--color-brand-gradient)] text-[var(--color-text-inverse)] border-transparent shadow-[0_3px_14px_rgba(124,58,237,0.22)] scale-[1.02]'
-          : 'bg-[var(--color-bg-surface)] text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:border-[var(--color-border-brand)] hover:shadow-[0_2px_10px_rgba(124,58,237,0.08)] hover:-translate-y-0.5 hover:bg-[var(--color-bg-muted)]'
+          ? 'bg-[var(--color-primary-600)] text-white border-transparent shadow-[0_4px_16px_rgba(90,29,238,0.3)] scale-[1.02]'
+          : 'bg-white text-[var(--color-text-primary)] border border-[var(--color-neutral-200)] hover:border-[var(--color-primary-300)] hover:shadow-sm hover:-translate-y-0.5'
       }`}
     >
       {item.badge && (
-        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-bold px-1.5 py-[1px] rounded-full bg-[var(--color-brand-purple-mid)] text-[var(--color-text-inverse)] leading-none z-10 shadow-sm">
+        <span className="absolute -top-1.5 -right-1.5 whitespace-nowrap text-[9px] font-bold px-1.5 py-[2px] rounded-full bg-[var(--color-secondary-500)] text-white leading-none z-10 shadow-sm">
           {item.badge}
         </span>
       )}
 
-      <span className={`flex items-center justify-center transition-all duration-200 ${isActive ? 'w-5 h-5 md:w-6 md:h-6' : 'w-4 h-4 md:w-5 md:h-5'}`}>
+      <span className={`flex items-center justify-center transition-all duration-200 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-4 h-4 md:w-5 md:h-5 text-[var(--color-primary-600)]'}`}>
         {isImage ? (
           <img src={icon} alt={item.label} className="w-full h-full object-contain" draggable={false} />
         ) : (
-          <span className="text-[18px] md:text-[20px]">{icon}</span>
+          <span className="text-[20px] md:text-[24px]">{icon}</span>
         )}
       </span>
 
       <span
-        className={`text-[9.5px] md:text-[11px] leading-[1.15] text-center whitespace-nowrap transition-all duration-200 ${
-          isActive ? 'font-bold text-[var(--color-text-inverse)]' : 'font-semibold text-[var(--color-text-secondary)]'
+        className={`text-[10px] md:text-[11px] leading-[1.15] text-center whitespace-nowrap transition-all duration-200 ${
+          isActive ? 'font-bold text-white' : 'font-bold text-[var(--color-text-primary)]'
         }`}
       >
         {item.label}
@@ -121,8 +121,8 @@ export default function DashboardHeader({
   }, [closeAll])
 
   return (
-    <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl shadow-[0_1px_3px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04)] font-['Outfit',sans-serif]">
-      <div className="flex items-center h-14 md:h-16 px-3 sm:px-2 w-full gap-4">
+    <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-[var(--color-border-default)] font-['Outfit',sans-serif]">
+      <div className="flex items-center h-16 md:h-20 px-4 sm:px-6 w-full gap-4">
 
         {navItems.length > 0 && (
           <nav

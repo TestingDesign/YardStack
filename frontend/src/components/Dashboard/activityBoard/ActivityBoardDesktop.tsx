@@ -296,7 +296,7 @@ export default function ActivityBoardDesktop() {
               </div>
             ) : (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-max">
+                <div className="grid grid-cols-1 gap-2 auto-rows-max w-[80%] max-w-[540px] mx-auto">
                   {displayedItems.map((item, index) => (
                     <DesktopExpandingCard
                       key={item.id}

@@ -95,7 +95,7 @@ export default function DashboardSidebar({
 
       <aside
         aria-label="Dashboard Navigation Sidebar"
-        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
+        className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-52'
           }`}
       >
         <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3">

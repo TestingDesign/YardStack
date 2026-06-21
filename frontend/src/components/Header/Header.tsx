@@ -66,16 +66,16 @@ export default function Header({
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#7B2FBE] shadow-[0px_1px_8px_rgba(107,33,168,0.06)]">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 gap-3">
-          <div className="flex items-center gap-2 shrink-0" aria-label="YardStock Logo">
+          <div className="flex items-center gap-2 shrink-0" aria-label="N4RE Logo">
             <div 
               aria-hidden="true"
               className="w-8 h-8 rounded-[8px] flex items-center justify-center bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white font-bold text-[1.1rem] leading-none shadow-sm select-none"
             >
-              Y
+              N
             </div>
             <div className="hidden sm:block leading-none">
               <p className="text-[0.88rem] font-extrabold text-[#6B21A8] tracking-[-0.03em] m-0">
-                Yard<span className="text-[#E91E8C]">Stock</span>
+                N4<span className="text-[#E91E8C]">RE</span>
               </p>
             </div>
           </div>

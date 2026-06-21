@@ -340,7 +340,7 @@ export default function PodcastDesktop() {
                   <button
                     type="button"
                     onClick={handleLoadMore}
-                    className="group flex items-center gap-2.5 px-8 py-3 rounded-full bg-white border border-gray-200 text-[14px] font-bold text-gray-700 hover:text-purple-700 hover:border-purple-300 hover:bg-purple-50 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+                    className="group flex items-center gap-2.5 px-8 py-3 rounded-[10px] bg-white border border-gray-200 text-[14px] font-bold text-gray-700 hover:text-purple-700 hover:border-purple-300 hover:bg-purple-50 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
                   >
                     <AutorenewIcon sx={{ fontSize: 20 }} className="transition-transform duration-700 ease-in-out group-hover:rotate-180 text-gray-400 group-hover:text-purple-500" />
                     Load More Episodes

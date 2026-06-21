@@ -109,8 +109,7 @@ export default function DashboardSidebar({
                 <Menu size={24} className="text-white shrink-0" aria-hidden="true" />
               </button>
               <div className={`flex flex-col whitespace-nowrap transition-all duration-500 overflow-hidden ${!isOpen ? 'w-0 opacity-0 translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
-                <p className="text-[1.1rem] font-serif tracking-wider leading-none text-white m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">YARDStock</p>
-                <p className="text-[0.45rem] font-medium tracking-[0.18em] uppercase text-white/55 mt-1">Dashboard</p>
+                <p className="text-[1.1rem] font-serif tracking-wider leading-none text-white m-0 drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">N4RE</p>
               </div>
             </div>
           </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, type MouseEvent, type FocusEve
 import { createPortal } from 'react-dom'
 import { ChevronLeft, Crown } from 'lucide-react'
 import { NAV_ITEMS, type NavKey } from './data'
-import YardLogo from '../Images/YardStockLogowithouttext.png'
+import N4RELogo from '../Images/N4RELogowithouttext.png'
 
 interface SidebarProps {
   active?: NavKey
@@ -54,8 +54,8 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
     >
       <div className="flex flex-col items-center p-2 overflow-hidden shrink-0">
         <img
-          src={YardLogo}
-          alt="YardStockReal Estate Intelligence"
+          src={N4RELogo}
+          alt="N4RE Real Estate Intelligence"
           className={`object-contain transition-all duration-500 ease-in-out motion-reduce:transition-none ${
             isCollapsed ? 'w-8 h-8' : 'w-11 h-11'
           }`}
@@ -66,7 +66,7 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
             isCollapsed ? 'h-0 opacity-0 mt-0' : 'h-9 opacity-100 mt-2.5'
           }`}
         >
-          <p className="text-[1.3rem] font-serif tracking-wider leading-none text-white m-0">YARDStock</p>
+          <p className="text-[1.3rem] font-serif tracking-wider leading-none text-white m-0">N4RE</p>
           <p className="text-[0.5rem] font-medium tracking-[0.18em] uppercase text-white/55 mt-1.5">
             Real Estate Intelligence
           </p>

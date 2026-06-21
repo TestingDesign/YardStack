@@ -16,7 +16,7 @@ export default function CreateAccountMobile(props: CreateAccountFormProps) {
         
         <div className="relative z-10 px-5 pt-10">
           <h1 className="text-white text-[1.6rem] font-extrabold leading-tight tracking-tight drop-shadow-lg mt-2">
-            Welcome to <span className="text-[#c2ef4e] drop-shadow-[0_0_8px_rgba(194,239,78,0.2)]">YardStock</span>
+            Welcome to <span className="text-[#c2ef4e] drop-shadow-[0_0_8px_rgba(194,239,78,0.2)]">N4RE</span>
           </h1>
           <p className="text-[#bdb8c0] text-[13px] mt-2.5 leading-relaxed max-w-[85%]">
             Create your account and unlock the power of intelligent real estate insights.

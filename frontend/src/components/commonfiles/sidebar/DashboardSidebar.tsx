@@ -98,9 +98,9 @@ export default function DashboardSidebar({
         className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
           }`}
       >
-        <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3">
+        <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3 py-3">
           <div className="flex items-center w-full h-10">
-            <div className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'justify-center w-full' : 'gap-3 px-1'}`}>
+            <div className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'justify-center self-center w-full' : 'gap-3 px-1'}`}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="hover:scale-110 hover:bg-white/10 p-1.5 rounded-sm transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
@@ -109,7 +109,7 @@ export default function DashboardSidebar({
                 <Menu size={24} className="text-white shrink-0" aria-hidden="true" />
               </button>
               <div className={`flex items-center transition-all duration-500 overflow-hidden ${!isOpen ? 'w-0 opacity-0 translate-x-4' : 'w-auto opacity-100 translate-x-0'}`}>
-                <img src={LogoPng} alt="N4RE Logo" className="h-20 mt-0.5 w-auto object-contain drop-shadow-sm" />
+                <img src={LogoPng} alt="N4RE Logo" className="h-36 mt-0.5 w-auto object-contain drop-shadow-sm" />
               </div>
             </div>
           </div>

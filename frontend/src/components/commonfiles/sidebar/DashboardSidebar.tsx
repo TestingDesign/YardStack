@@ -99,11 +99,11 @@ export default function DashboardSidebar({
           }`}
       >
         <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3 py-3">
-          <div className="flex items-center w-full h-10">
-            <div className={`flex items-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'justify-center self-center w-full' : 'gap-3 px-1'}`}>
+          <div className="flex items-center justify-center w-full h-10">
+            <div className={`flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'w-full' : 'gap-3 '}`}>
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="hover:scale-110 hover:bg-white/10 p-1.5 rounded-sm transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
+                className="hover:scale-110 hover:bg-white/10 p-1.5 pt-3 rounded-sm transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
                 aria-label="Toggle menu"
               >
                 <Menu size={24} className="text-white shrink-0" aria-hidden="true" />

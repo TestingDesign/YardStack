@@ -125,14 +125,14 @@ const TrendingCard = memo(function TrendingCard({
 
   return (
     <div
-      className="m-card-shimmer relative shrink-0 w-[calc(50vw-24px)] max-w-[200px] flex flex-col gap-2 animate-in fade-in slide-in-from-right-4 fill-mode-both cursor-pointer group"
+      className="m-card-shimmer relative shrink-0 w-[calc(50%-4px)] flex flex-col gap-1.5 animate-in fade-in slide-in-from-right-4 fill-mode-both cursor-pointer group"
       style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative w-full aspect-video rounded-[4px] shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2 ml-1.5">
+      <div className="relative w-full aspect-video rounded-[4px] shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2">
         <div className="absolute inset-0 rounded-[4px] overflow-hidden">
           <img src={episode.thumbnail} alt={episode.title}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -140,18 +140,18 @@ const TrendingCard = memo(function TrendingCard({
           <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-fuchsia-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
 
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
-            <div className="relative w-9 h-9 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
+            <div className="relative w-7 h-7 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
               <div className="absolute inset-0 rounded-full border border-white/30 animate-[spin_5s_linear_infinite] opacity-50 pointer-events-none" />
-              <PlayArrowIcon sx={{ fontSize: 18 }} className="ml-0.5" />
+              <PlayArrowIcon sx={{ fontSize: 16 }} className="ml-0.5" />
             </div>
           </div>
 
-          <div className="absolute bottom-2 left-2 flex items-center gap-1.5 bg-black/65 backdrop-blur-md border border-white/10 text-white text-[10px] font-semibold px-2 py-0.5 rounded-lg group-hover:opacity-0 transition-opacity duration-200 shadow-sm">
-            <GraphicEqIcon sx={{ fontSize: 11 }} className="text-fuchsia-400" />{episode.duration}
+          <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 bg-black/65 backdrop-blur-md border border-white/10 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-md group-hover:opacity-0 transition-opacity duration-200 shadow-sm">
+            <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />{episode.duration}
           </div>
         </div>
         
-        <div className={`absolute -top-2.5 -left-2 w-[26px] h-[26px] rounded-md z-20 flex items-center justify-center text-[11px] font-black border-2 border-white shadow-[0_3px_10px_rgba(0,0,0,0.15)] ${
+        <div className={`absolute -top-2 -left-1.5 w-5 h-5 rounded flex items-center justify-center text-[10px] font-black border border-white shadow-[0_3px_10px_rgba(0,0,0,0.15)] ${
           rank === 1 ? 'bg-amber-400 text-amber-900' :
           rank === 2 ? 'bg-gray-300 text-gray-700'   :
           rank === 3 ? 'bg-amber-600 text-amber-100' :
@@ -159,16 +159,16 @@ const TrendingCard = memo(function TrendingCard({
         }`}>{rank}</div>
       </div>
 
-      <div className="px-1.5 pt-1">
-        <h4 className="text-[12px] font-bold text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
+      <div className="px-0.5 pt-1">
+        <h4 className="text-[11px] font-semibold text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
           {episode.title}
         </h4>
         <div className="flex items-center gap-1.5">
-          <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_1px_4px_rgba(124,58,237,0.4)]">
-            <span className="text-[8px] font-bold text-white select-none">{speakerInitial}</span>
+          <div className="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_1px_4px_rgba(124,58,237,0.4)]">
+            <span className="text-[7px] font-semibold text-white select-none">{speakerInitial}</span>
           </div>
-          <span className="text-[11px] font-semibold text-gray-600 truncate">{episode.speaker}</span>
-          {episode.verified && <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500 shrink-0" />}
+          <span className="text-[10px] font-semibold text-gray-600 truncate">{episode.speaker}</span>
+          {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
         </div>
       </div>
     </div>
@@ -186,7 +186,7 @@ const EpisodeListCard = memo(function EpisodeListCard({
   const [moreOpen, setMoreOpen] = useState(false)
 
   useEffect(() => {
-    function out(e: MouseEvent) {
+    function out(e: globalThis.MouseEvent) {
       if (moreMenuRef.current && !moreMenuRef.current.contains(e.target as Node)) setMoreOpen(false)
     }
     document.addEventListener('mousedown', out)
@@ -219,12 +219,12 @@ const EpisodeListCard = memo(function EpisodeListCard({
       </div>
 
       <div className="flex-1 min-w-0 pr-1 py-1">
-        <h4 className="text-[14px] font-bold text-gray-900 line-clamp-2 leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-200">
+        <h4 className="text-[12px] font-semibold text-gray-900 line-clamp-2 leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-200">
           {episode.title}
         </h4>
         <div className="flex items-center gap-1.5 mb-1.5">
           <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
-            <span className="text-[9px] font-bold text-white select-none">{speakerInitial}</span>
+            <span className="text-[9px] font-semibold text-white select-none">{speakerInitial}</span>
           </div>
           <span className="text-[12px] font-semibold text-gray-700 truncate">{episode.speaker}</span>
           {episode.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />}
@@ -276,12 +276,12 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
           <GraphicEqIcon sx={{ fontSize: 9 }} className="text-fuchsia-400" />{episode.duration}
         </div>
       </div>
-      <h4 className="text-[12px] font-bold text-gray-900 line-clamp-2 leading-snug mb-1.5 group-hover:text-purple-700 transition-colors duration-200 px-0.5">
+      <h4 className="text-[12px] font-semibold text-gray-900 line-clamp-2 leading-snug mb-1.5 group-hover:text-purple-700 transition-colors duration-200 px-0.5">
         {episode.title}
       </h4>
       <div className="flex items-center gap-1.5 px-0.5">
         <div className="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
-          <span className="text-[7px] font-bold text-white select-none">{speakerInitial}</span>
+          <span className="text-[7px] font-semibold text-white select-none">{speakerInitial}</span>
         </div>
         <span className="text-[10px] font-semibold text-gray-600 truncate">{episode.speaker}</span>
         {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
@@ -311,8 +311,8 @@ export default function PodcastMobile() {
     ? PODCAST_EPISODES
     : PODCAST_EPISODES.filter((ep) => ep.category === activeFilter)
 
-  const topEpisodeId = activeEpisode ? activeEpisode.id : filtered[0]?.id;
-  const filteredWithoutTop = filtered.filter((ep) => ep.id !== topEpisodeId);
+  const topEpisodeId = activeEpisode ? activeEpisode.id : filtered[0]?.id
+  const filteredWithoutTop = filtered.filter((ep) => ep.id !== topEpisodeId)
 
   const displayedEpisodes = filteredWithoutTop.slice(0, page * perPage)
   const hasMore = displayedEpisodes.length < filteredWithoutTop.length
@@ -395,7 +395,7 @@ export default function PodcastMobile() {
                         <TrendingUp size={7} />Trending #1
                       </span>
                     </div>
-                    <h2 className="text-[13px] font-black text-gray-900 leading-tight line-clamp-3 mb-2 group-hover:text-purple-700 transition-colors duration-300 break-words">
+                    <h2 className="text-[12px] font-black text-gray-900 leading-tight line-clamp-3 mb-2 group-hover:text-purple-700 transition-colors duration-300 break-words">
                       {filtered[0].title}
                     </h2>
                     <p className="text-[10px] text-gray-500 leading-relaxed line-clamp-2 mb-2 font-medium break-words">
@@ -410,7 +410,7 @@ export default function PodcastMobile() {
                     </div>
                   </div>
                   <div className="flex items-center gap-1.5 mt-auto pt-2">
-                    <button className="m-hero-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[10px] font-bold rounded-[2px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
+                    <button className="m-hero-btn flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[10px] font-semibold rounded-[2px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
                       <PlayArrowIcon sx={{ fontSize: 13 }} />Watch Now
                     </button>
                     
@@ -426,11 +426,11 @@ export default function PodcastMobile() {
             </div>
           )}
 
-          <div className="mt-8 px-3">
+          <div className="mt-4 px-2">
             <div className="flex items-center justify-between mb-1 px-1">
               <div className="flex items-center gap-2">
                 <Flame className="text-orange-500 drop-shadow-[0_2px_4px_rgba(249,115,22,0.5)]" size={18} />
-                <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Trending This Week</h3>
+                <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">Trending This Week</h3>
               </div>
             </div>
 
@@ -453,13 +453,11 @@ export default function PodcastMobile() {
                 className="flex gap-2 overflow-x-auto pb-2 pt-1 px-1 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
               >
                 {filteredWithoutTop.slice(0, 8).map((ep, mapIdx) => {
-                  const actualIdx = filtered.findIndex((e) => e.id === ep.id);
-                  const rank = actualIdx + 1;
+                  const actualIdx = filtered.findIndex((e) => e.id === ep.id)
+                  const rank = actualIdx + 1
                   
                   return (
-                    <div key={ep.id} className="snap-start shrink-0">
-                      <TrendingCard episode={ep} onPlay={setActiveEpisode} rank={rank} index={mapIdx} />
-                    </div>
+                    <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} index={mapIdx} />
                   )
                 })}
               </div>
@@ -491,7 +489,7 @@ export default function PodcastMobile() {
                   <h3 className="text-[16px] font-black leading-tight mb-1 text-white drop-shadow-sm">
                     Find Your Next Real Estate Opportunity
                   </h3>
-                  <p className="text-[11px] text-white/65 leading-relaxed font-medium">
+                  <p className="text-[11px] text-white/65 hinted line-clamp-2 leading-relaxed font-medium">
                     Discover verified listings & connect with experts.
                   </p>
                 </div>
@@ -532,40 +530,39 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-8 px-3">
+          <div className="mt-4 px-2">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
-              <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
+              <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
+              <button className="flex items-center gap-1 text-[11px] font-semibold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
                 View all <ChevronRight size={13} />
               </button>
             </div>
 
-            <div className="flex gap-4 overflow-x-auto pb-2 -mx-3 px-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
+            <div className="grid grid-cols-4 gap-2 w-full">
               {EXPERTS.map((expert, idx) => (
-                <div key={idx} className="shrink-0 flex flex-col items-center gap-1.5 animate-in fade-in slide-in-from-bottom-4 fill-mode-both" style={{ animationDelay: `${idx * 70}ms` }}>
+                <div key={idx} className="flex flex-col items-center gap-1 animate-in fade-in slide-in-from-bottom-4 fill-mode-both min-w-0" style={{ animationDelay: `${idx * 70}ms` }}>
                   <div className="relative">
-                    <div className={`m-expert-avatar w-16 h-16 rounded-full overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.15)] border-2 border-white`}>
+                    <div className="m-expert-avatar w-12 h-12 rounded-full overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-white">
                       <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
                     </div>
-                    <div className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-green-400 border-2 border-white shadow-sm" />
+                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border border-white shadow-sm" />
                   </div>
-                  <div className="flex items-center gap-0.5">
-                    <span className="text-[11px] font-bold text-gray-900 text-center whitespace-nowrap">{expert.name}</span>
-                    <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500 shrink-0" />
+                  <div className="flex items-center justify-center gap-0.5 w-full">
+                    <span className="text-[10px] font-semibold text-gray-900 text-center truncate w-full">{expert.name}</span>
                   </div>
-                  <span className="text-[9.5px] font-medium text-gray-500 text-center leading-tight max-w-[90px]">{expert.role}</span>
+                  <span className="text-[8.5px] font-medium text-gray-500 text-center leading-tight line-clamp-2 h-6 w-full">{expert.role}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="mt-8 px-3 pb-8">
+          <div className="mt-4 px-2 pb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <div className="p-1 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-md text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]">
                   <LayoutGrid size={12} />
                 </div>
-                <h3 className="text-[15px] font-black text-gray-900 tracking-tight">All Real Estate Episodes</h3>
+                <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">All Real Estate Episodes</h3>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-gray-100 rounded-md p-0.5">
@@ -608,7 +605,7 @@ export default function PodcastMobile() {
                     <button
                       type="button"
                       onClick={() => setPage(p => p + 1)}
-                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[12px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97]"
+                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[12px] font-semibold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97]"
                     >
                       <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
                       Load More Episodes
@@ -621,7 +618,7 @@ export default function PodcastMobile() {
                 <div className="w-14 h-14 mb-4 rounded-[4px] bg-purple-50 flex items-center justify-center shadow-[0_4px_14px_rgba(124,58,237,0.1)] border border-purple-100">
                   <GraphicEqIcon sx={{ fontSize: 26 }} className="text-purple-300" />
                 </div>
-                <p className="text-[15px] font-bold text-gray-900 tracking-tight">No episodes found</p>
+                <p className="text-[15px] font-semibold text-gray-900 tracking-tight">No episodes found</p>
                 <p className="text-[12px] font-medium text-gray-500 mt-1 max-w-[200px] leading-relaxed">
                   Try selecting a different category or clearing your filters
                 </p>

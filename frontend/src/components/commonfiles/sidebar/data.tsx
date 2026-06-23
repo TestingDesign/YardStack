@@ -38,7 +38,7 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { key: 'podcasts',      label: 'RED Expert',     activeIcon: micPurple,     Icon: micPurple },
-  { key: 'activityBoard', label: 'Activity Board', activeIcon: activityactiveIcon,  Icon: activityactiveIcon },
+  { key: 'activityBoard', label: 'Opportunities', activeIcon: activityactiveIcon,  Icon: activityactiveIcon },
   { key: 'learn',         label: 'Learn',          activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
   { key: 'spotlight',     label: 'Spotlight',      activeIcon: spotlightactiveIcon, Icon: spotlightactiveIcon },
   { key: 'directory',     label: 'Directory',      activeIcon: directoryactiveIcon, Icon: directoryactiveIcon },

@@ -4,6 +4,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CheckIcon from '@mui/icons-material/Check'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface NavCardItem {
   key: string
@@ -91,6 +92,28 @@ export default function DashboardHeader({
 
   const cityRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
+  const navScrollRef = useRef<HTMLElement>(null)
+
+  const [canScrollLeftNav, setCanScrollLeftNav] = useState(false)
+  const [canScrollRightNav, setCanScrollRightNav] = useState(true)
+
+  const handleNavScroll = useCallback(() => {
+    if (navScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = navScrollRef.current
+      setCanScrollLeftNav(scrollLeft > 5)
+      setCanScrollRightNav(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5)
+    }
+  }, [])
+
+  useEffect(() => {
+    handleNavScroll()
+    const timer = setTimeout(() => handleNavScroll(), 50)
+    window.addEventListener('resize', handleNavScroll)
+    return () => { clearTimeout(timer); window.removeEventListener('resize', handleNavScroll) }
+  }, [handleNavScroll, navItems])
+
+  const scrollNavLeft = () => navScrollRef.current?.scrollBy({ left: -200, behavior: 'smooth' })
+  const scrollNavRight = () => navScrollRef.current?.scrollBy({ left: 200, behavior: 'smooth' })
 
   const closeAll = useCallback(() => {
     setCityOpen(false)
@@ -125,19 +148,52 @@ export default function DashboardHeader({
       <div className="flex items-center h-16 md:h-20 px-4 sm:px-6 w-full gap-4">
 
         {navItems.length > 0 && (
-          <nav
-            aria-label="Primary Navigation"
-            className="flex-1 flex items-center justify-start gap-1.5 md:gap-2 min-w-0 px-1"
-          >
-            {navItems.map((item) => (
-              <NavCard
-                key={item.key}
-                item={item}
-                isActive={item.key === activeTab}
-                onClick={(key) => onTabChange?.(key)}
-              />
-            ))}
-          </nav>
+          <div className="flex-1 min-w-0 relative group/navslider h-full flex items-center">
+            {canScrollLeftNav && (
+              <div className="absolute left-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center">
+                <div className="pointer-events-auto -ml-1">
+                  <button
+                    onClick={scrollNavLeft}
+                    className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
+                    aria-label="Scroll left"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            <nav
+              ref={navScrollRef}
+              onScroll={handleNavScroll}
+              aria-label="Primary Navigation"
+              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto w-full px-1 py-1 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
+            >
+              {navItems.map((item) => (
+                <div key={item.key} className="snap-start shrink-0">
+                  <NavCard
+                    item={item}
+                    isActive={item.key === activeTab}
+                    onClick={(key) => onTabChange?.(key)}
+                  />
+                </div>
+              ))}
+            </nav>
+
+            {canScrollRightNav && (
+              <div className="absolute right-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-l from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center justify-end">
+                <div className="pointer-events-auto -mr-1">
+                  <button
+                    onClick={scrollNavRight}
+                    className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
+                    aria-label="Scroll right"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         )}
 
         <div className="flex items-center gap-2 sm:gap-1 min-w-0">

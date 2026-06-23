@@ -3,7 +3,6 @@ import ApartmentIcon from '@mui/icons-material/Apartment'
 import PeopleIcon from '@mui/icons-material/People'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import EventNoteIcon from '@mui/icons-material/EventNote'
-
 import TabBar from '../commonfiles/TabBar'
 import SubTabBar from '../commonfiles/TabBar/SubTabBar'
 import FooterNav from '../commonfiles/FooterNav'
@@ -14,9 +13,8 @@ import PodcastDesktop from './podcasts/PodcastDesktop'
 import PodcastMobile from './podcasts/PodcastMobile'
 import SpotlightDesktop from './spotlight/SpotlightDesktop'
 import SpotlightMobile from './spotlight/SpotlightMobile'
-import Learn from './learn/Learn'
+import LaunchingSoon from './launchingSoon/LaunchingSoon'
 import Directory from './directory/Directory'
-import CityInventory from './cityInventory/CityInventory'
 import DashboardHeader from './DashboardHeader'
 import DashboardSidebar from '../commonfiles/sidebar/DashboardSidebar'
 import type { DashboardNavKey } from '../commonfiles/sidebar/DashboardSidebar'
@@ -107,7 +105,7 @@ const ActivityFeed = memo(function ActivityFeed() {
 })
 
 function DesktopDashboard() {
-  const [activeTab, setActiveTab] = useState<NavKey>('podcasts')
+  const [activeTab, setActiveTab] = useState<NavKey>('pulse')
   const [activeSubTab, setActiveSubTab] = useState(TAB_ITEMS[0]?.subTabs?.[0]?.label ?? '')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
 
@@ -155,12 +153,10 @@ function DesktopDashboard() {
           <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
           <SpotlightDesktop />
-        ) : activeTab === 'learn' ? (
-          <Learn />
+        ) : activeTab === 'showcase' || activeTab === 'cityInventory' || activeTab === 'surveyPools' || activeTab === 'lms' ? (
+          <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />
-        ) : activeTab === 'cityInventory' ? (
-          <CityInventory />
         ) : (
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <header className="mb-6">
@@ -189,7 +185,7 @@ function DesktopDashboard() {
 }
 
 function MobileDashboard() {
-  const [activeTab, setActiveTab] = useState<NavKey>('podcasts')
+  const [activeTab, setActiveTab] = useState<NavKey>('pulse')
   const [activeSubTab, setActiveSubTab] = useState('')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -255,12 +251,10 @@ function MobileDashboard() {
           <PodcastMobile />
         ) : activeTab === 'spotlight' ? (
           <SpotlightMobile />
-        ) : activeTab === 'learn' ? (
-          <Learn />
+        ) : activeTab === 'showcase' || activeTab === 'cityInventory' || activeTab === 'surveyPools' || activeTab === 'lms' ? (
+          <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />
-        ) : activeTab === 'cityInventory' ? (
-          <CityInventory />
         ) : (
           <div className="flex-1 overflow-y-auto px-2 py-2 bg-white">
             <header className="mb-5">

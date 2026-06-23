@@ -25,6 +25,11 @@ export type NavKey =
   | 'events'
   | 'analytics'
   | 'settings'
+  | 'pulse'
+  | 'showcase'
+  | 'cityInventory'
+  | 'surveyPools'
+  | 'lms'
 
 export interface NavItem {
   key: NavKey
@@ -37,10 +42,13 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'podcasts',      label: 'RED Expert',     activeIcon: micPurple,     Icon: micPurple },
-  { key: 'activityBoard', label: 'Opportunities', activeIcon: activityactiveIcon,  Icon: activityactiveIcon },
-  { key: 'learn',         label: 'Learn',          activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
+  { key: 'pulse',         label: 'Pulse',          activeIcon: cityactiveIcon,      Icon: cityactiveIcon },
   { key: 'spotlight',     label: 'Spotlight',      activeIcon: spotlightactiveIcon, Icon: spotlightactiveIcon },
+  { key: 'podcasts',      label: 'RED Expert',     activeIcon: micPurple,           Icon: micPurple },
+  { key: 'activityBoard', label: 'Opportunities',  activeIcon: activityactiveIcon,  Icon: activityactiveIcon },
   { key: 'directory',     label: 'Directory',      activeIcon: directoryactiveIcon, Icon: directoryactiveIcon },
-  { key: 'cityInventory', label: 'City Inventory', activeIcon: cityactiveIcon,      Icon: cityactiveIcon }
+  { key: 'showcase',      label: 'Showcase',       activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
+  { key: 'cityInventory', label: 'City Inventory', activeIcon: cityactiveIcon,      Icon: cityactiveIcon },
+  { key: 'surveyPools',   label: 'Survey Pools',   activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
+  { key: 'lms',           label: 'LMS',            activeIcon: learnactiveIcon,     Icon: learnactiveIcon }
 ]

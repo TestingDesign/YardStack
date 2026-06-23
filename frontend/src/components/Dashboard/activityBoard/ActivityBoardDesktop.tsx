@@ -164,8 +164,8 @@ const OpportunityCard = memo(function OpportunityCard({
                     {item.salary}
                   </span>
                   <span className="text-gray-300 mx-0.5">•</span>
-                  <span className="flex items-center gap-0.5">
-                    <LocationOnIcon sx={{ fontSize: 13 }} className="text-gray-400" />
+                  <span className="flex items-center gap-0.5 text-purple-600 font-medium">
+                    <LocationOnIcon sx={{ fontSize: 13 }} className="text-purple-500" />
                     {item.location}
                   </span>
                   <span className="text-gray-300 mx-0.5">•</span>
@@ -320,10 +320,10 @@ const AdsPlaceholder = memo(function AdsPlaceholder() {
           </span>
         </div>
       </div>
-      <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[240px] shrink-0 relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(233,30,140,0.12)] hover:-translate-y-1 transition-all duration-500">
+      <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] shrink-0 relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(233,30,140,0.12)] hover:-translate-y-1 transition-all duration-500">
         <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors duration-700" />
         <div className="text-center relative z-10 p-6 flex flex-col items-center transform transition-transform duration-700 group-hover:scale-105">
-          <span className="block text-lg mb-3 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
+          <span className="block text-sm mb-3 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
             Sponsored
           </span>
         </div>
@@ -465,7 +465,7 @@ export default function ActivityBoardDesktop() {
             )}
           </div>
 
-          <div className="col-span-4 hidden lg:flex flex-col h-full overflow-y-auto pb-12 gap-5 px-1 pt-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+          <div className="col-span-4 hidden lg:flex flex-col h-full gap-2 px-1 pt-1">
             <AdsPlaceholder />
             <div className="shrink-0 pb-4">
               <HiringCTA />

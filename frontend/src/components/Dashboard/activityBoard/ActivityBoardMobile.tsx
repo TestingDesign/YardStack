@@ -321,7 +321,7 @@ const SponsoredBlock = memo(function SponsoredBlock() {
   return (
     <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[100px] w-full mt-4 mb-2 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
       <div className="text-center relative z-10 p-4 flex flex-col items-center">
-        <span className="block text-sm mb-2 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
+        <span className="block text-xs mb-2 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
           Sponsored
         </span>
       </div>

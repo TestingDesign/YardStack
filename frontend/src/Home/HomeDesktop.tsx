@@ -13,7 +13,7 @@ interface HomeDesktopProps {
 
 export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
   return (
-    <div className="flex flex-col h-full w-full overflow-y-auto bg-white hide-scrollbar">
+    <div className="flex flex-col h-full w-full overflow-y-auto bg-[#F8F7FC] hide-scrollbar">
       <HomeNavDesktop viewMode={viewMode} />
       <HeroDesktop />
       <WhyN4reDesktop />

@@ -2,7 +2,6 @@
 @import "tailwindcss";
 
 :root {
-  /* Color System - Neutrals */
   --color-neutral-900: #0F1021;
   --color-neutral-800: #1A1B2E;
   --color-neutral-700: #24263A;
@@ -12,40 +11,34 @@
   --color-neutral-100: #F8FAFC;
   --color-white: #FFFFFF;
 
-  /* Color System - Primary & Secondary */
-  --color-primary-500: #7B2CFF;
-  --color-primary-600: #5A1DEE;
+  --color-primary-500: #6B21A8;
+  --color-primary-600: #5B1D99;
   --color-primary-300: #B388FF;
-  --color-secondary-500: #FF686B;
+  --color-secondary-500: #D946EF;
 
-  /* Color System - Functional */
   --color-success: #22C55E;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
-  --color-accent: #7B2CFF;
+  --color-accent: #6B21A8;
 
-  /* Color System - Backgrounds */
-  --color-bg-page: #0F1021;
+  --color-bg-page: #F8F7FC;
   --color-bg-sidebar: #1A1B2E;
   --color-bg-elevated: #24263A;
   --color-bg-card: #2E3047;
   --color-border: #3B3D52;
-  
-  /* Fallbacks & Light Theme Mappings */
+
   --color-bg-surface: #FFFFFF;
   --color-bg-muted: #F8FAFC;
   --color-border-default: #E5E7EB;
 
-  /* Color System - Text Colors */
-  --color-text-primary: #1A1A2E; /* In light mode, primary text is dark */
+  --color-text-primary: #1A1A2E;
   --color-text-secondary: #6B7280;
   --color-text-inverse: #FFFFFF;
   --color-text-muted: #9CA3AF;
-  
-  /* Gradients */
-  --color-brand-gradient: linear-gradient(90deg, #7B2CFF, #5A1DEE);
-  --color-dark-gradient: linear-gradient(90deg, #1A1B2E, #7B2CFF);
+
+  --color-brand-gradient: linear-gradient(90deg, #6B21A8, #5B1D99);
+  --color-dark-gradient: linear-gradient(90deg, #1A1B2E, #6B21A8);
 }
 
 *,
@@ -169,6 +162,44 @@ body {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes orbit-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes orbit-counter-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes float-card {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-6px);
   }
 }
 

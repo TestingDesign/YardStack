@@ -1,4 +1,4 @@
-import { PlaySquare, MessageCircle, Briefcase, BookOpen, MessageSquare, FileText, Users } from 'lucide-react'
+import { PlaySquare, MessageCircle, Briefcase, BookOpen, MessageSquare, FileText, Users, ArrowDown } from 'lucide-react'
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data'
 
 const IconRenderer = ({ icon, color }: { icon: string, color: string }) => {
@@ -31,9 +31,8 @@ export default function WhyN4reMobile() {
           </span>
         </h2>
 
-        <div className="flex flex-col gap-4">
-          {/* Today */}
-          <div className="rounded-xl border border-red-100 bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+        <div className="relative flex flex-col bg-white rounded-xl border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] overflow-hidden">
+          <div className="p-5">
             <div className="flex items-center gap-2 mb-4">
               <p className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#EF4444] m-0">
                 TODAY — EVERYTHING IS DISCONNECTED
@@ -51,8 +50,13 @@ export default function WhyN4reMobile() {
             </ul>
           </div>
 
-          {/* N4RE */}
-          <div className="rounded-xl border border-green-100 bg-white p-5 shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+          <div className="relative border-t border-gray-100">
+            <div className="absolute left-1/2 -top-4 -translate-x-1/2 z-10 w-8 h-8 rounded-full bg-[#6B21A8] text-white shadow-[0_2px_10px_rgba(107,33,168,0.3)] flex items-center justify-center">
+              <ArrowDown size={16} />
+            </div>
+          </div>
+
+          <div className="p-5 pt-6">
             <div className="flex items-center gap-2 mb-4">
               <p className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#22C55E] m-0">
                 N4RE BRINGS IT TOGETHER
@@ -68,7 +72,7 @@ export default function WhyN4reMobile() {
                     <IconRenderer icon={sol.icon} color={sol.color} />
                   </div>
                   <div>
-                    <p className="text-[11px] font-extrabold uppercase tracking-wider m-0 mb-0.5" style={{ color: '#1A1A2E' }}>
+                    <p className="text-[11px] font-extrabold uppercase tracking-wider m-0 mb-0.5" style={{ color: sol.color }}>
                       {sol.pillar}
                     </p>
                     <p className="text-[0.8rem] text-[#4B5563] leading-relaxed m-0 font-medium">

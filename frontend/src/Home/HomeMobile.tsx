@@ -13,7 +13,7 @@ interface HomeMobileProps {
 
 export default function HomeMobile({ viewMode }: HomeMobileProps) {
   return (
-    <div className="flex flex-col h-full w-full overflow-y-auto bg-white hide-scrollbar">
+    <div className="flex flex-col h-full w-full overflow-y-auto bg-[#F8F7FC] hide-scrollbar">
       <HomeNavMobile viewMode={viewMode} />
       <HeroMobile />
       <WhyN4reMobile />

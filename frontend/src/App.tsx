@@ -6,6 +6,7 @@ import type { Page, ViewMode } from './components/Header/Header'
 import Login from './components/Login/Login'
 import CreateAccount from './components/CreateAccount/CreateAccount'
 import Dashboard from './components/Dashboard/Dashboard'
+import Home from './Home/Home'
 import MobileViewport from './components/commonfiles/MobileViewport'
 
 const FormsPlaceholder = () => (
@@ -85,12 +86,13 @@ export default function App() {
   const activePage = useMemo<Page>(() => {
     if (activeRoute.startsWith('create-account')) return 'createAccount'
     if (activeRoute.startsWith('dashboard')) return 'dashboard'
+    if (activeRoute.startsWith('home')) return 'home'
     if (activeRoute.startsWith('forms')) return 'forms'
     return 'login'
   }, [activeRoute])
 
   const showViewControls = useMemo(() => {
-    return ['login', 'createAccount', 'dashboard'].includes(activePage)
+    return ['login', 'createAccount', 'dashboard', 'home'].includes(activePage)
   }, [activePage])
 
   const handleNavigate = useCallback((page: Page) => {
@@ -98,6 +100,7 @@ export default function App() {
       case 'login': navigate(`/${viewMode}/login`); break;
       case 'createAccount': navigate(`/${viewMode}/create-account`); break;
       case 'dashboard': navigate(`/${viewMode}/dashboard`); break;
+      case 'home': navigate(`/${viewMode}/home`); break;
       case 'forms': navigate(`/${viewMode}/forms`); break;
     }
   }, [navigate, viewMode])
@@ -158,17 +161,19 @@ export default function App() {
           className="ys-page-enter h-full w-full motion-reduce:animate-none motion-reduce:transform-none motion-reduce:opacity-100"
         >
           <Routes>
-            <Route path="/" element={<Navigate to="/desktop/login" replace />} />
+            <Route path="/" element={<Navigate to="/desktop/home" replace />} />
             
             <Route path="/:viewMode/login" element={wrapWithViewport(<Login viewMode={viewMode} onLogin={handleLogin} onCreateAccountClick={handleCreateAccountClick} />)} />
             <Route path="/:viewMode/create-account" element={wrapWithViewport(<CreateAccount viewMode={viewMode} onCreateAccount={handleCreateAccount} onLoginClick={handleLoginClick} />)} />
             <Route path="/:viewMode/dashboard" element={wrapWithViewport(<Dashboard viewMode={viewMode} />)} />
+            <Route path="/:viewMode/home" element={wrapWithViewport(<Home viewMode={viewMode} />)} />
             <Route path="/:viewMode/forms" element={wrapWithViewport(<FormsPlaceholder />)} />
             
             {/* Fallback for old routes without viewMode */}
             <Route path="/login" element={<Navigate to="/desktop/login" replace />} />
             <Route path="/create-account" element={<Navigate to="/desktop/create-account" replace />} />
             <Route path="/dashboard" element={<Navigate to="/desktop/dashboard" replace />} />
+            <Route path="/home" element={<Navigate to="/desktop/home" replace />} />
             <Route path="/forms" element={<Navigate to="/desktop/forms" replace />} />
 
             <Route path="*" element={<NotFound />} />

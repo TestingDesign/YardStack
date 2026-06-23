@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, useId, useCallback } from 'react'
 import { Monitor, Smartphone, ChevronDown, X } from 'lucide-react'
 import Dropdown from '../commonfiles/Dropdown'
 
-export type Page = 'dashboard' | 'forms' | 'login' | 'createAccount'
+export type Page = 'home' | 'dashboard' | 'forms' | 'login' | 'createAccount'
 export type ViewMode = 'desktop' | 'mobile'
 
 interface HeaderProps {
@@ -15,6 +15,7 @@ interface HeaderProps {
 }
 
 const PAGE_LABELS: Record<Page, string> = {
+  home: 'Home',
   dashboard: 'Dashboard',
   forms: 'Forms',
   login: 'Login',

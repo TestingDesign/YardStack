@@ -1,0 +1,164 @@
+import { useState, useMemo, useCallback } from 'react'
+import { Search, ArrowRight, Check, Building2, MessageSquare, PlayCircle, Users, Briefcase, MonitorPlay, BarChart2, Mic, GraduationCap } from 'lucide-react'
+import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data'
+
+const ModuleIcon = ({ name }: { name: string }) => {
+  switch (name) {
+    case 'Spotlight': return <MessageSquare size={14} className="text-[#6B21A8]" />
+    case 'Directory': return <Users size={14} className="text-[#6B21A8]" />
+    case 'Opportunities': return <Briefcase size={14} className="text-[#6B21A8]" />
+    case 'Showcase': return <MonitorPlay size={14} className="text-[#6B21A8]" />
+    case 'Polls & Surveys': return <BarChart2 size={14} className="text-[#6B21A8]" />
+    case 'RED Expert': return <Mic size={14} className="text-[#6B21A8]" />
+    case 'Learn': return <GraduationCap size={14} className="text-[#6B21A8]" />
+    case 'City Inventory': return <Building2 size={14} className="text-[#6B21A8]" />
+    default: return <PlayCircle size={14} className="text-[#6B21A8]" />
+  }
+}
+
+export default function FindYourPlaceDesktop() {
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0])
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+
+  const filteredRoles = useMemo(() => {
+    if (!searchQuery.trim()) return []
+    return ROLES.filter((r) =>
+      r.label.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  }, [searchQuery])
+
+  const handleRoleSelect = useCallback((role: RoleInfo) => {
+    setSelectedRole(role)
+    setSearchQuery('')
+    setIsDropdownOpen(false)
+  }, [])
+
+  return (
+    <section id="find-your-place" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-16 lg:py-20">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B21A8] mb-3">
+          {FIND_YOUR_PLACE_CONTENT.sectionLabel}
+        </p>
+        <h2 className="text-center text-[1.8rem] lg:text-[2rem] leading-[1.2] font-extrabold text-[#1A1A2E] mb-2">
+          {FIND_YOUR_PLACE_CONTENT.heading}
+        </h2>
+        <p className="text-center text-[0.9rem] text-[#6B7280] mb-10 max-w-xl mx-auto">
+          {FIND_YOUR_PLACE_CONTENT.description}
+        </p>
+
+        {/* Three Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_260px] gap-5 items-start bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] p-6">
+          {/* Column 1: Role Selector */}
+          <div className="flex flex-col gap-4">
+            <p className="text-[12px] font-bold text-[#374151] m-0">
+              {FIND_YOUR_PLACE_CONTENT.inputPrefix}
+            </p>
+
+            {/* Search Input */}
+            <div className="relative">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true) }}
+                onFocus={() => setIsDropdownOpen(true)}
+                placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
+                className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 text-[13px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 focus:ring-2 focus:ring-[#6B21A8]/10 transition-all placeholder:text-gray-400 bg-white font-['Outfit',sans-serif]"
+              />
+
+              {/* Dropdown */}
+              {isDropdownOpen && filteredRoles.length > 0 && (
+                <ul className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-gray-200 shadow-lg z-20 max-h-48 overflow-y-auto list-none m-0 p-1">
+                  {filteredRoles.map((role) => (
+                    <li key={role.key}>
+                      <button
+                        type="button"
+                        onClick={() => handleRoleSelect(role)}
+                        className="w-full text-left px-3 py-2 text-[12px] font-medium text-[#374151] hover:bg-[#6B21A8]/5 hover:text-[#6B21A8] rounded-md transition-colors cursor-pointer border-none bg-transparent font-['Outfit',sans-serif]"
+                      >
+                        {role.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+
+            {/* Popular Roles */}
+            <div>
+              <p className="text-[11px] font-semibold text-[#6B7280] mb-2 m-0">Popular Roles</p>
+              <div className="flex flex-wrap gap-1.5">
+                {POPULAR_ROLES.map((role) => (
+                  <button
+                    key={role.key}
+                    type="button"
+                    onClick={() => handleRoleSelect(role)}
+                    className={`px-3 py-1.5 rounded-md text-[11px] font-semibold transition-all duration-200 border cursor-pointer font-['Outfit',sans-serif] ${
+                      selectedRole.key === role.key
+                        ? 'bg-[#6B21A8] text-white border-[#6B21A8] shadow-sm'
+                        : 'bg-white text-[#374151] border-gray-200 hover:border-[#6B21A8]/30 hover:text-[#6B21A8] hover:bg-[#6B21A8]/5'
+                    }`}
+                  >
+                    {role.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Column 2: Dynamic Help Content */}
+          <div className="flex flex-col gap-4 border-l border-r border-gray-100 px-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-[#F5F3FF] flex items-center justify-center shrink-0">
+                <Building2 size={20} className="text-[#6B21A8]" />
+              </div>
+              <h3 className="text-[1rem] font-bold text-[#1A1A2E] m-0">
+                {selectedRole.helpTitle}
+              </h3>
+            </div>
+            <ul className="list-none m-0 mt-2 p-0 flex flex-col gap-3">
+              {selectedRole.helpPoints.map((point, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-[0.85rem] text-[#4B5563]">
+                  <Check size={16} strokeWidth={3} className="shrink-0 mt-0.5 text-[#6B21A8]" />
+                  <span className="font-medium">{point}</span>
+                </li>
+              ))}
+            </ul>
+            <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white border border-gray-200 text-[#6B21A8] text-[13px] font-bold cursor-pointer hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 self-start mt-2">
+              {selectedRole.ctaLabel}
+              <ArrowRight size={14} />
+            </button>
+          </div>
+
+          {/* Column 3: Relevant Modules */}
+          <div className="flex flex-col gap-3">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-[#6B7280] m-0">
+              Relevant Modules
+            </p>
+            <div className="flex flex-col gap-2">
+              {selectedRole.relevantModules.map((mod, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-[#F9FAFB] border border-gray-100 hover:border-[#6B21A8]/20 hover:bg-[#6B21A8]/3 transition-all duration-200"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full bg-[#6B21A8]/10 flex items-center justify-center shrink-0">
+                      <ModuleIcon name={mod.name} />
+                    </div>
+                    <span className="text-[12px] font-semibold text-[#374151]">{mod.name}</span>
+                  </div>
+                  {mod.comingSoon && (
+                    <span className="text-[8px] font-medium text-[#6B7280]">
+                      (Coming Soon)
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}

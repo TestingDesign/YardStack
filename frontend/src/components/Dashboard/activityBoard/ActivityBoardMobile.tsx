@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef, memo, useEffect } from 'react'
+import React, { useState, useCallback, useRef, memo, useEffect } from 'react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
@@ -7,6 +7,9 @@ import BookmarkIcon from '@mui/icons-material/Bookmark'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
+import GroupIcon from '@mui/icons-material/Group'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 import ActivityTabs from './ActivityTabs'
 import { ACTIVITY_ITEMS, type ActivityItem } from './data'
@@ -86,8 +89,8 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
       }`}
     >
-      <div className="relative z-10 rounded-lg group/card">
-        <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-lg flex flex-col items-center justify-center text-white z-0 overflow-hidden">
+      <div className="relative z-10 rounded-[8px] group/card">
+        <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-[8px] flex flex-col items-center justify-center text-white z-0 overflow-hidden">
           <button
             type="button"
             className="flex flex-col items-center justify-center w-full h-full active:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
@@ -110,13 +113,13 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
             transitionTimingFunction: isSwiping ? 'linear' : 'cubic-bezier(0.34, 1.56, 0.64, 1)',
             backgroundColor: item.cardBg || '#FFFFFF'
           }}
-          className="relative flex flex-col p-2.5 @md:p-3 border border-gray-100 rounded-lg z-10 transition-colors min-h-20 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+          className="relative flex flex-col p-2.5 @md:p-3 border border-gray-100 rounded-[8px] z-10 transition-colors min-h-20 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
         >
           <div className="absolute top-2 right-2 bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none">
             <div className="flex items-center pointer-events-auto">
               <button
                 onClick={toggleSwipe}
-                className={`flex items-center justify-center p-1 rounded-md text-red-500 bg-transparent border-none hover:bg-red-50 hover:scale-110 transition-all duration-300 active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 cursor-pointer ${
+                className={`flex items-center justify-center p-1 rounded-[4px] text-red-500 bg-transparent border-none hover:bg-red-50 hover:scale-110 transition-all duration-300 active:scale-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/50 cursor-pointer ${
                   swipeOffset < -10 ? 'opacity-0 scale-75 pointer-events-none' : 'opacity-100 scale-100'
                 }`}
                 aria-label="Swipe Left"
@@ -145,7 +148,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
                 </button>
 
                 <span
-                  className={`absolute right-0 px-2 py-1 bg-gray-900 text-white text-[9px] font-bold rounded-sm opacity-0 group-hover/save:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-100 ${
+                  className={`absolute right-0 px-2 py-1 bg-gray-900 text-white text-[9px] font-bold rounded-[2px] opacity-0 group-hover/save:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-100 ${
                     tooltipPos === 'top' ? 'bottom-full mb-1.5 translate-y-1 group-hover/save:translate-y-0' : 'top-full mt-1.5 -translate-y-1 group-hover/save:translate-y-0'
                   }`}
                 >
@@ -160,7 +163,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
               <button
                 onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
+                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded-[4px] border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 }`}
               >
@@ -180,11 +183,11 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
                   <img
                     src={item.logoImg}
                     alt={item.company}
-                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-md object-cover border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
+                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[8px] object-cover border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
                   />
                 ) : (
                   <div
-                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-md flex items-center justify-center border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
+                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[8px] flex items-center justify-center border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
                     style={{ backgroundColor: item.logoBg, color: item.logoColor }}
                   >
                     <span
@@ -195,7 +198,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
                     </span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black/0 group-hover/logo:bg-black/5 transition-colors rounded-md pointer-events-none" />
+                <div className="absolute inset-0 bg-black/0 group-hover/logo:bg-black/5 transition-colors rounded-[8px] pointer-events-none" />
               </div>
             </div>
 
@@ -213,7 +216,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
               <div className="flex items-center w-full mt-2 gap-1.5 min-w-0">
                 <span
-                  className="px-1.5 py-0.5 rounded-sm text-[8px] @md:text-[9px] font-bold tracking-wide uppercase shrink-0 transition-colors duration-300"
+                  className="px-1.5 py-0.5 rounded-[2px] text-[8px] @md:text-[9px] font-bold tracking-wide uppercase shrink-0 transition-colors duration-300"
                   style={{ backgroundColor: item.tagBg, color: item.tagColor }}
                 >
                   {item.tag}
@@ -229,31 +232,66 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
       <div
         className={`transition-all duration-500 ease-in-out overflow-hidden transform origin-top ${
-          isExpanded ? 'max-h-56 opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95'
+          isExpanded ? 'max-h-[400px] opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95'
         }`}
       >
-        <div className="mx-2 p-3 pt-4 -mt-2 bg-gradient-to-b from-gray-50/80 to-white rounded-b-lg border border-t-0 border-gray-100 flex flex-col relative z-0 shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
-          <div className="flex items-start gap-2 text-[10px] @md:text-[11px] text-gray-500 leading-relaxed">
-            <BusinessCenterIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1] shrink-0 mt-0.5" />
-            <div>
-              <span className="font-bold text-[#1f1633] block mb-0.5">Role Overview</span>
-              We are actively looking for candidates/agencies specializing in <strong className="text-[#1f1633]">{item.tag}</strong> to fulfill the requirements for <strong className="text-[#1f1633]">{item.title}</strong>.
-            </div>
+        <div className="mx-2 p-4 pt-5 -mt-2 bg-gradient-to-b from-gray-50/80 to-white rounded-b-[8px] border border-t-0 border-gray-100 flex flex-col relative z-0 shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
+          <div className="flex items-center gap-1.5 mb-3 text-[11px] font-bold text-[#1f1633]">
+            <BusinessCenterIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1]" />
+            Role Overview
           </div>
 
-          <div className="pl-4 text-[10px] @md:text-[11px] text-gray-500 border-l-2 border-[#6a5fc1]/20 ml-1.5 mt-3 transition-colors duration-300 hover:border-[#6a5fc1]/50">
-            <ul className="list-disc pl-3 space-y-1 marker:text-gray-300">
-              <li><strong className="text-gray-600">Budget:</strong> {item.detail}</li>
-              <li><strong className="text-gray-600">Company:</strong> {item.company} {item.verified ? '(Verified)' : ''}</li>
-              <li>Portfolio and relevant experience required.</li>
-            </ul>
+          <div className="flex flex-wrap gap-1.5 mb-3">
+            {item.skills?.map((skill) => (
+              <span
+                key={skill}
+                className="px-2 py-1 rounded-[4px] text-[10px] font-semibold bg-blue-50/50 text-blue-600 border border-blue-100/50"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+
+          <p className="text-[11px] text-gray-600 leading-relaxed mb-4">
+            {item.description || `We are actively looking for candidates/agencies specializing in ${item.tag} to fulfill the requirements for ${item.title}. The ideal candidate should have strong leadership skills and a proven track record.`}
+          </p>
+
+          <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-gray-100/80">
+            <div className="flex items-center gap-3 w-full overflow-x-auto scrollbar-none">
+              <div className="flex items-center -space-x-2 shrink-0">
+                {Array.from({ length: Math.min(item.applicants || 3, 3) }).map((_, i) => (
+                  <img
+                    key={i}
+                    src={`https://i.pravatar.cc/32?u=${item.id}-${i}`}
+                    alt="Applicant"
+                    className="w-6 h-6 rounded-full border-2 border-white object-cover shadow-sm"
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-2 text-[10px] font-medium text-gray-500 whitespace-nowrap">
+                <span className="flex items-center gap-1">
+                  <GroupIcon sx={{ fontSize: 14 }} className="text-blue-500" />
+                  {item.applicants || 0} Applicants
+                </span>
+                <span className="text-gray-300">•</span>
+                <span className="flex items-center gap-1">
+                  <VisibilityIcon sx={{ fontSize: 14 }} className="text-purple-500" />
+                  {item.views || 0} Views
+                </span>
+                <span className="text-gray-300">•</span>
+                <span className="flex items-center gap-1">
+                  <AccessTimeIcon sx={{ fontSize: 14 }} className="text-orange-500" />
+                  {item.postedAgo || 'Just now'}
+                </span>
+              </div>
+            </div>
           </div>
 
           <div className="mt-4 flex justify-end">
             <button className="
               px-5 py-2 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border-none
-              bg-linear-to-r from-pink-500 to-rose-500 bg-size-[200%_auto]
-              hover:bg-position-[100%_center] hover:scale-[1.02]
+              bg-gradient-to-r from-pink-500 to-rose-500 bg-[length:200%_auto]
+              hover:bg-[position:100%_center] hover:scale-[1.02]
               shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)]
               transition-all duration-300 active:scale-95
               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50
@@ -261,6 +299,54 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
               Apply / Connect
             </button>
           </div>
+        </div>
+      </div>
+    </div>
+  )
+})
+
+const AdvertisementBlock = memo(function AdvertisementBlock() {
+  return (
+    <div className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center w-full h-[120px] my-3 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
+      <div className="text-center relative z-10 p-4 flex flex-col items-center">
+        <span className="block text-sm mb-2 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
+          Advertisement
+        </span>
+      </div>
+    </div>
+  )
+})
+
+const SponsoredBlock = memo(function SponsoredBlock() {
+  return (
+    <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[100px] w-full mt-4 mb-2 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
+      <div className="text-center relative z-10 p-4 flex flex-col items-center">
+        <span className="block text-sm mb-2 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
+          Sponsored
+        </span>
+      </div>
+    </div>
+  )
+})
+
+const HiringCTA = memo(function HiringCTA() {
+  return (
+    <div className="rounded-[8px] overflow-hidden border border-slate-700/50 bg-gradient-to-br from-[#0f172a]/90 to-[#1e293b]/90 backdrop-blur-xl p-4 text-white relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] mt-4 mb-6 animate-in fade-in duration-500">
+      <div className="absolute -right-8 -top-8 w-24 h-24 bg-[#E91E8C]/20 rounded-full blur-2xl" />
+      <div className="flex items-center gap-3 relative z-10">
+        <div className="flex-1">
+          <h3 className="text-[14px] font-bold mb-1 text-white drop-shadow-sm">
+            Looking to hire top talent?
+          </h3>
+          <p className="text-[11px] text-gray-300 leading-relaxed mb-3">
+            Post a job and connect with verified professionals.
+          </p>
+          <button className="px-4 py-2 rounded-[4px] text-[11px] font-bold text-white cursor-pointer border border-pink-500/30 bg-gradient-to-r from-[#E91E8C] to-[#F472B6] shadow-[0_2px_8px_rgba(233,30,140,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+            Post a Job
+          </button>
+        </div>
+        <div className="shrink-0 w-12 h-12 rounded-[8px] bg-white/5 flex items-center justify-center border border-white/10 backdrop-blur-md shadow-inner">
+          <BusinessCenterIcon sx={{ fontSize: 24 }} className="text-white/80 drop-shadow-lg" />
         </div>
       </div>
     </div>
@@ -307,7 +393,7 @@ export default function ActivityBoardMobile() {
       <div className="w-full pt-2 pb-16 max-w-5xl mx-auto px-3">
         {displayedItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500">
-            <div className="w-12 h-12 mb-3 rounded-lg bg-white shadow-sm border border-gray-100 flex items-center justify-center">
+            <div className="w-12 h-12 mb-3 rounded-[8px] bg-white shadow-sm border border-gray-100 flex items-center justify-center">
               <span className="text-xl">📭</span>
             </div>
             <h3 className="text-sm font-bold text-[#1f1633] mb-0.5">No activities found</h3>
@@ -316,14 +402,19 @@ export default function ActivityBoardMobile() {
         ) : (
           <div className="flex flex-col">
             {displayedItems.map((item, index) => (
-              <ActivityCard 
-                key={item.id} 
-                item={item} 
-                index={index} 
-                isExpanded={expandedId === item.id}
-                onToggle={() => handleToggleExpand(item.id)}
-              />
+              <React.Fragment key={item.id}>
+                <ActivityCard 
+                  item={item} 
+                  index={index} 
+                  isExpanded={expandedId === item.id}
+                  onToggle={() => handleToggleExpand(item.id)}
+                />
+                {index === 3 && displayedItems.length > 3 && (
+                  <AdvertisementBlock />
+                )}
+              </React.Fragment>
             ))}
+            <SponsoredBlock />
           </div>
         )}
 
@@ -348,6 +439,8 @@ export default function ActivityBoardMobile() {
             </button>
           </div>
         )}
+
+        {displayedItems.length > 0 && <HiringCTA />}
       </div>
     </div>
   )

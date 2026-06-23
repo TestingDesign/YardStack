@@ -9,10 +9,10 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 import GroupIcon from '@mui/icons-material/Group'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import WorkIcon from '@mui/icons-material/Work'
 import CircularProgress from '@mui/material/CircularProgress'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 
 import ActivityTabs from './ActivityTabs'
 import {
@@ -242,13 +242,13 @@ const OpportunityCard = memo(function OpportunityCard({
                   onClick={(e) => {
                     e.stopPropagation()
                   }}
-                  className="w-full px-4 py-2.5 rounded-lg text-[13px] font-bold text-white cursor-pointer border-none bg-[#E91E8C] hover:bg-[#d11a7d] transition-all duration-300 active:scale-95 shadow-[0_4px_12px_rgba(233,30,140,0.3)] hover:shadow-[0_6px_16px_rgba(233,30,140,0.4)]"
+                  className="w-full px-5 py-2 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border-none bg-linear-to-r from-pink-500 to-rose-500 bg-size-[200%_auto] hover:bg-position-[100%_center] hover:scale-[1.02] shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50"
                 >
                   Apply Now
                 </button>
                 <button
                   onClick={toggleSave}
-                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg text-[12px] font-semibold text-gray-600 cursor-pointer border border-gray-200 bg-white hover:bg-gray-50 transition-all duration-200"
+                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-[2px] text-[12px] font-semibold text-gray-700 cursor-pointer border border-gray-200 bg-white hover:bg-pink-50 hover:border-pink-200 hover:text-[#E91E8C] hover:shadow-[0_2px_8px_rgba(233,30,140,0.12)] transition-all duration-300"
                 >
                   {isSaved ? (
                     <BookmarkIcon sx={{ fontSize: 16 }} className="text-[#E91E8C]" />
@@ -262,7 +262,7 @@ const OpportunityCard = memo(function OpportunityCard({
                     e.stopPropagation()
                     setIsDismissing(true)
                   }}
-                  className="flex items-center justify-center gap-1 w-full py-1.5 rounded-lg text-[11px] font-medium text-gray-400 cursor-pointer border-none bg-transparent hover:text-red-500 transition-colors duration-200"
+                  className="flex items-center justify-center gap-1 w-full py-1.5 rounded-[2px] text-[11px] font-medium text-gray-400 cursor-pointer border-none bg-transparent hover:text-red-500 transition-colors duration-200"
                 >
                   <CloseIcon sx={{ fontSize: 14 }} />
                   Not Interested
@@ -272,7 +272,7 @@ const OpportunityCard = memo(function OpportunityCard({
               <>
                 <button
                   onClick={toggleSave}
-                  className="flex items-center justify-center p-1.5 rounded-lg text-gray-400 bg-transparent border-none hover:text-[#E91E8C] hover:bg-pink-50 transition-all duration-200 cursor-pointer"
+                  className="flex items-center justify-center w-9 h-9 rounded-[2px] text-gray-400 bg-transparent border-none hover:text-[#E91E8C] hover:bg-pink-50 hover:border-pink-200 hover:shadow-[0_2px_8px_rgba(233,30,140,0.12)] transition-all duration-300 hover:scale-[1.05] active:scale-[0.95] cursor-pointer"
                   aria-label={isSaved ? 'Saved' : 'Save'}
                 >
                   {isSaved ? (
@@ -287,11 +287,11 @@ const OpportunityCard = memo(function OpportunityCard({
                     e.stopPropagation()
                     onToggle()
                   }}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[12px] font-bold text-[#E91E8C] bg-transparent border-none hover:bg-pink-50 transition-all duration-200 cursor-pointer"
+                  className="w-full flex items-center justify-center gap-0.5 py-2 px-2 text-[12px] font-bold text-white rounded-[4px] border-none bg-gradient-to-r from-[#E91E8C] to-[#F472B6] hover:from-[#d11a7d] hover:to-[#ec4899] hover:shadow-[0_4px_12px_rgba(233,30,140,0.3)] shadow-[0_2px_8px_rgba(233,30,140,0.2)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer"
                 >
                   View Job
                   <KeyboardArrowDownIcon
-                    sx={{ fontSize: 18 }}
+                    sx={{ fontSize: 16 }}
                     className={`transition-transform duration-300 ${
                       isExpanded ? 'rotate-180' : ''
                     }`}
@@ -487,23 +487,26 @@ export default function ActivityBoardDesktop() {
                   )}
                 </div>
 
-                {hasMore && !isLoading && (
+                {hasMore && (
                   <div className="flex justify-center mt-6 mb-4">
                     <button
                       onClick={handleLoadMore}
                       disabled={isLoading}
-                      className="flex items-center justify-center gap-2 px-8 py-3 min-w-40 text-[13px] font-bold text-white rounded-xl cursor-pointer border-none bg-[#1f1633] hover:bg-[#2d2345] transition-all duration-300 active:scale-95 shadow-[0_4px_16px_rgba(31,22,51,0.2)] hover:shadow-[0_6px_20px_rgba(31,22,51,0.3)] disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1f1633]/70"
+                      className="group flex items-center justify-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97] disabled:opacity-70 disabled:cursor-not-allowed"
                     >
                       {isLoading ? (
                         <>
                           <CircularProgress
                             size={14}
-                            sx={{ color: 'white' }}
+                            sx={{ color: '#7C3AED' }}
                           />
                           <span>Loading...</span>
                         </>
                       ) : (
-                        'Load More Opportunities'
+                        <>
+                          <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                          <span>Load More Opportunities</span>
+                        </>
                       )}
                     </button>
                   </div>

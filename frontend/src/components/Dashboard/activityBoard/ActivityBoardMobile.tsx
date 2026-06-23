@@ -6,6 +6,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 
 import ActivityTabs from './ActivityTabs'
 import { ACTIVITY_ITEMS, type ActivityItem } from './data'
@@ -135,12 +136,12 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
               >
                 <button
                   onClick={toggleSave}
-                  className={`flex items-center justify-center p-1 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 transition-all duration-300 active:scale-90 text-[#6a5fc1] bg-transparent border-none hover:bg-gray-50 hover:scale-110 cursor-pointer ${
+                  className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-pink-100 text-[#E91E8C] bg-white hover:bg-pink-50 hover:border-pink-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E91E8C]/50 transition-all duration-300 active:scale-95 cursor-pointer ${
                     isSaved ? 'scale-110' : ''
                   }`}
                   aria-label={isSaved ? "Saved" : "Save"}
                 >
-                  {isSaved ? <BookmarkIcon sx={{ fontSize: 16 }} className="drop-shadow-sm" /> : <BookmarkBorderIcon sx={{ fontSize: 16 }} />}
+                  {isSaved ? <BookmarkIcon sx={{ fontSize: 16 }} className="drop-shadow-sm text-[#E91E8C]" /> : <BookmarkBorderIcon sx={{ fontSize: 16 }} />}
                 </button>
 
                 <span
@@ -159,7 +160,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
               <button
                 onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded border border-pink-500/20 text-pink-600 font-bold text-[9px] @md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
+                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 }`}
               >
@@ -250,7 +251,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
           <div className="mt-4 flex justify-end">
             <button className="
-              px-4 py-1.5 rounded-md text-[10px] @md:text-[11px] font-bold text-white cursor-pointer border-none
+              px-5 py-2 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border-none
               bg-linear-to-r from-pink-500 to-rose-500 bg-size-[200%_auto]
               hover:bg-position-[100%_center] hover:scale-[1.02]
               shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)]
@@ -331,26 +332,18 @@ export default function ActivityBoardMobile() {
             <button
               onClick={handleLoadMore}
               disabled={isLoading}
-              className="
-                group flex items-center justify-center gap-2 px-6 py-2.5 min-w-35
-                text-xs font-bold text-white rounded-md cursor-pointer border-none
-                bg-linear-to-r from-[#6a5fc1] via-[#8b5cf6] to-[#6a5fc1] bg-size-[200%_auto]
-                shadow-[0_4px_12px_rgba(106,95,193,0.25)]
-                hover:bg-position-[100%_center] hover:shadow-[0_6px_16px_rgba(106,95,193,0.4)]
-                hover:-translate-y-px hover:scale-[1.02]
-                transition-all duration-500 ease-out active:scale-95
-                disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none
-                disabled:hover:shadow-[0_4px_12px_rgba(106,95,193,0.25)] disabled:hover:bg-position-[0%_center]
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/70
-              "
+              className="group flex items-center justify-center gap-2 px-6 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[12px] font-semibold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
-                  <CircularProgress size={14} sx={{ color: 'white' }} />
+                  <CircularProgress size={14} sx={{ color: '#7C3AED' }} />
                   <span>Loading...</span>
                 </>
               ) : (
-                'Load More'
+                <>
+                  <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                  <span>Load More Opportunities</span>
+                </>
               )}
             </button>
           </div>

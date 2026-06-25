@@ -1,53 +1,51 @@
-import { PlaySquare, MessageCircle, Briefcase, BookOpen, MessageSquare, FileText, Users, ArrowRight } from 'lucide-react'
+import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronRight } from 'lucide-react'
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data'
 
 const IconRenderer = ({ icon, color }: { icon: string, color: string }) => {
-  const props = { size: 18, color }
+  const props = { size: 20, color }
   switch (icon) {
     case 'youtube': return <PlaySquare {...props} />
     case 'whatsapp': return <MessageCircle {...props} />
-    case 'briefcase': return <Briefcase {...props} />
+    case 'users': return <Users {...props} />
     case 'book': return <BookOpen {...props} />
     case 'message': return <MessageSquare {...props} />
-    case 'file-text': return <FileText size={20} color={color} />
-    case 'users': return <Users size={20} color={color} />
-    case 'message-circle': return <MessageCircle size={20} color={color} />
+    case 'file-text': return <FileText {...props} />
     default: return null
   }
 }
 
 export default function WhyN4reDesktop() {
   return (
-    <section id="why-n4re" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-16 lg:py-20 relative overflow-hidden">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 relative z-10">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B21A8] mb-3">
-          WHY N4RE?
+    <section id="why-n4re" className="bg-[#F8FAFC] font-['Outfit',sans-serif] py-16 lg:py-20 relative overflow-hidden">
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative z-10">
+        <p className="text-center text-[12px] font-bold uppercase tracking-[0.2em] text-[#6B21A8] mb-4">
+          {WHY_N4RE_CONTENT.subtitle}
         </p>
 
-        <h2 className="text-center text-[1.8rem] lg:text-[2.2rem] leading-[1.2] font-extrabold text-[#1A1A2E] max-w-3xl mx-auto mb-12">
+        <h2 className="text-center text-[1.8rem] lg:text-[2.2rem] leading-[1.3] font-bold text-[#111827] max-w-4xl mx-auto mb-12">
           {WHY_N4RE_CONTENT.heading}
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6B21A8] to-[#D946EF]">
+          <span className="text-[#6B21A8]">
             {WHY_N4RE_CONTENT.headingHighlight}
           </span>
         </h2>
 
         <div className="relative max-w-5xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-0 rounded-2xl overflow-hidden border border-gray-100 bg-white shadow-[0_4px_24px_rgba(0,0,0,0.04)]">
-            <div className="p-8 ys-fade-in-up">
-              <div className="flex items-center gap-2 mb-6">
-                <p className="text-[12px] font-extrabold uppercase tracking-[0.15em] text-[#EF4444] m-0">
-                  TODAY — EVERYTHING IS DISCONNECTED
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-0 rounded-2xl bg-white shadow-sm border border-gray-100">
+            
+            <div className="p-10 lg:pl-12">
+              <div className="flex items-center gap-2 mb-8 justify-center lg:justify-start">
+                <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[#DC2626] m-0">
+                  {WHY_N4RE_CONTENT.todayHeader}
                 </p>
               </div>
-              <ul className="list-none m-0 p-0 flex flex-col gap-5">
+              <ul className="list-none m-0 p-0 flex flex-col gap-6">
                 {TODAY_PROBLEMS.map((item, i) => (
-                  <li
-                    key={i}
-                    className="flex items-center gap-3.5 text-[0.92rem] text-[#4B5563] ys-fade-in"
-                    style={{ animationDelay: `${i * 60}ms` }}
-                  >
-                    <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center shrink-0">
+                  <li key={i} className="flex items-center gap-4 text-[15px] text-[#374151]">
+                    <div 
+                      className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: item.bgColor }}
+                    >
                       <IconRenderer icon={item.icon} color={item.color} />
                     </div>
                     <span className="font-medium">{item.text}</span>
@@ -56,36 +54,32 @@ export default function WhyN4reDesktop() {
               </ul>
             </div>
 
-            <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px bg-gray-100 -translate-x-1/2" />
+            <div className="hidden lg:block absolute left-1/2 top-8 bottom-8 w-px border-l border-dashed border-gray-200 -translate-x-1/2" />
 
-            <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-11 h-11 rounded-full bg-[#6B21A8] text-white shadow-[0_4px_16px_rgba(107,33,168,0.3)] items-center justify-center">
-              <ArrowRight size={20} />
+            <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-[#6B21A8] text-white items-center justify-center">
+              <ChevronRight size={22} strokeWidth={2.5} />
             </div>
 
-            <div className="p-8 ys-fade-in-up [animation-delay:100ms] border-t lg:border-t-0 lg:border-l border-gray-100">
-              <div className="flex items-center gap-2 mb-6">
-                <p className="text-[12px] font-extrabold uppercase tracking-[0.15em] text-[#22C55E] m-0">
-                  N4RE BRINGS IT TOGETHER
+            <div className="p-10 lg:pl-16 border-t lg:border-t-0 border-gray-100">
+              <div className="flex items-center gap-2 mb-8 justify-center lg:justify-start">
+                <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[#16A34A] m-0">
+                  {WHY_N4RE_CONTENT.n4reHeader}
                 </p>
               </div>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-10">
                 {N4RE_SOLUTIONS.map((sol, i) => (
-                  <div
-                    key={i}
-                    className="flex items-start gap-4 ys-fade-in"
-                    style={{ animationDelay: `${(i + 5) * 60}ms` }}
-                  >
-                    <div
-                      className="w-11 h-11 rounded-full flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: `${sol.color}15` }}
+                  <div key={i} className="flex items-start gap-5">
+                    <div 
+                      className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: sol.bgColor }}
                     >
                       <IconRenderer icon={sol.icon} color={sol.color} />
                     </div>
-                    <div>
-                      <p className="text-[13px] font-extrabold uppercase tracking-wider m-0 mb-1" style={{ color: sol.color }}>
+                    <div className="pt-1">
+                      <p className="text-[14px] font-bold uppercase tracking-wide m-0 mb-1" style={{ color: sol.color }}>
                         {sol.pillar}
                       </p>
-                      <p className="text-[0.9rem] text-[#4B5563] leading-relaxed m-0 font-medium">
+                      <p className="text-[15px] text-[#4B5563] leading-relaxed m-0 font-medium pr-4">
                         {sol.description}
                       </p>
                     </div>
@@ -95,6 +89,13 @@ export default function WhyN4reDesktop() {
             </div>
           </div>
         </div>
+
+        <div className="mt-12 text-center">
+          <a href="#join" className="inline-block text-[13px] font-bold uppercase tracking-[0.1em] text-[#6B21A8] hover:text-[#581C87] transition-colors">
+            {WHY_N4RE_CONTENT.footerText}
+          </a>
+        </div>
+
       </div>
     </section>
   )

@@ -15,6 +15,8 @@ import SpotlightDesktop from './spotlight/SpotlightDesktop'
 import SpotlightMobile from './spotlight/SpotlightMobile'
 import LaunchingSoon from './launchingSoon/LaunchingSoon'
 import Directory from './directory/Directory'
+import CityInventory from './cityInventory/CityInventory'
+import Learn from './learn/Learn'
 import DashboardHeader from './DashboardHeader'
 import DashboardSidebar from '../commonfiles/sidebar/DashboardSidebar'
 import type { DashboardNavKey } from '../commonfiles/sidebar/DashboardSidebar'
@@ -153,7 +155,11 @@ function DesktopDashboard() {
           <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
           <SpotlightDesktop />
-        ) : activeTab === 'showcase' || activeTab === 'cityInventory' || activeTab === 'surveyPools' || activeTab === 'lms' ? (
+        ) : activeTab === 'cityInventory' ? (
+          <CityInventory />
+        ) : activeTab === 'lms' ? (
+          <Learn />
+        ) : activeTab === 'showcase' || activeTab === 'surveyPools' ? (
           <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />
@@ -251,7 +257,11 @@ function MobileDashboard() {
           <PodcastMobile />
         ) : activeTab === 'spotlight' ? (
           <SpotlightMobile />
-        ) : activeTab === 'showcase' || activeTab === 'cityInventory' || activeTab === 'surveyPools' || activeTab === 'lms' ? (
+        ) : activeTab === 'cityInventory' ? (
+          <CityInventory />
+        ) : activeTab === 'lms' ? (
+          <Learn />
+        ) : activeTab === 'showcase' || activeTab === 'surveyPools' ? (
           <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />

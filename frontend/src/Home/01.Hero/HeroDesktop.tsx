@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
 import AnimatedCity from "./AnimatedCity";
 import Logo from "./Logo.png";
+import BG from "./BG.png";
 
 const CARD_RADIUS = 200;
 
@@ -47,87 +48,8 @@ export default function HeroDesktop() {
 
   return (
     <section id="hero" className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
-      <div className="absolute bottom-0 pointer-events-none z-0" style={{ right: 0, width: "55%", height: "200px" }}>
-        <svg viewBox="0 0 800 200" preserveAspectRatio="xMaxYMax meet" className="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
-          <g transform="translate(800,0) scale(-1,1)" opacity="0.05" fill="#6B21A8">
-            <rect x="20" y="60" width="35" height="140" rx="4" />
-            <rect x="25" y="70" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="38" y="70" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="25" y="90" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="38" y="90" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="25" y="110" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="38" y="110" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="70" y="30" width="40" height="170" rx="4" />
-            <rect x="76" y="40" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="90" y="40" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="76" y="60" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="90" y="60" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="76" y="80" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="90" y="80" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="76" y="100" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="90" y="100" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="125" y="80" width="30" height="120" rx="4" />
-            <rect x="131" y="90" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="142" y="90" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="131" y="106" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="142" y="106" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="170" y="45" width="45" height="155" rx="4" />
-            <rect x="177" y="55" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="192" y="55" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="177" y="75" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="192" y="75" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="177" y="95" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="192" y="95" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="177" y="115" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="192" y="115" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <polygon points="192,45 192,25 188,20 184,25 184,45" />
-            <rect x="230" y="90" width="28" height="110" rx="4" />
-            <rect x="236" y="100" width="6" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="246" y="100" width="6" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="236" y="116" width="6" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="246" y="116" width="6" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="275" y="20" width="50" height="180" rx="6" />
-            <rect x="283" y="30" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="299" y="30" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="283" y="52" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="299" y="52" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="283" y="74" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="299" y="74" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="283" y="96" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="299" y="96" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="283" y="118" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="299" y="118" width="10" height="12" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="340" y="70" width="32" height="130" rx="4" />
-            <rect x="346" y="80" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="358" y="80" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="346" y="96" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="358" y="96" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="346" y="112" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="358" y="112" width="7" height="8" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="390" y="50" width="38" height="150" rx="4" />
-            <rect x="397" y="60" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="411" y="60" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="397" y="80" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="411" y="80" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="397" y="100" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="411" y="100" width="8" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="445" y="100" width="25" height="100" rx="4" />
-            <rect x="451" y="110" width="6" height="7" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="459" y="110" width="6" height="7" rx="1.5" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="485" y="55" width="42" height="145" rx="4" />
-            <rect x="492" y="65" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="506" y="65" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="492" y="85" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="506" y="85" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="492" y="105" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="506" y="105" width="9" height="10" rx="2" fill="#FFFFFF" fillOpacity="0.4" />
-            <rect x="545" y="75" width="30" height="125" rx="4" />
-            <rect x="590" y="40" width="35" height="160" rx="4" />
-            <rect x="640" y="85" width="28" height="115" rx="4" />
-            <rect x="685" y="60" width="40" height="140" rx="4" />
-            <rect x="740" y="95" width="30" height="105" rx="4" />
-          </g>
-        </svg>
+      <div className="absolute bottom-0 left-0 w-full pointer-events-none z-0" style={{ height: "200px" }}>
+        <img src={BG} alt="City Background" className="w-full h-full object-cover object-bottom opacity-10" draggable={false} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">

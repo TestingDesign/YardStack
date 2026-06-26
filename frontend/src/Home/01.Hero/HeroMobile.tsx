@@ -2,6 +2,7 @@ import { ArrowRight } from 'lucide-react';
 import AnimatedCity from './AnimatedCity';
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from './data';
 import Logo from './Logo.png';
+import BG from './BG.png';
 
 const CategoryIcon = ({ icon }: { icon: string }) => {
   switch (icon) {
@@ -78,13 +79,12 @@ export default function HeroMobile() {
       className="relative overflow-hidden bg-[#F8F7FC]"
     >
       <div
-        className="absolute bottom-0 left-0 w-full h-[200px] opacity-[0.04] pointer-events-none"
+        className="absolute bottom-0 left-0 w-full h-[200px] opacity-10 pointer-events-none"
         style={{
-          backgroundImage:
-            'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\' viewBox=\'0 0 800 400\' preserveAspectRatio=\'none\'%3E%3Cpath d=\'M0 400V300h50v-50h30v-30h40v80h20v-60h40v-40h30v100h50v-80h40v-20h30v100h60v-40h40v-60h30v100h50v-20h20v-50h40v70h20v-30h40v-70h30v100h40v-40h20v-20h30v60h50v-50h40v50h80V400H0z\' fill=\'%236B21A8\'/%3E%3C/svg%3E")',
-          backgroundSize: '100% 100%',
+          backgroundImage: `url(${BG})`,
+          backgroundSize: 'cover',
           backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'bottom',
+          backgroundPosition: 'bottom center',
         }}
       />
 

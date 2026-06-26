@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Menu, X } from 'lucide-react';
 import { NAV_LINKS, NAV_CTAS } from './data';
+import Logo from '../01.Hero/Logo.png';
 
 
 interface HomeNavMobileProps {
@@ -29,9 +30,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             onClick={() => { setActiveLink('home'); setIsOpen(false); }}
             className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
           >
-            <span className="text-[24px] font-extrabold text-[var(--color-text-primary)] leading-none tracking-tight">
-              N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
-            </span>
+            <img src={Logo} alt="Logo" className="h-7 w-auto object-contain" draggable={false} />
           </a>
 
           <button
@@ -53,9 +52,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-purple-900/5 h-[60px]">
-              <span className="text-[24px] font-extrabold text-[var(--color-text-primary)] leading-none tracking-tight">
-                N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
-              </span>
+              <img src={Logo} alt="Logo" className="h-7 w-auto object-contain" draggable={false} />
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}

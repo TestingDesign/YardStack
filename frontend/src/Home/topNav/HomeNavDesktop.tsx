@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { NAV_LINKS, NAV_CTAS } from './data';
+import Logo from '../01.Hero/Logo.png';
 
 interface HomeNavDesktopProps {
   viewMode: 'desktop' | 'mobile';
@@ -22,9 +23,7 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
           onClick={() => setActiveLink('home')}
           className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
         >
-          <span className="text-[28px] font-extrabold text-[var(--color-text-primary)] leading-none tracking-tight">
-            N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
-          </span>
+          <img src={Logo} alt="Logo" className="h-20 w-auto object-contain" draggable={false} />
         </a>
 
         <nav aria-label="Main Navigation" className="hidden md:flex items-center justify-center flex-1 mx-8">

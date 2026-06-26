@@ -2,7 +2,7 @@ import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
 import { PlayCircle, Mic, GraduationCap, Users, Building2, Briefcase, MonitorPlay, BarChart2 } from 'lucide-react';
 
 const ModuleIcon = ({ name, color }: { name: string; color: string }) => {
-  const props = { size: 18, color };
+  const props = { size: 20, color };
   switch (name) {
     case 'Spotlight': return <PlayCircle {...props} />;
     case 'RED Expert': return <Mic {...props} />;
@@ -18,45 +18,77 @@ const ModuleIcon = ({ name, color }: { name: string; color: string }) => {
 
 function PillarCard({ pillar }: { pillar: Pillar }) {
   return (
-    <div className="flex flex-col rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
-      <div
-        className="px-5 py-4"
-        style={{ borderBottom: `3px solid ${pillar.borderColor}` }}
-      >
-        <p
-          className="text-[11px] font-extrabold uppercase tracking-[0.15em] m-0 mb-1"
-          style={{ color: pillar.color }}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        borderRadius: '20px',
+        border: `1px solid ${pillar.borderColor}`,
+        background: pillar.columnBg,
+        padding: '24px',
+        gap: '16px',
+        fontFamily: "'Outfit', sans-serif",
+      }}
+    >
+      <div style={{ marginBottom: '8px' }}>
+        <h3
+          style={{
+            fontSize: '15px',
+            fontWeight: 800,
+            textTransform: 'uppercase',
+            letterSpacing: '0.02em',
+            margin: '0 0 6px 0',
+            color: pillar.color,
+          }}
         >
           {pillar.title}
-        </p>
-        <p className="text-[13px] font-semibold text-[#374151] m-0 italic">
+        </h3>
+        <p style={{ fontSize: '14px', fontWeight: 700, color: '#1A1A2E', margin: 0 }}>
           {pillar.subtitle}
         </p>
       </div>
 
-      <div className="flex flex-col gap-0 flex-1">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
         {pillar.modules.map((mod, i) => (
           <div
             key={i}
-            className={`px-5 py-4 flex gap-3 ${i < pillar.modules.length - 1 ? 'border-b border-gray-50' : ''} hover:bg-gray-50/50 transition-colors duration-200`}
+            style={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: '14px',
+              padding: '16px',
+              borderRadius: '12px',
+              background: pillar.cardBg,
+              border: `1px solid ${pillar.borderColor}`,
+              transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+              cursor: 'default',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)';
+              e.currentTarget.style.boxShadow = `0 4px 12px ${pillar.borderColor}`;
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = 'none';
+            }}
           >
-            <div className="shrink-0 mt-0.5">
+            <div style={{ flexShrink: 0, marginTop: '2px' }}>
               <ModuleIcon name={mod.name} color={pillar.color} />
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-1.5">
-                <h4 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                <h4 style={{ fontSize: '13px', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>
                   {mod.name}
                 </h4>
-                {mod.comingSoon && (
-                  <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#B45309]">
-                    Coming Soon
-                  </span>
-                )}
               </div>
-              <p className="text-[0.8rem] text-[#6B7280] leading-relaxed m-0 mb-2">
+              <p style={{ fontSize: '12px', color: '#4B5563', lineHeight: 1.5, margin: '0 0 4px 0', fontWeight: 500 }}>
                 {mod.description}
               </p>
+              {mod.comingSoon && (
+                <span style={{ fontSize: '10px', fontWeight: 700, color: '#6B7280' }}>
+                  (Coming Soon)
+                </span>
+              )}
             </div>
           </div>
         ))}
@@ -67,17 +99,21 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
 
 export default function PillarsDesktop() {
   return (
-    <section id="pillars" className="bg-white font-['Outfit',sans-serif] py-16 lg:py-20">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B21A8]/60 mb-3">
+    <section id="pillars" style={{ background: '#FFFFFF', padding: '64px 0' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '11px',
+          fontWeight: 800,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#6B21A8',
+          margin: '0 0 32px 0',
+        }}>
           {PILLARS_HEADING.section}
         </p>
 
-        <h2 className="text-center text-[1.8rem] lg:text-[2rem] leading-[1.2] font-extrabold text-[#1A1A2E] mb-12">
-          {PILLARS_HEADING.tagline}
-        </h2>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
           {PILLARS.map((pillar) => (
             <PillarCard key={pillar.key} pillar={pillar} />
           ))}

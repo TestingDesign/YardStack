@@ -15,7 +15,8 @@ export interface Pillar {
   title: string
   subtitle: string
   color: string
-  bgGradient: string
+  columnBg: string
+  cardBg: string
   borderColor: string
   modules: Module[]
 }
@@ -25,23 +26,24 @@ export const PILLARS: Pillar[] = [
     key: 'content',
     title: 'CONTENT',
     subtitle: 'Learn. Discover. Build Authority.',
-    color: '#6B21A8',
-    bgGradient: 'from-[#6B21A8]/5 to-[#7C3AED]/5',
-    borderColor: '#6B21A8',
+    color: '#4C1D95',
+    columnBg: '#FCFAFF',
+    cardBg: '#F5F3FF',
+    borderColor: 'rgba(76, 29, 149, 0.1)',
     modules: [
       {
         name: 'Spotlight',
-        description: 'Short-form industry insights, success stories, updates and business visibility.',
+        description: 'Short-form insights, updates and success stories.',
         outcome: 'Visibility • Awareness • Personal Branding',
       },
       {
         name: 'RED Expert',
-        description: 'Expert conversations, interviews, case studies and industry discussions.',
+        description: 'Expert conversations, interviews and industry discussions.',
         outcome: 'Knowledge • Industry Insights • Professional Growth',
       },
       {
         name: 'Learn',
-        description: 'Structured learning, workshops, certifications and skill development.',
+        description: 'Structured learning, workshops and certifications.',
         outcome: 'Upskilling • Career Growth • Professional Development',
         comingSoon: true,
       },
@@ -51,13 +53,14 @@ export const PILLARS: Pillar[] = [
     key: 'connections',
     title: 'CONNECTIONS',
     subtitle: 'Find. Evaluate. Connect.',
-    color: '#7C3AED',
-    bgGradient: 'from-[#7C3AED]/5 to-[#8B5CF6]/5',
-    borderColor: '#7C3AED',
+    color: '#166534',
+    columnBg: '#F8FCF9',
+    cardBg: '#F0FDF4',
+    borderColor: 'rgba(22, 101, 52, 0.1)',
     modules: [
       {
         name: 'Directory',
-        description: 'Discover professionals, businesses, vendors, consultants and experts.',
+        description: 'Discover professionals, businesses, vendors and experts.',
         outcome: 'Networking • Business Discovery • Lead Generation',
       },
       {
@@ -72,18 +75,19 @@ export const PILLARS: Pillar[] = [
     key: 'conversations',
     title: 'CONVERSATIONS',
     subtitle: 'Engage. Collaborate. Grow.',
-    color: '#D946EF',
-    bgGradient: 'from-[#D946EF]/5 to-[#EC4899]/5',
-    borderColor: '#D946EF',
+    color: '#C2410C',
+    columnBg: '#FFFDFB',
+    cardBg: '#FFF7ED',
+    borderColor: 'rgba(194, 65, 12, 0.1)',
     modules: [
       {
         name: 'Opportunities',
-        description: 'Requirements, hiring, collaborations, referrals and partnerships.',
+        description: 'Requirements, hiring, collaborations and partnerships.',
         outcome: 'Business Growth • Hiring • Partnerships • Opportunity Discovery',
       },
       {
         name: 'Showcase',
-        description: 'Interactive demos, webinars, business presentations and solution showcases.',
+        description: 'Interactive demos, webinars and business presentations.',
         outcome: 'Solution Evaluation • Trust Building • Business Engagement',
         comingSoon: true,
       },

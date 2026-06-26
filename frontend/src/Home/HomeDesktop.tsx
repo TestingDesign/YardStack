@@ -27,7 +27,7 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
       <FindYourPlaceDesktop />
       <PillarsDesktop />
       <PlatformPreviewDesktop />
-      <EcosystemDesktop />
+      {/* <EcosystemDesktop /> */}
       <SegmentsDesktop />
       <ProfilesDesktop />
       <ComingSoonDesktop />

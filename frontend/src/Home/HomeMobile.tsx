@@ -23,7 +23,7 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       <FindYourPlaceMobile />
       <PillarsMobile />
       <PlatformPreviewMobile />
-      <EcosystemMobile />
+      {/* <EcosystemMobile /> */}
       <SegmentsMobile />
       <ProfilesMobile />
       <ComingSoonMobile />

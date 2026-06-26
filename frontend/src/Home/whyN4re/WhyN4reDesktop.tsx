@@ -1,18 +1,18 @@
-import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronRight } from 'lucide-react'
-import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data'
+import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronRight } from 'lucide-react';
+import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
-const IconRenderer = ({ icon, color }: { icon: string, color: string }) => {
-  const props = { size: 20, color }
+const IconRenderer = ({ icon, color }: { icon: string; color: string }) => {
+  const props = { size: 20, color };
   switch (icon) {
-    case 'youtube': return <PlaySquare {...props} />
-    case 'whatsapp': return <MessageCircle {...props} />
-    case 'users': return <Users {...props} />
-    case 'book': return <BookOpen {...props} />
-    case 'message': return <MessageSquare {...props} />
-    case 'file-text': return <FileText {...props} />
-    default: return null
+    case 'youtube': return <PlaySquare {...props} />;
+    case 'whatsapp': return <MessageCircle {...props} />;
+    case 'users': return <Users {...props} />;
+    case 'book': return <BookOpen {...props} />;
+    case 'message': return <MessageSquare {...props} />;
+    case 'file-text': return <FileText {...props} />;
+    default: return null;
   }
-}
+};
 
 export default function WhyN4reDesktop() {
   return (
@@ -32,7 +32,6 @@ export default function WhyN4reDesktop() {
 
         <div className="relative max-w-5xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-0 rounded-2xl bg-white shadow-sm border border-gray-100">
-            
             <div className="p-10 lg:pl-12">
               <div className="flex items-center gap-2 mb-8 justify-center lg:justify-start">
                 <p className="text-[13px] font-bold uppercase tracking-[0.1em] text-[#DC2626] m-0">
@@ -42,7 +41,7 @@ export default function WhyN4reDesktop() {
               <ul className="list-none m-0 p-0 flex flex-col gap-6">
                 {TODAY_PROBLEMS.map((item, i) => (
                   <li key={i} className="flex items-center gap-4 text-[15px] text-[#374151]">
-                    <div 
+                    <div
                       className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                       style={{ backgroundColor: item.bgColor }}
                     >
@@ -69,7 +68,7 @@ export default function WhyN4reDesktop() {
               <div className="flex flex-col gap-10">
                 {N4RE_SOLUTIONS.map((sol, i) => (
                   <div key={i} className="flex items-start gap-5">
-                    <div 
+                    <div
                       className="w-14 h-14 rounded-full flex items-center justify-center shrink-0"
                       style={{ backgroundColor: sol.bgColor }}
                     >
@@ -95,8 +94,7 @@ export default function WhyN4reDesktop() {
             {WHY_N4RE_CONTENT.footerText}
           </a>
         </div>
-
       </div>
     </section>
-  )
+  );
 }

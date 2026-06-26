@@ -1,38 +1,51 @@
-import { useState, useMemo, useCallback } from 'react'
-import { Search, ArrowRight, Check, Building2, MessageSquare, PlayCircle, Users, Briefcase, MonitorPlay, BarChart2, Mic, GraduationCap } from 'lucide-react'
-import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data'
+import { useState, useMemo, useCallback } from 'react';
+import {
+  Search,
+  ArrowRight,
+  Check,
+  Building2,
+  MessageSquare,
+  PlayCircle,
+  Users,
+  Briefcase,
+  MonitorPlay,
+  BarChart2,
+  Mic,
+  GraduationCap
+} from 'lucide-react';
+import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
 const ModuleIcon = ({ name }: { name: string }) => {
   switch (name) {
-    case 'Spotlight': return <MessageSquare size={12} className="text-[#6B21A8]" />
-    case 'Directory': return <Users size={12} className="text-[#6B21A8]" />
-    case 'Opportunities': return <Briefcase size={12} className="text-[#6B21A8]" />
-    case 'Showcase': return <MonitorPlay size={12} className="text-[#6B21A8]" />
-    case 'Polls & Surveys': return <BarChart2 size={12} className="text-[#6B21A8]" />
-    case 'RED Expert': return <Mic size={12} className="text-[#6B21A8]" />
-    case 'Learn': return <GraduationCap size={12} className="text-[#6B21A8]" />
-    case 'City Inventory': return <Building2 size={12} className="text-[#6B21A8]" />
-    default: return <PlayCircle size={12} className="text-[#6B21A8]" />
+    case 'Spotlight': return <MessageSquare size={12} className="text-[#6B21A8]" />;
+    case 'Directory': return <Users size={12} className="text-[#6B21A8]" />;
+    case 'Opportunities': return <Briefcase size={12} className="text-[#6B21A8]" />;
+    case 'Showcase': return <MonitorPlay size={12} className="text-[#6B21A8]" />;
+    case 'Polls & Surveys': return <BarChart2 size={12} className="text-[#6B21A8]" />;
+    case 'RED Expert': return <Mic size={12} className="text-[#6B21A8]" />;
+    case 'Learn': return <GraduationCap size={12} className="text-[#6B21A8]" />;
+    case 'City Inventory': return <Building2 size={12} className="text-[#6B21A8]" />;
+    default: return <PlayCircle size={12} className="text-[#6B21A8]" />;
   }
-}
+};
 
 export default function FindYourPlaceMobile() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0])
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const filteredRoles = useMemo(() => {
-    if (!searchQuery.trim()) return []
+    if (!searchQuery.trim()) return [];
     return ROLES.filter((r) =>
       r.label.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  }, [searchQuery])
+    );
+  }, [searchQuery]);
 
   const handleRoleSelect = useCallback((role: RoleInfo) => {
-    setSelectedRole(role)
-    setSearchQuery('')
-    setIsDropdownOpen(false)
-  }, [])
+    setSelectedRole(role);
+    setSearchQuery('');
+    setIsDropdownOpen(false);
+  }, []);
 
   return (
     <section id="find-your-place" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-10">
@@ -48,15 +61,19 @@ export default function FindYourPlaceMobile() {
         </p>
 
         <div className="bg-white rounded-xl border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-5">
-          {/* Role Selector */}
           <div>
-            <p className="text-[11px] font-bold text-[#374151] m-0 mb-2">{FIND_YOUR_PLACE_CONTENT.inputPrefix}</p>
+            <p className="text-[11px] font-bold text-[#374151] m-0 mb-2">
+              {FIND_YOUR_PLACE_CONTENT.inputPrefix}
+            </p>
             <div className="relative">
               <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true) }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsDropdownOpen(true);
+                }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
                 className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-gray-200 text-[12px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 transition-all placeholder:text-gray-400 bg-white font-['Outfit',sans-serif]"
@@ -96,13 +113,14 @@ export default function FindYourPlaceMobile() {
             </div>
           </div>
 
-          {/* Dynamic Help */}
           <div className="border-t border-gray-100 pt-4">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-lg bg-[#F5F3FF] flex items-center justify-center shrink-0">
                 <Building2 size={16} className="text-[#6B21A8]" />
               </div>
-              <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">{selectedRole.helpTitle}</h3>
+              <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">
+                {selectedRole.helpTitle}
+              </h3>
             </div>
             <ul className="list-none m-0 p-0 flex flex-col gap-2">
               {selectedRole.helpPoints.map((point, i) => (
@@ -118,9 +136,10 @@ export default function FindYourPlaceMobile() {
             </button>
           </div>
 
-          {/* Relevant Modules */}
           <div className="border-t border-gray-100 pt-4">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] m-0 mb-2">Relevant Modules</p>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] m-0 mb-2">
+              Relevant Modules
+            </p>
             <div className="flex flex-col gap-1.5">
               {selectedRole.relevantModules.map((mod, i) => (
                 <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#F9FAFB] border border-gray-100">
@@ -142,5 +161,5 @@ export default function FindYourPlaceMobile() {
         </div>
       </div>
     </section>
-  )
+  );
 }

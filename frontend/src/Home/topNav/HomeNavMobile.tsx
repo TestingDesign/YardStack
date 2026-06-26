@@ -1,24 +1,24 @@
-import { useState, useCallback } from 'react'
-import { Menu, X } from 'lucide-react'
-import { NAV_LINKS, NAV_CTAS } from './data'
-import LogoPng from '../../components/commonfiles/sidebar/Logo.png'
+import { useState, useCallback } from 'react';
+import { Menu, X } from 'lucide-react';
+import { NAV_LINKS, NAV_CTAS } from './data';
+import LogoPng from '../../components/commonfiles/sidebar/Logo.png';
 
 interface HomeNavMobileProps {
-  viewMode: 'desktop' | 'mobile'
+  viewMode: 'desktop' | 'mobile';
 }
 
 export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [activeLink, setActiveLink] = useState('home')
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState('home');
 
   const handleNavClick = useCallback((key: string, href: string) => {
-    setActiveLink(key)
-    setIsOpen(false)
+    setActiveLink(key);
+    setIsOpen(false);
     setTimeout(() => {
-      const el = document.querySelector(href)
-      if (el) el.scrollIntoView({ behavior: 'smooth' })
-    }, 300)
-  }, [])
+      const el = document.querySelector(href);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  }, []);
 
   return (
     <>
@@ -39,7 +39,6 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
         </div>
       </header>
 
-      {/* Mobile Drawer */}
       {isOpen && (
         <div className="fixed inset-0 z-[100] font-['Outfit',sans-serif]" onClick={() => setIsOpen(false)}>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
@@ -104,5 +103,5 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
         }
       `}</style>
     </>
-  )
+  );
 }

@@ -1,34 +1,33 @@
-import { ChevronRight, PlayCircle, Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react'
-import { PREVIEW_SECTIONS } from './data'
+import { ChevronRight, PlayCircle, Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react';
+import { PREVIEW_SECTIONS } from './data';
 
-const PreviewIcon = ({ icon, color }: { icon: string, color: string }) => {
-  const props = { size: 14, color }
+const PreviewIcon = ({ icon, color }: { icon: string; color: string }) => {
+  const props = { size: 14, color };
   switch (icon) {
-    case 'play': return <PlayCircle {...props} />
-    case 'briefcase': return <Briefcase {...props} />
-    case 'users': return <Users {...props} />
-    case 'handshake': return <Handshake {...props} />
-    case 'megaphone': return <Megaphone {...props} />
-    case 'building': return <Building2 {...props} />
-    case 'landmark': return <Landmark {...props} />
-    case 'monitor': return <Monitor {...props} />
-    case 'palette': return <Palette {...props} />
-    default: return null
+    case 'play': return <PlayCircle {...props} />;
+    case 'briefcase': return <Briefcase {...props} />;
+    case 'users': return <Users {...props} />;
+    case 'handshake': return <Handshake {...props} />;
+    case 'megaphone': return <Megaphone {...props} />;
+    case 'building': return <Building2 {...props} />;
+    case 'landmark': return <Landmark {...props} />;
+    case 'monitor': return <Monitor {...props} />;
+    case 'palette': return <Palette {...props} />;
+    default: return null;
   }
-}
+};
 
 export default function PlatformPreviewMobile() {
   return (
     <section id="platform-preview" className="bg-white font-['Outfit',sans-serif] py-10">
       <div className="px-4">
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8] mb-8">
-          A GLIMPSE OF WHAT YOU'LL DISCOVER
+          A GLIMPSE OF WHAT YOU&apos;LL DISCOVER
         </p>
 
         <div className="flex flex-col gap-6">
           {PREVIEW_SECTIONS.map((section) => (
             <div key={section.key} className="flex flex-col gap-3">
-              {/* Section Header */}
               <div className="flex items-center justify-between">
                 <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">
                   {section.title}
@@ -39,7 +38,6 @@ export default function PlatformPreviewMobile() {
                 </button>
               </div>
 
-              {/* Horizontal Scroll for Cards */}
               <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
                 {section.items.map((item, i) => (
                   <div
@@ -77,5 +75,5 @@ export default function PlatformPreviewMobile() {
         </div>
       </div>
     </section>
-  )
+  );
 }

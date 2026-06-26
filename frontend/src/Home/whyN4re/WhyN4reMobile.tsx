@@ -1,20 +1,20 @@
-import { PlaySquare, MessageCircle, Briefcase, BookOpen, MessageSquare, FileText, Users, ArrowDown } from 'lucide-react'
-import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data'
+import { PlaySquare, MessageCircle, Briefcase, BookOpen, MessageSquare, FileText, Users, ArrowDown } from 'lucide-react';
+import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
-const IconRenderer = ({ icon, color }: { icon: string, color: string }) => {
-  const props = { size: 16, color }
+const IconRenderer = ({ icon, color }: { icon: string; color: string }) => {
+  const props = { size: 16, color };
   switch (icon) {
-    case 'youtube': return <PlaySquare {...props} />
-    case 'whatsapp': return <MessageCircle {...props} />
-    case 'briefcase': return <Briefcase {...props} />
-    case 'book': return <BookOpen {...props} />
-    case 'message': return <MessageSquare {...props} />
-    case 'file-text': return <FileText size={18} color={color} />
-    case 'users': return <Users size={18} color={color} />
-    case 'message-circle': return <MessageCircle size={18} color={color} />
-    default: return null
+    case 'youtube': return <PlaySquare {...props} />;
+    case 'whatsapp': return <MessageCircle {...props} />;
+    case 'briefcase': return <Briefcase {...props} />;
+    case 'book': return <BookOpen {...props} />;
+    case 'message': return <MessageSquare {...props} />;
+    case 'file-text': return <FileText size={18} color={color} />;
+    case 'users': return <Users size={18} color={color} />;
+    case 'message-circle': return <MessageCircle size={18} color={color} />;
+    default: return null;
   }
-}
+};
 
 export default function WhyN4reMobile() {
   return (
@@ -35,7 +35,7 @@ export default function WhyN4reMobile() {
           <div className="p-5">
             <div className="flex items-center gap-2 mb-4">
               <p className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-[#EF4444] m-0">
-                TODAY — EVERYTHING IS DISCONNECTED
+                TODAY &mdash; EVERYTHING IS DISCONNECTED
               </p>
             </div>
             <ul className="list-none m-0 p-0 flex flex-col gap-3">
@@ -86,5 +86,5 @@ export default function WhyN4reMobile() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,25 +1,24 @@
-import { PILLARS_HEADING, PILLARS, type Pillar } from './data'
-import { PlayCircle, Mic, GraduationCap, Users, Building2, Briefcase, MonitorPlay, BarChart2 } from 'lucide-react'
+import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
+import { PlayCircle, Mic, GraduationCap, Users, Building2, Briefcase, MonitorPlay, BarChart2 } from 'lucide-react';
 
-const ModuleIcon = ({ name, color }: { name: string, color: string }) => {
-  const props = { size: 18, color }
+const ModuleIcon = ({ name, color }: { name: string; color: string }) => {
+  const props = { size: 18, color };
   switch (name) {
-    case 'Spotlight': return <PlayCircle {...props} />
-    case 'RED Expert': return <Mic {...props} />
-    case 'Learn': return <GraduationCap {...props} />
-    case 'Directory': return <Users {...props} />
-    case 'City Inventory': return <Building2 {...props} />
-    case 'Opportunities': return <Briefcase {...props} />
-    case 'Showcase': return <MonitorPlay {...props} />
-    case 'Polls & Surveys': return <BarChart2 {...props} />
-    default: return <PlayCircle {...props} />
+    case 'Spotlight': return <PlayCircle {...props} />;
+    case 'RED Expert': return <Mic {...props} />;
+    case 'Learn': return <GraduationCap {...props} />;
+    case 'Directory': return <Users {...props} />;
+    case 'City Inventory': return <Building2 {...props} />;
+    case 'Opportunities': return <Briefcase {...props} />;
+    case 'Showcase': return <MonitorPlay {...props} />;
+    case 'Polls & Surveys': return <BarChart2 {...props} />;
+    default: return <PlayCircle {...props} />;
   }
-}
+};
 
 function PillarCard({ pillar }: { pillar: Pillar }) {
   return (
     <div className="flex flex-col rounded-2xl border border-gray-100 bg-white overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.04)] hover:shadow-[0_6px_24px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1">
-      {/* Pillar Header */}
       <div
         className="px-5 py-4"
         style={{ borderBottom: `3px solid ${pillar.borderColor}` }}
@@ -35,7 +34,6 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         </p>
       </div>
 
-      {/* Modules */}
       <div className="flex flex-col gap-0 flex-1">
         {pillar.modules.map((mod, i) => (
           <div
@@ -64,14 +62,13 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default function PillarsDesktop() {
   return (
     <section id="pillars" className="bg-white font-['Outfit',sans-serif] py-16 lg:py-20">
       <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        {/* Section Label */}
         <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B21A8]/60 mb-3">
           {PILLARS_HEADING.section}
         </p>
@@ -80,7 +77,6 @@ export default function PillarsDesktop() {
           {PILLARS_HEADING.tagline}
         </h2>
 
-        {/* Three Pillar Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {PILLARS.map((pillar) => (
             <PillarCard key={pillar.key} pillar={pillar} />
@@ -88,5 +84,5 @@ export default function PillarsDesktop() {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,38 +1,51 @@
-import { useState, useMemo, useCallback } from 'react'
-import { Search, ArrowRight, Check, Building2, MessageSquare, PlayCircle, Users, Briefcase, MonitorPlay, BarChart2, Mic, GraduationCap } from 'lucide-react'
-import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data'
+import { useState, useMemo, useCallback } from 'react';
+import {
+  Search,
+  ArrowRight,
+  Check,
+  Building2,
+  MessageSquare,
+  PlayCircle,
+  Users,
+  Briefcase,
+  MonitorPlay,
+  BarChart2,
+  Mic,
+  GraduationCap
+} from 'lucide-react';
+import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
 const ModuleIcon = ({ name }: { name: string }) => {
   switch (name) {
-    case 'Spotlight': return <MessageSquare size={14} className="text-[#6B21A8]" />
-    case 'Directory': return <Users size={14} className="text-[#6B21A8]" />
-    case 'Opportunities': return <Briefcase size={14} className="text-[#6B21A8]" />
-    case 'Showcase': return <MonitorPlay size={14} className="text-[#6B21A8]" />
-    case 'Polls & Surveys': return <BarChart2 size={14} className="text-[#6B21A8]" />
-    case 'RED Expert': return <Mic size={14} className="text-[#6B21A8]" />
-    case 'Learn': return <GraduationCap size={14} className="text-[#6B21A8]" />
-    case 'City Inventory': return <Building2 size={14} className="text-[#6B21A8]" />
-    default: return <PlayCircle size={14} className="text-[#6B21A8]" />
+    case 'Spotlight': return <MessageSquare size={14} className="text-[#6B21A8]" />;
+    case 'Directory': return <Users size={14} className="text-[#6B21A8]" />;
+    case 'Opportunities': return <Briefcase size={14} className="text-[#6B21A8]" />;
+    case 'Showcase': return <MonitorPlay size={14} className="text-[#6B21A8]" />;
+    case 'Polls & Surveys': return <BarChart2 size={14} className="text-[#6B21A8]" />;
+    case 'RED Expert': return <Mic size={14} className="text-[#6B21A8]" />;
+    case 'Learn': return <GraduationCap size={14} className="text-[#6B21A8]" />;
+    case 'City Inventory': return <Building2 size={14} className="text-[#6B21A8]" />;
+    default: return <PlayCircle size={14} className="text-[#6B21A8]" />;
   }
-}
+};
 
 export default function FindYourPlaceDesktop() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0])
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const filteredRoles = useMemo(() => {
-    if (!searchQuery.trim()) return []
+    if (!searchQuery.trim()) return [];
     return ROLES.filter((r) =>
       r.label.toLowerCase().includes(searchQuery.toLowerCase())
-    )
-  }, [searchQuery])
+    );
+  }, [searchQuery]);
 
   const handleRoleSelect = useCallback((role: RoleInfo) => {
-    setSelectedRole(role)
-    setSearchQuery('')
-    setIsDropdownOpen(false)
-  }, [])
+    setSelectedRole(role);
+    setSearchQuery('');
+    setIsDropdownOpen(false);
+  }, []);
 
   return (
     <section id="find-your-place" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-16 lg:py-20">
@@ -47,27 +60,26 @@ export default function FindYourPlaceDesktop() {
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        {/* Three Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_260px] gap-5 items-start bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] p-6">
-          {/* Column 1: Role Selector */}
           <div className="flex flex-col gap-4">
             <p className="text-[12px] font-bold text-[#374151] m-0">
               {FIND_YOUR_PLACE_CONTENT.inputPrefix}
             </p>
 
-            {/* Search Input */}
             <div className="relative">
               <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true) }}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setIsDropdownOpen(true);
+                }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
                 className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 text-[13px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 focus:ring-2 focus:ring-[#6B21A8]/10 transition-all placeholder:text-gray-400 bg-white font-['Outfit',sans-serif]"
               />
 
-              {/* Dropdown */}
               {isDropdownOpen && filteredRoles.length > 0 && (
                 <ul className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-gray-200 shadow-lg z-20 max-h-48 overflow-y-auto list-none m-0 p-1">
                   {filteredRoles.map((role) => (
@@ -85,7 +97,6 @@ export default function FindYourPlaceDesktop() {
               )}
             </div>
 
-            {/* Popular Roles */}
             <div>
               <p className="text-[11px] font-semibold text-[#6B7280] mb-2 m-0">Popular Roles</p>
               <div className="flex flex-wrap gap-1.5">
@@ -107,7 +118,6 @@ export default function FindYourPlaceDesktop() {
             </div>
           </div>
 
-          {/* Column 2: Dynamic Help Content */}
           <div className="flex flex-col gap-4 border-l border-r border-gray-100 px-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-[#F5F3FF] flex items-center justify-center shrink-0">
@@ -131,7 +141,6 @@ export default function FindYourPlaceDesktop() {
             </button>
           </div>
 
-          {/* Column 3: Relevant Modules */}
           <div className="flex flex-col gap-3">
             <p className="text-[11px] font-bold uppercase tracking-wider text-[#6B7280] m-0">
               Relevant Modules
@@ -160,5 +169,5 @@ export default function FindYourPlaceDesktop() {
         </div>
       </div>
     </section>
-  )
+  );
 }

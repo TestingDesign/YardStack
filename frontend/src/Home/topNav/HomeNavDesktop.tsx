@@ -1,18 +1,18 @@
-import { useState, useCallback } from 'react'
-import { NAV_LINKS, NAV_CTAS } from './data'
+import { useState, useCallback } from 'react';
+import { NAV_LINKS, NAV_CTAS } from './data';
 
 interface HomeNavDesktopProps {
-  viewMode: 'desktop' | 'mobile'
+  viewMode: 'desktop' | 'mobile';
 }
 
 export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
-  const [activeLink, setActiveLink] = useState('home')
+  const [activeLink, setActiveLink] = useState('home');
 
   const handleNavClick = useCallback((key: string, href: string) => {
-    setActiveLink(key)
-    const el = document.querySelector(href)
-    if (el) el.scrollIntoView({ behavior: 'smooth' })
-  }, [])
+    setActiveLink(key);
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 font-['Outfit',sans-serif]">
@@ -63,5 +63,5 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
         </div>
       </div>
     </header>
-  )
+  );
 }

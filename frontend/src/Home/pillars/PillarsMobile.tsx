@@ -1,25 +1,24 @@
-import { PILLARS_HEADING, PILLARS, type Pillar } from './data'
-import { PlayCircle, Mic, GraduationCap, Users, Building2, Briefcase, MonitorPlay, BarChart2 } from 'lucide-react'
+import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
+import { PlayCircle, Mic, GraduationCap, Users, Building2, Briefcase, MonitorPlay, BarChart2 } from 'lucide-react';
 
-const ModuleIcon = ({ name, color }: { name: string, color: string }) => {
-  const props = { size: 16, color }
+const ModuleIcon = ({ name, color }: { name: string; color: string }) => {
+  const props = { size: 16, color };
   switch (name) {
-    case 'Spotlight': return <PlayCircle {...props} />
-    case 'RED Expert': return <Mic {...props} />
-    case 'Learn': return <GraduationCap {...props} />
-    case 'Directory': return <Users {...props} />
-    case 'City Inventory': return <Building2 {...props} />
-    case 'Opportunities': return <Briefcase {...props} />
-    case 'Showcase': return <MonitorPlay {...props} />
-    case 'Polls & Surveys': return <BarChart2 {...props} />
-    default: return <PlayCircle {...props} />
+    case 'Spotlight': return <PlayCircle {...props} />;
+    case 'RED Expert': return <Mic {...props} />;
+    case 'Learn': return <GraduationCap {...props} />;
+    case 'Directory': return <Users {...props} />;
+    case 'City Inventory': return <Building2 {...props} />;
+    case 'Opportunities': return <Briefcase {...props} />;
+    case 'Showcase': return <MonitorPlay {...props} />;
+    case 'Polls & Surveys': return <BarChart2 {...props} />;
+    default: return <PlayCircle {...props} />;
   }
-}
+};
 
 function PillarCard({ pillar }: { pillar: Pillar }) {
   return (
     <div className="flex flex-col rounded-xl border border-gray-100 bg-white overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.04)] mb-4 last:mb-0">
-      {/* Pillar Header */}
       <div
         className="px-4 py-3.5"
         style={{ borderBottom: `3px solid ${pillar.borderColor}` }}
@@ -35,7 +34,6 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         </p>
       </div>
 
-      {/* Modules */}
       <div className="flex flex-col gap-0 flex-1">
         {pillar.modules.map((mod, i) => (
           <div
@@ -64,7 +62,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default function PillarsMobile() {
@@ -85,5 +83,5 @@ export default function PillarsMobile() {
         </div>
       </div>
     </section>
-  )
+  );
 }

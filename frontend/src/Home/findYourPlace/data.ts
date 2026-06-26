@@ -4,21 +4,21 @@ export const FIND_YOUR_PLACE_CONTENT = {
   description: 'Select your role and discover how N4RE can help you learn, connect and grow.',
   placeholder: 'Search your role...',
   inputPrefix: 'I am a',
-}
+};
 
 export interface RoleModule {
-  name: string
-  comingSoon?: boolean
+  name: string;
+  comingSoon?: boolean;
 }
 
 export interface RoleInfo {
-  key: string
-  label: string
-  isPopular?: boolean
-  helpTitle: string
-  helpPoints: string[]
-  ctaLabel: string
-  relevantModules: RoleModule[]
+  key: string;
+  label: string;
+  isPopular?: boolean;
+  helpTitle: string;
+  helpPoints: string[];
+  ctaLabel: string;
+  relevantModules: RoleModule[];
 }
 
 export const ROLES: RoleInfo[] = [
@@ -471,6 +471,6 @@ export const ROLES: RoleInfo[] = [
       { name: 'Learn', comingSoon: true },
     ],
   },
-]
+];
 
-export const POPULAR_ROLES = ROLES.filter((r) => r.isPopular)
+export const POPULAR_ROLES = ROLES.filter((r) => r.isPopular);

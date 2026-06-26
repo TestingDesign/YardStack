@@ -11,7 +11,7 @@ import {
   MonitorPlay,
   BarChart2,
   Mic,
-  GraduationCap
+  GraduationCap,
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
@@ -36,9 +36,7 @@ export default function FindYourPlaceMobile() {
 
   const filteredRoles = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    return ROLES.filter((r) =>
-      r.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return ROLES.filter((role) => role.label.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [searchQuery]);
 
   const handleRoleSelect = useCallback((role: RoleInfo) => {
@@ -53,39 +51,41 @@ export default function FindYourPlaceMobile() {
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8] mb-2">
           {FIND_YOUR_PLACE_CONTENT.sectionLabel}
         </p>
+
         <h2 className="text-center text-[1.25rem] leading-[1.25] font-extrabold text-[#1A1A2E] mb-1.5">
           {FIND_YOUR_PLACE_CONTENT.heading}
         </h2>
-        <p className="text-center text-[0.82rem] text-[#6B7280] mb-6">
+
+        <p className="text-center text-[0.82rem] text-[#6B7280] mb-6 max-w-[320px] mx-auto">
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        <div className="bg-white rounded-xl border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-5">
+        <div className="bg-white rounded-[18px] border border-[#ECEAF5] shadow-[0_8px_24px_rgba(26,26,46,0.06)] p-4 flex flex-col gap-4">
           <div>
-            <p className="text-[11px] font-bold text-[#374151] m-0 mb-2">
-              {FIND_YOUR_PLACE_CONTENT.inputPrefix}
-            </p>
+            <p className="text-[11px] font-bold text-[#374151] m-0 mb-2">{FIND_YOUR_PLACE_CONTENT.inputPrefix}</p>
+
             <div className="relative">
-              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9CA3AF]" />
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
+                onChange={(event) => {
+                  setSearchQuery(event.target.value);
                   setIsDropdownOpen(true);
                 }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
-                className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-gray-200 text-[12px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 transition-all placeholder:text-gray-400 bg-white font-['Outfit',sans-serif]"
+                className="w-full pl-8 pr-3 py-2.5 rounded-lg border border-[#E5E7EB] text-[12px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 focus:ring-2 focus:ring-[#6B21A8]/10 transition-all placeholder:text-[#9CA3AF] bg-white"
               />
+
               {isDropdownOpen && filteredRoles.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-gray-200 shadow-lg z-20 max-h-40 overflow-y-auto list-none m-0 p-1">
+                <ul className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-[#E5E7EB] shadow-[0_10px_24px_rgba(26,26,46,0.08)] z-20 max-h-40 overflow-y-auto list-none m-0 p-1">
                   {filteredRoles.map((role) => (
                     <li key={role.key}>
                       <button
                         type="button"
                         onClick={() => handleRoleSelect(role)}
-                        className="w-full text-left px-3 py-2 text-[11px] font-medium text-[#374151] hover:bg-[#6B21A8]/5 rounded-md transition-colors cursor-pointer border-none bg-transparent font-['Outfit',sans-serif]"
+                        className="w-full text-left px-3 py-2 text-[11px] font-medium text-[#334155] hover:bg-[#6B21A8]/5 hover:text-[#6B21A8] rounded-md transition-colors cursor-pointer border-none bg-transparent"
                       >
                         {role.label}
                       </button>
@@ -101,10 +101,10 @@ export default function FindYourPlaceMobile() {
                   key={role.key}
                   type="button"
                   onClick={() => handleRoleSelect(role)}
-                  className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all border cursor-pointer font-['Outfit',sans-serif] ${
+                  className={`px-2.5 py-1 rounded-md text-[10px] font-semibold transition-all border cursor-pointer ${
                     selectedRole.key === role.key
-                      ? 'bg-[#6B21A8] text-white border-[#6B21A8]'
-                      : 'bg-white text-[#374151] border-gray-200 hover:border-[#6B21A8]/30'
+                      ? 'bg-[#6B21A8] text-white border-[#6B21A8] shadow-[0_2px_8px_rgba(107,33,168,0.18)]'
+                      : 'bg-white text-[#334155] border-[#E5E7EB] hover:border-[#6B21A8]/30 hover:text-[#6B21A8]'
                   }`}
                 >
                   {role.label}
@@ -113,44 +113,46 @@ export default function FindYourPlaceMobile() {
             </div>
           </div>
 
-          <div className="border-t border-gray-100 pt-4">
-            <div className="flex items-center gap-2 mb-3">
+          <div className="border-t border-[#F0EEF7] pt-4">
+            <div className="flex items-center gap-2.5 mb-3">
               <div className="w-8 h-8 rounded-lg bg-[#F5F3FF] flex items-center justify-center shrink-0">
                 <Building2 size={16} className="text-[#6B21A8]" />
               </div>
-              <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">
-                {selectedRole.helpTitle}
-              </h3>
+              <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0 leading-tight">{selectedRole.helpTitle}</h3>
             </div>
-            <ul className="list-none m-0 p-0 flex flex-col gap-2">
-              {selectedRole.helpPoints.map((point, i) => (
-                <li key={i} className="flex items-start gap-2 text-[0.78rem] text-[#4B5563]">
+
+            <ul className="list-none m-0 p-0 flex flex-col gap-2.5">
+              {selectedRole.helpPoints.map((point) => (
+                <li key={point} className="flex items-start gap-2 text-[0.78rem] text-[#475569]">
                   <Check size={14} strokeWidth={3} className="shrink-0 mt-0.5 text-[#6B21A8]" />
-                  <span className="font-medium">{point}</span>
+                  <span className="font-medium leading-[1.5]">{point}</span>
                 </li>
               ))}
             </ul>
-            <button className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white border border-gray-200 text-[#6B21A8] text-[12px] font-bold cursor-pointer transition-all active:bg-gray-50 mt-3">
+
+            <button className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-lg bg-white border border-[#E5E7EB] text-[#6B21A8] text-[12px] font-bold cursor-pointer transition-all active:bg-[#F9FAFB] mt-3 shadow-[0_2px_8px_rgba(0,0,0,0.03)]">
               {selectedRole.ctaLabel}
               <ArrowRight size={12} />
             </button>
           </div>
 
-          <div className="border-t border-gray-100 pt-4">
+          <div className="border-t border-[#F0EEF7] pt-4">
             <p className="text-[10px] font-bold uppercase tracking-wider text-[#6B7280] m-0 mb-2">
               Relevant Modules
             </p>
+
             <div className="flex flex-col gap-1.5">
-              {selectedRole.relevantModules.map((mod, i) => (
-                <div key={i} className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#F9FAFB] border border-gray-100">
+              {selectedRole.relevantModules.map((module) => (
+                <div key={module.name} className="flex items-center justify-between px-3 py-2 rounded-lg bg-[#FCFBFF] border border-[#EEEAF8]">
                   <div className="flex items-center gap-2">
                     <div className="w-6 h-6 rounded-full bg-[#6B21A8]/10 flex items-center justify-center shrink-0">
-                      <ModuleIcon name={mod.name} />
+                      <ModuleIcon name={module.name} />
                     </div>
-                    <span className="text-[11px] font-semibold text-[#374151]">{mod.name}</span>
+                    <span className="text-[11px] font-semibold text-[#334155]">{module.name}</span>
                   </div>
-                  {mod.comingSoon && (
-                    <span className="text-[7px] font-medium text-[#6B7280]">
+
+                  {module.comingSoon && (
+                    <span className="text-[7px] font-medium text-[#6B7280] whitespace-nowrap">
                       (Coming Soon)
                     </span>
                   )}

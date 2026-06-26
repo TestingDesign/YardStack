@@ -1,4 +1,4 @@
-﻿import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
 
 const CARD_RADIUS = 190;
@@ -249,8 +249,8 @@ export default function HeroDesktop() {
                     padding: isLg
                       ? "14px 18px"
                       : isSm
-                      ? "10px 14px"
-                      : "12px 16px",
+                        ? "10px 14px"
+                        : "12px 16px",
                     minWidth: isLg ? "140px" : isSm ? "112px" : "124px",
                   }}
                 >

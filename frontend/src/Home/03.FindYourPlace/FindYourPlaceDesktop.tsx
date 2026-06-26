@@ -11,21 +11,21 @@ import {
   MonitorPlay,
   BarChart2,
   Mic,
-  GraduationCap
+  GraduationCap,
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
 const ModuleIcon = ({ name }: { name: string }) => {
   switch (name) {
-    case 'Spotlight': return <MessageSquare size={14} className="text-[#6B21A8]" />;
-    case 'Directory': return <Users size={14} className="text-[#6B21A8]" />;
-    case 'Opportunities': return <Briefcase size={14} className="text-[#6B21A8]" />;
-    case 'Showcase': return <MonitorPlay size={14} className="text-[#6B21A8]" />;
-    case 'Polls & Surveys': return <BarChart2 size={14} className="text-[#6B21A8]" />;
-    case 'RED Expert': return <Mic size={14} className="text-[#6B21A8]" />;
-    case 'Learn': return <GraduationCap size={14} className="text-[#6B21A8]" />;
-    case 'City Inventory': return <Building2 size={14} className="text-[#6B21A8]" />;
-    default: return <PlayCircle size={14} className="text-[#6B21A8]" />;
+    case 'Spotlight': return <MessageSquare size={14} style={{ color: '#6B21A8' }} />;
+    case 'Directory': return <Users size={14} style={{ color: '#6B21A8' }} />;
+    case 'Opportunities': return <Briefcase size={14} style={{ color: '#6B21A8' }} />;
+    case 'Showcase': return <MonitorPlay size={14} style={{ color: '#6B21A8' }} />;
+    case 'Polls & Surveys': return <BarChart2 size={14} style={{ color: '#6B21A8' }} />;
+    case 'RED Expert': return <Mic size={14} style={{ color: '#6B21A8' }} />;
+    case 'Learn': return <GraduationCap size={14} style={{ color: '#6B21A8' }} />;
+    case 'City Inventory': return <Building2 size={14} style={{ color: '#6B21A8' }} />;
+    default: return <PlayCircle size={14} style={{ color: '#6B21A8' }} />;
   }
 };
 
@@ -36,9 +36,7 @@ export default function FindYourPlaceDesktop() {
 
   const filteredRoles = useMemo(() => {
     if (!searchQuery.trim()) return [];
-    return ROLES.filter((r) =>
-      r.label.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    return ROLES.filter((role) => role.label.toLowerCase().includes(searchQuery.toLowerCase()));
   }, [searchQuery]);
 
   const handleRoleSelect = useCallback((role: RoleInfo) => {
@@ -48,26 +46,68 @@ export default function FindYourPlaceDesktop() {
   }, []);
 
   return (
-    <section id="find-your-place" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-16 lg:py-20">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#6B21A8] mb-3">
+    <section
+      id="find-your-place"
+      style={{ background: '#F9FAFB', fontFamily: "'Outfit', sans-serif", padding: '64px 0' }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 40px' }}>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '11px',
+          fontWeight: 700,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          color: '#6B21A8',
+          marginBottom: '10px',
+        }}>
           {FIND_YOUR_PLACE_CONTENT.sectionLabel}
         </p>
-        <h2 className="text-center text-[1.8rem] lg:text-[2rem] leading-[1.2] font-extrabold text-[#1A1A2E] mb-2">
+
+        <h2 style={{
+          textAlign: 'center',
+          fontSize: '2rem',
+          fontWeight: 800,
+          color: '#1A1A2E',
+          lineHeight: 1.2,
+          marginBottom: '10px',
+        }}>
           {FIND_YOUR_PLACE_CONTENT.heading}
         </h2>
-        <p className="text-center text-[0.9rem] text-[#6B7280] mb-10 max-w-xl mx-auto">
+
+        <p style={{
+          textAlign: 'center',
+          fontSize: '0.9rem',
+          color: '#6B7280',
+          maxWidth: '560px',
+          margin: '0 auto 36px',
+          lineHeight: 1.6,
+        }}>
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_260px] gap-5 items-start bg-white rounded-2xl border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] p-6">
-          <div className="flex flex-col gap-4">
-            <p className="text-[12px] font-bold text-[#374151] m-0">
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: '280px 1fr 220px',
+          background: '#FFFFFF',
+          borderRadius: '20px',
+          border: '1px solid #ECEAF5',
+          boxShadow: '0 10px 40px rgba(26,26,46,0.07)',
+          overflow: 'hidden',
+        }}>
+          <div style={{ padding: '24px 20px', borderRight: '1px solid #F0EEF7' }}>
+            <p style={{
+              fontSize: '12px',
+              fontWeight: 700,
+              color: '#374151',
+              marginBottom: '10px',
+            }}>
               {FIND_YOUR_PLACE_CONTENT.inputPrefix}
             </p>
 
-            <div className="relative">
-              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <div style={{ position: 'relative' }}>
+              <div style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
+                <Search size={14} style={{ color: '#9CA3AF' }} />
+              </div>
               <input
                 type="text"
                 value={searchQuery}
@@ -77,17 +117,58 @@ export default function FindYourPlaceDesktop() {
                 }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
-                className="w-full pl-9 pr-4 py-2.5 rounded-lg border border-gray-200 text-[13px] font-medium text-[#374151] outline-none focus:border-[#6B21A8]/40 focus:ring-2 focus:ring-[#6B21A8]/10 transition-all placeholder:text-gray-400 bg-white font-['Outfit',sans-serif]"
+                style={{
+                  width: '100%',
+                  paddingLeft: '32px',
+                  paddingRight: '12px',
+                  paddingTop: '9px',
+                  paddingBottom: '9px',
+                  borderRadius: '8px',
+                  border: '1px solid #E5E7EB',
+                  fontSize: '13px',
+                  fontWeight: 500,
+                  color: '#374151',
+                  outline: 'none',
+                  background: '#FFFFFF',
+                  fontFamily: "'Outfit', sans-serif",
+                  boxSizing: 'border-box',
+                }}
               />
-
               {isDropdownOpen && filteredRoles.length > 0 && (
-                <ul className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg border border-gray-200 shadow-lg z-20 max-h-48 overflow-y-auto list-none m-0 p-1">
+                <ul style={{
+                  position: 'absolute',
+                  top: 'calc(100% + 4px)',
+                  left: 0,
+                  right: 0,
+                  background: '#FFFFFF',
+                  borderRadius: '10px',
+                  border: '1px solid #E5E7EB',
+                  boxShadow: '0 10px 24px rgba(26,26,46,0.1)',
+                  zIndex: 20,
+                  maxHeight: '180px',
+                  overflowY: 'auto',
+                  listStyle: 'none',
+                  margin: 0,
+                  padding: '4px',
+                }}>
                   {filteredRoles.map((role) => (
                     <li key={role.key}>
                       <button
                         type="button"
                         onClick={() => handleRoleSelect(role)}
-                        className="w-full text-left px-3 py-2 text-[12px] font-medium text-[#374151] hover:bg-[#6B21A8]/5 hover:text-[#6B21A8] rounded-md transition-colors cursor-pointer border-none bg-transparent font-['Outfit',sans-serif]"
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '8px 12px',
+                          fontSize: '12px',
+                          fontWeight: 500,
+                          color: '#334155',
+                          background: 'transparent',
+                          border: 'none',
+                          borderRadius: '6px',
+                          cursor: 'pointer',
+                          fontFamily: "'Outfit', sans-serif",
+                        }}
                       >
                         {role.label}
                       </button>
@@ -97,19 +178,36 @@ export default function FindYourPlaceDesktop() {
               )}
             </div>
 
-            <div>
-              <p className="text-[11px] font-semibold text-[#6B7280] mb-2 m-0">Popular Roles</p>
-              <div className="flex flex-wrap gap-1.5">
+            <div style={{ marginTop: '16px' }}>
+              <p style={{
+                fontSize: '11px',
+                fontWeight: 600,
+                color: '#6B7280',
+                marginBottom: '8px',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+              }}>
+                Popular Roles
+              </p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                 {POPULAR_ROLES.map((role) => (
                   <button
                     key={role.key}
                     type="button"
                     onClick={() => handleRoleSelect(role)}
-                    className={`px-3 py-1.5 rounded-md text-[11px] font-semibold transition-all duration-200 border cursor-pointer font-['Outfit',sans-serif] ${
-                      selectedRole.key === role.key
-                        ? 'bg-[#6B21A8] text-white border-[#6B21A8] shadow-sm'
-                        : 'bg-white text-[#374151] border-gray-200 hover:border-[#6B21A8]/30 hover:text-[#6B21A8] hover:bg-[#6B21A8]/5'
-                    }`}
+                    style={{
+                      padding: '5px 10px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      border: selectedRole.key === role.key ? '1px solid #6B21A8' : '1px solid #E5E7EB',
+                      background: selectedRole.key === role.key ? '#6B21A8' : '#FFFFFF',
+                      color: selectedRole.key === role.key ? '#FFFFFF' : '#334155',
+                      boxShadow: selectedRole.key === role.key ? '0 2px 8px rgba(107,33,168,0.2)' : 'none',
+                      transition: 'all 0.15s ease',
+                      fontFamily: "'Outfit', sans-serif",
+                    }}
                   >
                     {role.label}
                   </button>
@@ -118,48 +216,109 @@ export default function FindYourPlaceDesktop() {
             </div>
           </div>
 
-          <div className="flex flex-col gap-4 border-l border-r border-gray-100 px-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[#F5F3FF] flex items-center justify-center shrink-0">
-                <Building2 size={20} className="text-[#6B21A8]" />
+          <div style={{ padding: '24px 28px', borderRight: '1px solid #F0EEF7' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '18px' }}>
+              <div style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: '10px',
+                background: '#F5F3FF',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <Building2 size={20} style={{ color: '#6B21A8' }} />
               </div>
-              <h3 className="text-[1rem] font-bold text-[#1A1A2E] m-0">
+              <h3 style={{
+                fontSize: '1rem',
+                fontWeight: 700,
+                color: '#1A1A2E',
+                margin: 0,
+                lineHeight: 1.3,
+              }}>
                 {selectedRole.helpTitle}
               </h3>
             </div>
-            <ul className="list-none m-0 mt-2 p-0 flex flex-col gap-3">
-              {selectedRole.helpPoints.map((point, i) => (
-                <li key={i} className="flex items-start gap-2.5 text-[0.85rem] text-[#4B5563]">
-                  <Check size={16} strokeWidth={3} className="shrink-0 mt-0.5 text-[#6B21A8]" />
-                  <span className="font-medium">{point}</span>
+
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {selectedRole.helpPoints.map((point) => (
+                <li key={point} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.85rem', color: '#475569' }}>
+                  <Check size={16} strokeWidth={3} style={{ flexShrink: 0, marginTop: '2px', color: '#6B21A8' }} />
+                  <span style={{ fontWeight: 500, lineHeight: 1.5 }}>{point}</span>
                 </li>
               ))}
             </ul>
-            <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white border border-gray-200 text-[#6B21A8] text-[13px] font-bold cursor-pointer hover:bg-gray-50 hover:border-gray-300 transition-all duration-300 self-start mt-2">
+
+            <button
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginTop: '20px',
+                padding: '9px 18px',
+                borderRadius: '8px',
+                background: '#FFFFFF',
+                border: '1px solid #E5E7EB',
+                color: '#6B21A8',
+                fontSize: '13px',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                fontFamily: "'Outfit', sans-serif",
+                transition: 'all 0.15s ease',
+              }}
+            >
               {selectedRole.ctaLabel}
               <ArrowRight size={14} />
             </button>
           </div>
 
-          <div className="flex flex-col gap-3">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-[#6B7280] m-0">
+          <div style={{ padding: '24px 20px', background: '#FAFAF9' }}>
+            <p style={{
+              fontSize: '10px',
+              fontWeight: 700,
+              textTransform: 'uppercase',
+              letterSpacing: '0.12em',
+              color: '#9CA3AF',
+              margin: '0 0 12px',
+            }}>
               Relevant Modules
             </p>
-            <div className="flex flex-col gap-2">
-              {selectedRole.relevantModules.map((mod, i) => (
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              {selectedRole.relevantModules.map((module) => (
                 <div
-                  key={i}
-                  className="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-[#F9FAFB] border border-gray-100 hover:border-[#6B21A8]/20 hover:bg-[#6B21A8]/3 transition-all duration-200"
+                  key={module.name}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    padding: '9px 12px',
+                    borderRadius: '10px',
+                    background: '#FFFFFF',
+                    border: '1px solid #EEEAF8',
+                    boxShadow: '0 1px 4px rgba(26,26,46,0.04)',
+                  }}
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-[#6B21A8]/10 flex items-center justify-center shrink-0">
-                      <ModuleIcon name={mod.name} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      background: 'rgba(107,33,168,0.08)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      <ModuleIcon name={module.name} />
                     </div>
-                    <span className="text-[12px] font-semibold text-[#374151]">{mod.name}</span>
+                    <span style={{ fontSize: '12px', fontWeight: 600, color: '#374151' }}>{module.name}</span>
                   </div>
-                  {mod.comingSoon && (
-                    <span className="text-[8px] font-medium text-[#6B7280]">
-                      (Coming Soon)
+                  {module.comingSoon && (
+                    <span style={{ fontSize: '9px', fontWeight: 500, color: '#9CA3AF', whiteSpace: 'nowrap' }}>
+                      Coming Soon
                     </span>
                   )}
                 </div>

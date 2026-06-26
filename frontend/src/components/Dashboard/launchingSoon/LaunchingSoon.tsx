@@ -10,25 +10,25 @@ interface LaunchingItem {
 const LAUNCHING_ITEMS: LaunchingItem[] = [
   {
     key: 'showcase',
-    icon: <Monitor size={44} strokeWidth={1.5} style={{ color: '#6B21A8' }} />,
+    icon: <Monitor size={44} strokeWidth={1.5} className="text-purple-800" />,
     title: 'Showcase',
     description: 'Highlight your projects, wins, and impact in one centralized space.',
   },
   {
     key: 'city-inventory',
-    icon: <Building2 size={44} strokeWidth={1.5} style={{ color: '#6B21A8' }} />,
+    icon: <Building2 size={44} strokeWidth={1.5} className="text-purple-800" />,
     title: 'City Inventory',
     description: 'View and manage detailed information about cities and communities.',
   },
   {
     key: 'survey-pools',
-    icon: <ClipboardList size={44} strokeWidth={1.5} style={{ color: '#6B21A8' }} />,
+    icon: <ClipboardList size={44} strokeWidth={1.5} className="text-purple-800" />,
     title: 'Survey Pools',
     description: 'Access and contribute to a variety of surveys and polls.',
   },
   {
     key: 'lms',
-    icon: <GraduationCap size={44} strokeWidth={1.5} style={{ color: '#6B21A8' }} />,
+    icon: <GraduationCap size={44} strokeWidth={1.5} className="text-purple-800" />,
     title: 'LMS',
     description: 'Access learning resources and build your skills on your schedule.',
   },
@@ -36,87 +36,26 @@ const LAUNCHING_ITEMS: LaunchingItem[] = [
 
 function LaunchingCard({ item }: { item: LaunchingItem }) {
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        background: '#FFFFFF',
-        border: '1px solid #EDEBF8',
-        borderRadius: '16px',
-        padding: '24px',
-        gap: '0',
-        position: 'relative',
-        fontFamily: "'Outfit', sans-serif",
-        boxShadow: '0 2px 12px rgba(107, 33, 168, 0.04)',
-        transition: 'box-shadow 0.2s ease, transform 0.2s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.boxShadow = '0 8px 28px rgba(107, 33, 168, 0.10)'
-        e.currentTarget.style.transform = 'translateY(-2px)'
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = '0 2px 12px rgba(107, 33, 168, 0.04)'
-        e.currentTarget.style.transform = 'translateY(0)'
-      }}
-    >
-      <span
-        style={{
-          display: 'inline-flex',
-          alignSelf: 'flex-start',
-          padding: '5px 14px',
-          borderRadius: '999px',
-          background: 'rgba(107, 33, 168, 0.08)',
-          color: '#6B21A8',
-          fontSize: '12px',
-          fontWeight: 700,
-          marginBottom: '24px',
-          letterSpacing: '0.01em',
-        }}
-      >
+    <div className="flex flex-col bg-white border border-[#EDEBF8] rounded-2xl p-6 relative font-['Outfit',sans-serif] shadow-[0_2px_12px_rgba(107,33,168,0.04)] transition-all duration-200 ease-out hover:shadow-[0_8px_28px_rgba(107,33,168,0.10)] hover:-translate-y-0.5">
+      <span className="inline-flex self-start py-[5px] px-[14px] rounded-full bg-purple-800/10 text-purple-800 text-xs font-bold mb-6 tracking-[0.01em]">
         Coming Soon
       </span>
 
-      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px', flex: 1 }}>
-        <div style={{ flexShrink: 0, marginTop: '2px' }}>{item.icon}</div>
+      <div className="flex items-start gap-5 flex-1">
+        <div className="shrink-0 mt-0.5">{item.icon}</div>
         <div>
-          <h3
-            style={{
-              fontSize: '18px',
-              fontWeight: 800,
-              color: '#1A1A2E',
-              margin: '0 0 8px',
-              lineHeight: 1.2,
-            }}
-          >
+          <h3 className="text-lg font-extrabold text-[#1A1A2E] mb-2 leading-[1.2]">
             {item.title}
           </h3>
-          <p
-            style={{
-              fontSize: '14px',
-              color: '#6B7280',
-              lineHeight: 1.6,
-              margin: 0,
-              fontWeight: 400,
-            }}
-          >
+          <p className="text-sm text-gray-500 leading-[1.6] m-0 font-normal">
             {item.description}
           </p>
         </div>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginTop: '24px',
-          paddingTop: '20px',
-          borderTop: '1px solid #F0EDF8',
-          color: '#6B21A8',
-        }}
-      >
-        <Clock size={16} strokeWidth={2} style={{ color: '#6B21A8', flexShrink: 0 }} />
-        <span style={{ fontSize: '13px', fontWeight: 600 }}>Launching Soon</span>
+      <div className="flex items-center gap-2 mt-6 pt-5 border-t border-[#F0EDF8] text-purple-800">
+        <Clock size={16} strokeWidth={2} className="text-purple-800 shrink-0" />
+        <span className="text-[13px] font-semibold">Launching Soon</span>
       </div>
     </div>
   )
@@ -124,49 +63,9 @@ function LaunchingCard({ item }: { item: LaunchingItem }) {
 
 export default function LaunchingSoon() {
   return (
-    <div
-      style={{
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        background: '#F8F7FC',
-        overflowY: 'auto',
-        padding: '32px 28px',
-        fontFamily: "'Outfit', sans-serif",
-        boxSizing: 'border-box',
-      }}
-    >
-      <div style={{ maxWidth: '900px' }}>
-        <h1
-          style={{
-            fontSize: '26px',
-            fontWeight: 800,
-            color: '#1A1A2E',
-            margin: '0 0 8px',
-            letterSpacing: '-0.02em',
-          }}
-        >
-          Launching Soon
-        </h1>
-        <p
-          style={{
-            fontSize: '14px',
-            color: '#6B7280',
-            margin: '0 0 32px',
-            fontWeight: 400,
-            lineHeight: 1.6,
-          }}
-        >
-          A preview of the tools and features we&apos;re building to enhance your RED experience.
-        </p>
-
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '20px',
-          }}
-        >
+    <div className="flex-1 w-full h-full bg-[#F8F7FC] overflow-y-auto py-8 px-7 font-['Outfit',sans-serif] box-border">
+      <div className="max-w-[900px]">
+        <div className="grid grid-cols-2 gap-5">
           {LAUNCHING_ITEMS.map((item) => (
             <LaunchingCard key={item.key} item={item} />
           ))}

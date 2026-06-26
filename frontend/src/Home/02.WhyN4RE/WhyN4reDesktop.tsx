@@ -84,12 +84,6 @@ export default function WhyN4reDesktop() {
             </div>
           </div>
         </div>
-
-        <div className="mt-8 lg:mt-10 text-center">
-          <a href="#join" className="inline-block text-[12px] lg:text-[13px] font-extrabold uppercase tracking-[0.14em] text-[#6B21A8] hover:text-[#581C87] transition-colors">
-            {WHY_N4RE_CONTENT.footerText}
-          </a>
-        </div>
       </div>
     </section>
   );

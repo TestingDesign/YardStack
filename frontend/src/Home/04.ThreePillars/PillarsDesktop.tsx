@@ -37,7 +37,7 @@ const ModuleIcon = ({ name, color, isActive }: { name: string; color: string; is
 };
 
 function PillarCard({ pillar }: { pillar: Pillar }) {
-  const [activeModuleIdx, setActiveModuleIdx] = useState<number | null>(0);
+  const [activeModuleIdx, setActiveModuleIdx] = useState<number | null>(null);
 
   return (
     <div 

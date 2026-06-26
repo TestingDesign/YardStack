@@ -1,8 +1,20 @@
-import { ChevronRight, PlayCircle, Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react';
+import React from 'react';
+import { 
+  ChevronRight, 
+  PlayCircle, 
+  Briefcase, 
+  Users, 
+  Handshake, 
+  Megaphone, 
+  Building2, 
+  Landmark, 
+  Monitor, 
+  Palette 
+} from 'lucide-react';
 import { PREVIEW_SECTIONS } from './data';
 
 const PreviewIcon = ({ icon, color, size = 16 }: { icon: string; color: string; size?: number }) => {
-  const props = { size, color };
+  const props = { size, color, strokeWidth: 1.5 };
   switch (icon) {
     case 'play': return <PlayCircle {...props} />;
     case 'briefcase': return <Briefcase {...props} />;
@@ -19,112 +31,103 @@ const PreviewIcon = ({ icon, color, size = 16 }: { icon: string; color: string; 
 
 export default function PlatformPreviewDesktop() {
   return (
-    <section id="platform-preview" style={{
-      background: 'linear-gradient(180deg, #FFFFFF 0%, #F8F7FC 100%)',
-      padding: '80px 0',
-      fontFamily: "'Outfit', sans-serif",
-    }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
-        <p className="ys-fade-in-up" style={{
-          textAlign: 'center',
-          fontSize: '11px',
-          fontWeight: 800,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          margin: '0 0 40px',
-        }}>
-          A GLIMPSE OF WHAT YOU&apos;LL DISCOVER
-        </p>
+    <section 
+      id="platform-preview" 
+      className="relative bg-[#FAFAFA] py-24 lg:py-32 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      style={{ fontFamily: "'Outfit', sans-serif" }}
+    >
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" />
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
-          {PREVIEW_SECTIONS.map((section, si) => (
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 relative z-10">
+        
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
+            A Glimpse of What You'll Discover
+          </span>
+        </div>
+
+        {/* Responsive Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          {PREVIEW_SECTIONS.map((section) => (
             <div
               key={section.key}
-              className={`ys-fade-in-up ys-stagger-${si + 1}`}
-              style={{
-                background: 'rgba(255,255,255,0.9)',
-                backdropFilter: 'blur(8px)',
-                borderRadius: '8px',
-                border: '1px solid rgba(124,58,237,0.07)',
-                boxShadow: '0 8px 32px rgba(0,0,0,0.03)',
-                padding: '24px',
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '20px',
-                transition: 'box-shadow 0.25s ease, transform 0.25s ease',
-                cursor: 'default',
-              }}
-              onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 16px 48px rgba(124,58,237,0.1)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-              onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.03)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+              className="group/card flex flex-col gap-6 p-7 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(124,58,237,0.08)] hover:-translate-y-1 transition-all duration-300"
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h3 style={{
-                  fontSize: '13px',
-                  fontWeight: 800,
-                  color: '#1A1A2E',
-                  margin: 0,
-                  background: section.key === 'spotlight' ? 'linear-gradient(135deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05))' : 'transparent',
-                  padding: section.key === 'spotlight' ? '5px 10px' : '0',
-                  borderRadius: section.key === 'spotlight' ? '4px' : '0',
-                }}>
+              
+              {/* Card Header */}
+              <div className="flex items-center justify-between">
+                <h3 
+                  className={`text-sm font-extrabold text-slate-900 ${
+                    section.key === 'spotlight' 
+                      ? 'bg-purple-50 text-purple-800 px-3 py-1 rounded-lg border border-purple-100' 
+                      : ''
+                  }`}
+                >
                   {section.title}
                 </h3>
-                <button className="flex items-center gap-0.5 text-[11px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899] border-none cursor-pointer transition-all hover:bg-clip-border hover:text-white hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] px-2 py-1 rounded-[4px]">
+                
+                <button className="group/btn flex items-center gap-0.5 text-[11px] font-bold text-slate-500 hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-sm">
                   {section.viewAllLabel}
-                  <ChevronRight size={14} className="text-[#EC4899] hover:text-white" />
+                  <ChevronRight size={14} className="text-slate-400 group-hover/btn:text-purple-600 transition-colors" />
                 </button>
               </div>
 
+              {/* Card Content Renderers based on section type */}
               {(section.key === 'spotlight' || section.key === 'red-expert') ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
+                <div className="grid grid-cols-3 gap-3">
                   {section.items.slice(0, 3).map((item, i) => (
-                    <div key={i} className="group flex flex-col gap-2 cursor-pointer">
-                      <div className="aspect-square rounded-[8px] flex items-center justify-center shadow-[inset_0_0_0_1px_rgba(0,0,0,0.08)] transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px"
-                        style={{
-                          background: item.gradient || item.logoBg,
-                        }}
+                    <div key={i} className="group/item flex flex-col gap-2.5 cursor-pointer">
+                      <div 
+                        className="aspect-square rounded-2xl flex items-center justify-center shadow-sm border border-white/20 transition-all duration-300 group-hover/item:-translate-y-1 group-hover/item:shadow-lg group-hover/item:shadow-purple-900/15 group-hover/item:border-transparent group-hover/item:scale-105"
+                        style={{ background: item.gradient || item.logoBg }}
                       >
-                        {item.icon
-                          ? <PreviewIcon icon={item.icon} color="#FFFFFF" size={28} />
-                          : <span className="text-[18px] font-extrabold text-white">{item.logoText}</span>
-                        }
+                        {item.icon ? (
+                          <PreviewIcon icon={item.icon} color="#FFFFFF" size={26} />
+                        ) : (
+                          <span className="text-xl font-black text-white tracking-tight drop-shadow-sm">
+                            {item.logoText}
+                          </span>
+                        )}
                       </div>
-                      <p className="text-[10px] font-semibold text-slate-700 m-0 leading-tight">
+                      <p className="text-[11px] font-bold text-slate-600 m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
                         {item.title}
                       </p>
                     </div>
                   ))}
                 </div>
+
               ) : section.key === 'opportunities' ? (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                <div className="flex flex-col gap-2.5">
                   {section.items.map((item, i) => (
-                    <div key={i} className="group flex items-center gap-3 p-3 rounded-[8px] border border-[rgba(234,88,12,0.1)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
-                      style={{
-                        backgroundColor: 'rgba(234,88,12,0.03)',
-                      }}
+                    <div 
+                      key={i} 
+                      className="group/item flex items-center gap-3.5 p-3.5 rounded-2xl bg-orange-50/50 border border-orange-100/50 hover:bg-gradient-to-r hover:from-purple-700 hover:to-purple-500 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5"
                     >
-                      <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                      <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={18} />
                       </div>
-                      <span className="text-[11px] font-semibold text-[#1A1A2E] group-hover:text-white transition-colors">{item.title}</span>
+                      <span className="text-xs font-bold text-slate-700 group-hover/item:text-white transition-colors">
+                        {item.title}
+                      </span>
                     </div>
                   ))}
                 </div>
+
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                <div className="grid grid-cols-3 gap-2.5">
                   {section.items.slice(0, 6).map((item, i) => (
-                    <div key={i} className="group flex flex-col items-center gap-2 p-[12px_8px] text-center rounded-[8px] border border-[rgba(124,58,237,0.08)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
-                      style={{
-                        backgroundColor: 'rgba(124,58,237,0.03)',
-                      }}
+                    <div 
+                      key={i} 
+                      className="group/item flex flex-col items-center gap-2 p-3 text-center rounded-2xl bg-purple-50/40 border border-purple-100/50 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-700 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-1"
                     >
-                      <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                      <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'building'} color="#7C3AED" size={20} />
                       </div>
-                      <span className="text-[9px] font-bold text-slate-700 leading-tight group-hover:text-white transition-colors">{item.title}</span>
+                      <span className="text-[10px] font-bold text-slate-600 leading-tight group-hover/item:text-white transition-colors">
+                        {item.title}
+                      </span>
                     </div>
                   ))}
                 </div>

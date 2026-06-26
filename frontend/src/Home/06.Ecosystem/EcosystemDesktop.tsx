@@ -1,8 +1,21 @@
-import { Building2, Users, User, UserCheck, Megaphone, Monitor, Landmark, Palette, Mic, LineChart, GraduationCap } from 'lucide-react';
+import { 
+  Building2, 
+  Users, 
+  User, 
+  UserCheck, 
+  Megaphone, 
+  Monitor, 
+  Landmark, 
+  Palette, 
+  Mic, 
+  LineChart, 
+  GraduationCap,
+  ArrowRight
+} from 'lucide-react';
 import { ECOSYSTEM_MEMBERS } from './data';
 
-const EcosystemIcon = ({ icon, color, size = 28 }: { icon: string; color: string; size?: number }) => {
-  const props = { size, color, strokeWidth: 1.5 };
+const EcosystemIcon = ({ icon, className, size = 24 }: { icon: string; className?: string; size?: number }) => {
+  const props = { size, className, strokeWidth: 1.5 };
   switch (icon) {
     case 'building': return <Building2 {...props} />;
     case 'users': return <Users {...props} />;
@@ -21,50 +34,47 @@ const EcosystemIcon = ({ icon, color, size = 28 }: { icon: string; color: string
 
 export default function EcosystemDesktop() {
   return (
-    <section id="ecosystem" style={{
-      background: 'linear-gradient(180deg, #F8F7FC 0%, #FFFFFF 100%)',
-      padding: '80px 0',
-      fontFamily: "'Outfit', sans-serif",
-    }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
-        <p className="ys-fade-in-up" style={{
-          textAlign: 'center',
-          fontSize: '11px',
-          fontWeight: 800,
-          letterSpacing: '0.18em',
-          textTransform: 'uppercase',
-          background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          margin: '0 0 32px',
-        }}>
-          BUILT FOR HYDERABAD&apos;S REAL ESTATE ECOSYSTEM
-        </p>
+    <section 
+      id="ecosystem" 
+      className="relative bg-[#FAFAFA] py-24 lg:py-32 overflow-hidden"
+      style={{ fontFamily: "'Outfit', sans-serif" }}
+    >
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-400/5 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="ys-fade-in-up" style={{
-          background: 'linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(236,72,153,0.04) 100%)',
-          border: '1px solid rgba(124,58,237,0.08)',
-          borderRadius: '8px',
-          padding: '48px 40px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '32px',
-        }}>
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative z-10">
+        <div className="text-center mb-16">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
+            Built for Hyderabad&apos;s Real Estate Ecosystem
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {ECOSYSTEM_MEMBERS.map((member, i) => (
-            <div
+            <button
               key={i}
-              className={`ys-fade-in-up ys-stagger-${(i % 6) + 1} group flex flex-col items-center gap-3 min-w-[85px] max-w-[100px] text-center cursor-pointer transition-all`}
+              className="group flex flex-col items-center p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white/80 hover:bg-white hover:border-purple-200 hover:shadow-[0_20px_40px_-10px_rgba(124,58,237,0.12)] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
             >
-              <div className="eco-icon flex items-center justify-center w-14 h-14 rounded-[8px] bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.1)] transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
-                <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
-                  <EcosystemIcon icon={member.icon} color="#7C3AED" size={28} />
-                </div>
+              <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-purple-50 group-hover:bg-gradient-to-br group-hover:from-purple-600 group-hover:to-purple-800 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-purple-900/20 mb-4 group-hover:scale-105">
+                <EcosystemIcon 
+                  icon={member.icon} 
+                  className="text-purple-700 group-hover:text-white transition-colors duration-500" 
+                  size={28} 
+                />
               </div>
-              <span className="text-[11px] font-bold text-slate-700 leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
+              
+              <span className="text-[13px] font-bold text-slate-800 leading-tight group-hover:text-purple-950 transition-colors duration-300 text-center px-1">
                 {member.label}
               </span>
-            </div>
+
+              <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] w-full opacity-0 group-hover:opacity-100">
+                <div className="overflow-hidden flex flex-col items-center justify-center">
+                  <div className="flex items-center gap-1 mt-4 text-[11px] font-bold text-purple-600 uppercase tracking-wider">
+                    <span>Explore</span>
+                    <ArrowRight size={12} className="transition-transform duration-300 group-hover:translate-x-1" />
+                  </div>
+                </div>
+              </div>
+            </button>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { NAV_LINKS, NAV_CTAS } from './data';
 
 interface HomeNavDesktopProps {
@@ -15,131 +15,60 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
   }, []);
 
   return (
-    <header style={{
-      position: 'sticky',
-      top: 0,
-      zIndex: 50,
-      background: 'rgba(255,255,255,0.95)',
-      backdropFilter: 'blur(12px)',
-      borderBottom: '1px solid rgba(107,33,168,0.08)',
-      fontFamily: "'Outfit', sans-serif",
-      boxShadow: '0 1px 24px rgba(26,26,46,0.04)',
-    }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        height: '68px',
-        padding: '0 40px',
-        maxWidth: '1400px',
-        margin: '0 auto',
-        width: '100%',
-      }}>
+    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)] font-['Outfit',sans-serif]">
+      <div className="flex items-center justify-between h-[76px] px-6 lg:px-10 max-w-[1400px] mx-auto w-full">
         <a
           href="#hero"
           onClick={() => setActiveLink('home')}
-          style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', marginRight: '40px', textDecoration: 'none' }}
+          className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
         >
-          <span style={{
-            fontSize: '1.7rem',
-            fontWeight: 800,
-            color: '#1A1A2E',
-            lineHeight: 1,
-            letterSpacing: '-0.03em',
-          }}>
-            N<span style={{ background: 'linear-gradient(135deg, #7C3AED, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>4</span>RE
+          <span className="text-[28px] font-extrabold text-slate-900 leading-none tracking-tight">
+            N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
           </span>
         </a>
 
-        <nav aria-label="Main Navigation" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <ul style={{ display: 'flex', alignItems: 'center', gap: '4px', listStyle: 'none', margin: 0, padding: 0 }}>
-            {NAV_LINKS.map((link) => (
-              <li key={link.key}>
-                <button
-                  type="button"
-                  onClick={() => handleNavClick(link.key, link.href)}
-                  style={{
-                    padding: '8px 16px',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    border: 'none',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    background: activeLink === link.key ? 'rgba(124,58,237,0.08)' : 'transparent',
-                    color: activeLink === link.key ? '#7C3AED' : '#374151',
-                    fontFamily: "'Outfit', sans-serif",
-                    transition: 'all 0.2s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (activeLink !== link.key) {
-                      e.currentTarget.style.background = 'rgba(124,58,237,0.05)';
-                      e.currentTarget.style.color = '#7C3AED';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (activeLink !== link.key) {
-                      e.currentTarget.style.background = 'transparent';
-                      e.currentTarget.style.color = '#374151';
-                    }
-                  }}
-                >
-                  {link.label}
-                </button>
-              </li>
-            ))}
+        <nav aria-label="Main Navigation" className="hidden md:flex items-center justify-center flex-1 mx-8">
+          <ul className="flex items-center gap-1.5 m-0 p-1.5 bg-slate-50/80 rounded-2xl border border-slate-100 shadow-inner">
+            {NAV_LINKS.map((link) => {
+              const isActive = activeLink === link.key;
+              return (
+                <li key={link.key}>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick(link.key, link.href)}
+                    className={`px-5 py-2 text-[13px] font-bold rounded-xl transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+                      isActive
+                        ? 'bg-white text-purple-700 shadow-sm border border-slate-200/60 scale-100'
+                        : 'text-slate-500 hover:text-purple-700 hover:bg-purple-50/50 border border-transparent scale-100 hover:scale-[1.02]'
+                    }`}
+                  >
+                    {link.label}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
-          {NAV_CTAS.map((cta) => (
-            <a
-              key={cta.label}
-              href={`/${viewMode}${cta.href}`}
-              style={{
-                padding: cta.variant === 'primary' ? '10px 24px' : '9px 20px',
-                borderRadius: '8px',
-                fontSize: '13px',
-                fontWeight: 700,
-                textDecoration: 'none',
-                transition: 'all 0.25s ease',
-                display: 'inline-flex',
-                alignItems: 'center',
-                ...(cta.variant === 'primary'
-                  ? {
-                    background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
-                    color: '#FFFFFF',
-                    border: 'none',
-                    boxShadow: '0 4px 16px rgba(124,58,237,0.3)',
-                  }
-                  : {
-                    background: 'transparent',
-                    color: '#374151',
-                    border: '1.5px solid #E5E7EB',
-                  }
-                ),
-              }}
-              onMouseEnter={(e) => {
-                if (cta.variant === 'primary') {
-                  e.currentTarget.style.boxShadow = '0 6px 24px rgba(124,58,237,0.4)';
-                  e.currentTarget.style.transform = 'translateY(-1px)';
-                } else {
-                  e.currentTarget.style.borderColor = 'rgba(124,58,237,0.4)';
-                  e.currentTarget.style.color = '#7C3AED';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (cta.variant === 'primary') {
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(124,58,237,0.3)';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                } else {
-                  e.currentTarget.style.borderColor = '#E5E7EB';
-                  e.currentTarget.style.color = '#374151';
-                }
-              }}
-            >
-              {cta.label}
-            </a>
-          ))}
+        <div className="flex items-center gap-3 shrink-0">
+          {NAV_CTAS.map((cta) => {
+            const isPrimary = cta.variant === 'primary';
+            return (
+              <a
+                key={cta.label}
+                href={`/${viewMode}${cta.href}`}
+                className={`inline-flex items-center justify-center px-6 py-2.5 rounded-xl text-[13px] font-extrabold transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+                  isPrimary
+                    ? 'bg-gradient-to-r from-purple-800 to-purple-600 text-white shadow-lg shadow-purple-900/20 hover:shadow-xl hover:shadow-purple-900/30 hover:-translate-y-0.5 active:scale-[0.98]'
+                    : 'bg-white text-slate-700 border border-slate-200 hover:border-purple-300 hover:text-purple-800 hover:bg-purple-50 hover:-translate-y-0.5 hover:shadow-md hover:shadow-purple-900/5 active:scale-[0.98]'
+                }`}
+              >
+                {cta.label}
+              </a>
+            );
+          })}
         </div>
+        
       </div>
     </header>
   );

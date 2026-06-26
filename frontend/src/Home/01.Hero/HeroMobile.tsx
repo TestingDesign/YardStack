@@ -90,14 +90,16 @@ export default function HeroMobile() {
 
       <div className="px-4 py-8 relative z-10">
         <div className="flex flex-col gap-4 ys-fade-in-up">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#6B21A8] m-0">
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
             {HERO_CONTENT.tagline}
           </p>
+          <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
 
-          <h1 className="text-[1.8rem] leading-[1.15] font-extrabold text-[#1A1A2E] m-0 tracking-tight">
-            Connecting <AnimatedCity className="text-[#6B21A8]" suffix="'s" />
+          <h1 className="text-[2.2rem] leading-[1.1] font-extrabold text-[#111827] m-0 tracking-tight">
+            Connecting <AnimatedCity className="text-[#111827]" suffix="'s" />
             <br />
-            <span className="text-[#6B21A8]">Real Estate</span> Ecosystem
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate</span> <br />
+            Ecosystem
           </h1>
 
           <p className="text-[0.95rem] leading-relaxed font-semibold text-[#374151] m-0">
@@ -109,16 +111,16 @@ export default function HeroMobile() {
           </p>
 
           <div className="flex flex-col gap-3 mt-2">
-            <button className="w-full flex items-center justify-center px-6 py-3.5 rounded-[4px] bg-[#6B21A8] text-white text-[14px] font-bold border-none cursor-pointer shadow-[0_4px_14px_rgba(107,33,168,0.35)] transition-all active:scale-[0.98]">
-              {HERO_CONTENT.primaryCta}
+            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[14px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">
+              {HERO_CONTENT.primaryCta} <ArrowRight size={16} />
             </button>
-            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[4px] bg-white text-[#374151] text-[14px] font-bold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-white text-[#111827] text-[14px] font-extrabold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-sm">
               {HERO_CONTENT.secondaryCta}
               <ArrowRight size={16} />
             </button>
           </div>
 
-          <div className="flex items-center gap-3 mt-4">
+          <div className="flex items-center gap-3 mt-4 px-4 py-3 rounded-[16px] bg-white/70 backdrop-blur-md border border-purple-100/50 shadow-[0_8px_32px_rgba(107,33,168,0.06)] w-fit">
             <div className="flex -space-x-2.5">
               {[1, 2, 3, 4].map((i) => (
                 <div
@@ -134,10 +136,10 @@ export default function HeroMobile() {
               ))}
             </div>
             <div className="flex flex-col">
-              <span className="text-[11px] font-bold text-[#1A1A2E]">
+              <span className="text-[11px] font-extrabold text-[#422082] leading-tight">
                 {HERO_CONTENT.supportingTextBold}
               </span>
-              <span className="text-[11px] font-medium text-[#6B7280]">
+              <span className="text-[10px] font-semibold text-[#79628c] leading-tight">
                 {HERO_CONTENT.supportingText}
               </span>
             </div>
@@ -188,7 +190,7 @@ export default function HeroMobile() {
             return (
               <div
                 key={i}
-                className="absolute z-20 flex flex-col items-center justify-center gap-1.5 rounded-[4px] bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-3 py-2.5 min-w-[100px] text-center border border-white/80 ys-fade-in"
+                className="absolute z-20 flex flex-col items-center justify-center gap-1.5 rounded-[12px] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-3 py-2.5 min-w-[100px] text-center border border-white/80 ys-fade-in"
                 style={{
                   top: mobilePositions[i].top,
                   left: mobilePositions[i].left,
@@ -196,10 +198,10 @@ export default function HeroMobile() {
                   animationDelay: `${i * 100}ms`,
                 }}
               >
-                <div className="w-7 h-7 rounded-full bg-[#F5F3FF] flex items-center justify-center border border-[#6B21A8]/10">
+                <div className="w-8 h-8 rounded-full bg-[#f8f5fc] flex items-center justify-center border border-[#6B21A8]/5">
                   <CategoryIcon icon={cat.icon} />
                 </div>
-                <span className="text-[9px] font-bold text-[#1A1A2E] leading-tight whitespace-pre-line">
+                <span className="text-[10px] font-extrabold text-[#111827] leading-tight whitespace-pre-line">
                   {cat.label}
                 </span>
               </div>

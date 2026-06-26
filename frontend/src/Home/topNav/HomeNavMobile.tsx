@@ -83,19 +83,22 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             </nav>
 
             <div className="p-4 border-t border-gray-100 flex flex-col gap-2.5">
-              {NAV_CTAS.map((cta) => (
-                <a
-                  key={cta.label}
-                  href={`/${viewMode}${cta.href}`}
-                  className={`flex items-center justify-center px-5 py-2.5 rounded-[4px] text-[14px] font-bold transition-all duration-300 no-underline ${
-                    cta.variant === 'primary'
-                      ? 'bg-[#6B21A8] text-white hover:bg-[#5B1D99] shadow-[0_2px_12px_rgba(107,33,168,0.25)]'
-                      : 'bg-transparent text-[#374151] border border-gray-200 hover:border-[#6B21A8]/30 hover:text-[#6B21A8]'
-                  }`}
-                >
-                  {cta.label}
-                </a>
-              ))}
+              {NAV_CTAS.map((cta) => {
+                const isPrimary = cta.variant === 'primary';
+                return (
+                  <a
+                    key={cta.label}
+                    href={`/${viewMode}${cta.href}`}
+                    className={`flex items-center justify-center px-5 py-2.5 rounded-[4px] text-[14px] font-extrabold transition-all duration-300 no-underline cursor-pointer ${
+                      isPrimary
+                        ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white shadow-[0_4px_16px_rgba(124,58,237,0.25)] hover:-translate-y-0.5'
+                        : 'bg-white text-[#422082] border border-gray-200 hover:border-purple-200 hover:text-[#7C3AED] shadow-sm'
+                    }`}
+                  >
+                    {cta.label}
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

@@ -38,7 +38,7 @@ const NavCard = memo(function NavCard({
   onClick: (key: string) => void
 }) {
   const icon = isActive && item.activeIcon ? item.activeIcon : item.Icon
-  const isImage = icon?.includes('/') || icon?.includes('.png')
+  const isImage = typeof icon === 'string' && (icon.includes('/') || icon.includes('.png'))
 
   return (
     <button
@@ -58,9 +58,15 @@ const NavCard = memo(function NavCard({
 
       <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-5 h-5 md:w-6 md:h-6 text-[#374151]'}`}>
         {isImage ? (
-          <img src={icon} alt={item.label} className="w-full h-full object-contain" draggable={false} />
+          <img src={icon as string} alt={item.label} className="w-full h-full object-contain" draggable={false} />
         ) : (
-          <span className="text-[20px] md:text-[24px]">{icon}</span>
+          <span className="text-[20px] md:text-[24px]">
+            {typeof icon === 'object' && icon !== null && '$$typeof' in icon && !('props' in icon)
+              ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
+              : typeof icon === 'function'
+              ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
+              : icon}
+          </span>
         )}
       </span>
 

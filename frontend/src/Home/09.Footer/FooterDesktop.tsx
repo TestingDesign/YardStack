@@ -28,16 +28,20 @@ const SocialIcon = ({ icon, size = 16 }: { icon: string; size?: number }) => {
 
 export default function FooterDesktop() {
   return (
-    <footer id="footer" style={{ background: '#1A1A2E', padding: '32px 0', fontFamily: "'Outfit', sans-serif" }}>
+    <footer id="footer" style={{
+      background: 'linear-gradient(135deg, #0F1021 0%, #1A1B2E 60%, #2e1065 100%)',
+      padding: '28px 0',
+      fontFamily: "'Outfit', sans-serif",
+      borderTop: '1px solid rgba(124,58,237,0.2)',
+    }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
             <img src={LogoPng} alt="N4RE" style={{ height: '36px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
-            <span style={{ fontSize: '12px', color: '#9CA3AF', fontWeight: 500 }}>{FOOTER_COPYRIGHT}</span>
+            <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.4)', fontWeight: 500 }}>{FOOTER_COPYRIGHT}</span>
           </div>
 
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+          <nav style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -45,38 +49,47 @@ export default function FooterDesktop() {
                 style={{
                   fontSize: '12px',
                   fontWeight: 600,
-                  color: '#D1D5DB',
+                  color: 'rgba(255,255,255,0.6)',
                   textDecoration: 'none',
                   transition: 'color 0.2s',
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.color = '#FFFFFF'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#D1D5DB'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.6)'}
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
                 style={{
-                  width: '32px',
-                  height: '32px',
-                  borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.1)',
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '8px',
+                  background: 'rgba(255,255,255,0.07)',
+                  border: '1px solid rgba(255,255,255,0.1)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: '#FFFFFF',
+                  color: 'rgba(255,255,255,0.7)',
                   textDecoration: 'none',
-                  transition: 'background 0.2s',
+                  transition: 'all 0.2s ease',
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #7C3AED, #EC4899)';
+                  e.currentTarget.style.borderColor = 'transparent';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.1)';
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.7)';
+                }}
               >
                 <SocialIcon icon={social.icon} size={16} />
               </a>

@@ -21,51 +21,74 @@ const EcosystemIcon = ({ icon, color, size = 28 }: { icon: string; color: string
 
 export default function EcosystemDesktop() {
   return (
-    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '64px 0', fontFamily: "'Outfit', sans-serif" }}>
+    <section id="ecosystem" style={{
+      background: 'linear-gradient(180deg, #F8F7FC 0%, #FFFFFF 100%)',
+      padding: '80px 0',
+      fontFamily: "'Outfit', sans-serif",
+    }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
-        <p style={{
+        <p className="ys-fade-in-up" style={{
           textAlign: 'center',
           fontSize: '11px',
           fontWeight: 800,
-          letterSpacing: '0.15em',
+          letterSpacing: '0.18em',
           textTransform: 'uppercase',
-          color: '#6B21A8',
-          margin: '0 0 24px 0',
+          background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          margin: '0 0 32px',
         }}>
           BUILT FOR HYDERABAD&apos;S REAL ESTATE ECOSYSTEM
         </p>
 
-        <div style={{
-          background: '#FCFAFF',
-          border: '1px solid rgba(107,33,168,0.06)',
+        <div className="ys-fade-in-up" style={{
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(236,72,153,0.04) 100%)',
+          border: '1px solid rgba(124,58,237,0.08)',
           borderRadius: '24px',
-          padding: '40px 32px',
+          padding: '48px 40px',
           display: 'flex',
           flexWrap: 'wrap',
           justifyContent: 'center',
-          gap: '24px',
+          gap: '32px',
         }}>
           {ECOSYSTEM_MEMBERS.map((member, i) => (
             <div
               key={i}
+              className={`ys-fade-in-up ys-stagger-${(i % 6) + 1}`}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: '12px',
                 minWidth: '85px',
-                maxWidth: '95px',
+                maxWidth: '100px',
                 textAlign: 'center',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                const icon = e.currentTarget.querySelector('.eco-icon') as HTMLElement;
+                if (icon) icon.style.background = 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(236,72,153,0.1))';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)';
+                const icon = e.currentTarget.querySelector('.eco-icon') as HTMLElement;
+                if (icon) icon.style.background = 'rgba(124,58,237,0.06)';
               }}
             >
-              <div style={{
-                width: '48px',
-                height: '48px',
+              <div className="eco-icon" style={{
+                width: '56px',
+                height: '56px',
+                borderRadius: '16px',
+                background: 'rgba(124,58,237,0.06)',
+                border: '1px solid rgba(124,58,237,0.1)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                transition: 'background 0.2s ease',
               }}>
-                <EcosystemIcon icon={member.icon} color="#6B21A8" size={32} />
+                <EcosystemIcon icon={member.icon} color="#7C3AED" size={28} />
               </div>
               <span style={{
                 fontSize: '11px',

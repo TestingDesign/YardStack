@@ -265,3 +265,40 @@ body {
     background-image: none !important;
   }
 }
+
+@keyframes ys-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes ys-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ys-border-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.0); }
+  50% { box-shadow: 0 0 0 4px rgba(124,58,237,0.12); }
+}
+
+@keyframes ys-spin-slow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.ys-float {
+  animation: ys-float 3s ease-in-out infinite;
+}
+
+.ys-gradient-shift {
+  background-size: 200% 200%;
+  animation: ys-gradient-shift 4s ease infinite;
+}
+
+.ys-stagger-1 { animation-delay: 0ms; }
+.ys-stagger-2 { animation-delay: 80ms; }
+.ys-stagger-3 { animation-delay: 160ms; }
+.ys-stagger-4 { animation-delay: 240ms; }
+.ys-stagger-5 { animation-delay: 320ms; }
+.ys-stagger-6 { animation-delay: 400ms; }

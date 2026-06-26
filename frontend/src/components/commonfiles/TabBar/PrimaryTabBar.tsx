@@ -45,10 +45,16 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClic
       )}
 
       <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-8 w-8 text-[22px]' : 'h-7 w-7 text-[20px]'}`}>
-        {currentIcon.includes('/') || currentIcon.includes('.png') ? (
+        {typeof currentIcon === 'string' && (currentIcon.includes('/') || currentIcon.includes('.png')) ? (
           <img src={currentIcon} alt="" className="w-full h-full object-contain" />
         ) : (
-          <span>{currentIcon}</span>
+          <span>
+            {typeof currentIcon === 'object' && currentIcon !== null && '$$typeof' in currentIcon && !('props' in currentIcon)
+              ? (() => { const IconCmp = currentIcon as any; return <IconCmp />; })()
+              : typeof currentIcon === 'function'
+              ? (() => { const IconCmp = currentIcon as any; return <IconCmp />; })()
+              : currentIcon}
+          </span>
         )}
       </span>
       

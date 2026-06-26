@@ -3,6 +3,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment'
 import PeopleIcon from '@mui/icons-material/People'
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
 import EventNoteIcon from '@mui/icons-material/EventNote'
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
 import TabBar from '../commonfiles/TabBar'
 import SubTabBar from '../commonfiles/TabBar/SubTabBar'
 import FooterNav from '../commonfiles/FooterNav'
@@ -15,8 +16,6 @@ import SpotlightDesktop from './spotlight/SpotlightDesktop'
 import SpotlightMobile from './spotlight/SpotlightMobile'
 import LaunchingSoon from './launchingSoon/LaunchingSoon'
 import Directory from './directory/Directory'
-import CityInventory from './cityInventory/CityInventory'
-import Learn from './learn/Learn'
 import DashboardHeader from './DashboardHeader'
 import DashboardSidebar from '../commonfiles/sidebar/DashboardSidebar'
 import type { DashboardNavKey } from '../commonfiles/sidebar/DashboardSidebar'
@@ -39,17 +38,34 @@ const STAGGER_DELAYS = [
   '[animation-delay:195ms]',
 ] as const
 
-const TAB_ITEMS = NAV_ITEMS.map(({ key, label, Icon, activeIcon, badge, subTabs }) => ({
-  key,
-  label,
-  Icon: Icon || '',
-  activeIcon,
-  badge,
-  subTabs: subTabs ?? [],
+const LAUNCHING_SOON_KEYS = ['showcase', 'cityInventory', 'surveyPools', 'lms']
+
+const regularNavItems = NAV_ITEMS.filter(item => !LAUNCHING_SOON_KEYS.includes(item.key))
+const launchingSoonSubTabs = NAV_ITEMS.filter(item => LAUNCHING_SOON_KEYS.includes(item.key)).map(item => ({ 
+  label: item.label, 
+  key: item.key 
 }))
 
-/** Nav items shaped for the desktop header's integrated nav cards */
-const HEADER_NAV_ITEMS = NAV_ITEMS.map(({ key, label, Icon, activeIcon, badge }) => ({
+const TAB_ITEMS = [
+  ...regularNavItems.map(({ key, label, Icon, activeIcon, badge, subTabs }) => ({
+    key,
+    label,
+    Icon: Icon || '',
+    activeIcon,
+    badge,
+    subTabs: subTabs ?? [],
+  })),
+  {
+    key: 'launchingSoon',
+    label: 'Upcoming',
+    Icon: RocketLaunchIcon as any,
+    activeIcon: RocketLaunchIcon as any,
+    badge: 'Soon',
+    subTabs: launchingSoonSubTabs,
+  }
+]
+
+const HEADER_NAV_ITEMS = TAB_ITEMS.map(({ key, label, Icon, activeIcon, badge }) => ({
   key,
   label,
   Icon: Icon || '',
@@ -107,15 +123,15 @@ const ActivityFeed = memo(function ActivityFeed() {
 })
 
 function DesktopDashboard() {
-  const [activeTab, setActiveTab] = useState<NavKey>('pulse')
+  const [activeTab, setActiveTab] = useState<NavKey | 'launchingSoon'>('pulse')
   const [activeSubTab, setActiveSubTab] = useState(TAB_ITEMS[0]?.subTabs?.[0]?.label ?? '')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
 
   const activeItem = TAB_ITEMS.find(t => t.key === activeTab)
   const currentSubTabs = activeTab === 'podcasts' ? [] : (activeItem?.subTabs ?? [])
-
+  
   const handleTabChange = useCallback((key: string) => {
-    setActiveTab(key as NavKey)
+    setActiveTab(key as NavKey | 'launchingSoon')
     const item = TAB_ITEMS.find(t => t.key === key)
     if (item?.subTabs?.length) {
       setActiveSubTab(item.subTabs[0].label)
@@ -124,7 +140,6 @@ function DesktopDashboard() {
 
   return (
     <div className="flex h-full w-full relative overflow-hidden bg-white">
-      {/* Inline Sidebar */}
       <DashboardSidebar 
         active={activeFooterTab} 
         onNavigate={(k) => {
@@ -133,34 +148,27 @@ function DesktopDashboard() {
       />
 
       <main className="flex-1 flex flex-col h-full overflow-hidden">
-        {/* Header with integrated navigation cards */}
         <DashboardHeader
           navItems={HEADER_NAV_ITEMS}
           activeTab={activeTab}
           onTabChange={handleTabChange}
         />
 
-      {/* Sub-tabs (only shown for tabs that have them) */}
       {currentSubTabs.length > 0 && (
         <nav aria-label="Secondary Navigation" className="shrink-0 border-b border-[#eef0f3] bg-white/60 backdrop-blur-md px-6 py-1">
           <SubTabBar subTabs={currentSubTabs} active={activeSubTab} onChange={setActiveSubTab} variant="desktop" />
         </nav>
       )}
 
-      {/* Content area */}
       <div className="flex-1 overflow-hidden flex flex-col focus-visible:outline-none" tabIndex={-1}>
-        {activeTab === 'activityBoard' ? (
+        {activeTab === 'launchingSoon' ? (
+          <LaunchingSoon />
+        ) : activeTab === 'activityBoard' ? (
           <ActivityBoardDesktop />
         ) : activeTab === 'podcasts' ? (
           <PodcastDesktop />
         ) : activeTab === 'spotlight' ? (
           <SpotlightDesktop />
-        ) : activeTab === 'cityInventory' ? (
-          <CityInventory />
-        ) : activeTab === 'lms' ? (
-          <Learn />
-        ) : activeTab === 'showcase' || activeTab === 'surveyPools' ? (
-          <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />
         ) : (
@@ -191,7 +199,7 @@ function DesktopDashboard() {
 }
 
 function MobileDashboard() {
-  const [activeTab, setActiveTab] = useState<NavKey>('pulse')
+  const [activeTab, setActiveTab] = useState<NavKey | 'launchingSoon'>('pulse')
   const [activeSubTab, setActiveSubTab] = useState('')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
@@ -200,7 +208,7 @@ function MobileDashboard() {
   const currentSubTabs = activeTab === 'podcasts' ? [] : (activeItem?.subTabs ?? [])
 
   const handleTabChange = useCallback((key: string) => {
-    setActiveTab(key as NavKey)
+    setActiveTab(key as NavKey | 'launchingSoon')
     const item = TAB_ITEMS.find(t => t.key === key)
     if (item?.subTabs?.length) {
       setActiveSubTab(item.subTabs[0].label)
@@ -209,7 +217,6 @@ function MobileDashboard() {
 
   return (
     <div className="flex h-full w-full relative overflow-hidden bg-white">
-      {/* Sidebar Overlay */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 bg-black/50 z-[90] transition-opacity duration-300"
@@ -217,7 +224,6 @@ function MobileDashboard() {
         />
       )}
       
-      {/* Fixed Sidebar */}
       <div 
         className={`fixed top-0 left-0 h-full z-[100] transform transition-transform duration-300 ease-in-out ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -251,18 +257,14 @@ function MobileDashboard() {
       )}
 
       <div className="flex-1 min-h-0 overflow-hidden flex flex-col hide-scrollbar focus-visible:outline-none" tabIndex={-1}>
-        {activeTab === 'activityBoard' ? (
+        {activeTab === 'launchingSoon' ? (
+          <LaunchingSoon />
+        ) : activeTab === 'activityBoard' ? (
           <ActivityBoardMobile />
         ) : activeTab === 'podcasts' ? (
           <PodcastMobile />
         ) : activeTab === 'spotlight' ? (
           <SpotlightMobile />
-        ) : activeTab === 'cityInventory' ? (
-          <CityInventory />
-        ) : activeTab === 'lms' ? (
-          <Learn />
-        ) : activeTab === 'showcase' || activeTab === 'surveyPools' ? (
-          <LaunchingSoon />
         ) : activeTab === 'directory' ? (
           <Directory />
         ) : (

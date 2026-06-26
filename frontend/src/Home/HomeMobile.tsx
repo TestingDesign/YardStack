@@ -1,11 +1,12 @@
 import HomeNavMobile from './topNav/HomeNavMobile';
-import HeroMobile from './hero/HeroMobile';
-import WhyN4reMobile from './whyN4re/WhyN4reMobile';
-import FindYourPlaceMobile from './findYourPlace/FindYourPlaceMobile';
-import PillarsMobile from './pillars/PillarsMobile';
-import PlatformPreviewMobile from './platformPreview/PlatformPreviewMobile';
-import RoadmapMobile from './roadmap/RoadmapMobile';
-import FinalCtaMobile from './finalCta/FinalCtaMobile';
+import HeroMobile from './01.Hero/HeroMobile';
+import WhyN4reMobile from './02.WhyN4RE/WhyN4reMobile';
+import FindYourPlaceMobile from './03.FindYourPlace/FindYourPlaceMobile';
+import PillarsMobile from './04.ThreePillars/PillarsMobile';
+import PlatformPreviewMobile from './05.Preview/PlatformPreviewMobile';
+import EcosystemMobile from './06.Ecosystem/EcosystemMobile';
+import ComingSoonMobile from './07.ComingSoon/ComingSoonMobile';
+import FooterMobile from './09.Footer/FooterMobile';
 
 interface HomeMobileProps {
   viewMode: 'desktop' | 'mobile';
@@ -20,8 +21,9 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       <FindYourPlaceMobile />
       <PillarsMobile />
       <PlatformPreviewMobile />
-      <RoadmapMobile />
-      <FinalCtaMobile />
+      <EcosystemMobile />
+      <ComingSoonMobile />
+      <FooterMobile />
     </div>
   );
 }

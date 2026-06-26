@@ -1,7 +1,7 @@
-import { FINAL_CTA_CONTENT, FOOTER_LINKS, SOCIAL_LINKS, FOOTER_COPYRIGHT } from './data';
+import { FOOTER_LINKS, SOCIAL_LINKS, FOOTER_COPYRIGHT } from '../08.CTA/data';
 import LogoPng from '../../components/commonfiles/sidebar/Logo.png';
 
-const SocialIcon = ({ icon, size = 14 }: { icon: string; size?: number }) => {
+const SocialIcon = ({ icon, size = 16 }: { icon: string; size?: number }) => {
   switch (icon) {
     case 'linkedin':
       return (
@@ -26,65 +26,42 @@ const SocialIcon = ({ icon, size = 14 }: { icon: string; size?: number }) => {
   }
 };
 
-export default function FinalCtaMobile() {
+export default function FooterDesktop() {
   return (
-    <section id="final-cta" className="font-['Outfit',sans-serif]">
-      <div className="bg-gradient-to-br from-[#6B21A8] via-[#7C3AED] to-[#D946EF] py-10">
-        <div className="px-4 text-center">
-          <h2 className="text-[1.35rem] leading-[1.25] font-extrabold text-white mb-3">
-            {FINAL_CTA_CONTENT.heading}
-          </h2>
-          <p className="text-[0.82rem] text-white/80 leading-relaxed mb-6">
-            {FINAL_CTA_CONTENT.description}
-          </p>
-          <div className="flex flex-col items-center gap-2.5">
-            <button className="w-full max-w-[260px] px-6 py-2.5 rounded-lg bg-white text-[#6B21A8] text-[13px] font-bold border-none cursor-pointer shadow-sm transition-all active:scale-[0.97]">
-              {FINAL_CTA_CONTENT.primaryCta}
-            </button>
-            <button className="w-full max-w-[260px] px-5 py-2.5 rounded-lg bg-transparent text-white text-[13px] font-bold border border-white/30 cursor-pointer transition-all">
-              {FINAL_CTA_CONTENT.secondaryCta}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <footer className="bg-white border-t border-gray-100 py-5">
-        <div className="px-4 flex flex-col items-center gap-4">
-          <div className="flex items-center gap-3">
-            <img src={LogoPng} alt="N4RE" className="h-7 w-auto object-contain" />
-            <span className="text-[11px] text-[#6B7280] font-medium">{FOOTER_COPYRIGHT}</span>
+    <footer id="footer" className="bg-white border-t border-gray-100 py-6 font-['Outfit',sans-serif]">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-4">
+            <img src={LogoPng} alt="N4RE" className="h-8 w-auto object-contain" />
+            <span className="text-[12px] text-[#6B7280] font-medium">{FOOTER_COPYRIGHT}</span>
           </div>
 
-          <nav className="flex items-center gap-4 flex-wrap justify-center">
+          <nav className="flex items-center gap-5">
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[11px] font-medium text-[#6B7280] hover:text-[#6B21A8] transition-colors no-underline"
+                className="text-[12px] font-medium text-[#6B7280] hover:text-[#6B21A8] transition-colors no-underline"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
-                className="w-7 h-7 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-[#6B7280] hover:bg-[#6B21A8]/10 hover:text-[#6B21A8] transition-all no-underline"
+                className="w-8 h-8 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-[#6B7280] hover:bg-[#6B21A8]/10 hover:text-[#6B21A8] transition-all duration-200 no-underline"
               >
-                <SocialIcon icon={social.icon} size={14} />
+                <SocialIcon icon={social.icon} size={16} />
               </a>
             ))}
           </div>
-
-          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[#6B21A8]/40 m-0">
-            {FINAL_CTA_CONTENT.footerTagline}
-          </p>
         </div>
-      </footer>
-    </section>
+      </div>
+    </footer>
   );
 }

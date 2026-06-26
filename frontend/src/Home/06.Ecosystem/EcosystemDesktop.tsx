@@ -21,22 +21,59 @@ const EcosystemIcon = ({ icon, color, size = 28 }: { icon: string; color: string
 
 export default function EcosystemDesktop() {
   return (
-    <section id="ecosystem" className="bg-[#1A1A2E] font-['Outfit',sans-serif] py-16 lg:py-20">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.2em] text-[#D946EF]/70 mb-10">
+    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '64px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '11px',
+          fontWeight: 800,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#6B21A8',
+          margin: '0 0 24px 0',
+        }}>
           BUILT FOR HYDERABAD&apos;S REAL ESTATE ECOSYSTEM
         </p>
 
-        <div className="flex flex-wrap justify-center gap-6 lg:gap-10">
+        <div style={{
+          background: '#FCFAFF',
+          border: '1px solid rgba(107,33,168,0.06)',
+          borderRadius: '24px',
+          padding: '40px 32px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '24px',
+        }}>
           {ECOSYSTEM_MEMBERS.map((member, i) => (
             <div
               key={i}
-              className="flex flex-col items-center gap-2 min-w-[80px] max-w-[90px]"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '12px',
+                minWidth: '85px',
+                maxWidth: '95px',
+                textAlign: 'center',
+              }}
             >
-              <div className="w-14 h-14 rounded-2xl bg-white/8 border border-white/10 flex items-center justify-center hover:bg-white/15 hover:border-white/20 transition-all duration-200 backdrop-blur-sm">
-                <EcosystemIcon icon={member.icon} color="#C4B5FD" />
+              <div style={{
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <EcosystemIcon icon={member.icon} color="#6B21A8" size={32} />
               </div>
-              <span className="text-[11px] font-medium text-white/60 text-center leading-tight whitespace-pre-line">
+              <span style={{
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#374151',
+                lineHeight: 1.3,
+                whiteSpace: 'pre-line',
+              }}>
                 {member.label}
               </span>
             </div>

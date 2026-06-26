@@ -1,7 +1,7 @@
 import { Building2, Users, User, UserCheck, Megaphone, Monitor, Landmark, Palette, Mic, LineChart, GraduationCap } from 'lucide-react';
 import { ECOSYSTEM_MEMBERS } from './data';
 
-const EcosystemIcon = ({ icon, color, size = 20 }: { icon: string; color: string; size?: number }) => {
+const EcosystemIcon = ({ icon, color, size = 24 }: { icon: string; color: string; size?: number }) => {
   const props = { size, color, strokeWidth: 1.5 };
   switch (icon) {
     case 'building': return <Building2 {...props} />;
@@ -21,18 +21,59 @@ const EcosystemIcon = ({ icon, color, size = 20 }: { icon: string; color: string
 
 export default function EcosystemMobile() {
   return (
-    <section id="ecosystem" className="bg-[#1A1A2E] font-['Outfit',sans-serif] py-8">
-      <div className="px-4">
-        <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#D946EF]/70 mb-6">
+    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '48px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ padding: '0 16px' }}>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '10px',
+          fontWeight: 800,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#6B21A8',
+          margin: '0 0 20px 0',
+        }}>
           BUILT FOR HYDERABAD&apos;S REAL ESTATE ECOSYSTEM
         </p>
-        <div className="grid grid-cols-4 gap-y-6 gap-x-2">
+
+        <div style={{
+          background: '#FCFAFF',
+          border: '1px solid rgba(107,33,168,0.06)',
+          borderRadius: '20px',
+          padding: '24px 16px',
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '16px',
+        }}>
           {ECOSYSTEM_MEMBERS.map((member, i) => (
-            <div key={i} className="flex flex-col items-center gap-1.5">
-              <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center border border-white/5">
-                <EcosystemIcon icon={member.icon} color="#C4B5FD" size={20} />
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '8px',
+                width: 'calc(33.333% - 16px)',
+                minWidth: '70px',
+                textAlign: 'center',
+              }}
+            >
+              <div style={{
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <EcosystemIcon icon={member.icon} color="#6B21A8" size={24} />
               </div>
-              <span className="text-[8px] font-medium text-white/60 text-center leading-tight whitespace-pre-line">
+              <span style={{
+                fontSize: '9px',
+                fontWeight: 700,
+                color: '#374151',
+                lineHeight: 1.3,
+                whiteSpace: 'pre-line',
+              }}>
                 {member.label}
               </span>
             </div>

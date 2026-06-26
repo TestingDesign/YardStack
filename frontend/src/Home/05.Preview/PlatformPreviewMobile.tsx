@@ -1,8 +1,8 @@
 import { ChevronRight, PlayCircle, Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react';
 import { PREVIEW_SECTIONS } from './data';
 
-const PreviewIcon = ({ icon, color }: { icon: string; color: string }) => {
-  const props = { size: 14, color };
+const PreviewIcon = ({ icon, color, size = 16 }: { icon: string; color: string; size?: number }) => {
+  const props = { size, color };
   switch (icon) {
     case 'play': return <PlayCircle {...props} />;
     case 'briefcase': return <Briefcase {...props} />;
@@ -19,57 +19,125 @@ const PreviewIcon = ({ icon, color }: { icon: string; color: string }) => {
 
 export default function PlatformPreviewMobile() {
   return (
-    <section id="platform-preview" className="bg-white font-['Outfit',sans-serif] py-10">
-      <div className="px-4">
-        <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8] mb-8">
+    <section id="platform-preview" style={{ background: '#FFFFFF', padding: '48px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ padding: '0 16px' }}>
+        <p style={{
+          textAlign: 'center',
+          fontSize: '10px',
+          fontWeight: 800,
+          letterSpacing: '0.15em',
+          textTransform: 'uppercase',
+          color: '#6B21A8',
+          margin: '0 0 24px 0',
+        }}>
           A GLIMPSE OF WHAT YOU&apos;LL DISCOVER
         </p>
 
-        <div className="flex flex-col gap-6">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {PREVIEW_SECTIONS.map((section) => (
-            <div key={section.key} className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0">
-                  {section.title}
-                </h3>
-                <button className="flex items-center gap-0.5 text-[10px] font-bold text-[#6B21A8] border-none bg-transparent cursor-pointer">
+            <div key={section.key} style={{
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              border: '1px solid rgba(107,33,168,0.06)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+              padding: '20px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '16px',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{
+                   background: section.key === 'spotlight' ? '#F5F3FF' : 'transparent',
+                   padding: section.key === 'spotlight' ? '4px 10px' : '0',
+                   borderRadius: '16px',
+                }}>
+                  <h3 style={{ fontSize: '12px', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>
+                    {section.title}
+                  </h3>
+                </div>
+                <button style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '2px',
+                  fontSize: '10px',
+                  fontWeight: 700,
+                  color: '#6B21A8',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontFamily: "'Outfit', sans-serif",
+                }}>
                   {section.viewAllLabel}
                   <ChevronRight size={12} />
                 </button>
               </div>
 
-              <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 snap-x snap-mandatory hide-scrollbar">
-                {section.items.map((item, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col gap-2 p-3 rounded-xl bg-[#F9FAFB] border border-gray-100 min-w-[140px] snap-center"
-                  >
-                    {item.gradient && item.logoText ? (
-                      <div className={`w-9 h-9 rounded-lg bg-gradient-to-br ${item.gradient} flex items-center justify-center shadow-sm relative overflow-hidden`}>
+              {section.key === 'spotlight' || section.key === 'red-expert' ? (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
+                  {section.items.slice(0, 3).map((item, i) => (
+                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                      <div style={{
+                        aspectRatio: '1',
+                        borderRadius: '10px',
+                        background: item.gradient || item.logoBg,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.1)'
+                      }}>
                         {item.icon ? (
-                          <PreviewIcon icon={item.icon} color="#ffffff" />
+                          <PreviewIcon icon={item.icon} color="#FFFFFF" size={24} />
                         ) : (
-                          <span className="text-[8px] font-bold text-white/90">{item.logoText}</span>
+                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#FFFFFF' }}>{item.logoText}</span>
                         )}
                       </div>
-                    ) : (
-                      <div
-                        className="w-9 h-9 rounded-lg flex items-center justify-center"
-                        style={{ backgroundColor: item.logoBg }}
-                      >
-                        {item.icon ? (
-                          <PreviewIcon icon={item.icon} color={item.logoColor!} />
-                        ) : (
-                          <span className="text-[12px]">{item.logoText}</span>
-                        )}
-                      </div>
-                    )}
-                    <span className="text-[11px] font-semibold text-[#374151] leading-tight mt-1">
-                      {item.title}
-                    </span>
-                  </div>
-                ))}
-              </div>
+                      <p style={{ fontSize: '9px', fontWeight: 600, color: '#374151', margin: 0, lineHeight: 1.3 }}>
+                        {item.title}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : section.key === 'opportunities' ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {section.items.map((item, i) => (
+                    <div key={i} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '10px',
+                      background: item.logoBg || '#FFF7ED',
+                      padding: '10px',
+                      borderRadius: '8px',
+                      border: '1px solid rgba(234,88,12,0.1)',
+                    }}>
+                      <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={16} />
+                      <span style={{ fontSize: '10px', fontWeight: 600, color: '#1A1A2E' }}>
+                        {item.title}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+                  {section.items.slice(0, 6).map((item, i) => (
+                    <div key={i} style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      gap: '6px',
+                      background: '#FFFFFF',
+                      border: '1px solid #F3F4F6',
+                      borderRadius: '10px',
+                      padding: '10px 6px',
+                      textAlign: 'center',
+                    }}>
+                      <PreviewIcon icon={item.icon || 'building'} color="#6B21A8" size={18} />
+                      <span style={{ fontSize: '8px', fontWeight: 600, color: '#374151', lineHeight: 1.2 }}>
+                        {item.title}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           ))}
         </div>

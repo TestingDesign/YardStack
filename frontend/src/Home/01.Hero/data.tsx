@@ -1,7 +1,7 @@
 import AnimatedCity from './AnimatedCity';
 
 export const HERO_CONTENT = {
-  tagline: 'CONTENT • CONNECTIONS • CONVERSATIONS',
+  tagline: 'Network 4 Real Estate',
   headline: <>Connecting <AnimatedCity suffix="'s" /> Real Estate Ecosystem</>,
   subHeading: <>A dedicated platform for professionals, businesses and service providers who power <AnimatedCity suffix="'s" /> real estate market.</>,
   primaryCta: 'Join N4RE',

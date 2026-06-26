@@ -5,6 +5,8 @@ import FindYourPlaceMobile from './03.FindYourPlace/FindYourPlaceMobile';
 import PillarsMobile from './04.ThreePillars/PillarsMobile';
 import PlatformPreviewMobile from './05.Preview/PlatformPreviewMobile';
 import EcosystemMobile from './06.Ecosystem/EcosystemMobile';
+import SegmentsMobile from './10.Segments/SegmentsMobile';
+import ProfilesMobile from './11.Profiles/ProfilesMobile';
 import ComingSoonMobile from './07.ComingSoon/ComingSoonMobile';
 import FooterMobile from './09.Footer/FooterMobile';
 
@@ -22,6 +24,8 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       <PillarsMobile />
       <PlatformPreviewMobile />
       <EcosystemMobile />
+      <SegmentsMobile />
+      <ProfilesMobile />
       <ComingSoonMobile />
       <FooterMobile />
     </div>

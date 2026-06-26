@@ -17,18 +17,19 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
   }, []);
 
   return (
-    <header className="absolute top-0 w-full z-50 pt-4">
+    <header className="absolute top-0 w-full z-50 pt-4 animate-in fade-in slide-in-from-top-4 duration-700 ease-out">
       <div className="flex items-center justify-between h-[72px] px-4 lg:px-8 max-w-[1400px] mx-auto w-full">
+        
         <a
           href="#hero"
           onClick={() => setActiveLink('home')}
-          className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
+          className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 rounded-[4px] transition-transform active:scale-95"
         >
-          <img src={Logo} alt="Logo" className="h-20 w-auto object-contain" draggable={false} />
+          <img src={Logo} alt="N4RE Logo" className="h-16 lg:h-20 w-auto object-contain drop-shadow-sm" draggable={false} />
         </a>
 
         <nav aria-label="Main Navigation" className="hidden md:flex items-center justify-center flex-1 mx-8">
-          <ul className="flex items-center gap-1 m-0 p-1 bg-white/90 backdrop-blur-md rounded-[4px] shadow-[0_4px_20px_rgba(0,0,0,0.04)] border border-white">
+          <ul className="flex items-center gap-1 m-0 p-1.5 bg-white/90 backdrop-blur-md rounded-[4px] shadow-sm border border-gray-100">
             {NAV_LINKS.map((link) => {
               const isActive = activeLink === link.key;
               return (
@@ -36,10 +37,10 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
                   <button
                     type="button"
                     onClick={() => handleNavClick(link.key, link.href)}
-                    className={`px-5 py-2 text-[13px] font-extrabold rounded-[4px] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] outline-none focus-visible:ring-2 focus-visible:ring-purple-500 cursor-pointer ${
+                    className={`px-5 py-2 text-[13px] font-extrabold rounded-[4px] transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer ${
                       isActive
-                        ? 'bg-purple-50 text-[#422082] shadow-sm'
-                        : 'text-[#79628c] hover:text-[#422082] hover:bg-purple-50/50 bg-transparent'
+                        ? 'bg-purple-50 text-purple-900 shadow-sm border border-purple-100/50'
+                        : 'text-gray-600 hover:text-purple-900 hover:bg-purple-50/50 border border-transparent'
                     }`}
                   >
                     {link.label}
@@ -57,13 +58,19 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
               <a
                 key={cta.label}
                 href={`/${viewMode}${cta.href}`}
-                className={`inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] text-[13px] font-extrabold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] outline-none focus-visible:ring-2 focus-visible:ring-[#7C3AED] cursor-pointer ${
+                className={`group inline-flex items-center justify-center px-6 py-2.5 rounded-[4px] text-[13px] font-extrabold transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 cursor-pointer ${
                   isPrimary
-                    ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white shadow-[0_4px_16px_rgba(124,58,237,0.25)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.4)] hover:-translate-y-0.5 active:scale-[0.98]'
-                    : 'bg-white/90 backdrop-blur-md text-[#422082] border border-gray-100 hover:border-purple-200 hover:text-[#7C3AED] hover:bg-white hover:-translate-y-0.5 shadow-sm active:scale-[0.98]'
+                    ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white shadow-lg shadow-[#7C3AED]/25 hover:shadow-xl hover:shadow-[#7C3AED]/40 hover:-translate-y-0.5 active:scale-95'
+                    : 'bg-white/90 backdrop-blur-md text-gray-900 border border-gray-200 hover:border-purple-200 hover:text-purple-700 hover:bg-white hover:-translate-y-0.5 shadow-sm hover:shadow-md hover:shadow-purple-900/5 active:scale-95'
                 }`}
               >
-                {cta.label} {isPrimary && <ArrowRight size={14} className="ml-1" />}
+                {cta.label} 
+                {isPrimary && (
+                  <ArrowRight 
+                    size={14} 
+                    className="ml-1.5 transition-transform duration-300 group-hover:translate-x-1" 
+                  />
+                )}
               </a>
             );
           })}

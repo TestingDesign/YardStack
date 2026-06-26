@@ -32,48 +32,52 @@ export default function PlatformPreviewDesktop() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" />
+      <div 
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" 
+        aria-hidden="true"
+      />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
         
-        <div className="text-center mb-8">
+        <div className="text-center mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
           <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
             A Glimpse of What You'll Discover
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {PREVIEW_SECTIONS.map((section) => (
+          {PREVIEW_SECTIONS.map((section, index) => (
             <div
               key={section.key}
-              className="group/card flex flex-col gap-4 p-5 rounded-[8px] bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(124,58,237,0.08)] hover:-translate-y-1 transition-all duration-300"
+              className="group/card flex flex-col gap-4 p-5 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 hover:-translate-y-1 transition-all duration-300 animate-in zoom-in-95 fade-in duration-700 ease-out"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               
               <div className="flex items-center justify-between">
                 <h3 
-                  className={`text-sm font-extrabold text-[var(--color-text-primary)] ${
+                  className={`text-[15px] font-extrabold text-gray-900 ${
                     section.key === 'spotlight' 
-                      ? 'bg-purple-50 text-purple-800 px-3 py-1 rounded-lg border border-purple-100' 
+                      ? 'bg-purple-50 text-purple-800 px-3 py-1 rounded-[4px] border border-purple-100' 
                       : ''
                   }`}
                 >
                   {section.title}
                 </h3>
                 
-                <button className="group/btn flex items-center gap-0.5 text-[11px] font-bold text-[var(--color-text-secondary)] hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-sm">
+                <button className="group/btn flex items-center gap-0.5 text-[12px] font-bold text-gray-500 hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 rounded-[4px] px-1 py-0.5">
                   {section.viewAllLabel}
-                  <ChevronRight size={14} className="text-[var(--color-text-muted)] group-hover/btn:text-purple-600 transition-colors" />
+                  <ChevronRight size={14} className="text-gray-400 group-hover/btn:text-purple-600 transition-colors" />
                 </button>
               </div>
 
               {(section.key === 'spotlight' || section.key === 'red-expert') ? (
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 mt-1">
                   {section.items.slice(0, 3).map((item, i) => (
                     <div key={i} className="group/item flex flex-col gap-2 cursor-pointer">
                       <div 
-                        className="aspect-square rounded-2xl flex items-center justify-center shadow-sm border border-white/20 transition-all duration-300 group-hover/item:-translate-y-1 group-hover/item:shadow-lg group-hover/item:shadow-purple-900/15 group-hover/item:border-transparent group-hover/item:scale-105"
+                        className="aspect-square rounded-[4px] flex items-center justify-center shadow-sm border border-white/20 transition-all duration-300 group-hover/item:-translate-y-1 group-hover/item:shadow-lg group-hover/item:shadow-purple-900/15 group-hover/item:border-transparent group-hover/item:scale-105"
                         style={{ background: item.gradient || item.logoBg }}
                       >
                         {item.icon ? (
@@ -84,7 +88,7 @@ export default function PlatformPreviewDesktop() {
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] font-bold text-[var(--color-text-secondary)] m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
+                      <p className="text-[11px] font-bold text-gray-600 m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
                         {item.title}
                       </p>
                     </div>
@@ -92,16 +96,16 @@ export default function PlatformPreviewDesktop() {
                 </div>
 
               ) : section.key === 'opportunities' ? (
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 mt-1">
                   {section.items.map((item, i) => (
                     <div 
                       key={i} 
-                      className="group/item flex items-center gap-2.5 p-2.5 rounded-xl bg-orange-50/50 border border-orange-100/50 hover:bg-gradient-to-r hover:from-purple-700 hover:to-purple-500 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5"
+                      className="group/item flex items-center gap-3 p-2.5 rounded-[4px] bg-orange-50/50 border border-orange-100/80 hover:bg-gradient-to-r hover:from-purple-700 hover:to-purple-500 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-0.5"
                     >
                       <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={18} />
                       </div>
-                      <span className="text-xs font-bold text-[var(--color-text-primary)] group-hover/item:text-white transition-colors">
+                      <span className="text-[13px] font-bold text-gray-800 group-hover/item:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>
@@ -109,16 +113,16 @@ export default function PlatformPreviewDesktop() {
                 </div>
 
               ) : (
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-2 mt-1">
                   {section.items.slice(0, 6).map((item, i) => (
                     <div 
                       key={i} 
-                      className="group/item flex flex-col items-center gap-1.5 p-2 text-center rounded-xl bg-purple-50/40 border border-purple-100/50 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-700 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-1"
+                      className="group/item flex flex-col items-center justify-center gap-1.5 p-2.5 text-center rounded-[4px] bg-purple-50/50 border border-purple-100/60 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-700 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-1"
                     >
                       <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'building'} color="#7C3AED" size={18} />
                       </div>
-                      <span className="text-[10px] font-bold text-[var(--color-text-secondary)] leading-tight group-hover/item:text-white transition-colors">
+                      <span className="text-[10px] font-bold text-gray-600 leading-tight group-hover/item:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>

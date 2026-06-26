@@ -32,42 +32,42 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] pt-2 pb-2 lg:pt-2 lg:pb-2 border-t border-white/10 selection:bg-[#D946EF]/30 selection:text-white"
+      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-6 lg:py-8 border-t border-white/10 selection:bg-fuchsia-500/30 selection:text-white"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
-          <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-6">
+          <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-6 animate-in fade-in duration-700 ease-out">
             <img 
               src={LogoPng} 
               alt="N4RE Logo" 
-              className="h-12 lg:h-16 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
+              className="h-10 lg:h-12 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
             />
-            <div className="hidden lg:block w-px h-5 bg-white/10" />
+            <div className="hidden lg:block w-px h-5 bg-white/10" aria-hidden="true" />
             <span className="text-[13px] font-medium text-white/65">
               {FOOTER_COPYRIGHT}
             </span>
           </div>
 
-          <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+          <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 animate-in fade-in duration-700 ease-out delay-150">
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[13px] font-bold text-white/65 hover:text-white transition-colors duration-300 outline-none focus-visible:text-[#D946EF] focus-visible:underline underline-offset-4"
+                className="text-[13px] font-bold text-white/65 hover:text-white transition-colors duration-300 outline-none focus-visible:text-fuchsia-400 focus-visible:underline underline-offset-4"
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 animate-in fade-in duration-700 ease-out delay-300">
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
-                className="group flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-white/65 hover:bg-[#D946EF]/20 hover:text-white hover:border-[#D946EF]/40 hover:shadow-[0_0_15px_rgba(217,70,239,0.4)] transition-all duration-300 hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
+                className="group flex items-center justify-center w-10 h-10 rounded-[4px] bg-white/5 border border-white/10 text-white/65 hover:bg-fuchsia-500/20 hover:text-white hover:border-fuchsia-500/40 hover:shadow-[0_0_15px_rgba(217,70,239,0.4)] transition-all duration-300 ease-out hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E]"
               >
                 <SocialIcon icon={social.icon} size={18} />
               </a>

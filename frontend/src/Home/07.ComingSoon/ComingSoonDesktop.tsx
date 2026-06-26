@@ -19,40 +19,41 @@ export default function ComingSoonDesktop() {
   return (
     <section 
       id="coming-soon" 
-      className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col p-4 lg:p-6 rounded-[28px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-          <div className="flex items-center gap-2 mb-4 justify-center lg:justify-start">
-            <Sparkles size={16} className="text-purple-600" />
+        <div className="flex flex-col p-5 lg:p-8 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-purple-900/5 animate-in zoom-in-95 fade-in duration-700 ease-out">
+          <div className="flex items-center gap-2.5 mb-6 justify-center lg:justify-start">
+            <Sparkles size={16} className="text-purple-600" aria-hidden="true" />
             <p className="text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
               What's Coming Next
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 h-full">
             {COMING_SOON_ITEMS.map((item, index) => {
               const isHovered = hoveredIndex === index;
 
               return (
                 <div
                   key={item.name}
-                  className="group relative flex flex-col items-center text-center p-4 rounded-2xl bg-white border border-gray-100/80 shadow-sm cursor-pointer overflow-hidden"
+                  className="group relative flex flex-col items-center text-center p-5 rounded-[4px] bg-white border border-gray-100 shadow-sm cursor-pointer overflow-hidden animate-in fade-in duration-700 ease-out"
                   style={{
+                    animationDelay: `${index * 100}ms`,
                     transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                     transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
                     boxShadow: isHovered 
                       ? '0 20px 40px -8px rgba(107, 33, 168, 0.18), 0 8px 16px -4px rgba(107, 33, 168, 0.08)' 
                       : '0 1px 3px rgba(0,0,0,0.04)',
-                    borderColor: isHovered ? 'rgba(147, 51, 234, 0.3)' : 'rgba(241, 245, 249, 0.8)',
+                    borderColor: isHovered ? 'rgba(147, 51, 234, 0.3)' : 'rgba(243, 244, 246, 1)',
                   }}
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
                   <div 
-                    className="absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 pointer-events-none z-0 rounded-2xl"
+                    className="absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 pointer-events-none z-0 rounded-[4px]"
                     style={{
                       opacity: isHovered ? 1 : 0,
                       transition: 'opacity 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
@@ -60,7 +61,7 @@ export default function ComingSoonDesktop() {
                   />
 
                   <span 
-                    className="absolute top-2 left-2 z-10 px-2 py-1 text-[9px] font-black uppercase tracking-wider rounded-md"
+                    className="absolute top-3 left-3 z-10 px-2 py-1 text-[10px] font-black uppercase tracking-wider rounded-[4px]"
                     style={{
                       background: isHovered 
                         ? 'rgba(255, 255, 255, 0.15)' 
@@ -74,7 +75,7 @@ export default function ComingSoonDesktop() {
                   </span>
 
                   <div 
-                    className="relative z-10 flex items-center justify-center w-12 h-12 rounded-2xl mt-3 mb-3"
+                    className="relative z-10 flex items-center justify-center w-14 h-14 rounded-[4px] mt-4 mb-4"
                     style={{ 
                       backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.15)' : item.bgColor,
                       boxShadow: isHovered 
@@ -87,24 +88,24 @@ export default function ComingSoonDesktop() {
                     <ItemIcon 
                       icon={item.icon} 
                       color={isHovered ? '#FFFFFF' : item.color}
-                      size={22}
+                      size={24}
                     />
                   </div>
 
                   <div className="relative z-10">
                     <h3 
-                      className="text-sm font-extrabold mb-1"
+                      className="text-[15px] font-extrabold mb-1.5"
                       style={{
-                        color: isHovered ? '#FFFFFF' : '#0f172a',
+                        color: isHovered ? '#FFFFFF' : '#111827',
                         transition: 'color 0.3s ease',
                       }}
                     >
                       {item.name}
                     </h3>
                     <p 
-                      className="text-xs font-medium leading-relaxed"
+                      className="text-[13px] font-medium leading-relaxed px-2"
                       style={{
-                        color: isHovered ? 'rgba(233, 213, 255, 0.9)' : '#64748b',
+                        color: isHovered ? 'rgba(233, 213, 255, 0.9)' : '#4b5563',
                         transition: 'color 0.3s ease',
                       }}
                     >

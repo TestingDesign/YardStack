@@ -87,15 +87,111 @@ export default function HeroDesktop() {
       style={{ fontFamily: "'Outfit', sans-serif" }}
     >
       <div
-        className="absolute bottom-0 right-0 w-[800px] max-w-full pointer-events-none opacity-10 h-[220px]"
+        className="absolute bottom-0 pointer-events-none"
         style={{
-          backgroundSize: "contain",
-          backgroundPosition: "right bottom",
-          backgroundRepeat: "no-repeat",
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1200 200' preserveAspectRatio='xMaxYMax meet'%3E%3Cpath d='M0 200V120h30v-15h20v-10h35v30h15v-25h25v-15h20v40h35v-30h25v-8h20v45h40v-20h30v-25h20v45h35v-10h15v-20h30v30h15v-12h25v-30h20v45h30v-15h15v-8h20v25h35v-20h30v20h60V200H0z' fill='%236B21A8'/%3E%3C%2Fsvg%3E\")",
+          right: 0,
+          width: '55%',
+          height: '200px',
+          overflow: 'hidden',
         }}
-      />
+      >
+        <svg
+          viewBox="0 0 800 200"
+          preserveAspectRatio="xMaxYMax meet"
+          style={{ width: '100%', height: '100%', display: 'block' }}
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g transform="translate(800,0) scale(-1,1)" opacity="0.08" fill="#6B21A8">
+            <rect x="20" y="60" width="35" height="140" rx="2" />
+            <rect x="25" y="70" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="38" y="70" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="25" y="90" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="38" y="90" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="25" y="110" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="38" y="110" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="70" y="30" width="40" height="170" rx="2" />
+            <rect x="76" y="40" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="90" y="40" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="76" y="60" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="90" y="60" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="76" y="80" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="90" y="80" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="76" y="100" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="90" y="100" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="125" y="80" width="30" height="120" rx="2" />
+            <rect x="131" y="90" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="142" y="90" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="131" y="106" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="142" y="106" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="170" y="45" width="45" height="155" rx="2" />
+            <rect x="177" y="55" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="192" y="55" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="177" y="75" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="192" y="75" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="177" y="95" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="192" y="95" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="177" y="115" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="192" y="115" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <polygon points="192,45 192,25 188,20 184,25 184,45" />
+
+            <rect x="230" y="90" width="28" height="110" rx="2" />
+            <rect x="236" y="100" width="6" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="246" y="100" width="6" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="236" y="116" width="6" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="246" y="116" width="6" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="275" y="20" width="50" height="180" rx="3" />
+            <rect x="283" y="30" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="299" y="30" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="283" y="52" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="299" y="52" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="283" y="74" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="299" y="74" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="283" y="96" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="299" y="96" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="283" y="118" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="299" y="118" width="10" height="12" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="340" y="70" width="32" height="130" rx="2" />
+            <rect x="346" y="80" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="358" y="80" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="346" y="96" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="358" y="96" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="346" y="112" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="358" y="112" width="7" height="8" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="390" y="50" width="38" height="150" rx="2" />
+            <rect x="397" y="60" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="411" y="60" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="397" y="80" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="411" y="80" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="397" y="100" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="411" y="100" width="8" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="445" y="100" width="25" height="100" rx="2" />
+            <rect x="451" y="110" width="6" height="7" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="459" y="110" width="6" height="7" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="485" y="55" width="42" height="145" rx="2" />
+            <rect x="492" y="65" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="506" y="65" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="492" y="85" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="506" y="85" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="492" y="105" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+            <rect x="506" y="105" width="9" height="10" rx="1" fill="#FFFFFF" fillOpacity="0.3" />
+
+            <rect x="545" y="75" width="30" height="125" rx="2" />
+            <rect x="590" y="40" width="35" height="160" rx="2" />
+            <rect x="640" y="85" width="28" height="115" rx="2" />
+            <rect x="685" y="60" width="40" height="140" rx="2" />
+            <rect x="740" y="95" width="30" height="105" rx="2" />
+          </g>
+        </svg>
+      </div>
       <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14 lg:py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-8 items-center">
           

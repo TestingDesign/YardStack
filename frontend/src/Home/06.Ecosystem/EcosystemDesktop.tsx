@@ -13,7 +13,6 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { ECOSYSTEM_MEMBERS } from './data';
-import AnimatedCity from '../01.Hero/AnimatedCity';
 
 const EcosystemIcon = ({ icon, className, size = 24 }: { icon: string; className?: string; size?: number }) => {
   const props = { size, className, strokeWidth: 1.5 };
@@ -48,7 +47,7 @@ export default function EcosystemDesktop() {
         <div className="text-center pt-8 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
           <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs font-black uppercase tracking-[0.2em] mb-4">
             <span className="text-purple-800">Built for</span>
-            <span className="text-fuchsia-600"><AnimatedCity suffix="'s" /></span>
+            <span className="text-fuchsia-600">Hyderabad's</span>
             <span className="text-purple-800">Real Estate Ecosystem</span>
           </div>
         </div>

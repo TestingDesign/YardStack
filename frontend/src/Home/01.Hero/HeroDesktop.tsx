@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
-import AnimatedCity from "./AnimatedCity";
 import Logo from "./Logo.png";
 import BG from "./BG.png";
 
@@ -107,7 +106,7 @@ export default function HeroDesktop() {
             
             <h1 className="text-4xl lg:text-[60px] leading-tight font-extrabold text-gray-900 tracking-tight drop-shadow-sm mb-2">
               Connecting <br className="hidden lg:block" />
-              <AnimatedCity className="text-gray-900" suffix="'s" /><br />
+              Hyderabad's<br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">
                 Real Estate
               </span>{" "}

@@ -1,6 +1,4 @@
 
-import AnimatedCity from '../01.Hero/AnimatedCity';
-
 export interface ComingSoonItem {
   name: string
   description: React.ReactNode
@@ -19,7 +17,7 @@ export const COMING_SOON_ITEMS: ComingSoonItem[] = [
   },
   {
     name: 'City Inventory',
-    description: <>Inventory and opportunities across <AnimatedCity />.</>,
+    description: <>Inventory and opportunities across Hyderabad.</>,
     icon: 'building',
     color: '#7C3AED',
     bgColor: '#EDE9FE',

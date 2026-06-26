@@ -1,12 +1,10 @@
-import AnimatedCity from './AnimatedCity';
-
 export const HERO_CONTENT = {
   tagline: 'Network 4 Real Estate',
-  headline: <>Connecting <AnimatedCity suffix="'s" /> Real Estate Ecosystem</>,
-  subHeading: <>A dedicated platform for professionals, businesses and service providers who power <AnimatedCity suffix="'s" /> real estate market.</>,
+  headline: <>Connecting Hyderabad's Real Estate Ecosystem</>,
+  subHeading: <>A dedicated platform for professionals, businesses and service providers who power Hyderabad's real estate market.</>,
   primaryCta: 'Join N4RE',
   secondaryCta: 'Explore Ecosystem',
-  supportingTextBold: <>Built for <AnimatedCity />.</>,
+  supportingTextBold: <>Built for Hyderabad.</>,
   supportingText: 'Designed for Real Estate Professionals.',
 }
 

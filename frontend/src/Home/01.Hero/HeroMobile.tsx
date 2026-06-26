@@ -1,5 +1,4 @@
 import { ArrowRight } from 'lucide-react';
-import AnimatedCity from './AnimatedCity';
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from './data';
 import Logo from './Logo.png';
 import BG from './BG.png';
@@ -96,7 +95,7 @@ export default function HeroMobile() {
           <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
 
           <h1 className="text-[2.2rem] leading-[1.1] font-extrabold text-[#111827] m-0 tracking-tight">
-            Connecting <AnimatedCity className="text-[#111827]" suffix="'s" />
+            Connecting Hyderabad's
             <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate</span> <br />
             Ecosystem

@@ -1,6 +1,5 @@
 import { Building2, Users, User, UserCheck, Megaphone, Monitor, Landmark, Palette, Mic, LineChart, GraduationCap, MonitorPlay, BarChart2 } from 'lucide-react';
 import { ECOSYSTEM_MEMBERS, ROADMAP_ITEMS } from './data';
-import AnimatedCity from '../01.Hero/AnimatedCity';
 
 const RoadmapIcon = ({ icon, color, size = 20 }: { icon: string; color: string; size?: number }) => {
   const props = { size, color, strokeWidth: 1.5 };
@@ -28,7 +27,7 @@ export default function RoadmapMobile() {
       <div className="bg-[#1A1A2E] py-8">
         <div className="px-4">
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#D946EF]/70 mb-6">
-            BUILT FOR <AnimatedCity suffix="'s" /> REAL ESTATE ECOSYSTEM
+            BUILT FOR HYDERABAD'S REAL ESTATE ECOSYSTEM
           </p>
           <div className="grid grid-cols-4 gap-y-6 gap-x-2">
             {ECOSYSTEM_MEMBERS.map((member, i) => (

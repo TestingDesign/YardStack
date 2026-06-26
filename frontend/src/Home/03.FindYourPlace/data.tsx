@@ -1,6 +1,4 @@
 
-import AnimatedCity from '../01.Hero/AnimatedCity';
-
 export const FIND_YOUR_PLACE_CONTENT = {
   sectionLabel: 'FIND YOUR PLACE IN N4RE',
   heading: 'How Can N4RE Help You?',
@@ -258,7 +256,7 @@ export const ROLES: RoleInfo[] = [
     label: 'Investor / Inventory Owner',
     helpTitle: 'How N4RE Helps Investors',
     helpPoints: [
-      <>Discover investment opportunities across <AnimatedCity /></>,
+      <>Discover investment opportunities across Hyderabad</>,
       'Access market intelligence and pricing trends',
       'Connect with builders, agents and professionals',
       'List your inventory and find buyers/tenants',
@@ -424,7 +422,7 @@ export const ROLES: RoleInfo[] = [
       'Connect with builders, agents and home buyers',
       'Discover service requirement opportunities',
       'Build trust through verified profiles',
-      <>Grow your client base in <AnimatedCity /></>,
+      <>Grow your client base in Hyderabad</>,
     ],
     ctaLabel: 'Join N4RE as Home Inspector',
     relevantModules: [

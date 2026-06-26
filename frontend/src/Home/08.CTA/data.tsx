@@ -1,6 +1,4 @@
 
-import AnimatedCity from '../01.Hero/AnimatedCity';
-
 export interface FinalCtaContent {
   heading: React.ReactNode;
   description: string;
@@ -10,7 +8,7 @@ export interface FinalCtaContent {
 }
 
 export const FINAL_CTA_CONTENT: FinalCtaContent = {
-  heading: <>Join <AnimatedCity suffix="'s" /> Real Estate Ecosystem</>,
+  heading: <>Join Hyderabad's Real Estate Ecosystem</>,
   description: 'Learn from experts. Connect with professionals. Discover opportunities. Grow with the ecosystem.',
   primaryCta: 'Join N4RE Today',
   secondaryCta: 'Create Your Profile',

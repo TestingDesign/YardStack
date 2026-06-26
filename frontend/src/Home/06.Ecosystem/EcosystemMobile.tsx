@@ -1,6 +1,5 @@
 
 import { Building2, Users, User, UserCheck, Megaphone, Monitor, Landmark, Palette, Mic, LineChart, GraduationCap } from 'lucide-react';
-import AnimatedCity from '../01.Hero/AnimatedCity';
 import { ECOSYSTEM_MEMBERS } from './data';
 
 const EcosystemIcon = ({ icon, color, size = 24 }: { icon: string; color: string; size?: number }) => {
@@ -34,7 +33,7 @@ export default function EcosystemMobile() {
           color: '#6B21A8',
           margin: '0 0 20px 0',
         }}>
-          BUILT FOR <AnimatedCity suffix="'s" /> REAL ESTATE ECOSYSTEM
+          BUILT FOR HYDERABAD'S REAL ESTATE ECOSYSTEM
         </p>
 
         <div style={{

@@ -28,33 +28,55 @@ const SocialIcon = ({ icon, size = 16 }: { icon: string; size?: number }) => {
 
 export default function FooterDesktop() {
   return (
-    <footer id="footer" className="bg-white border-t border-gray-100 py-6 font-['Outfit',sans-serif]">
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div className="flex items-center gap-4">
-            <img src={LogoPng} alt="N4RE" className="h-8 w-auto object-contain" />
-            <span className="text-[12px] text-[#6B7280] font-medium">{FOOTER_COPYRIGHT}</span>
+    <footer id="footer" style={{ background: '#1A1A2E', padding: '32px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 40px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <img src={LogoPng} alt="N4RE" style={{ height: '36px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+            <span style={{ fontSize: '12px', color: '#9CA3AF', fontWeight: 500 }}>{FOOTER_COPYRIGHT}</span>
           </div>
 
-          <nav className="flex items-center gap-5">
+          <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[12px] font-medium text-[#6B7280] hover:text-[#6B21A8] transition-colors no-underline"
+                style={{
+                  fontSize: '12px',
+                  fontWeight: 600,
+                  color: '#D1D5DB',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#FFFFFF'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#D1D5DB'}
               >
                 {link.label}
               </a>
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
-                className="w-8 h-8 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-[#6B7280] hover:bg-[#6B21A8]/10 hover:text-[#6B21A8] transition-all duration-200 no-underline"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  background: 'rgba(255,255,255,0.1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#FFFFFF',
+                  textDecoration: 'none',
+                  transition: 'background 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               >
                 <SocialIcon icon={social.icon} size={16} />
               </a>

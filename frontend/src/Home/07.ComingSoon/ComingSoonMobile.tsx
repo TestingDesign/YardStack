@@ -14,42 +14,117 @@ const ItemIcon = ({ icon, color, size = 24 }: { icon: string; color: string; siz
 
 export default function ComingSoonMobile() {
   return (
-    <section id="coming-soon" className="bg-[#F9FAFB] font-['Outfit',sans-serif] py-10">
-      <div className="px-4">
-        <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8]/60 mb-6">
-          WHAT&apos;S COMING NEXT
-        </p>
+    <section id="coming-soon" style={{ background: '#FFFFFF', padding: '48px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        
+        <div style={{
+          background: '#FCFAFF',
+          borderRadius: '20px',
+          border: '1px solid rgba(107,33,168,0.06)',
+          padding: '24px 16px',
+        }}>
+          <p style={{
+            textAlign: 'center',
+            fontSize: '10px',
+            fontWeight: 800,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#6B21A8',
+            margin: '0 0 20px 0',
+          }}>
+            WHAT&apos;S COMING NEXT
+          </p>
 
-        <div className="flex flex-col gap-3 mb-6">
-          {COMING_SOON_ITEMS.map((item) => (
-            <div
-              key={item.name}
-              className="flex items-center gap-3 p-4 rounded-xl bg-white border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] relative overflow-hidden"
-            >
-              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: item.bgColor }}>
-                <ItemIcon icon={item.icon} color={item.color} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+            {COMING_SOON_ITEMS.map((item) => (
+              <div
+                key={item.name}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '16px 12px',
+                  borderRadius: '12px',
+                  background: '#FFFFFF',
+                  border: '1px solid #F3F4F6',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                  textAlign: 'center',
+                  position: 'relative',
+                }}
+              >
+                <div style={{
+                   position: 'absolute',
+                   top: '6px',
+                   left: '6px',
+                   background: '#F5F3FF',
+                   color: '#6B21A8',
+                   fontSize: '7px',
+                   fontWeight: 800,
+                   textTransform: 'uppercase',
+                   letterSpacing: '0.05em',
+                   padding: '3px 6px',
+                   borderRadius: '8px',
+                }}>
+                  Coming Soon
+                </div>
+                
+                <div style={{
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '10px',
+                  background: item.bgColor,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '12px',
+                }}>
+                  <ItemIcon icon={item.icon} color={item.color} size={20} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '11px', fontWeight: 800, color: '#1A1A2E', margin: '0 0 4px 0' }}>{item.name}</h3>
+                  <p style={{ fontSize: '9px', color: '#6B7280', lineHeight: 1.3, margin: 0, fontWeight: 500 }}>{item.description}</p>
+                </div>
               </div>
-              <div className="flex-1 flex flex-col justify-center">
-                <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0 mb-0.5">{item.name}</h3>
-                <p className="text-[0.75rem] text-[#6B7280] leading-relaxed m-0 line-clamp-2">{item.description}</p>
-              </div>
-              <div className="absolute top-0 right-0 bg-[#FEF3C7] text-[#B45309] text-[7px] font-bold uppercase tracking-wider px-2 py-1 rounded-bl-xl">
-                Coming Soon
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
-        <div className="rounded-2xl bg-gradient-to-br from-[#6B21A8] via-[#7C3AED] to-[#D946EF] p-6 text-center shadow-[0_8px_24px_rgba(107,33,168,0.25)]">
-          <h3 className="text-[1.1rem] leading-[1.3] font-extrabold text-white m-0 mb-2">
-            Join Hyderabad&apos;s Real Estate Ecosystem
+        <div style={{
+          borderRadius: '20px',
+          background: 'linear-gradient(135deg, #2e1065, #4c1d95, #6b21a8)',
+          padding: '32px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '16px',
+          textAlign: 'center',
+          boxShadow: '0 8px 24px rgba(107,33,168,0.2)',
+        }}>
+          <h3 style={{ fontSize: '22px', lineHeight: 1.2, fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
+            Join Hyderabad&apos;s<br />Real Estate Ecosystem
           </h3>
-          <p className="text-[0.8rem] text-white/80 leading-relaxed mb-4">
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5, margin: '0 0 8px 0', fontWeight: 400 }}>
             Learn from experts. Connect with professionals. Discover opportunities. Grow with the ecosystem.
           </p>
-          <button className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-white text-[#6B21A8] text-[13px] font-bold border-none cursor-pointer shadow-sm transition-all active:scale-[0.97]">
+          <button style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            padding: '12px 24px',
+            borderRadius: '10px',
+            background: '#FFFFFF',
+            color: '#6B21A8',
+            fontSize: '13px',
+            fontWeight: 800,
+            border: 'none',
+            cursor: 'pointer',
+            fontFamily: "'Outfit', sans-serif",
+            width: '100%',
+          }}>
             Join N4RE Today
-            <ArrowRight size={14} />
+            <ArrowRight size={16} strokeWidth={2.5} />
           </button>
         </div>
       </div>

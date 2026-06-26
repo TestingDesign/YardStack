@@ -28,32 +28,48 @@ const SocialIcon = ({ icon, size = 14 }: { icon: string; size?: number }) => {
 
 export default function FooterMobile() {
   return (
-    <footer id="footer" className="bg-white border-t border-gray-100 py-5 font-['Outfit',sans-serif]">
-      <div className="px-4 flex flex-col items-center gap-4">
-        <div className="flex items-center gap-3">
-          <img src={LogoPng} alt="N4RE" className="h-7 w-auto object-contain" />
-          <span className="text-[11px] text-[#6B7280] font-medium">{FOOTER_COPYRIGHT}</span>
+    <footer id="footer" style={{ background: '#1A1A2E', padding: '24px 0', fontFamily: "'Outfit', sans-serif" }}>
+      <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+        
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
+          <img src={LogoPng} alt="N4RE" style={{ height: '32px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+          <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 500, textAlign: 'center' }}>{FOOTER_COPYRIGHT}</span>
         </div>
 
-        <nav className="flex items-center gap-4 flex-wrap justify-center">
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
           {FOOTER_LINKS.map((link) => (
             <a
               key={link.label}
               href={link.href}
-              className="text-[11px] font-medium text-[#6B7280] hover:text-[#6B21A8] transition-colors no-underline"
+              style={{
+                fontSize: '11px',
+                fontWeight: 600,
+                color: '#D1D5DB',
+                textDecoration: 'none',
+              }}
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2.5">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           {SOCIAL_LINKS.map((social) => (
             <a
               key={social.label}
               href={social.href}
               aria-label={social.label}
-              className="w-7 h-7 rounded-lg bg-[#F3F4F6] flex items-center justify-center text-[#6B7280] hover:bg-[#6B21A8]/10 hover:text-[#6B21A8] transition-all no-underline"
+              style={{
+                width: '32px',
+                height: '32px',
+                borderRadius: '50%',
+                background: 'rgba(255,255,255,0.1)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                textDecoration: 'none',
+              }}
             >
               <SocialIcon icon={social.icon} size={14} />
             </a>

@@ -62,7 +62,7 @@ export default function FooterMobile() {
               style={{
                 width: '32px',
                 height: '32px',
-                borderRadius: '50%',
+                borderRadius: '8px',
                 background: 'rgba(255,255,255,0.1)',
                 display: 'flex',
                 alignItems: 'center',

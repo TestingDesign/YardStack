@@ -24,7 +24,7 @@ export default function ComingSoonDesktop() {
           <div style={{
             background: 'rgba(255,255,255,0.85)',
             backdropFilter: 'blur(12px)',
-            borderRadius: '24px',
+            borderRadius: '8px',
             border: '1px solid rgba(124,58,237,0.1)',
             padding: '36px',
             boxShadow: '0 8px 32px rgba(124,58,237,0.06)',
@@ -47,29 +47,9 @@ export default function ComingSoonDesktop() {
               {COMING_SOON_ITEMS.map((item, i) => (
                 <div
                   key={item.name}
-                  className={`ys-fade-in-up ys-stagger-${i + 1}`}
+                  className={`ys-fade-in-up ys-stagger-${i + 1} group flex flex-col items-center gap-3.5 p-[24px_16px_20px] rounded-[8px] border border-[rgba(124,58,237,0.08)] shadow-[0_4px_16px_rgba(0,0,0,0.03)] text-center relative cursor-pointer transition-all hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px`}
                   style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '14px',
-                    padding: '24px 16px 20px',
-                    borderRadius: '16px',
-                    background: 'linear-gradient(160deg, #FFFFFF, rgba(124,58,237,0.02))',
-                    border: '1px solid rgba(124,58,237,0.08)',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.03)',
-                    textAlign: 'center',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    transition: 'transform 0.25s ease, box-shadow 0.25s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px)';
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(124,58,237,0.12)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.03)';
+                    backgroundColor: 'rgba(255,255,255,0.8)',
                   }}
                 >
                   <div style={{
@@ -83,29 +63,22 @@ export default function ComingSoonDesktop() {
                     textTransform: 'uppercase',
                     letterSpacing: '0.06em',
                     padding: '3px 8px',
-                    borderRadius: 'full',
-                    borderRadius: '999px',
+                    borderRadius: '4px',
                   }}>
                     Soon
                   </div>
 
-                  <div style={{
-                    width: '52px',
-                    height: '52px',
-                    borderRadius: '16px',
-                    background: item.bgColor,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: '12px',
-                    boxShadow: `0 4px 12px ${item.color}22`,
-                  }}>
+                  <div className="flex items-center justify-center w-[52px] h-[52px] rounded-[8px] mt-3 group-hover:brightness-0 group-hover:invert transition-all"
+                    style={{
+                      background: item.bgColor,
+                      boxShadow: `0 4px 12px ${item.color}22`,
+                    }}>
                     <ItemIcon icon={item.icon} color={item.color} />
                   </div>
 
                   <div>
-                    <h3 style={{ fontSize: '13px', fontWeight: 800, color: '#1A1A2E', margin: '0 0 6px' }}>{item.name}</h3>
-                    <p style={{ fontSize: '11px', color: '#6B7280', lineHeight: 1.5, margin: 0, fontWeight: 500 }}>{item.description}</p>
+                    <h3 className="text-[13px] font-extrabold text-[#1A1A2E] m-[0_0_6px] group-hover:text-white transition-colors">{item.name}</h3>
+                    <p className="text-[11px] text-[#6B7280] leading-[1.5] m-0 font-medium group-hover:text-white/90 transition-colors">{item.description}</p>
                   </div>
                 </div>
               ))}
@@ -113,7 +86,7 @@ export default function ComingSoonDesktop() {
           </div>
 
           <div style={{
-            borderRadius: '24px',
+            borderRadius: '8px',
             background: 'linear-gradient(135deg, #1A1B2E 0%, #2e1065 40%, #6b21a8 100%)',
             padding: '44px 40px',
             display: 'flex',

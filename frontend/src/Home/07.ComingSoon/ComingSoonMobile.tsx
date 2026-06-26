@@ -18,10 +18,12 @@ export default function ComingSoonMobile() {
       <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
         
         <div style={{
-          background: '#FCFAFF',
-          borderRadius: '20px',
-          border: '1px solid rgba(107,33,168,0.06)',
+          background: 'rgba(255,255,255,0.9)',
+          borderRadius: '8px',
+          border: '1px solid rgba(124,58,237,0.1)',
           padding: '24px 16px',
+          boxShadow: '0 8px 32px rgba(124,58,237,0.06)',
+          marginBottom: '24px',
         }}>
           <p style={{
             textAlign: 'center',
@@ -29,7 +31,9 @@ export default function ComingSoonMobile() {
             fontWeight: 800,
             letterSpacing: '0.15em',
             textTransform: 'uppercase',
-            color: '#6B21A8',
+            background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
             margin: '0 0 20px 0',
           }}>
             WHAT&apos;S COMING NEXT
@@ -43,47 +47,47 @@ export default function ComingSoonMobile() {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: '10px',
+                  gap: '12px',
                   padding: '16px 12px',
-                  borderRadius: '12px',
-                  background: '#FFFFFF',
-                  border: '1px solid #F3F4F6',
-                  boxShadow: '0 2px 8px rgba(0,0,0,0.02)',
+                  borderRadius: '8px',
+                  background: 'linear-gradient(160deg, #FFFFFF, rgba(124,58,237,0.02))',
+                  border: '1px solid rgba(124,58,237,0.08)',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
                   textAlign: 'center',
                   position: 'relative',
                 }}
               >
                 <div style={{
-                   position: 'absolute',
-                   top: '6px',
-                   left: '6px',
-                   background: '#F5F3FF',
-                   color: '#6B21A8',
-                   fontSize: '7px',
-                   fontWeight: 800,
-                   textTransform: 'uppercase',
-                   letterSpacing: '0.05em',
-                   padding: '3px 6px',
-                   borderRadius: '8px',
+                  position: 'absolute',
+                  top: '8px',
+                  left: '8px',
+                  background: 'linear-gradient(135deg, #7C3AED, #EC4899)',
+                  color: '#FFFFFF',
+                  fontSize: '7px',
+                  fontWeight: 800,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                  padding: '2px 6px',
+                  borderRadius: '4px',
                 }}>
-                  Coming Soon
+                  Soon
                 </div>
                 
                 <div style={{
                   width: '40px',
                   height: '40px',
-                  borderRadius: '10px',
+                  borderRadius: '8px',
                   background: item.bgColor,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginTop: '12px',
+                  marginTop: '8px',
                 }}>
                   <ItemIcon icon={item.icon} color={item.color} size={20} />
                 </div>
                 <div>
-                  <h3 style={{ fontSize: '11px', fontWeight: 800, color: '#1A1A2E', margin: '0 0 4px 0' }}>{item.name}</h3>
-                  <p style={{ fontSize: '9px', color: '#6B7280', lineHeight: 1.3, margin: 0, fontWeight: 500 }}>{item.description}</p>
+                  <h3 style={{ fontSize: '11px', fontWeight: 800, color: '#1A1A2E', margin: '0 0 4px' }}>{item.name}</h3>
+                  <p style={{ fontSize: '9px', color: '#6B7280', lineHeight: 1.4, margin: 0, fontWeight: 500 }}>{item.description}</p>
                 </div>
               </div>
             ))}
@@ -91,21 +95,55 @@ export default function ComingSoonMobile() {
         </div>
 
         <div style={{
-          borderRadius: '20px',
-          background: 'linear-gradient(135deg, #2e1065, #4c1d95, #6b21a8)',
+          borderRadius: '8px',
+          background: 'linear-gradient(135deg, #1A1B2E 0%, #2e1065 40%, #6b21a8 100%)',
           padding: '32px 24px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
           textAlign: 'center',
-          boxShadow: '0 8px 24px rgba(107,33,168,0.2)',
+          boxShadow: '0 16px 32px rgba(107,33,168,0.2)',
+          position: 'relative',
+          overflow: 'hidden',
         }}>
-          <h3 style={{ fontSize: '22px', lineHeight: 1.2, fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
-            Join Hyderabad&apos;s<br />Real Estate Ecosystem
+          <div style={{
+            position: 'absolute',
+            top: '-20px',
+            right: '-20px',
+            width: '120px',
+            height: '120px',
+            background: 'radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%)',
+            pointerEvents: 'none',
+          }} />
+
+          <h3 style={{
+            fontSize: '22px',
+            lineHeight: 1.2,
+            fontWeight: 800,
+            color: '#FFFFFF',
+            margin: 0,
+            position: 'relative',
+            letterSpacing: '-0.02em',
+          }}>
+            Join Hyderabad&apos;s<br />
+            <span style={{
+              background: 'linear-gradient(135deg, #C4B5FD, #F9A8D4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+              Real Estate Ecosystem
+            </span>
           </h3>
-          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.9)', lineHeight: 1.5, margin: '0 0 8px 0', fontWeight: 400 }}>
-            Learn from experts. Connect with professionals. Discover opportunities. Grow with the ecosystem.
+          <p style={{
+            fontSize: '12px',
+            color: 'rgba(255,255,255,0.75)',
+            lineHeight: 1.6,
+            margin: 0,
+            fontWeight: 400,
+            position: 'relative',
+          }}>
+            Learn from experts. Connect with professionals. Discover opportunities.
           </p>
           <button style={{
             display: 'inline-flex',
@@ -113,7 +151,7 @@ export default function ComingSoonMobile() {
             justifyContent: 'center',
             gap: '8px',
             padding: '12px 24px',
-            borderRadius: '10px',
+            borderRadius: '8px',
             background: '#FFFFFF',
             color: '#6B21A8',
             fontSize: '13px',

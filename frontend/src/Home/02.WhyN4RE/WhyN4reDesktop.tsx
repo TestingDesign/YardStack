@@ -39,7 +39,7 @@ export default function WhyN4reDesktop() {
         </div>
 
         <div className="relative max-w-5xl mx-auto">
-          <div className="rounded-3xl bg-white border border-gray-100 shadow-xl overflow-hidden">
+          <div className="rounded-[8px] bg-white border border-gray-100 shadow-xl overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-2 relative">
               
               <div className="p-8 lg:p-12 lg:pr-14">
@@ -50,7 +50,7 @@ export default function WhyN4reDesktop() {
                   {TODAY_PROBLEMS.map((item) => (
                     <li key={item.text} className="flex items-center gap-4 text-sm lg:text-base text-slate-700">
                       <div 
-                        className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm" 
+                        className="w-10 h-10 rounded-[4px] flex items-center justify-center shrink-0 shadow-sm" 
                         style={{ backgroundColor: item.bgColor }}
                       >
                         <IconRenderer icon={item.icon} color={item.color} />
@@ -63,7 +63,7 @@ export default function WhyN4reDesktop() {
 
               <div className="hidden lg:block absolute left-1/2 top-10 bottom-10 w-px border-l-2 border-dashed border-gray-200 -translate-x-1/2" />
               
-              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-purple-800 text-white items-center justify-center shadow-lg shadow-purple-800/30">
+              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-[8px] bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white items-center justify-center shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)]">
                 <ChevronRight size={24} strokeWidth={2.5} />
               </div>
 
@@ -75,7 +75,7 @@ export default function WhyN4reDesktop() {
                   {N4RE_SOLUTIONS.map((sol) => (
                     <div key={sol.pillar} className="flex items-start gap-4 lg:gap-5">
                       <div 
-                        className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 shadow-sm mt-1" 
+                        className="w-12 h-12 rounded-[4px] flex items-center justify-center shrink-0 shadow-sm mt-1" 
                         style={{ backgroundColor: sol.bgColor }}
                       >
                         <IconRenderer icon={sol.icon} color={sol.color} size={20} />

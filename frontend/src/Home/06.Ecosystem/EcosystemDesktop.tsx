@@ -44,7 +44,7 @@ export default function EcosystemDesktop() {
         <div className="ys-fade-in-up" style={{
           background: 'linear-gradient(135deg, rgba(124,58,237,0.04) 0%, rgba(236,72,153,0.04) 100%)',
           border: '1px solid rgba(124,58,237,0.08)',
-          borderRadius: '24px',
+          borderRadius: '8px',
           padding: '48px 40px',
           display: 'flex',
           flexWrap: 'wrap',
@@ -54,49 +54,14 @@ export default function EcosystemDesktop() {
           {ECOSYSTEM_MEMBERS.map((member, i) => (
             <div
               key={i}
-              className={`ys-fade-in-up ys-stagger-${(i % 6) + 1}`}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '12px',
-                minWidth: '85px',
-                maxWidth: '100px',
-                textAlign: 'center',
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translateY(-4px)';
-                const icon = e.currentTarget.querySelector('.eco-icon') as HTMLElement;
-                if (icon) icon.style.background = 'linear-gradient(135deg, rgba(124,58,237,0.15), rgba(236,72,153,0.1))';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'translateY(0)';
-                const icon = e.currentTarget.querySelector('.eco-icon') as HTMLElement;
-                if (icon) icon.style.background = 'rgba(124,58,237,0.06)';
-              }}
+              className={`ys-fade-in-up ys-stagger-${(i % 6) + 1} group flex flex-col items-center gap-3 min-w-[85px] max-w-[100px] text-center cursor-pointer transition-all`}
             >
-              <div className="eco-icon" style={{
-                width: '56px',
-                height: '56px',
-                borderRadius: '16px',
-                background: 'rgba(124,58,237,0.06)',
-                border: '1px solid rgba(124,58,237,0.1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'background 0.2s ease',
-              }}>
-                <EcosystemIcon icon={member.icon} color="#7C3AED" size={28} />
+              <div className="eco-icon flex items-center justify-center w-14 h-14 rounded-[8px] bg-[rgba(124,58,237,0.06)] border border-[rgba(124,58,237,0.1)] transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
+                <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                  <EcosystemIcon icon={member.icon} color="#7C3AED" size={28} />
+                </div>
               </div>
-              <span style={{
-                fontSize: '11px',
-                fontWeight: 700,
-                color: '#374151',
-                lineHeight: 1.3,
-                whiteSpace: 'pre-line',
-              }}>
+              <span className="text-[11px] font-bold text-slate-700 leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
                 {member.label}
               </span>
             </div>

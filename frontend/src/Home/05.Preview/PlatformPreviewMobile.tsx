@@ -37,61 +37,47 @@ export default function PlatformPreviewMobile() {
           {PREVIEW_SECTIONS.map((section) => (
             <div key={section.key} style={{
               background: '#FFFFFF',
-              borderRadius: '16px',
-              border: '1px solid rgba(107,33,168,0.06)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
+              borderRadius: '8px',
+              border: '1px solid rgba(124,58,237,0.06)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
               padding: '20px',
               display: 'flex',
               flexDirection: 'column',
               gap: '16px',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{
-                   background: section.key === 'spotlight' ? '#F5F3FF' : 'transparent',
-                   padding: section.key === 'spotlight' ? '4px 10px' : '0',
-                   borderRadius: '16px',
+                <h3 style={{
+                  fontSize: '12px',
+                  fontWeight: 800,
+                  color: '#1A1A2E',
+                  margin: 0,
+                  background: section.key === 'spotlight' ? 'linear-gradient(135deg, rgba(124,58,237,0.08), rgba(236,72,153,0.05))' : 'transparent',
+                  padding: section.key === 'spotlight' ? '4px 8px' : '0',
+                  borderRadius: section.key === 'spotlight' ? '4px' : '0',
                 }}>
-                  <h3 style={{ fontSize: '12px', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>
-                    {section.title}
-                  </h3>
-                </div>
-                <button style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '2px',
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  color: '#6B21A8',
-                  background: 'transparent',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontFamily: "'Outfit', sans-serif",
-                }}>
+                  {section.title}
+                </h3>
+                <button className="flex items-center gap-0.5 text-[10px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#7C3AED] to-[#EC4899] border-none cursor-pointer transition-all hover:bg-clip-border hover:text-white hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] px-2 py-1 rounded-[4px] bg-transparent">
                   {section.viewAllLabel}
-                  <ChevronRight size={12} />
+                  <ChevronRight size={12} className="text-[#EC4899] hover:text-white" />
                 </button>
               </div>
 
-              {section.key === 'spotlight' || section.key === 'red-expert' ? (
+              {(section.key === 'spotlight' || section.key === 'red-expert') ? (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
                   {section.items.slice(0, 3).map((item, i) => (
-                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                      <div style={{
-                        aspectRatio: '1',
-                        borderRadius: '10px',
-                        background: item.gradient || item.logoBg,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.1)'
-                      }}>
-                        {item.icon ? (
-                          <PreviewIcon icon={item.icon} color="#FFFFFF" size={24} />
-                        ) : (
-                          <span style={{ fontSize: '16px', fontWeight: 800, color: '#FFFFFF' }}>{item.logoText}</span>
-                        )}
+                    <div key={i} className="group flex flex-col gap-1.5 cursor-pointer">
+                      <div className="aspect-square rounded-[4px] flex items-center justify-center shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px"
+                        style={{
+                          background: item.gradient || item.logoBg,
+                        }}
+                      >
+                        {item.icon
+                          ? <PreviewIcon icon={item.icon} color="#FFFFFF" size={24} />
+                          : <span className="text-[14px] font-extrabold text-white">{item.logoText}</span>
+                        }
                       </div>
-                      <p style={{ fontSize: '9px', fontWeight: 600, color: '#374151', margin: 0, lineHeight: 1.3 }}>
+                      <p className="text-[9px] font-semibold text-slate-700 m-0 leading-tight">
                         {item.title}
                       </p>
                     </div>
@@ -99,39 +85,31 @@ export default function PlatformPreviewMobile() {
                 </div>
               ) : section.key === 'opportunities' ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {section.items.map((item, i) => (
-                    <div key={i} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      background: item.logoBg || '#FFF7ED',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      border: '1px solid rgba(234,88,12,0.1)',
-                    }}>
-                      <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={16} />
-                      <span style={{ fontSize: '10px', fontWeight: 600, color: '#1A1A2E' }}>
-                        {item.title}
-                      </span>
+                  {section.items.slice(0, 3).map((item, i) => (
+                    <div key={i} className="group flex items-center gap-2.5 p-2.5 rounded-[4px] border border-[rgba(234,88,12,0.1)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
+                      style={{
+                        background: 'rgba(234,88,12,0.03)',
+                      }}
+                    >
+                      <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                        <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={16} />
+                      </div>
+                      <span className="text-[10px] font-semibold text-[#1A1A2E] group-hover:text-white transition-colors">{item.title}</span>
                     </div>
                   ))}
                 </div>
               ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
                   {section.items.slice(0, 6).map((item, i) => (
-                    <div key={i} style={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      gap: '6px',
-                      background: '#FFFFFF',
-                      border: '1px solid #F3F4F6',
-                      borderRadius: '10px',
-                      padding: '10px 6px',
-                      textAlign: 'center',
-                    }}>
-                      <PreviewIcon icon={item.icon || 'building'} color="#6B21A8" size={18} />
-                      <span style={{ fontSize: '8px', fontWeight: 600, color: '#374151', lineHeight: 1.2 }}>
+                    <div key={i} className="group flex flex-col items-center gap-1.5 p-[10px_6px] text-center rounded-[4px] border border-[rgba(124,58,237,0.06)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
+                      style={{
+                        backgroundColor: 'rgba(124,58,237,0.02)',
+                      }}
+                    >
+                      <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                        <PreviewIcon icon={item.icon || 'building'} color="#6B21A8" size={18} />
+                      </div>
+                      <span className="text-[8px] font-semibold text-slate-700 leading-tight group-hover:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>

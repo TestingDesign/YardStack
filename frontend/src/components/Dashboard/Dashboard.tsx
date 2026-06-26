@@ -41,10 +41,6 @@ const STAGGER_DELAYS = [
 const LAUNCHING_SOON_KEYS = ['showcase', 'cityInventory', 'surveyPools', 'lms']
 
 const regularNavItems = NAV_ITEMS.filter(item => !LAUNCHING_SOON_KEYS.includes(item.key))
-const launchingSoonSubTabs = NAV_ITEMS.filter(item => LAUNCHING_SOON_KEYS.includes(item.key)).map(item => ({ 
-  label: item.label, 
-  key: item.key 
-}))
 
 const TAB_ITEMS = [
   ...regularNavItems.map(({ key, label, Icon, activeIcon, badge, subTabs }) => ({

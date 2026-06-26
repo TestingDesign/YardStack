@@ -22,7 +22,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        borderRadius: '16px',
+        borderRadius: '8px',
         border: `1px solid ${pillar.borderColor}`,
         background: pillar.columnBg,
         padding: '20px',
@@ -52,30 +52,26 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         {pillar.modules.map((mod, i) => (
           <div
             key={i}
+            className="group flex flex-col items-start gap-3 p-[14px] rounded-[4px] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
             style={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              gap: '12px',
-              padding: '14px',
-              borderRadius: '10px',
-              background: pillar.cardBg,
+              backgroundColor: pillar.cardBg,
               border: `1px solid ${pillar.borderColor}`,
             }}
           >
-            <div style={{ flexShrink: 0, marginTop: '2px' }}>
+            <div className="flex-shrink-0 mt-0.5 group-hover:brightness-200 group-hover:grayscale transition-all">
               <ModuleIcon name={mod.name} color={pillar.color} />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                <h4 style={{ fontSize: '12px', fontWeight: 800, color: '#1A1A2E', margin: 0 }}>
+              <div className="flex items-center gap-2 mb-1">
+                <h4 className="text-[13px] font-extrabold text-[#1A1A2E] m-0 group-hover:text-white transition-colors">
                   {mod.name}
                 </h4>
               </div>
-              <p style={{ fontSize: '11px', color: '#4B5563', lineHeight: 1.5, margin: '0 0 4px 0', fontWeight: 500 }}>
+              <p className="text-[12px] text-[#4B5563] leading-[1.5] m-0 mb-1 font-medium group-hover:text-white/90 transition-colors">
                 {mod.description}
               </p>
               {mod.comingSoon && (
-                <span style={{ fontSize: '9px', fontWeight: 700, color: '#6B7280' }}>
+                <span className="text-[10px] font-bold text-gray-500 opacity-70 group-hover:text-white/70 transition-colors">
                   (Coming Soon)
                 </span>
               )}

@@ -36,44 +36,25 @@ export default function EcosystemMobile() {
         </p>
 
         <div style={{
-          background: '#FCFAFF',
-          border: '1px solid rgba(107,33,168,0.06)',
-          borderRadius: '20px',
-          padding: '24px 16px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '16px',
+          background: 'linear-gradient(135deg, rgba(124,58,237,0.03) 0%, rgba(236,72,153,0.03) 100%)',
+          border: '1px solid rgba(124,58,237,0.08)',
+          borderRadius: '8px',
+          padding: '32px 16px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: '24px 8px',
         }}>
           {ECOSYSTEM_MEMBERS.map((member, i) => (
             <div
               key={i}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '8px',
-                width: 'calc(33.333% - 16px)',
-                minWidth: '70px',
-                textAlign: 'center',
-              }}
+              className="group flex flex-col items-center gap-2 text-center cursor-pointer transition-all"
             >
-              <div style={{
-                width: '40px',
-                height: '40px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <EcosystemIcon icon={member.icon} color="#6B21A8" size={24} />
+              <div className="flex items-center justify-center w-11 h-11 rounded-[8px] bg-transparent transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
+                <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
+                  <EcosystemIcon icon={member.icon} color="#6B21A8" size={24} />
+                </div>
               </div>
-              <span style={{
-                fontSize: '9px',
-                fontWeight: 700,
-                color: '#374151',
-                lineHeight: 1.3,
-                whiteSpace: 'pre-line',
-              }}>
+              <span className="text-[9px] font-bold text-slate-700 leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
                 {member.label}
               </span>
             </div>

@@ -15,17 +15,17 @@ import {
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
-const ModuleIcon = ({ name, size = 16 }: { name: string; size?: number }) => {
+const ModuleIcon = ({ name, size = 16, className = "text-[var(--color-primary-600)]" }: { name: string; size?: number; className?: string }) => {
   switch (name) {
-    case 'Spotlight': return <MessageSquare size={size} style={{ color: '#6B21A8' }} />;
-    case 'Directory': return <Users size={size} style={{ color: '#6B21A8' }} />;
-    case 'Opportunities': return <Briefcase size={size} style={{ color: '#6B21A8' }} />;
-    case 'Showcase': return <MonitorPlay size={size} style={{ color: '#6B21A8' }} />;
-    case 'Polls & Surveys': return <BarChart2 size={size} style={{ color: '#6B21A8' }} />;
-    case 'RED Expert': return <Mic size={size} style={{ color: '#6B21A8' }} />;
-    case 'Learn': return <GraduationCap size={size} style={{ color: '#6B21A8' }} />;
-    case 'City Inventory': return <Building2 size={size} style={{ color: '#6B21A8' }} />;
-    default: return <PlayCircle size={size} style={{ color: '#6B21A8' }} />;
+    case 'Spotlight': return <MessageSquare size={size} className={className} />;
+    case 'Directory': return <Users size={size} className={className} />;
+    case 'Opportunities': return <Briefcase size={size} className={className} />;
+    case 'Showcase': return <MonitorPlay size={size} className={className} />;
+    case 'Polls & Surveys': return <BarChart2 size={size} className={className} />;
+    case 'RED Expert': return <Mic size={size} className={className} />;
+    case 'Learn': return <GraduationCap size={size} className={className} />;
+    case 'City Inventory': return <Building2 size={size} className={className} />;
+    default: return <PlayCircle size={size} className={className} />;
   }
 };
 
@@ -48,62 +48,29 @@ export default function FindYourPlaceMobile() {
   return (
     <section
       id="find-your-place"
-      style={{ background: '#FFFFFF', fontFamily: "'Outfit', sans-serif", padding: '40px 0 60px' }}
+      className="bg-white font-sans py-10 pb-16"
+      style={{ fontFamily: "'Outfit', sans-serif" }}
     >
-      <div style={{ padding: '0 16px' }}>
-        <p style={{
-          textAlign: 'center',
-          fontSize: '10px',
-          fontWeight: 800,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: '#6B21A8',
-          marginBottom: '12px',
-        }}>
+      <div className="px-4">
+        <p className="text-center text-[10px] font-extrabold tracking-widest uppercase text-[var(--color-primary-600)] mb-3">
           {FIND_YOUR_PLACE_CONTENT.sectionLabel}
         </p>
 
-        <h2 style={{
-          textAlign: 'center',
-          fontSize: '1.85rem',
-          fontWeight: 800,
-          color: '#1A1A2E',
-          lineHeight: 1.14,
-          marginBottom: '12px',
-          letterSpacing: '-0.02em',
-        }}>
+        <h2 className="text-center text-[1.85rem] font-extrabold text-slate-900 leading-[1.14] mb-3 tracking-[-0.02em]">
           {FIND_YOUR_PLACE_CONTENT.heading}
         </h2>
 
-        <p style={{
-          textAlign: 'center',
-          fontSize: '0.9rem',
-          color: '#6B7280',
-          marginBottom: '32px',
-          lineHeight: 1.6,
-          maxWidth: '320px',
-          margin: '0 auto 32px',
-          fontWeight: 500,
-        }}>
+        <p className="text-center text-[0.9rem] text-gray-500 mb-8 leading-relaxed max-w-[320px] mx-auto font-medium">
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        <div style={{
-          background: '#FFFFFF',
-          borderRadius: '20px',
-          border: '1px solid rgba(107,33,168,0.06)',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.04)',
-          padding: '24px 16px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '24px',
-        }}>
+        <div className="bg-white rounded-[8px] border border-purple-600/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-6">
           <div>
-            <p style={{ fontSize: '12px', fontWeight: 700, color: '#374151', margin: '0 0 10px' }}>
+            <p className="text-xs font-bold text-gray-700 mb-2.5">
               {FIND_YOUR_PLACE_CONTENT.inputPrefix}
             </p>
 
-            <div style={{ position: 'relative', zIndex: 30 }}>
+            <div className="relative z-30">
               <input
                 type="text"
                 value={searchQuery}
@@ -113,61 +80,20 @@ export default function FindYourPlaceMobile() {
                 }}
                 onFocus={() => setIsDropdownOpen(true)}
                 placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
-                style={{
-                  width: '100%',
-                  paddingLeft: '14px',
-                  paddingRight: '36px',
-                  paddingTop: '12px',
-                  paddingBottom: '12px',
-                  borderRadius: '10px',
-                  border: '1px solid #E5E7EB',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  color: '#374151',
-                  outline: 'none',
-                  background: '#FFFFFF',
-                  fontFamily: "'Outfit', sans-serif",
-                  boxSizing: 'border-box',
-                }}
+                className="w-full pl-3.5 pr-9 py-3 rounded-[4px] border border-gray-200 text-sm font-medium text-gray-700 outline-none bg-white focus:border-[var(--color-primary-600)] focus:ring-2 focus:ring-[var(--color-primary-600)]/10 transition-all"
               />
-              <div style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }}>
-                <Search size={16} style={{ color: '#9CA3AF' }} />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                <Search size={16} className="text-gray-400" />
               </div>
               
               {isDropdownOpen && filteredRoles.length > 0 && (
-                <ul style={{
-                  position: 'absolute',
-                  top: 'calc(100% + 4px)',
-                  left: 0,
-                  right: 0,
-                  background: '#FFFFFF',
-                  borderRadius: '10px',
-                  border: '1px solid #E5E7EB',
-                  boxShadow: '0 10px 24px rgba(0,0,0,0.08)',
-                  zIndex: 40,
-                  maxHeight: '160px',
-                  overflowY: 'auto',
-                  listStyle: 'none',
-                  margin: 0,
-                  padding: '6px',
-                }}>
+                <ul className="absolute top-[calc(100%+4px)] left-0 right-0 bg-white rounded-[4px] border border-gray-200 shadow-[0_10px_24px_rgba(0,0,0,0.08)] z-40 max-h-[160px] overflow-y-auto list-none m-0 p-1.5">
                   {filteredRoles.map((role) => (
                     <li key={role.key}>
                       <button
                         type="button"
                         onClick={() => handleRoleSelect(role)}
-                        style={{
-                          width: '100%',
-                          textAlign: 'left',
-                          padding: '10px 12px',
-                          fontSize: '13px',
-                          fontWeight: 500,
-                          color: '#374151',
-                          background: 'transparent',
-                          border: 'none',
-                          borderRadius: '6px',
-                          fontFamily: "'Outfit', sans-serif",
-                        }}
+                        className="w-full text-left px-3 py-2.5 text-[13px] font-medium text-gray-700 bg-transparent border-none rounded-[4px] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white transition-colors"
                       >
                         {role.label}
                       </button>
@@ -177,8 +103,8 @@ export default function FindYourPlaceMobile() {
               )}
             </div>
 
-            <div style={{ marginTop: '16px' }}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            <div className="mt-4">
+              <div className="flex flex-wrap gap-2">
                 {POPULAR_ROLES.slice(0, 8).map((role) => {
                   const isSelected = selectedRole.key === role.key;
                   return (
@@ -186,17 +112,11 @@ export default function FindYourPlaceMobile() {
                       key={role.key}
                       type="button"
                       onClick={() => handleRoleSelect(role)}
-                      style={{
-                        padding: '6px 12px',
-                        borderRadius: '8px',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        border: isSelected ? '1px solid #6B21A8' : '1px solid #E5E7EB',
-                        background: isSelected ? '#6B21A8' : '#FFFFFF',
-                        color: isSelected ? '#FFFFFF' : '#4B5563',
-                        boxShadow: isSelected ? '0 2px 8px rgba(107,33,168,0.25)' : 'none',
-                        fontFamily: "'Outfit', sans-serif",
-                      }}
+                      className={`px-3 py-1.5 rounded-[4px] text-[11px] font-semibold border transition-all ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white border-transparent shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.48)] hover:-translate-y-px'
+                          : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-[var(--color-primary-600)] hover:shadow-sm'
+                      }`}
                     >
                       {role.label}
                     </button>
@@ -206,37 +126,23 @@ export default function FindYourPlaceMobile() {
             </div>
           </div>
 
-          <div style={{ borderTop: '1px solid #F3F4F6', paddingTop: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '10px',
-                background: '#F5F3FF',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <Building2 size={20} style={{ color: '#6B21A8' }} />
+          <div className="border-t border-gray-100 pt-5">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-[4px] bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] flex items-center justify-center shrink-0">
+                <Building2 size={20} className="text-white" />
               </div>
-              <h3 style={{
-                fontSize: '1.1rem',
-                fontWeight: 800,
-                color: '#1A1A2E',
-                margin: 0,
-                lineHeight: 1.3,
-                letterSpacing: '-0.01em',
-              }}>
+              <h3 className="text-[1.1rem] font-extrabold text-slate-900 m-0 leading-[1.3] tracking-[-0.01em]">
                 {selectedRole.helpTitle}
               </h3>
             </div>
 
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <ul className="list-none m-0 p-0 flex flex-col gap-3">
               {selectedRole.helpPoints.map((point) => (
-                <li key={point} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.85rem', color: '#4B5563' }}>
-                  <Check size={16} strokeWidth={3} style={{ flexShrink: 0, marginTop: '2px', color: '#6B21A8' }} />
-                  <span style={{ fontWeight: 500, lineHeight: 1.5 }}>{point}</span>
+                <li key={point} className="flex items-start gap-2.5 text-[0.85rem] text-gray-600">
+                  <div className="shrink-0 w-4 h-4 rounded-[2px] bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] flex items-center justify-center mt-0.5 shadow-sm">
+                    <Check size={10} strokeWidth={3} className="text-white" />
+                  </div>
+                  <span className="font-medium leading-[1.5]">{point}</span>
                 </li>
               ))}
             </ul>
@@ -250,7 +156,7 @@ export default function FindYourPlaceMobile() {
                 width: '100%',
                 marginTop: '24px',
                 padding: '12px 20px',
-                borderRadius: '10px',
+                borderRadius: '8px',
                 background: '#FFFFFF',
                 border: '1.5px solid rgba(107,33,168,0.3)',
                 color: '#6B21A8',
@@ -264,48 +170,27 @@ export default function FindYourPlaceMobile() {
             </button>
           </div>
 
-          <div style={{ borderTop: '1px solid #F3F4F6', paddingTop: '20px' }}>
-            <p style={{
-              fontSize: '11px',
-              fontWeight: 800,
-              color: '#6B21A8',
-              margin: '0 0 12px',
-            }}>
+          <div className="border-t border-gray-100 pt-5">
+            <p className="text-[11px] font-extrabold text-[var(--color-primary-600)] m-0 mb-3">
               Relevant Modules
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <div className="flex flex-col gap-2">
               {selectedRole.relevantModules.map((module) => (
                 <div
                   key={module.name}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '10px 14px',
-                    borderRadius: '10px',
-                    background: '#FFFFFF',
-                    border: '1px solid #F3F4F6',
-                    boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
-                  }}
+                  className="group flex items-center justify-between p-2.5 rounded-[4px] bg-white border border-gray-100 transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div style={{
-                      width: '28px',
-                      height: '28px',
-                      borderRadius: '50%',
-                      background: '#F5F3FF',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      <ModuleIcon name={module.name} size={14} />
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-[2px] bg-purple-50 flex items-center justify-center shrink-0 group-hover:bg-white/20 transition-colors">
+                      <ModuleIcon name={module.name} size={14} className="text-[var(--color-primary-600)] group-hover:text-white transition-colors" />
                     </div>
-                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#1A1A2E' }}>{module.name}</span>
+                    <span className="text-xs font-bold text-slate-900 group-hover:text-white transition-colors">
+                      {module.name}
+                    </span>
                   </div>
                   {module.comingSoon && (
-                    <span style={{ fontSize: '9px', fontWeight: 600, color: '#9CA3AF', whiteSpace: 'nowrap' }}>
+                    <span className="text-[9px] font-bold text-gray-400 group-hover:text-white/80 transition-colors whitespace-nowrap">
                       Coming Soon
                     </span>
                   )}

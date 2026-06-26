@@ -12,7 +12,8 @@ import {
   GraduationCap,
   ArrowRight
 } from 'lucide-react';
-import { ECOSYSTEM_MEMBERS } from './data';
+import { ECOSYSTEM_MEMBERS } from './data'
+import AnimatedCity from '../01.Hero/AnimatedCity';;
 
 const EcosystemIcon = ({ icon, className, size = 24 }: { icon: string; className?: string; size?: number }) => {
   const props = { size, className, strokeWidth: 1.5 };
@@ -43,7 +44,7 @@ export default function EcosystemDesktop() {
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
-            Built for Hyderabad&apos;s Real Estate Ecosystem
+            Built for <AnimatedCity suffix="'s" /> Real Estate Ecosystem
           </span>
         </div>
 

@@ -34,27 +34,23 @@ export default function PlatformPreviewDesktop() {
       id="platform-preview" 
       className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
-      {/* Background Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
         
-        {/* Section Header */}
         <div className="text-center mb-16">
           <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
             A Glimpse of What You'll Discover
           </span>
         </div>
 
-        {/* Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {PREVIEW_SECTIONS.map((section) => (
             <div
               key={section.key}
-              className="group/card flex flex-col gap-6 p-7 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(124,58,237,0.08)] hover:-translate-y-1 transition-all duration-300"
+              className="group/card flex flex-col gap-6 p-7 rounded-[8px] bg-white/80 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(124,58,237,0.08)] hover:-translate-y-1 transition-all duration-300"
             >
               
-              {/* Card Header */}
               <div className="flex items-center justify-between">
                 <h3 
                   className={`text-sm font-extrabold text-slate-900 ${
@@ -72,7 +68,6 @@ export default function PlatformPreviewDesktop() {
                 </button>
               </div>
 
-              {/* Card Content Renderers based on section type */}
               {(section.key === 'spotlight' || section.key === 'red-expert') ? (
                 <div className="grid grid-cols-3 gap-3">
                   {section.items.slice(0, 3).map((item, i) => (

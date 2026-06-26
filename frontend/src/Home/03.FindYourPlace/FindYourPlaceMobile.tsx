@@ -136,8 +136,8 @@ export default function FindYourPlaceMobile() {
             </div>
 
             <ul className="list-none m-0 p-0 flex flex-col gap-3">
-              {selectedRole.helpPoints.map((point) => (
-                <li key={point} className="flex items-start gap-2.5 text-[0.85rem] text-gray-600">
+              {selectedRole.helpPoints.map((point, i) => (
+                <li key={i} className="flex items-start gap-2.5 text-[0.85rem] text-gray-600">
                   <div className="shrink-0 w-4 h-4 rounded-[2px] bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] flex items-center justify-center mt-0.5 shadow-sm">
                     <Check size={10} strokeWidth={3} className="text-white" />
                   </div>

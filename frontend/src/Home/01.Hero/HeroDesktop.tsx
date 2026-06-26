@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
+import AnimatedCity from "./AnimatedCity";
 
 const CARD_RADIUS = 240;
 
@@ -137,7 +138,7 @@ export default function HeroDesktop() {
             </span>
             <h1 className="text-4xl lg:text-[56px] leading-[1.1] font-extrabold text-slate-900 tracking-tight">
               Connecting <br className="hidden lg:block" />
-              <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500">Hyderabad&apos;s</span><br />
+              <AnimatedCity className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500" suffix="'s" /><br />
               <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500">Real Estate</span>{" "}
               Ecosystem
             </h1>

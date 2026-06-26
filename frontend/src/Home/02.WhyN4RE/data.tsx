@@ -1,6 +1,9 @@
+
+import AnimatedCity from '../01.Hero/AnimatedCity';
+
 export const WHY_N4RE_CONTENT = {
   subtitle: "WHY N4RE?",
-  heading: "Hyderabad Has Thousands of Real Estate Professionals.",
+  heading: <><AnimatedCity /> Has Thousands of Real Estate Professionals.</>,
   headingHighlight: "But No Common Platform.",
   todayHeader: "TODAY — EVERYTHING IS DISCONNECTED",
   n4reHeader: "N4RE BRINGS IT TOGETHER",

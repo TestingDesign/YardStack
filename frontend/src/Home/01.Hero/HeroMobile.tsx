@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import AnimatedCity from './AnimatedCity';
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from './data';
 
 const CategoryIcon = ({ icon }: { icon: string }) => {
@@ -93,7 +94,7 @@ export default function HeroMobile() {
           </p>
 
           <h1 className="text-[1.8rem] leading-[1.15] font-extrabold text-[#1A1A2E] m-0 tracking-tight">
-            Connecting <span className="text-[#6B21A8]">Hyderabad&apos;s</span>
+            Connecting <AnimatedCity className="text-[#6B21A8]" suffix="'s" />
             <br />
             <span className="text-[#6B21A8]">Real Estate</span> Ecosystem
           </h1>

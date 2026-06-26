@@ -1,3 +1,6 @@
+
+import AnimatedCity from '../01.Hero/AnimatedCity';
+
 export interface EcosystemMember {
   label: string
   icon: string
@@ -19,7 +22,7 @@ export const ECOSYSTEM_MEMBERS: EcosystemMember[] = [
 
 export interface RoadmapItem {
   name: string
-  description: string
+  description: React.ReactNode
   icon: string
   color: string
   bgColor: string
@@ -35,7 +38,7 @@ export const ROADMAP_ITEMS: RoadmapItem[] = [
   },
   {
     name: 'City Inventory',
-    description: 'Inventory and opportunities across Hyderabad.',
+    description: <>Inventory and opportunities across <AnimatedCity />.</>,
     icon: 'building',
     color: '#7C3AED',
     bgColor: '#EDE9FE',

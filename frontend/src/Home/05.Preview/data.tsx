@@ -1,5 +1,8 @@
+
+import AnimatedCity from '../01.Hero/AnimatedCity';
+
 export interface PreviewItem {
-  title: string
+  title: React.ReactNode
   gradient?: string
   logoBg?: string
   logoColor?: string
@@ -21,7 +24,7 @@ export const PREVIEW_SECTIONS: PreviewSection[] = [
     viewAllLabel: 'View All',
     items: [
       {
-        title: 'Hyderabad Market Trends 2024',
+        title: <><AnimatedCity /> Market Trends 2024</>,
         gradient: 'linear-gradient(135deg, #4c1d95, #1e3a8a)',
         logoBg: '#1e3a8a',
         logoColor: '#ffffff',

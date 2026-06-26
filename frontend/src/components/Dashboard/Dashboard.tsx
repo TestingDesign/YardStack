@@ -61,7 +61,7 @@ const TAB_ITEMS = [
     Icon: RocketLaunchIcon as any,
     activeIcon: RocketLaunchIcon as any,
     badge: 'Soon',
-    subTabs: launchingSoonSubTabs,
+    subTabs: [],
   }
 ]
 

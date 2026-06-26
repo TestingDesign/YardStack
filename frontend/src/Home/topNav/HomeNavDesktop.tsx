@@ -48,9 +48,6 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
           }}>
             N<span style={{ background: 'linear-gradient(135deg, #7C3AED, #EC4899)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>4</span>RE
           </span>
-          <span style={{ fontSize: '7px', fontWeight: 600, color: '#9CA3AF', letterSpacing: '0.1em', marginTop: '2px' }}>
-            Content • Connections • Conversations
-          </span>
         </a>
 
         <nav aria-label="Main Navigation" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

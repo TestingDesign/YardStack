@@ -17,7 +17,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
-import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
+import { Users, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
@@ -369,13 +369,13 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
         </div>
 
         <div className="flex flex-col items-center gap-1.5">
-          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm">
+          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm" aria-label="Like video">
             <FavoriteBorderIcon sx={{ fontSize: 24 }} />
           </button>
           <span className="text-white/70 text-[13px] font-medium">Like</span>
         </div>
         <div className="flex flex-col items-center gap-1.5">
-          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm">
+          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm" aria-label="Share video">
             <ShareOutlinedIcon sx={{ fontSize: 24 }} />
           </button>
           <span className="text-white/70 text-[13px] font-medium">Share</span>
@@ -388,6 +388,7 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
               setIsMenuOpen(!isMenuOpen)
             }}
             className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm"
+            aria-label="More options"
           >
             <MoreVertIcon sx={{ fontSize: 24 }} />
           </button>
@@ -676,7 +677,7 @@ export default function SpotlightDesktop() {
                   <span className="text-[10px] font-black text-white uppercase tracking-[0.18em] border border-white/30 rounded-full px-2.5 py-1 bg-black/40 backdrop-blur-md">
                     Sponsored
                   </span>
-                  <button className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all cursor-pointer border-none">
+                  <button className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all cursor-pointer border-none" aria-label="Ad options">
                     <MoreVertIcon sx={{ fontSize: 18 }} />
                   </button>
                 </div>
@@ -693,7 +694,7 @@ export default function SpotlightDesktop() {
               </div>
             </div>
 
-            <div className="flex flex-col bg-white rounded-2xl p-4">
+            <div className="flex flex-col rounded-lg p-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-full bg-purple-50 flex items-center justify-center">

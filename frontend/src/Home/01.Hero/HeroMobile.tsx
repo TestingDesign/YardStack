@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import AnimatedCity from './AnimatedCity';
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from './data';
+import Logo from './Logo.png';
 
 const CategoryIcon = ({ icon }: { icon: string }) => {
   switch (icon) {
@@ -168,13 +169,12 @@ export default function HeroMobile() {
           />
 
           <div
-            className="absolute left-1/2 top-1/2 z-10 flex items-center justify-center w-[90px] h-[90px] rounded-full shadow-[0_8px_30px_rgba(107,33,168,0.3)] border-4 border-white"
+            className="absolute left-1/2 top-1/2 z-10 flex items-center justify-center w-[90px] h-[90px] rounded-full shadow-[0_8px_30px_rgba(107,33,168,0.3)] border-4 border-white bg-white"
             style={{
               transform: 'translate(-50%, -50%)',
-              background: 'linear-gradient(135deg, #7C3AED 0%, #6B21A8 50%, #5B1D99 100%)',
             }}
           >
-            <span className="text-white text-[20px] font-extrabold tracking-tight">N4RE</span>
+            <img src={Logo} alt="Logo" className="w-[70%] h-[70%] object-contain" draggable={false} />
           </div>
 
           {ECOSYSTEM_CATEGORIES.slice(0, 5).map((cat, i) => {

@@ -2,8 +2,9 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
 import AnimatedCity from "./AnimatedCity";
+import Logo from "./Logo.png";
 
-const CARD_RADIUS = 240;
+const CARD_RADIUS = 200;
 
 const CategoryIcon = ({ icon, size = 22 }: { icon: string; size?: number }) => {
   const strokeClass = "stroke-purple-700";
@@ -45,7 +46,7 @@ export default function HeroDesktop() {
   const cardAngles = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
 
   return (
-    <section id="hero" className="relative bg-[var(--color-bg-muted)] overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+    <section id="hero" className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
       <div className="absolute bottom-0 pointer-events-none z-0" style={{ right: 0, width: "55%", height: "200px" }}>
         <svg viewBox="0 0 800 200" preserveAspectRatio="xMaxYMax meet" className="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(800,0) scale(-1,1)" opacity="0.05" fill="#6B21A8">
@@ -129,10 +130,10 @@ export default function HeroDesktop() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 lg:px-8 py-6 lg:py-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-10 lg:gap-8 items-center">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-6 lg:gap-5 items-center">
           
-          <div className="flex flex-col gap-6 pt-4 lg:pt-0">
+          <div className="flex flex-col gap-4 pt-2 lg:pt-0">
             <span className="text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 w-fit">
               {HERO_CONTENT.tagline}
             </span>
@@ -145,20 +146,20 @@ export default function HeroDesktop() {
             <p className="text-lg font-semibold text-[var(--color-text-primary)] max-w-md">{HERO_CONTENT.subHeading}</p>
             <p className="text-base leading-relaxed text-[var(--color-text-secondary)] max-w-md">{HERO_CONTENT.description}</p>
             
-            <div className="flex flex-wrap items-center gap-4 mt-2">
-              <button className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-800 to-purple-700 text-white text-sm font-bold shadow-lg shadow-purple-800/25 hover:shadow-xl hover:shadow-purple-800/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
+            <div className="flex flex-wrap items-center gap-3">
+              <button className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-800 to-purple-700 text-white text-sm font-bold shadow-lg shadow-purple-800/25 hover:shadow-xl hover:shadow-purple-800/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
                 {HERO_CONTENT.primaryCta}
               </button>
-              <button className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/60 backdrop-blur-sm text-[var(--color-text-primary)] text-sm font-bold border border-[var(--color-border-default)]/60 shadow-sm hover:bg-white hover:border-purple-200 hover:text-purple-800 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
+              <button className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-white/60 backdrop-blur-sm text-[var(--color-text-primary)] text-sm font-bold border border-[var(--color-border-default)]/60 shadow-sm hover:bg-white hover:border-purple-200 hover:text-purple-800 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
                 {HERO_CONTENT.secondaryCta}
                 <ArrowRight size={16} className="ml-1" />
               </button>
             </div>
 
-            <div className="flex items-center gap-4 mt-6 p-4 rounded-2xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm w-fit">
-              <div className="flex -space-x-3">
+            <div className="flex items-center gap-3 mt-4 p-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/60 shadow-sm w-fit">
+              <div className="flex -space-x-2">
                 {[11, 12, 13, 14].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-[2.5px] border-white overflow-hidden bg-gradient-to-br from-purple-100 to-fuchsia-100 shadow-sm shrink-0">
+                  <div key={i} className="w-8 h-8 rounded-full border-[2.5px] border-white overflow-hidden bg-gradient-to-br from-purple-100 to-fuchsia-100 shadow-sm shrink-0">
                     <img src={`https://i.pravatar.cc/80?img=${i}`} alt="User avatar" className="w-full h-full object-cover" />
                   </div>
                 ))}
@@ -170,7 +171,7 @@ export default function HeroDesktop() {
             </div>
           </div>
 
-          <div className="relative flex items-center justify-center h-[640px] lg:h-[680px] w-full">
+          <div className="relative flex items-center justify-center h-[520px] lg:h-[560px] w-full">
             <div className="absolute inset-0 pointer-events-none rounded-full" style={{ background: "radial-gradient(circle at center, rgba(107,33,168,0.06) 0%, rgba(107,33,168,0.02) 45%, transparent 70%)" }} />
             
             <svg className="absolute inset-0 pointer-events-none overflow-visible" width="100%" height="100%">
@@ -180,8 +181,8 @@ export default function HeroDesktop() {
 
             {cardAngles.map((angle, i) => {
               const isActive = activeIndex === i;
-              const staggerOffset = i % 2 === 0 ? 0 : 35;
-              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 50 : 0);
+              const staggerOffset = i % 2 === 0 ? 0 : 25;
+              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 35 : 0);
               
               return (
                 <div key={`line-${i}`} className="absolute pointer-events-none bg-gradient-to-r from-purple-800/0 via-purple-800/20 to-purple-800/0 h-[1.5px] origin-left transition-all duration-500 ease-out"
@@ -191,8 +192,8 @@ export default function HeroDesktop() {
 
             {cardAngles.map((angle, i) => {
               const isActive = activeIndex === i;
-              const staggerOffset = i % 2 === 0 ? 0 : 35;
-              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 50 : 0);
+              const staggerOffset = i % 2 === 0 ? 0 : 25;
+              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 35 : 0);
               const radians = (angle - 90) * (Math.PI / 180);
               const x = Math.cos(radians) * currentRadius;
               const y = Math.sin(radians) * currentRadius;
@@ -203,9 +204,9 @@ export default function HeroDesktop() {
               );
             })}
 
-            <div className="absolute z-10 flex items-center justify-center rounded-full border-[6px] border-white/80 backdrop-blur-sm shadow-2xl shadow-purple-900/30 w-40 h-40"
-              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)", background: "linear-gradient(135deg, #7C3AED 0%, #6B21A8 50%, #4C1D95 100%)" }}>
-              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-purple-200 font-extrabold text-5xl tracking-tighter drop-shadow-sm">N4RE</span>
+            <div className="absolute z-10 flex items-center justify-center rounded-full border-[6px] border-white/80 backdrop-blur-sm shadow-2xl shadow-purple-900/30 w-32 h-32 bg-white"
+              style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+              <img src={Logo} alt="Logo" className="w-[70%] h-[70%] object-contain" draggable={false} />
             </div>
 
             {ECOSYSTEM_CATEGORIES.map((cat, i) => {
@@ -213,8 +214,8 @@ export default function HeroDesktop() {
               const isLg = cat.size === "lg";
               const isSm = cat.size === "sm";
 
-              const staggerOffset = i % 2 === 0 ? 0 : 35;
-              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 50 : 0);
+              const staggerOffset = i % 2 === 0 ? 0 : 25;
+              const currentRadius = CARD_RADIUS + staggerOffset + (isActive ? 35 : 0);
               const radians = (cardAngles[i] - 90) * (Math.PI / 180);
               const x = Math.cos(radians) * currentRadius;
               const y = Math.sin(radians) * currentRadius;
@@ -226,13 +227,13 @@ export default function HeroDesktop() {
                     left: `calc(50% + ${x}px)`, 
                     top: `calc(50% + ${y}px)`, 
                     transform: "translate(-50%, -50%)",
-                    padding: isLg ? "16px 20px" : isSm ? "12px 16px" : "14px 18px",
-                    minWidth: isLg ? "160px" : isSm ? "130px" : "145px"
+                    padding: isLg ? "12px 16px" : isSm ? "8px 12px" : "10px 14px",
+                    minWidth: isLg ? "140px" : isSm ? "110px" : "125px"
                   }}>
                   
                   <div className={`flex items-center justify-center rounded-full transition-colors duration-500 border ${isActive ? "bg-purple-100 border-purple-200" : "bg-purple-50/80 border-purple-900/5"}`}
-                    style={{ width: isLg ? "46px" : "40px", height: isLg ? "46px" : "40px" }}>
-                    <CategoryIcon icon={cat.icon} size={isLg ? 24 : 20} />
+                    style={{ width: isLg ? "40px" : "36px", height: isLg ? "40px" : "36px" }}>
+                    <CategoryIcon icon={cat.icon} size={isLg ? 20 : 18} />
                   </div>
                   
                   <div className="flex flex-col gap-1 w-full">

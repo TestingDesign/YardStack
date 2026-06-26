@@ -15,12 +15,11 @@ import {
 
 const ModuleIcon = ({ name, color, isActive }: { name: string; color: string; isActive: boolean }) => {
   const props = { 
-    size: 20, 
+    size: 18, 
     strokeWidth: isActive ? 2 : 1.5,
     className: `transition-all duration-300 ${isActive ? 'scale-110' : 'scale-100'}`
   };
   
-  // Use the pillar's color when active, otherwise a muted slate
   const iconColor = isActive ? color : '#94A3B8';
 
   switch (name) {
@@ -41,36 +40,33 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
 
   return (
     <div 
-      className="group relative flex flex-col rounded-[32px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 p-8 lg:p-10"
+      className="group relative flex flex-col rounded-[24px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.08)] transition-all duration-500 p-6 lg:p-8"
     >
-      {/* Top Accent Line */}
       <div 
-        className="absolute top-0 left-0 right-0 h-1.5 opacity-80"
+        className="absolute top-0 left-0 right-0 h-1 opacity-80"
         style={{ background: pillar.color }}
       />
 
-      {/* Card Header */}
-      <div className="mb-8">
+      <div className="mb-6">
         <h3 
-          className="text-xs font-black uppercase tracking-[0.2em] mb-3"
+          className="text-xs font-black uppercase tracking-[0.2em] mb-2"
           style={{ color: pillar.color }}
         >
           {pillar.title}
         </h3>
-        <p className="text-[22px] font-extrabold text-[var(--color-text-primary)] leading-snug tracking-tight">
+        <p className="text-xl lg:text-[22px] font-extrabold text-[var(--color-text-primary)] leading-snug tracking-tight">
           {pillar.subtitle}
         </p>
       </div>
 
-      {/* Expandable Modules */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         {pillar.modules.map((mod, i) => {
           const isActive = activeModuleIdx === i;
           
           return (
             <div 
               key={i}
-              className={`rounded-2xl transition-all duration-300 border outline-none focus-within:ring-2 focus-within:ring-purple-500/20 ${
+              className={`rounded-xl transition-all duration-300 border outline-none focus-within:ring-2 focus-within:ring-purple-500/20 ${
                 isActive 
                   ? 'bg-gray-50/80 border-[var(--color-border-default)] shadow-sm' 
                   : 'bg-transparent border-transparent hover:bg-gray-50/50'
@@ -78,11 +74,11 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
             >
               <button
                 onClick={() => setActiveModuleIdx(isActive ? null : i)}
-                className="w-full flex items-center justify-between p-4 text-left outline-none"
+                className="w-full flex items-center justify-between p-3 text-left outline-none"
               >
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3">
                   <div 
-                    className={`flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-300 ${
+                    className={`flex items-center justify-center w-9 h-9 rounded-lg transition-colors duration-300 ${
                       isActive ? 'bg-white shadow-sm' : 'bg-transparent'
                     }`}
                   >
@@ -91,7 +87,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
                   
                   <div className="flex items-center gap-2">
                     <h4 
-                      className={`text-[15px] font-bold transition-colors duration-300 ${
+                      className={`text-sm font-bold transition-colors duration-300 ${
                         isActive ? 'text-[var(--color-text-primary)]' : 'text-[var(--color-text-secondary)]'
                       }`}
                     >
@@ -106,7 +102,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
                 </div>
 
                 <ChevronDown 
-                  size={18} 
+                  size={16} 
                   className={`text-[var(--color-text-muted)] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${
                     isActive ? 'rotate-180 text-[var(--color-text-secondary)]' : 'rotate-0'
                   }`} 
@@ -119,7 +115,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="pl-[72px] pr-6 pb-5 text-[14px] leading-relaxed text-[var(--color-text-secondary)] font-medium">
+                  <p className="pl-[60px] pr-4 pb-4 text-sm leading-relaxed text-[var(--color-text-secondary)] font-medium">
                     {mod.description}
                   </p>
                 </div>
@@ -136,15 +132,14 @@ export default function PillarsDesktop() {
   return (
     <section 
       id="pillars" 
-      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
-      {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />
 
       <div className="max-w-[1280px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center mb-16 lg:mb-20 text-center">
-          <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
+        <div className="flex flex-col items-center mb-10 lg:mb-12 text-center">
+          <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-3">
             <Sparkles size={14} className="text-purple-600" />
             {PILLARS_HEADING.section}
           </span>
@@ -153,7 +148,7 @@ export default function PillarsDesktop() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {PILLARS.map((pillar) => (
             <PillarCard key={pillar.key} pillar={pillar} />
           ))}

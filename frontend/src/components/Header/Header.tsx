@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useId, useCallback } from 'react'
 import { Monitor, Smartphone, ChevronDown, X } from 'lucide-react'
 import Dropdown from '../commonfiles/Dropdown'
+import Logo from '../../Home/01.Hero/Logo.png'
 
 export type Page = 'home' | 'dashboard' | 'forms' | 'login' | 'createAccount'
 export type ViewMode = 'desktop' | 'mobile'
@@ -69,18 +70,13 @@ export default function Header({
     <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-xl border-b border-[#7B2FBE] shadow-[0px_1px_8px_rgba(107,33,168,0.06)]">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-16 gap-3">
-          <div className="flex items-center gap-2 shrink-0" aria-label="N4RE Logo">
-            <div 
-              aria-hidden="true"
-              className="w-8 h-8 rounded-[8px] flex items-center justify-center bg-gradient-to-br from-[#7C3AED] to-[#6B21A8] text-white font-bold text-[1.1rem] leading-none shadow-sm select-none"
-            >
-              N
-            </div>
-            <div className="hidden sm:block leading-none">
-              <p className="text-[0.88rem] font-extrabold text-[#6B21A8] tracking-[-0.03em] m-0">
-                N4<span className="text-[#E91E8C]">RE</span>
-              </p>
-            </div>
+          <div className="flex items-center gap-2 shrink-0" aria-label="YardStock Logo">
+            <img 
+              src={Logo} 
+              alt="YardStock Logo" 
+              className="h-10 w-auto object-contain select-none" 
+              draggable={false} 
+            />
           </div>
 
           <nav aria-label="View Controls" className="hidden md:flex flex-1 justify-center">

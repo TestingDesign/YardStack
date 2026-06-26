@@ -19,27 +19,27 @@ export default function ComingSoonDesktop() {
   return (
     <section 
       id="coming-soon" 
-      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col p-6 lg:p-10 rounded-[28px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-          <div className="flex items-center gap-2 mb-8 justify-center lg:justify-start">
+        <div className="flex flex-col p-4 lg:p-6 rounded-[28px] bg-white/60 backdrop-blur-xl border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+          <div className="flex items-center gap-2 mb-4 justify-center lg:justify-start">
             <Sparkles size={16} className="text-purple-600" />
             <p className="text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
               What's Coming Next
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 h-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 h-full">
             {COMING_SOON_ITEMS.map((item, index) => {
               const isHovered = hoveredIndex === index;
 
               return (
                 <div
                   key={item.name}
-                  className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100/80 shadow-sm cursor-pointer overflow-hidden"
+                  className="group relative flex flex-col items-center text-center p-4 rounded-2xl bg-white border border-gray-100/80 shadow-sm cursor-pointer overflow-hidden"
                   style={{
                     transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                     transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
@@ -51,7 +51,6 @@ export default function ComingSoonDesktop() {
                   onMouseEnter={() => setHoveredIndex(index)}
                   onMouseLeave={() => setHoveredIndex(null)}
                 >
-                  {/* Gradient overlay on hover */}
                   <div 
                     className="absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 pointer-events-none z-0 rounded-2xl"
                     style={{
@@ -60,9 +59,8 @@ export default function ComingSoonDesktop() {
                     }}
                   />
 
-                  {/* "Soon" badge */}
                   <span 
-                    className="absolute top-3 left-3 z-10 px-2.5 py-1 text-[9px] font-black uppercase tracking-wider rounded-md"
+                    className="absolute top-2 left-2 z-10 px-2 py-1 text-[9px] font-black uppercase tracking-wider rounded-md"
                     style={{
                       background: isHovered 
                         ? 'rgba(255, 255, 255, 0.15)' 
@@ -75,9 +73,8 @@ export default function ComingSoonDesktop() {
                     Soon
                   </span>
 
-                  {/* Icon container — uses explicit white on hover instead of broken brightness/invert */}
                   <div 
-                    className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl mt-4 mb-5"
+                    className="relative z-10 flex items-center justify-center w-12 h-12 rounded-2xl mt-3 mb-3"
                     style={{ 
                       backgroundColor: isHovered ? 'rgba(255, 255, 255, 0.15)' : item.bgColor,
                       boxShadow: isHovered 
@@ -89,14 +86,14 @@ export default function ComingSoonDesktop() {
                   >
                     <ItemIcon 
                       icon={item.icon} 
-                      color={isHovered ? '#FFFFFF' : item.color} 
+                      color={isHovered ? '#FFFFFF' : item.color}
+                      size={22}
                     />
                   </div>
 
-                  {/* Text content */}
                   <div className="relative z-10">
                     <h3 
-                      className="text-sm font-extrabold mb-2"
+                      className="text-sm font-extrabold mb-1"
                       style={{
                         color: isHovered ? '#FFFFFF' : '#0f172a',
                         transition: 'color 0.3s ease',

@@ -4,7 +4,6 @@ export const HERO_CONTENT = {
   tagline: 'CONTENT • CONNECTIONS • CONVERSATIONS',
   headline: <>Connecting <AnimatedCity suffix="'s" /> Real Estate Ecosystem</>,
   subHeading: <>A dedicated platform for professionals, businesses and service providers who power <AnimatedCity suffix="'s" /> real estate market.</>,
-  description: `From builders and channel partners to employees, freelancers, vendors, trainers, influencers and freshers, N4RE brings together the people, opportunities and insights that drive the ecosystem.`,
   primaryCta: 'Join N4RE',
   secondaryCta: 'Explore Ecosystem',
   supportingTextBold: <>Built for <AnimatedCity />.</>,

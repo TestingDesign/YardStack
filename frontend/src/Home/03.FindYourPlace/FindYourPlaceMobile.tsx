@@ -14,6 +14,7 @@ import {
   GraduationCap,
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
+import BG from './BG.png';
 
 const ModuleIcon = ({ name, size = 16, className = "text-[var(--color-primary-600)]" }: { name: string; size?: number; className?: string }) => {
   switch (name) {
@@ -63,7 +64,11 @@ export default function FindYourPlaceMobile() {
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        <div className="bg-white rounded-[8px] border border-purple-600/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-6">
+        <div className="bg-white rounded-[8px] border border-purple-600/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-6 relative overflow-hidden">
+          <div className="absolute bottom-0 right-0 w-full h-[40%] pointer-events-none z-0 opacity-20">
+            <img src={BG} alt="City Background" className="w-full h-full object-cover object-right-bottom" draggable={false} />
+          </div>
+          <div className="relative z-10 flex flex-col gap-6">
           <div>
             <p className="text-xs font-bold text-gray-700 mb-2.5">
               {FIND_YOUR_PLACE_CONTENT.inputPrefix}
@@ -195,6 +200,7 @@ export default function FindYourPlaceMobile() {
                 </div>
               ))}
             </div>
+          </div>
           </div>
         </div>
       </div>

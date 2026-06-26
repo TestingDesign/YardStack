@@ -8,6 +8,7 @@ import {
   Target
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
+import BG from './BG.png';
 
 export default function FindYourPlaceDesktop() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -130,10 +131,15 @@ export default function FindYourPlaceDesktop() {
           </div>
 
           {/* Made right column flex flex-col justify-center h-full to perfectly center the content vertically */}
-          <div className="flex flex-col justify-center h-full p-6 lg:p-8 relative">
+          <div className="flex flex-col justify-center h-full p-6 lg:p-10 relative overflow-hidden bg-white">
+            <div className="absolute bottom-0 right-0 w-[55%] h-[90%] pointer-events-none z-0">
+              <img src={BG} alt="City Background" className="w-full h-full object-contain object-right-bottom" draggable={false} />
+            </div>
+            
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-bl-full -z-10 pointer-events-none opacity-50" />
             
-            <div className="flex items-center gap-4 mb-6">
+            <div className="relative z-10 w-full lg:w-[65%]">
+              <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-[16px] bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
                 <Building2 size={24} className="text-purple-700" strokeWidth={1.5} />
               </div>
@@ -157,6 +163,7 @@ export default function FindYourPlaceDesktop() {
               {selectedRole.ctaLabel}
               <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
+            </div>
           </div>
 
         </div>

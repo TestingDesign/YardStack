@@ -48,8 +48,8 @@ export default function HeroDesktop() {
 
   return (
     <section id="hero" className="relative bg-[var(--color-bg-muted)] py-10 lg:py-16 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
-      <div className="absolute bottom-0 left-0 w-full pointer-events-none z-0" style={{ height: "200px" }}>
-        <img src={BG} alt="City Background" className="w-full h-full object-cover object-bottom opacity-10" draggable={false} />
+      <div className="absolute bottom-0 right-0 w-full lg:w-[55%] pointer-events-none z-0 opacity-10" style={{ height: "300px" }}>
+        <img src={BG} alt="City Background" className="w-full h-full object-cover object-right-bottom" draggable={false} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">

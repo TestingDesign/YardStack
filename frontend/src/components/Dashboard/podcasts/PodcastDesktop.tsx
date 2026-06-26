@@ -276,12 +276,18 @@ export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
-  const [modalEpisode, setModalEpisode] = useState<PodcastEpisode | null>(null)
   const perPage = 10
 
   const sliderRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
+
+  useEffect(() => {
+    if (activeEpisode && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeEpisode])
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -329,7 +335,7 @@ export default function PodcastDesktop() {
     <>
       <style>{STYLES}</style>
 
-      <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
         <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
@@ -457,7 +463,7 @@ export default function PodcastDesktop() {
                         }`}>
                           {rank}
                         </div>
-                        <DesktopEpisodeCard episode={ep} onPlay={setModalEpisode} index={mapIdx} />
+                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={mapIdx} />
                       </div>
                     )
                   })}
@@ -493,7 +499,7 @@ export default function PodcastDesktop() {
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-5 gap-y-9 pt-1">
                     {displayedEpisodes.map((ep, idx) => (
-                      <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setModalEpisode} index={idx} />
+                      <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
                   </div>
 
@@ -607,24 +613,6 @@ export default function PodcastDesktop() {
         </div>
       </div>
 
-      {modalEpisode && (
-        <ModalPlayer episode={modalEpisode} onClose={() => setModalEpisode(null)} />
-      )}
     </>
-  )
-}
-
-function ModalPlayer({ episode, onClose }: { episode: PodcastEpisode; onClose: () => void }) {
-  const [modalEpisode, setModalEpisode] = React.useState<PodcastEpisode>(episode)
-  const modalIdx = PODCAST_EPISODES.findIndex((ep) => ep.id === modalEpisode.id)
-  return (
-    <PodcastVideoPlayerDesktop
-      episode={modalEpisode}
-      onClose={onClose}
-      onNext={() => setModalEpisode(modalIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[modalIdx + 1] : modalEpisode)}
-      onPrev={() => setModalEpisode(modalIdx > 0 ? PODCAST_EPISODES[modalIdx - 1] : modalEpisode)}
-      hasNext={modalIdx < PODCAST_EPISODES.length - 1}
-      hasPrev={modalIdx > 0}
-    />
   )
 }

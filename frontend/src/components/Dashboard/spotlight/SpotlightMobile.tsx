@@ -127,7 +127,7 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
   }, [])
 
   return (
-    <div className="relative w-full h-[100dvh] bg-black flex flex-col overflow-hidden">
+    <div className="relative w-full h-full bg-black flex flex-col overflow-hidden">
       <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} opacity-90`} />
       
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-30">
@@ -314,11 +314,18 @@ export default function SpotlightMobile() {
   const perPage = 6
 
   const trendingRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
     setPage(1)
   }, [])
+
+  useEffect(() => {
+    if (activeVideo && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeVideo])
 
   const filtered = activeFilter === 'all'
     ? SPOTLIGHT_VIDEOS
@@ -331,26 +338,30 @@ export default function SpotlightMobile() {
     ? SPOTLIGHT_VIDEOS.findIndex((v) => v.id === activeVideo.id)
     : -1
 
-
-
   return (
     <>
       <style>{MOBILE_STYLES}</style>
 
-      {activeVideo ? (
-        <div className="fixed inset-0 z-[100] bg-black animate-in fade-in duration-300">
-           <ActiveVideoPlayer
-             video={activeVideo}
-             onClose={() => setActiveVideo(null)}
-             onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-             onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
-           />
+      <div 
+        ref={scrollContainerRef}
+        className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-[#f8f9fa] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] flex flex-col"
+      >
+        <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md">
+          <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
-      ) : (
-        <div className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-[#f8f9fa] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] flex flex-col">
-          <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md">
-            <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
+
+        {activeVideo && (
+          <div className="px-3 pt-3 shrink-0 animate-in fade-in zoom-in-95 duration-300">
+             <div className="w-full aspect-[9/16] max-h-[600px] mx-auto rounded-[12px] overflow-hidden relative bg-black shadow-lg border border-purple-100/10">
+               <ActiveVideoPlayer
+                 video={activeVideo}
+                 onClose={() => setActiveVideo(null)}
+                 onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+                 onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
+               />
+             </div>
           </div>
+        )}
 
           <div className="flex-1 flex flex-col pb-10">
             <div className="mt-4 mx-4 bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
@@ -491,7 +502,6 @@ export default function SpotlightMobile() {
 
           </div>
         </div>
-      )}
     </>
   )
 }

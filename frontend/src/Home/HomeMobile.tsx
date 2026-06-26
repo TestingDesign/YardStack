@@ -4,7 +4,6 @@ import WhyN4reMobile from './02.WhyN4RE/WhyN4reMobile';
 import FindYourPlaceMobile from './03.FindYourPlace/FindYourPlaceMobile';
 import PillarsMobile from './04.ThreePillars/PillarsMobile';
 import PlatformPreviewMobile from './05.Preview/PlatformPreviewMobile';
-import EcosystemMobile from './06.Ecosystem/EcosystemMobile';
 import SegmentsMobile from './10.Segments/SegmentsMobile';
 import ProfilesMobile from './11.Profiles/ProfilesMobile';
 import ComingSoonMobile from './07.ComingSoon/ComingSoonMobile';

@@ -413,12 +413,18 @@ export default function SpotlightDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
-  const [modalVideo, setModalVideo] = useState<SpotlightVideo | null>(null)
   const perPage = 5
 
   const sliderRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
+
+  useEffect(() => {
+    if (activeVideo && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeVideo])
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -464,7 +470,7 @@ export default function SpotlightDesktop() {
     <>
       <style>{STYLES}</style>
 
-      <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
         <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
@@ -584,7 +590,7 @@ export default function SpotlightDesktop() {
                         }`}>
                           {rank}
                         </div>
-                        <DesktopSpotlightCard video={video} onPlay={setModalVideo} index={mapIdx} />
+                        <DesktopSpotlightCard video={video} onPlay={setActiveVideo} index={mapIdx} />
                       </div>
                     )
                   })}
@@ -620,7 +626,7 @@ export default function SpotlightDesktop() {
                 <>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-5 gap-x-4 gap-y-8 pt-1">
                     {displayedVideos.map((video, idx) => (
-                      <DesktopSpotlightCard key={video.id} video={video} onPlay={setModalVideo} index={idx} />
+                      <DesktopSpotlightCard key={video.id} video={video} onPlay={setActiveVideo} index={idx} />
                     ))}
                   </div>
 
@@ -747,24 +753,7 @@ export default function SpotlightDesktop() {
         </div>
       </div>
 
-      {modalVideo && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-300">
-           <div className="w-full h-full max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl">
-             <ActiveVideoPlayer
-               video={modalVideo}
-               onClose={() => setModalVideo(null)}
-               onNext={() => {
-                 const mIdx = SPOTLIGHT_VIDEOS.findIndex((v) => v.id === modalVideo.id)
-                 if (mIdx < SPOTLIGHT_VIDEOS.length - 1) setModalVideo(SPOTLIGHT_VIDEOS[mIdx + 1])
-               }}
-               onPrev={() => {
-                 const mIdx = SPOTLIGHT_VIDEOS.findIndex((v) => v.id === modalVideo.id)
-                 if (mIdx > 0) setModalVideo(SPOTLIGHT_VIDEOS[mIdx - 1])
-               }}
-             />
-           </div>
-        </div>
-      )}
+
     </>
   )
 }

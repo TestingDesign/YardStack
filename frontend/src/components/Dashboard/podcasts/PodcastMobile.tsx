@@ -299,6 +299,7 @@ export default function PodcastMobile() {
   const perPage = 10
 
   const trendingRef = useRef<HTMLDivElement>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
   const [canScrollLeftTrending, setCanScrollLeftTrending] = useState(false)
   const [canScrollRightTrending, setCanScrollRightTrending] = useState(true)
 
@@ -306,6 +307,12 @@ export default function PodcastMobile() {
     setActiveFilter(key)
     setPage(1)
   }, [])
+
+  useEffect(() => {
+    if (activeEpisode && scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeEpisode])
 
   const filtered = activeFilter === 'all'
     ? PODCAST_EPISODES
@@ -343,7 +350,7 @@ export default function PodcastMobile() {
     <>
       <style>{MOBILE_STYLES}</style>
 
-      <div className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] animate-in fade-in duration-500 flex flex-col">
+      <div ref={scrollContainerRef} className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] animate-in fade-in duration-500 flex flex-col">
 
         <div className="sticky top-0 z-40 bg-white backdrop-blur-sm ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />

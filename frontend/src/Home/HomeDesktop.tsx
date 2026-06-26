@@ -4,7 +4,6 @@ import WhyN4reDesktop from './02.WhyN4RE/WhyN4reDesktop';
 import FindYourPlaceDesktop from './03.FindYourPlace/FindYourPlaceDesktop';
 import PillarsDesktop from './04.ThreePillars/PillarsDesktop';
 import PlatformPreviewDesktop from './05.Preview/PlatformPreviewDesktop';
-import EcosystemDesktop from './06.Ecosystem/EcosystemDesktop';
 import SegmentsDesktop from './10.Segments/SegmentsDesktop';
 import ProfilesDesktop from './11.Profiles/ProfilesDesktop';
 import ComingSoonDesktop from './07.ComingSoon/ComingSoonDesktop';

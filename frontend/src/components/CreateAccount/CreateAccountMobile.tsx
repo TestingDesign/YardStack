@@ -4,7 +4,7 @@ import mobileBg from '../commonfiles/Images/Login&create/mobile.png'
 
 export default function CreateAccountMobile(props: CreateAccountFormProps) {
   return (
-    <main className="h-dvh w-full bg-[#150f23] flex flex-col font-['Outfit',sans-serif] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+    <main className="h-dvh w-full bg-[#150f23] flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       <header
         className="relative shrink-0 pb-12 ys-fade-in-down motion-reduce:animate-none motion-reduce:transform-none motion-reduce:opacity-100 bg-no-repeat bg-[length:100%_100%] bg-center bg-(image:--mobile-bg)"
         style={{ '--mobile-bg': `url(${mobileBg})` } as React.CSSProperties}

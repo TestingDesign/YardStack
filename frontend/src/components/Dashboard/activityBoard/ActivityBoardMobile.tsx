@@ -385,7 +385,7 @@ export default function ActivityBoardMobile() {
   }, [])
 
   return (
-    <div className="flex-1 w-full h-full overflow-y-auto bg-gray-50/30 font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
+    <div className="flex-1 w-full h-full overflow-y-auto bg-gray-50/30 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl border-b border-gray-100 transition-all duration-300">
         <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
       </div>

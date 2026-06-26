@@ -12,6 +12,7 @@ export const HERO_CONTENT = {
 export interface EcosystemCategory {
   label: string
   icon: string
+  description?: string
   position: { top: string; left: string }
   size: 'sm' | 'md' | 'lg'
 }

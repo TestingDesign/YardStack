@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
 import { 
   PlayCircle, 
@@ -136,14 +136,13 @@ export default function PillarsDesktop() {
   return (
     <section 
       id="pillars" 
-      className="relative bg-[#FAFAFA] py-24 lg:py-32 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />
 
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-[1280px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16 lg:mb-20 text-center">
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" />

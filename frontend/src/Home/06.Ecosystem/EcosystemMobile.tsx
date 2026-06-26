@@ -21,7 +21,7 @@ const EcosystemIcon = ({ icon, color, size = 24 }: { icon: string; color: string
 
 export default function EcosystemMobile() {
   return (
-    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '48px 0', fontFamily: "'Outfit', sans-serif" }}>
+    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '36px 0' }}>
       <div style={{ padding: '0 16px' }}>
         <p style={{
           textAlign: 'center',

@@ -329,7 +329,7 @@ export default function PodcastDesktop() {
     <>
       <style>{STYLES}</style>
 
-      <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] font-['Outfit',sans-serif] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+      <div className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
         <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>

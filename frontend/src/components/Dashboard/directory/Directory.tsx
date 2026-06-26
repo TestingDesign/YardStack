@@ -84,7 +84,7 @@ export default function Directory() {
   }
 
   return (
-    <div className="flex-1 w-full h-full overflow-y-auto bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
+    <div className="flex-1 w-full h-full overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
       <div className="w-full pt-2 @md:pt-4 pb-16 @md:pb-10 bg-white">
         <section className="px-3 @md:px-8 max-w-5xl mx-auto space-y-4 @md:space-y-6">
           

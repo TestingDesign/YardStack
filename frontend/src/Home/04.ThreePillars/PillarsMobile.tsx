@@ -27,8 +27,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         background: pillar.columnBg,
         padding: '20px',
         gap: '12px',
-        fontFamily: "'Outfit', sans-serif",
-      }}
+        }}
     >
       <div style={{ marginBottom: '4px' }}>
         <h3

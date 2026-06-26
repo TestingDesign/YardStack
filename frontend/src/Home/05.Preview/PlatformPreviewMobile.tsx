@@ -19,7 +19,7 @@ const PreviewIcon = ({ icon, color, size = 16 }: { icon: string; color: string; 
 
 export default function PlatformPreviewMobile() {
   return (
-    <section id="platform-preview" style={{ background: '#FFFFFF', padding: '48px 0', fontFamily: "'Outfit', sans-serif" }}>
+    <section id="platform-preview" style={{ background: '#FFFFFF', padding: '48px 0' }}>
       <div style={{ padding: '0 16px' }}>
         <p style={{
           textAlign: 'center',

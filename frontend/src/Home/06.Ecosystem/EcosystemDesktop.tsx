@@ -36,12 +36,11 @@ export default function EcosystemDesktop() {
   return (
     <section 
       id="ecosystem" 
-      className="relative bg-[#FAFAFA] py-24 lg:py-32 overflow-hidden"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-400/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             Built for Hyderabad&apos;s Real Estate Ecosystem

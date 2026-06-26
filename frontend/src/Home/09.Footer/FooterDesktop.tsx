@@ -1,4 +1,3 @@
-import React from 'react';
 import { FOOTER_LINKS, SOCIAL_LINKS, FOOTER_COPYRIGHT } from '../08.CTA/data';
 import LogoPng from '../../components/commonfiles/sidebar/Logo.png';
 
@@ -33,10 +32,9 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-gradient-to-br from-[#0F1021] via-[#1A1B2E] to-purple-950 py-10 lg:py-12 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-gradient-to-br from-[#0F1021] via-[#1A1B2E] to-purple-950 py-8 lg:py-10 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
           {/* Brand & Copyright */}
@@ -44,7 +42,7 @@ export default function FooterDesktop() {
             <img 
               src={LogoPng} 
               alt="N4RE Logo" 
-              className="h-8 w-auto object-contain brightness-0 invert opacity-95" 
+              className="h-12 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
             />
             <div className="hidden lg:block w-px h-5 bg-white/10" />
             <span className="text-[13px] font-medium text-slate-400">

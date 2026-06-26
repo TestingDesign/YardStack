@@ -30,7 +30,7 @@ export default function FormField({
   const errorId = `${id}-error`
 
   return (
-    <div className="group font-['Outfit',sans-serif]">
+    <div className="group">
       <label 
         htmlFor={id} 
         className={`block font-medium text-[#1f1633] mb-1 transition-colors duration-200 group-focus-within:text-[#6a5fc1] ${

@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   ChevronRight, 
   PlayCircle, 
@@ -33,13 +32,12 @@ export default function PlatformPreviewDesktop() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-[#FAFAFA] py-24 lg:py-32 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
         
         {/* Section Header */}
         <div className="text-center mb-16">

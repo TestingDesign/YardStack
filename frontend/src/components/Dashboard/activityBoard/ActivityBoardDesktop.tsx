@@ -393,7 +393,7 @@ export default function ActivityBoardDesktop() {
   }, [])
 
   return (
-    <div className="flex flex-col w-full h-full bg-[#f8f9fb]/50 font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none outline-none overflow-hidden relative">
+    <div className="flex flex-col w-full h-full bg-[#f8f9fb]/50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none outline-none overflow-hidden relative">
       <div className="fixed inset-0 pointer-events-none bg-radial-gradient from-transparent to-[#f8f9fb] z-0" />
       
       <div className="sticky top-0 z-30 bg-white/70 backdrop-blur-xl shrink-0 border-b border-gray-100/50 shadow-[0_4px_24px_rgba(0,0,0,0.02)]">

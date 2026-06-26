@@ -76,7 +76,7 @@ export default function App() {
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [toggleHeader]);
 
   // Parse routing
   const pathParts = location.pathname.split('/').filter(Boolean)
@@ -126,7 +126,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden font-['Outfit'] relative bg-[#f5f6f8]">
+    <div className="flex flex-col h-screen overflow-hidden relative bg-[#f5f6f8]">
       
       {/* Invisible Hover Trigger for Header */}
       {isHoverEnabled && (

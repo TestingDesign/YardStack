@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
@@ -29,8 +29,7 @@ export default function WhyN4reDesktop() {
   return (
     <section 
       id="why-n4re" 
-      className="relative bg-[#FAFAFA] py-20 lg:py-32 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] pointer-events-none"
@@ -39,7 +38,7 @@ export default function WhyN4reDesktop() {
         }}
       />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16 lg:mb-20 text-center">
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" />

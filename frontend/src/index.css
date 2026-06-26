@@ -45,6 +45,7 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 html,
@@ -60,6 +61,11 @@ body {
   background: #F3F4F6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 .hide-scrollbar {

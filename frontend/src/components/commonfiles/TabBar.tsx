@@ -40,7 +40,7 @@ export default function TabBar({
   return (
     <nav 
       aria-label="Section Navigation" 
-      className="flex flex-col w-full shrink-0 bg-white font-['Outfit',sans-serif]"
+      className="flex flex-col w-full shrink-0 bg-white"
     >
       <PrimaryTabBar
         tabs={tabs}

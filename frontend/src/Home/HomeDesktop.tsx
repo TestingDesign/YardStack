@@ -1,4 +1,3 @@
-import React from 'react';
 import HomeNavDesktop from './topNav/HomeNavDesktop';
 import HeroDesktop from './01.Hero/HeroDesktop';
 import WhyN4reDesktop from './02.WhyN4RE/WhyN4reDesktop';
@@ -18,7 +17,7 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
   return (
     <main 
       
-      className="block h-full w-full overflow-x-hidden overflow-y-auto bg-[#FAFAFA] font-['Outfit',sans-serif] scroll-smooth selection:bg-purple-200 selection:text-purple-900 hide-scrollbar"
+      className="block h-full w-full overflow-x-hidden overflow-y-auto bg-[#FAFAFA] scroll-smooth selection:bg-purple-200 selection:text-purple-900 hide-scrollbar"
     >
       <HomeNavDesktop viewMode={viewMode} />
       <HeroDesktop />

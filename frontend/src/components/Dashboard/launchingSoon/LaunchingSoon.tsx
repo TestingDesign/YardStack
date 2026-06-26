@@ -36,7 +36,7 @@ const LAUNCHING_ITEMS: LaunchingItem[] = [
 
 function LaunchingCard({ item }: { item: LaunchingItem }) {
   return (
-    <div className="flex flex-col bg-white border border-[#EDEBF8] rounded-2xl p-6 relative font-['Outfit',sans-serif] shadow-[0_2px_12px_rgba(107,33,168,0.04)] transition-all duration-200 ease-out hover:shadow-[0_8px_28px_rgba(107,33,168,0.10)] hover:-translate-y-0.5">
+    <div className="flex flex-col bg-white border border-[#EDEBF8] rounded-2xl p-6 relative shadow-[0_2px_12px_rgba(107,33,168,0.04)] transition-all duration-200 ease-out hover:shadow-[0_8px_28px_rgba(107,33,168,0.10)] hover:-translate-y-0.5">
       <span className="inline-flex self-start py-[5px] px-[14px] rounded-full bg-purple-800/10 text-purple-800 text-xs font-bold mb-6 tracking-[0.01em]">
         Coming Soon
       </span>
@@ -63,7 +63,7 @@ function LaunchingCard({ item }: { item: LaunchingItem }) {
 
 export default function LaunchingSoon() {
   return (
-    <div className="flex-1 w-full h-full bg-[#F8F7FC] overflow-y-auto py-8 px-7 font-['Outfit',sans-serif] box-border">
+    <div className="flex-1 w-full h-full bg-[#F8F7FC] overflow-y-auto py-8 px-7 box-border">
       <div className="max-w-[900px]">
         <div className="grid grid-cols-2 gap-5">
           {LAUNCHING_ITEMS.map((item) => (

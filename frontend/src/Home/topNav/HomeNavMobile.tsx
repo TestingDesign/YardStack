@@ -22,7 +22,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100 font-['Outfit',sans-serif]">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-100">
         <div className="flex items-center justify-between h-14 px-4">
           <a href="#hero" className="shrink-0 flex items-center">
             <img src={LogoPng} alt="N4RE" className="h-8 w-auto object-contain" />
@@ -40,7 +40,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
       </header>
 
       {isOpen && (
-        <div className="fixed inset-0 z-[100] font-['Outfit',sans-serif]" onClick={() => setIsOpen(false)}>
+        <div className="fixed inset-0 z-[100]" onClick={() => setIsOpen(false)}>
           <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
           <div
             className="absolute top-0 right-0 w-[280px] h-full bg-white shadow-[-8px_0_32px_rgba(0,0,0,0.1)] flex flex-col animate-[slideInRight_0.3s_ease-out]"

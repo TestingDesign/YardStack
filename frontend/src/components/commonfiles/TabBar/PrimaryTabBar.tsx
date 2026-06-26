@@ -50,9 +50,9 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClic
         ) : (
           <span>
             {typeof currentIcon === 'object' && currentIcon !== null && '$$typeof' in currentIcon && !('props' in currentIcon)
-              ? (() => { const IconCmp = currentIcon as any; return <IconCmp />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp />; })()
               : typeof currentIcon === 'function'
-              ? (() => { const IconCmp = currentIcon as any; return <IconCmp />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp />; })()
               : currentIcon}
           </span>
         )}

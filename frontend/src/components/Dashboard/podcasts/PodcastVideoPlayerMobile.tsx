@@ -66,6 +66,7 @@ export default function PodcastVideoPlayerMobile({
   }, [isPlaying])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetHideTimer()
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
@@ -73,9 +74,19 @@ export default function PodcastVideoPlayerMobile({
   }, [isPlaying, resetHideTimer])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPlaying(false)
     setProgress(0)
   }, [episode?.id])
+
+  useEffect(() => {
+    if (isPlaying) {
+      // eslint-disable-next-line no-empty
+    } else {
+      if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+      setControlsVisible(true)
+    }
+  }, [isPlaying])
 
   useEffect(() => {
     closingRef.current = false
@@ -108,6 +119,15 @@ export default function PodcastVideoPlayerMobile({
     setIsFullscreen(false)
     onClose()
   }, [onClose])
+
+  const handleToggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen()
+      setIsFullscreen(true)
+    } else {
+      exitFullscreen()
+    }
+  }, [exitFullscreen])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -144,16 +164,7 @@ export default function PodcastVideoPlayerMobile({
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [episode, totalDuration, handleClose])
-
-  const handleToggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      exitFullscreen()
-    }
-  }
+  }, [episode, totalDuration, handleClose, handleToggleFullscreen])
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -190,7 +201,7 @@ export default function PodcastVideoPlayerMobile({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   return (
-    <div className={`font-['Outfit',sans-serif] animate-in slide-in-from-top-4 fade-in duration-400 ${
+    <div className={`animate-in slide-in-from-top-4 fade-in duration-400 ${
       isLandscape && !isFullscreen
         ? 'fixed inset-0 z-[9999] bg-[#05030a]'
         : 'w-full flex flex-col bg-[#05030a] shrink-0'

@@ -54,7 +54,7 @@ const HeroSection = memo(function HeroSection({ onLoginClick }: { onLoginClick?:
         className="absolute inset-0 bg-linear-to-r from-[#150f23]/90 via-[#1f1633]/70 to-transparent" 
       />
       
-      <div className="relative z-10 flex flex-col justify-between h-full px-10 py-8 max-w-130 font-['Outfit',sans-serif]">
+      <div className="relative z-10 flex flex-col justify-between h-full px-10 py-8 max-w-130">
         <div className="mt-2">
           <p className="text-[#fa7faa] text-[0.82rem] font-semibold tracking-wider uppercase drop-shadow-sm">
             Create Your Account
@@ -133,7 +133,7 @@ export default function CreateAccountDesktop({
   ...formProps 
 }: CreateAccountDesktopProps) {
   return (
-    <main className="h-screen w-full flex overflow-hidden bg-[#150f23] font-['Outfit',sans-serif]">
+    <main className="h-screen w-full flex overflow-hidden bg-[#150f23]">
 
       <HeroSection onLoginClick={onLoginClick} />
 

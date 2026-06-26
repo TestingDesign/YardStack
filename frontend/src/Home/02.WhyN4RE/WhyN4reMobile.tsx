@@ -23,7 +23,7 @@ const IconRenderer = ({ icon, color, size = 16 }: { icon: string; color: string;
 
 export default function WhyN4reMobile() {
   return (
-    <section id="why-n4re" className="bg-[#F8F7FC] font-['Outfit',sans-serif] py-10">
+    <section id="why-n4re" className="bg-[#F8F7FC] py-10">
       <div className="px-4">
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8] mb-2">
           {WHY_N4RE_CONTENT.subtitle}

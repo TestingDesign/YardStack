@@ -85,7 +85,7 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
         />
 
         <ul className="list-none p-0 px-1 m-0 flex flex-col gap-0.5 flex-1" role="list">
-          {NAV_ITEMS.map(({ key, label, Icon }: { key: any; label: string; Icon?: ReactNode }) => {
+          {NAV_ITEMS.map(({ key, label, Icon }: { key: string; label: string; Icon?: React.ElementType | ReactNode }) => {
             const isActive = key === active
             return (
               <li key={key} className="relative group">
@@ -118,7 +118,7 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
                     Icon
                   ) : (
                     (() => {
-                      const IconComp: any = Icon
+                      const IconComp = Icon as React.ElementType
                       return (
                         <IconComp
                           size={isCollapsed ? 20 : 18}

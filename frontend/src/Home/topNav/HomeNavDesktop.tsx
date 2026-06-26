@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { NAV_LINKS, NAV_CTAS } from './data';
 
 interface HomeNavDesktopProps {
@@ -15,8 +15,8 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)] font-['Outfit',sans-serif]">
-      <div className="flex items-center justify-between h-[76px] px-6 lg:px-10 max-w-[1400px] mx-auto w-full">
+    <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)]">
+      <div className="flex items-center justify-between h-[72px] px-4 lg:px-8 max-w-[1400px] mx-auto w-full">
         <a
           href="#hero"
           onClick={() => setActiveLink('home')}

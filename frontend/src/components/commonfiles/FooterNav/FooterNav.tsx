@@ -2,7 +2,7 @@ import { memo, useCallback, type ElementType } from 'react'
 import { Users, Plus, LayoutDashboard, Bookmark } from 'lucide-react'
 import LogoPng from '../sidebar/Logo.png'
 
-const LogoIcon = ({ className }: any) => (
+const LogoIcon = ({ className }: { className?: string }) => (
   <img 
     src={LogoPng} 
     alt="N4RE" 
@@ -57,7 +57,7 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
 
       {label && (
         <span
-          className={`relative z-10 font-['Outfit',sans-serif] text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 ${
+          className={`relative z-10 text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 ${
             isActive
               ? 'font-bold text-[#D946EF] -translate-y-0.5'
               : 'font-semibold text-white/65 group-hover:text-white translate-y-0'
@@ -110,7 +110,7 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
       </div>
 
       <span
-        className={`relative z-10 font-['Outfit',sans-serif] text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 mt-5 sm:mt-6 ${
+        className={`relative z-10 text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 mt-5 sm:mt-6 ${
           isActive
             ? 'font-bold text-[#D946EF]'
             : 'font-semibold text-white/65 group-hover:text-white'

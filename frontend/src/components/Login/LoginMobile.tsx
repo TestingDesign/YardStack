@@ -63,7 +63,7 @@ export default function LoginMobile({
   }, [loginMode, email, password, phone, otp, onSubmit])
 
   return (
-    <main className="h-dvh w-full bg-[#150f23] flex flex-col font-['Outfit',sans-serif] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+    <main className="h-dvh w-full bg-[#150f23] flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
       <svg aria-hidden="true" className="sr-only" style={{ position: 'absolute', width: 0, height: 0 }}>
         <defs>
           <linearGradient id="loginGradient" x1="0%" x2="100%" y1="0%" y2="0%">

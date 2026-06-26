@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import {
   Search,
   ArrowRight,
@@ -65,15 +65,14 @@ export default function FindYourPlaceDesktop() {
   return (
     <section
       id="find-your-place"
-      className="relative bg-[#FAFAFA] overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-24 lg:py-32"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
+      className="relative bg-[#FAFAFA] overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-16 lg:py-24"
     >
       {/* Background Glow */}
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-300/10 rounded-full blur-[120px] pointer-events-none" 
       />
 
-      <div className="max-w-[1200px] mx-auto px-6 lg:px-10 relative z-10">
+      <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-16 lg:mb-20 text-center">
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" />

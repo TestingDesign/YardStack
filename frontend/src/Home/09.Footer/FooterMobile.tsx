@@ -28,15 +28,15 @@ const SocialIcon = ({ icon, size = 14 }: { icon: string; size?: number }) => {
 
 export default function FooterMobile() {
   return (
-    <footer id="footer" style={{ background: '#1A1A2E', padding: '24px 0', fontFamily: "'Outfit', sans-serif" }}>
-      <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px' }}>
+    <footer id="footer" style={{ background: '#1A1A2E', padding: '20px 0' }}>
+      <div style={{ padding: '0 12px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px' }}>
         
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '12px' }}>
-          <img src={LogoPng} alt="N4RE" style={{ height: '32px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+          <img src={LogoPng} alt="N4RE" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
           <span style={{ fontSize: '11px', color: '#9CA3AF', fontWeight: 500, textAlign: 'center' }}>{FOOTER_COPYRIGHT}</span>
         </div>
 
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '14px', flexWrap: 'wrap', justifyContent: 'center' }}>
           {FOOTER_LINKS.map((link) => (
             <a
               key={link.label}
@@ -53,7 +53,7 @@ export default function FooterMobile() {
           ))}
         </nav>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           {SOCIAL_LINKS.map((social) => (
             <a
               key={social.label}

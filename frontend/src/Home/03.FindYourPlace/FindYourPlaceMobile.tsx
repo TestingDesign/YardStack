@@ -49,7 +49,6 @@ export default function FindYourPlaceMobile() {
     <section
       id="find-your-place"
       className="bg-white font-sans py-10 pb-16"
-      style={{ fontFamily: "'Outfit', sans-serif" }}
     >
       <div className="px-4">
         <p className="text-center text-[10px] font-extrabold tracking-widest uppercase text-[var(--color-primary-600)] mb-3">
@@ -162,8 +161,7 @@ export default function FindYourPlaceMobile() {
                 color: '#6B21A8',
                 fontSize: '13px',
                 fontWeight: 700,
-                fontFamily: "'Outfit', sans-serif",
-              }}
+                }}
             >
               {selectedRole.ctaLabel}
               <ArrowRight size={16} />

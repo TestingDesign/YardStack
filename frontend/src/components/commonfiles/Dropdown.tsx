@@ -54,8 +54,10 @@ export default function Dropdown({
 
   useEffect(() => {
     if (open) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFocusedIndex(options.findIndex((o) => o.value === value))
     } else {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFocusedIndex(-1)
     }
   }, [open, options, value])
@@ -110,7 +112,7 @@ export default function Dropdown({
   const activeDescendant = open && focusedIndex >= 0 ? `${listId}-option-${focusedIndex}` : undefined
 
   return (
-    <div ref={containerRef} className={`relative font-['Outfit',sans-serif] ${className}`}>
+    <div ref={containerRef} className={`relative ${className}`}>
       <button
         type="button"
         id={id}

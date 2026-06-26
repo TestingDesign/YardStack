@@ -151,7 +151,7 @@ export default function Learn() {
   }
 
   return (
-    <div className="flex-1 w-full h-full overflow-x-hidden overflow-y-auto bg-white font-['Outfit',sans-serif] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
+    <div className="flex-1 w-full h-full overflow-x-hidden overflow-y-auto bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl">
         <LearnTabs active={activeFilter} onChange={handleFilterChange} />
       </div>

@@ -74,14 +74,24 @@ export default function PodcastVideoPlayerDesktop({
     setProgress(0)
   }, [episode?.id])
 
+  const exitFullscreen = useCallback(() => {
+    document.exitFullscreen?.()
+    setIsFullscreen(false)
+  }, [])
+
+  const handleToggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      containerRef.current?.requestFullscreen()
+      setIsFullscreen(true)
+    } else {
+      exitFullscreen()
+    }
+  }, [exitFullscreen])
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!episode) return
-      if (e.key === ' ') {
-        if (e.target === document.body || e.target === containerRef.current) {
-          e.preventDefault()
-        }
-      }
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
 
       switch (e.key) {
         case ' ':
@@ -109,21 +119,7 @@ export default function PodcastVideoPlayerDesktop({
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [episode, isFullscreen, totalDuration, onClose])
-
-  const handleToggleFullscreen = () => {
-    if (!document.fullscreenElement) {
-      containerRef.current?.requestFullscreen()
-      setIsFullscreen(true)
-    } else {
-      exitFullscreen()
-    }
-  }
-
-  const exitFullscreen = () => {
-    document.exitFullscreen?.()
-    setIsFullscreen(false)
-  }
+  }, [episode, isFullscreen, totalDuration, onClose, handleToggleFullscreen, exitFullscreen])
 
   useEffect(() => {
     const handleFullscreenChange = () => {

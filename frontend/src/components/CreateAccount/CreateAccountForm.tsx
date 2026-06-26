@@ -56,7 +56,7 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
   const formId = useId()
 
   const phoneField = (
-    <div className="group font-['Outfit',sans-serif]">
+    <div className="group">
       <label 
         htmlFor={`${formId}-phone`}
         className={`block font-medium text-[#1f1633] mb-1 transition-colors group-focus-within:text-[#6a5fc1] ${isMobile ? 'text-[12px]' : 'text-[14px]'}`}
@@ -94,7 +94,7 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
   )
 
   const roleField = (
-    <div className="group font-['Outfit',sans-serif]">
+    <div className="group">
       <label 
         id={`${formId}-role-label`}
         className={`block font-medium text-[#1f1633] mb-1 transition-colors group-focus-within:text-[#6a5fc1] ${isMobile ? 'text-[12px]' : 'text-[14px]'}`}
@@ -197,7 +197,7 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
   return (
     <form 
       onSubmit={onSubmit} 
-      className={`font-['Outfit',sans-serif] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? "space-y-4" : "space-y-3.5"}`} 
+      className={`overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? "space-y-4" : "space-y-3.5"}`} 
       noValidate
     >
       {twoColumn ? (

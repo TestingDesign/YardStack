@@ -1,8 +1,8 @@
-﻿import { FINAL_CTA_CONTENT } from './data';
+import { FINAL_CTA_CONTENT } from './data';
 
 export default function FinalCtaMobile() {
   return (
-    <section id="final-cta" className="font-['Outfit',sans-serif] bg-gradient-to-br from-[#6B21A8] via-[#7C3AED] to-[#D946EF] py-10">
+    <section id="final-cta" className="bg-gradient-to-br from-[#6B21A8] via-[#7C3AED] to-[#D946EF] py-8">
       <div className="px-4 text-center">
         <h2 className="text-[1.35rem] leading-tight font-extrabold text-white mb-3">
           {FINAL_CTA_CONTENT.heading}

@@ -86,7 +86,7 @@ export default function HeroMobile() {
         }}
       />
 
-      <div className="px-4 py-10 relative z-10">
+      <div className="px-4 py-8 relative z-10">
         <div className="flex flex-col gap-4 ys-fade-in-up">
           <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#6B21A8] m-0">
             {HERO_CONTENT.tagline}
@@ -107,10 +107,10 @@ export default function HeroMobile() {
           </p>
 
           <div className="flex flex-col gap-3 mt-2">
-            <button className="w-full flex items-center justify-center px-6 py-3.5 rounded-lg bg-[#6B21A8] text-white text-[14px] font-bold border-none cursor-pointer shadow-[0_4px_14px_rgba(107,33,168,0.35)] transition-all active:scale-[0.98]">
+            <button className="w-full flex items-center justify-center px-6 py-3.5 rounded-[4px] bg-[#6B21A8] text-white text-[14px] font-bold border-none cursor-pointer shadow-[0_4px_14px_rgba(107,33,168,0.35)] transition-all active:scale-[0.98]">
               {HERO_CONTENT.primaryCta}
             </button>
-            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white text-[#374151] text-[14px] font-bold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
+            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[4px] bg-white text-[#374151] text-[14px] font-bold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-[0_2px_8px_rgba(0,0,0,0.04)]">
               {HERO_CONTENT.secondaryCta}
               <ArrowRight size={16} />
             </button>
@@ -187,7 +187,7 @@ export default function HeroMobile() {
             return (
               <div
                 key={i}
-                className="absolute z-20 flex flex-col items-center justify-center gap-1.5 rounded-xl bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-3 py-2.5 min-w-[100px] text-center border border-white/80 ys-fade-in"
+                className="absolute z-20 flex flex-col items-center justify-center gap-1.5 rounded-[4px] bg-white/95 backdrop-blur-sm shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-3 py-2.5 min-w-[100px] text-center border border-white/80 ys-fade-in"
                 style={{
                   top: mobilePositions[i].top,
                   left: mobilePositions[i].left,

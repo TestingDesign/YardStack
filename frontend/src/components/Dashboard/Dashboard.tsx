@@ -54,7 +54,9 @@ const TAB_ITEMS = [
   {
     key: 'launchingSoon',
     label: 'Upcoming',
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Icon: RocketLaunchIcon as any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     activeIcon: RocketLaunchIcon as any,
     badge: 'Soon',
     subTabs: [],

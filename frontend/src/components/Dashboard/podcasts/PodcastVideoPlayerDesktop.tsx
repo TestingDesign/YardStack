@@ -63,6 +63,7 @@ export default function PodcastVideoPlayerDesktop({
   }, [isPlaying])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetHideTimer()
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
@@ -70,6 +71,7 @@ export default function PodcastVideoPlayerDesktop({
   }, [isPlaying, resetHideTimer])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPlaying(false)
     setProgress(0)
   }, [episode?.id])

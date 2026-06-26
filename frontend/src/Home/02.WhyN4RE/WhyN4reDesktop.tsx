@@ -55,7 +55,7 @@ export default function WhyN4reDesktop() {
         </div>
 
         <div className="relative max-w-6xl mx-auto">
-          <div className="rounded-[32px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
+          <div className="rounded-[8px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] relative">
               
               <div className="p-8 lg:p-14 lg:pr-16 bg-slate-50/50">
@@ -70,10 +70,10 @@ export default function WhyN4reDesktop() {
                   {TODAY_PROBLEMS.map((item, idx) => (
                     <li 
                       key={idx} 
-                      className="group flex items-start gap-4 p-4 rounded-2xl transition-all duration-300 hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-100"
+                      className="group flex items-start gap-4 p-4 rounded-[4px] transition-all duration-300 hover:bg-white hover:shadow-sm border border-transparent hover:border-gray-100"
                     >
                       <div 
-                        className="w-12 h-12 rounded-[14px] flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3" 
+                        className="w-12 h-12 rounded-[4px] flex items-center justify-center shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3" 
                         style={{ backgroundColor: item.bgColor }}
                       >
                         <IconRenderer icon={item.icon} color={item.color} size={22} />
@@ -112,7 +112,7 @@ export default function WhyN4reDesktop() {
                       <button 
                         key={idx}
                         onClick={() => setActiveSolution(isActive ? null : idx)}
-                        className={`w-full text-left flex flex-col p-5 rounded-2xl transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+                        className={`w-full text-left flex flex-col p-5 rounded-[4px] transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] border outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
                           isActive 
                             ? 'bg-white border-purple-200 shadow-xl shadow-purple-900/5' 
                             : 'bg-transparent border-transparent hover:bg-white/60 hover:border-gray-200'
@@ -120,7 +120,7 @@ export default function WhyN4reDesktop() {
                       >
                         <div className="flex items-center gap-5">
                           <div 
-                            className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-300 ${
+                            className={`w-14 h-14 rounded-[4px] flex items-center justify-center shrink-0 transition-all duration-300 ${
                               isActive ? 'shadow-md scale-105' : 'shadow-sm'
                             }`}
                             style={{ 

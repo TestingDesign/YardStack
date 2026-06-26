@@ -80,10 +80,9 @@ export default function PodcastVideoPlayerMobile({
   }, [episode?.id])
 
   useEffect(() => {
-    if (isPlaying) {
-      // eslint-disable-next-line no-empty
-    } else {
+    if (!isPlaying) {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setControlsVisible(true)
     }
   }, [isPlaying])
@@ -101,6 +100,7 @@ export default function PodcastVideoPlayerMobile({
     try {
       await document.exitFullscreen()
     } catch {
+      // ignore error on exit
     } finally {
       setIsFullscreen(false)
     }

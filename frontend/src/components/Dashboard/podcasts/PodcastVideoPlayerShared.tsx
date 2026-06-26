@@ -6,6 +6,7 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff'
 export type ViewLayout = 'mobile' | 'desktop-theater' | 'fullscreen'
 
 export interface PodcastVideoPlayerProps {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   episode: any
   onClose: () => void
   onNext?: () => void

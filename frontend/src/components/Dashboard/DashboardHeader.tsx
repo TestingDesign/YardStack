@@ -62,8 +62,10 @@ const NavCard = memo(function NavCard({
         ) : (
           <span className="text-[20px] md:text-[24px]">
             {typeof icon === 'object' && icon !== null && '$$typeof' in icon && !('props' in icon)
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
               : typeof icon === 'function'
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
               : icon}
           </span>

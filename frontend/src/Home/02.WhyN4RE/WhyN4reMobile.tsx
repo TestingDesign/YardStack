@@ -23,7 +23,7 @@ const IconRenderer = ({ icon, color, size = 16 }: { icon: string; color: string;
 
 export default function WhyN4reMobile() {
   return (
-    <section id="why-n4re" className="bg-[#F8F7FC] py-10">
+    <section id="why-n4re" className="bg-[#F8F7FC] py-8">
       <div className="px-4">
         <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#6B21A8] mb-2">
           {WHY_N4RE_CONTENT.subtitle}
@@ -44,7 +44,7 @@ export default function WhyN4reMobile() {
               {TODAY_PROBLEMS.map((item) => (
                 <li key={item.text} className="flex items-center gap-4 text-[13px] text-slate-700">
                   <div 
-                    className="w-9 h-9 rounded-[4px] flex items-center justify-center shrink-0 shadow-sm" 
+                    className="w-9 h-9 rounded-[2px] flex items-center justify-center shrink-0 shadow-sm" 
                     style={{ backgroundColor: item.bgColor }}
                   >
                     <IconRenderer icon={item.icon} color={item.color} size={16} />
@@ -57,7 +57,7 @@ export default function WhyN4reMobile() {
 
           <div className="relative h-12 flex items-center justify-center bg-gray-50/50">
             <div className="absolute left-6 right-6 top-1/2 h-px border-t border-dashed border-gray-200 -translate-y-1/2" />
-            <div className="relative z-10 w-10 h-10 rounded-[8px] bg-[#6B21A8] text-white flex items-center justify-center shadow-[0_4px_14px_rgba(107,33,168,0.38)]">
+            <div className="relative z-10 w-10 h-10 rounded-[4px] bg-[#6B21A8] text-white flex items-center justify-center shadow-[0_4px_14px_rgba(107,33,168,0.38)]">
               <ChevronDown size={20} strokeWidth={2.5} />
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function WhyN4reMobile() {
                 <div key={sol.pillar} className="flex flex-col gap-3">
                   <div className="flex items-center gap-3">
                     <div 
-                      className="w-10 h-10 rounded-[4px] flex items-center justify-center shrink-0 shadow-sm" 
+                      className="w-10 h-10 rounded-[2px] flex items-center justify-center shrink-0 shadow-sm" 
                       style={{ backgroundColor: sol.bgColor }}
                     >
                       <IconRenderer icon={sol.icon} color={sol.color} size={17} />

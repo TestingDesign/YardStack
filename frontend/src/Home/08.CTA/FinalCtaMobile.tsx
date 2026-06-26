@@ -11,10 +11,10 @@ export default function FinalCtaMobile() {
           {FINAL_CTA_CONTENT.description}
         </p>
         <div className="flex flex-col items-center gap-2.5">
-          <button className="w-full max-w-65 px-6 py-2.5 rounded-lg bg-white text-[#6B21A8] text-[13px] font-bold border-none cursor-pointer shadow-sm transition-all active:scale-[0.97]">
+          <button className="w-full max-w-65 px-6 py-2.5 rounded-[4px] bg-white text-[#6B21A8] text-[13px] font-bold border-none cursor-pointer shadow-sm transition-all active:scale-[0.97]">
             {FINAL_CTA_CONTENT.primaryCta}
           </button>
-          <button className="w-full max-w-65 px-5 py-2.5 rounded-lg bg-transparent text-white text-[13px] font-bold border border-white/30 cursor-pointer transition-all">
+          <button className="w-full max-w-65 px-5 py-2.5 rounded-[4px] bg-transparent text-white text-[13px] font-bold border border-white/30 cursor-pointer transition-all">
             {FINAL_CTA_CONTENT.secondaryCta}
           </button>
         </div>

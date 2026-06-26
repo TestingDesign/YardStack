@@ -14,12 +14,12 @@ const ItemIcon = ({ icon, color, size = 24 }: { icon: string; color: string; siz
 
 export default function ComingSoonMobile() {
   return (
-    <section id="coming-soon" style={{ background: '#FFFFFF', padding: '36px 0' }}>
+    <section id="coming-soon" style={{ background: '#FFFFFF', padding: '32px 0' }}>
       <div style={{ padding: '0 12px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
         <div style={{
           background: 'rgba(255,255,255,0.9)',
-          borderRadius: '12px',
+          borderRadius: '8px',
           border: '1px solid rgba(124,58,237,0.1)',
           padding: '20px 14px',
           boxShadow: '0 8px 32px rgba(124,58,237,0.06)',
@@ -48,7 +48,7 @@ export default function ComingSoonMobile() {
                   alignItems: 'center',
                   gap: '10px',
                   padding: '14px 10px',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   background: 'linear-gradient(160deg, #FFFFFF, rgba(124,58,237,0.02))',
                   border: '1px solid rgba(124,58,237,0.08)',
                   boxShadow: '0 4px 12px rgba(0,0,0,0.02)',
@@ -75,7 +75,7 @@ export default function ComingSoonMobile() {
                 <div style={{
                   width: '40px',
                   height: '40px',
-                  borderRadius: '10px',
+                  borderRadius: '4px',
                   background: item.bgColor,
                   display: 'flex',
                   alignItems: 'center',

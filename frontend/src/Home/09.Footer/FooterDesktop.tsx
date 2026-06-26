@@ -32,17 +32,16 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-gradient-to-br from-[#0F1021] via-[#1A1B2E] to-purple-950 py-8 lg:py-10 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
+      className="relative bg-gradient-to-br from-[#0F1021] via-[#1A1B2E] to-purple-950 pt-2 pb-2 lg:pt-2 lg:pb-2 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
-          {/* Brand & Copyright */}
           <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-6">
             <img 
               src={LogoPng} 
               alt="N4RE Logo" 
-              className="h-12 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
+              className="h-12 lg:h-16 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
             />
             <div className="hidden lg:block w-px h-5 bg-white/10" />
             <span className="text-[13px] font-medium text-slate-400">
@@ -50,7 +49,6 @@ export default function FooterDesktop() {
             </span>
           </div>
 
-          {/* Navigation */}
           <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
             {FOOTER_LINKS.map((link) => (
               <a
@@ -63,7 +61,6 @@ export default function FooterDesktop() {
             ))}
           </nav>
 
-          {/* Social Icons */}
           <div className="flex items-center gap-3">
             {SOCIAL_LINKS.map((social) => (
               <a

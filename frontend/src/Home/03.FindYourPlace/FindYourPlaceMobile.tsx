@@ -48,7 +48,7 @@ export default function FindYourPlaceMobile() {
   return (
     <section
       id="find-your-place"
-      className="bg-white font-sans py-10 pb-16"
+      className="bg-white font-sans py-8 pb-10"
     >
       <div className="px-4">
         <p className="text-center text-[10px] font-extrabold tracking-widest uppercase text-[var(--color-primary-600)] mb-3">

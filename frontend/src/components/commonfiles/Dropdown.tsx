@@ -57,7 +57,6 @@ export default function Dropdown({
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setFocusedIndex(options.findIndex((o) => o.value === value))
     } else {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFocusedIndex(-1)
     }
   }, [open, options, value])

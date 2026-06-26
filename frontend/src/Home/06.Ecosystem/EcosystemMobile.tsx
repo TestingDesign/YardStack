@@ -21,7 +21,7 @@ const EcosystemIcon = ({ icon, color, size = 24 }: { icon: string; color: string
 
 export default function EcosystemMobile() {
   return (
-    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '36px 0' }}>
+    <section id="ecosystem" style={{ background: '#FFFFFF', padding: '32px 0' }}>
       <div style={{ padding: '0 16px' }}>
         <p style={{
           textAlign: 'center',
@@ -49,7 +49,7 @@ export default function EcosystemMobile() {
               key={i}
               className="group flex flex-col items-center gap-2 text-center cursor-pointer transition-all"
             >
-              <div className="flex items-center justify-center w-11 h-11 rounded-[8px] bg-transparent transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
+              <div className="flex items-center justify-center w-11 h-11 rounded-[2px] bg-transparent transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
                 <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
                   <EcosystemIcon icon={member.icon} color="#6B21A8" size={24} />
                 </div>

@@ -15,6 +15,9 @@ export interface Pillar {
   title: string;
   subtitle: string;
   color: string;
+  borderColor: string;
+  columnBg: string;
+  cardBg: string;
   modules: Module[];
 }
 
@@ -24,6 +27,9 @@ export const PILLARS: Pillar[] = [
     title: 'CONTENT',
     subtitle: 'Learn. Discover. Build Authority.',
     color: '#4C1D95',
+    borderColor: '#E9D5FF',
+    columnBg: '#FAF5FF',
+    cardBg: '#FFFFFF',
     modules: [
       {
         name: 'Spotlight',
@@ -48,6 +54,9 @@ export const PILLARS: Pillar[] = [
     title: 'CONNECTIONS',
     subtitle: 'Find. Evaluate. Connect.',
     color: '#166534',
+    borderColor: '#BBF7D0',
+    columnBg: '#F0FDF4',
+    cardBg: '#FFFFFF',
     modules: [
       {
         name: 'Directory',
@@ -67,6 +76,9 @@ export const PILLARS: Pillar[] = [
     title: 'CONVERSATIONS',
     subtitle: 'Engage. Collaborate. Grow.',
     color: '#C2410C',
+    borderColor: '#FED7AA',
+    columnBg: '#FFF7ED',
+    cardBg: '#FFFFFF',
     modules: [
       {
         name: 'Opportunities',

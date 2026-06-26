@@ -106,9 +106,7 @@ export default function HeroMobile() {
             {HERO_CONTENT.subHeading}
           </p>
 
-          <p className="text-[0.85rem] leading-relaxed text-[#6B7280] m-0">
-            {HERO_CONTENT.description}
-          </p>
+
 
           <div className="flex flex-col gap-3 mt-2">
             <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[14px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">

@@ -118,9 +118,7 @@ export default function HeroDesktop() {
             <p className="text-lg font-bold text-[#422082] max-w-md">
               {HERO_CONTENT.subHeading}
             </p>
-            <p className="text-sm leading-relaxed text-[#79628c] max-w-md">
-              {HERO_CONTENT.description}
-            </p>
+
             
             <div className="flex flex-wrap items-center gap-4 mt-4">
               <button className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[15px] font-extrabold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2">

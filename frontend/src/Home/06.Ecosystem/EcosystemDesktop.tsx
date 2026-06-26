@@ -45,10 +45,12 @@ export default function EcosystemDesktop() {
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
-            Built for <AnimatedCity suffix="'s" /> Real Estate Ecosystem
-          </span>
+        <div className="text-center pt-8 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs font-black uppercase tracking-[0.2em] mb-4">
+            <span className="text-purple-800">Built for</span>
+            <span className="text-fuchsia-600"><AnimatedCity suffix="'s" /></span>
+            <span className="text-purple-800">Real Estate Ecosystem</span>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-6">

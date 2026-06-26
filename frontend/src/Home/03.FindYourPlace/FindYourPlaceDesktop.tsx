@@ -65,7 +65,7 @@ export default function FindYourPlaceDesktop() {
   return (
     <section
       id="find-your-place"
-      className="relative bg-[#FAFAFA] overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-16 lg:py-24"
+      className="relative bg-[var(--color-bg-muted)] overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-16 lg:py-24"
     >
       {/* Background Glow */}
       <div 
@@ -78,10 +78,10 @@ export default function FindYourPlaceDesktop() {
             <Sparkles size={14} className="text-purple-600" />
             {FIND_YOUR_PLACE_CONTENT.sectionLabel}
           </span>
-          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-slate-900 max-w-3xl tracking-tight mb-6">
+          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-[var(--color-text-primary)] max-w-3xl tracking-tight mb-6">
             {FIND_YOUR_PLACE_CONTENT.heading}
           </h2>
-          <p className="text-lg font-medium text-slate-500 max-w-2xl leading-relaxed">
+          <p className="text-lg font-medium text-[var(--color-text-secondary)] max-w-2xl leading-relaxed">
             {FIND_YOUR_PLACE_CONTENT.description}
           </p>
         </div>
@@ -89,36 +89,36 @@ export default function FindYourPlaceDesktop() {
         <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr_300px] bg-white/80 backdrop-blur-xl rounded-[32px] border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
           
           {/* Left Column: Search & Popular Roles */}
-          <div className="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-gray-100 bg-slate-50/30">
+          <div className="p-8 lg:p-10 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50/30">
             <div className="flex items-center gap-2 mb-4">
               <Target size={16} className="text-purple-600" />
-              <p className="text-sm font-extrabold text-slate-800 uppercase tracking-wide">
+              <p className="text-sm font-extrabold text-[var(--color-text-primary)] uppercase tracking-wide">
                 {FIND_YOUR_PLACE_CONTENT.inputPrefix}
               </p>
             </div>
 
             <div className="relative z-30 mb-10" ref={dropdownRef}>
               <div className="relative">
-                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)]" />
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true); }}
                   onFocus={() => setIsDropdownOpen(true)}
                   placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
-                  className="w-full py-3.5 pl-11 pr-4 rounded-xl border border-slate-200/80 text-sm font-medium text-slate-700 placeholder:text-slate-400 outline-none bg-white hover:border-purple-200 focus:border-purple-400 focus:ring-4 focus:ring-purple-600/5 transition-all shadow-sm"
+                  className="w-full py-3.5 pl-11 pr-4 rounded-xl border border-[var(--color-border-default)]/80 text-sm font-medium text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] outline-none bg-white hover:border-purple-200 focus:border-purple-400 focus:ring-4 focus:ring-purple-600/5 transition-all shadow-sm"
                 />
               </div>
 
               {isDropdownOpen && filteredRoles.length > 0 && (
-                <div className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-xl border border-slate-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] z-40 max-h-[240px] overflow-y-auto p-2">
+                <div className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white rounded-xl border border-gray-100 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] z-40 max-h-[240px] overflow-y-auto p-2">
                   <ul className="flex flex-col gap-1">
                     {filteredRoles.map((role) => (
                       <li key={role.key}>
                         <button
                           type="button"
                           onClick={() => handleRoleSelect(role)}
-                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-slate-600 hover:text-purple-900 hover:bg-purple-50 rounded-lg transition-colors"
+                          className="w-full text-left px-4 py-2.5 text-sm font-medium text-[var(--color-text-secondary)] hover:text-purple-900 hover:bg-purple-50 rounded-lg transition-colors"
                         >
                           {role.label}
                         </button>
@@ -130,7 +130,7 @@ export default function FindYourPlaceDesktop() {
             </div>
 
             <div>
-              <p className="text-[11px] font-black text-slate-400 mb-4 uppercase tracking-[0.15em]">
+              <p className="text-[11px] font-black text-[var(--color-text-muted)] mb-4 uppercase tracking-[0.15em]">
                 Popular Roles
               </p>
               <div className="flex flex-wrap gap-2.5">
@@ -144,7 +144,7 @@ export default function FindYourPlaceDesktop() {
                       className={`px-4 py-2 rounded-xl text-[13px] font-bold border transition-all duration-300 ${
                         isSelected
                           ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/25 scale-[1.02]'
-                          : 'bg-white text-slate-600 border-slate-200 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50/50 hover:shadow-sm'
+                          : 'bg-white text-[var(--color-text-secondary)] border-[var(--color-border-default)] hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50/50 hover:shadow-sm'
                       }`}
                     >
                       {role.label}
@@ -163,14 +163,14 @@ export default function FindYourPlaceDesktop() {
               <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
                 <Building2 size={28} className="text-purple-700" strokeWidth={1.5} />
               </div>
-              <h3 className="text-2xl lg:text-[28px] font-extrabold text-slate-900 leading-tight tracking-tight">
+              <h3 className="text-2xl lg:text-[28px] font-extrabold text-[var(--color-text-primary)] leading-tight tracking-tight">
                 {selectedRole.helpTitle}
               </h3>
             </div>
 
             <ul className="flex flex-col gap-5">
               {selectedRole.helpPoints.map((point, i) => (
-                <li key={i} className="flex items-start gap-4 text-[15px] text-slate-600 font-medium leading-relaxed">
+                <li key={i} className="flex items-start gap-4 text-[15px] text-[var(--color-text-secondary)] font-medium leading-relaxed">
                   <div className="shrink-0 w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center mt-0.5">
                     <Check size={14} strokeWidth={2.5} className="text-purple-700" />
                   </div>
@@ -186,8 +186,8 @@ export default function FindYourPlaceDesktop() {
           </div>
 
           {/* Right Column: Relevant Modules */}
-          <div className="p-8 lg:p-10 bg-slate-50/30">
-            <p className="text-[11px] font-black uppercase tracking-[0.15em] text-slate-400 mb-6">
+          <div className="p-8 lg:p-10 bg-gray-50/30">
+            <p className="text-[11px] font-black uppercase tracking-[0.15em] text-[var(--color-text-muted)] mb-6">
               Relevant Modules
             </p>
 
@@ -195,13 +195,13 @@ export default function FindYourPlaceDesktop() {
               {selectedRole.relevantModules.map((module) => (
                 <div
                   key={module.name}
-                  className="group flex items-center justify-between p-4 rounded-2xl bg-white border border-slate-100 transition-all duration-300 cursor-pointer hover:border-purple-200 hover:shadow-lg hover:shadow-purple-900/5 hover:-translate-y-0.5"
+                  className="group flex items-center justify-between p-4 rounded-2xl bg-white border border-gray-100 transition-all duration-300 cursor-pointer hover:border-purple-200 hover:shadow-lg hover:shadow-purple-900/5 hover:-translate-y-0.5"
                 >
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0 group-hover:bg-purple-50 transition-colors duration-300">
-                      <ModuleIcon name={module.name} size={18} className="text-slate-400 group-hover:text-purple-600 transition-colors duration-300" />
+                    <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center shrink-0 group-hover:bg-purple-50 transition-colors duration-300">
+                      <ModuleIcon name={module.name} size={18} className="text-[var(--color-text-muted)] group-hover:text-purple-600 transition-colors duration-300" />
                     </div>
-                    <span className="text-[14px] font-bold text-slate-700 group-hover:text-slate-900 transition-colors duration-300">
+                    <span className="text-[14px] font-bold text-[var(--color-text-primary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-300">
                       {module.name}
                     </span>
                   </div>

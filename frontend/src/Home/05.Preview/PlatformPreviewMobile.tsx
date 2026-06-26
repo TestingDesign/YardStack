@@ -77,7 +77,7 @@ export default function PlatformPreviewMobile() {
                           : <span className="text-[14px] font-extrabold text-white">{item.logoText}</span>
                         }
                       </div>
-                      <p className="text-[9px] font-semibold text-slate-700 m-0 leading-tight">
+                      <p className="text-[9px] font-semibold text-[var(--color-text-primary)] m-0 leading-tight">
                         {item.title}
                       </p>
                     </div>
@@ -109,7 +109,7 @@ export default function PlatformPreviewMobile() {
                       <div className="group-hover:brightness-0 group-hover:invert transition-all flex items-center justify-center">
                         <PreviewIcon icon={item.icon || 'building'} color="#6B21A8" size={18} />
                       </div>
-                      <span className="text-[8px] font-semibold text-slate-700 leading-tight group-hover:text-white transition-colors">
+                      <span className="text-[8px] font-semibold text-[var(--color-text-primary)] leading-tight group-hover:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>

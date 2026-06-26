@@ -17,7 +17,7 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
   return (
     <main 
       
-      className="block h-full w-full overflow-x-hidden overflow-y-auto bg-[#FAFAFA] scroll-smooth selection:bg-purple-200 selection:text-purple-900 hide-scrollbar"
+      className="block h-full w-full overflow-x-hidden overflow-y-auto bg-[var(--color-bg-muted)] scroll-smooth selection:bg-purple-200 selection:text-purple-900 hide-scrollbar"
     >
       <HomeNavDesktop viewMode={viewMode} />
       <HeroDesktop />

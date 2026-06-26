@@ -57,7 +57,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         >
           {pillar.title}
         </h3>
-        <p className="text-[22px] font-extrabold text-slate-900 leading-snug tracking-tight">
+        <p className="text-[22px] font-extrabold text-[var(--color-text-primary)] leading-snug tracking-tight">
           {pillar.subtitle}
         </p>
       </div>
@@ -72,8 +72,8 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
               key={i}
               className={`rounded-2xl transition-all duration-300 border outline-none focus-within:ring-2 focus-within:ring-purple-500/20 ${
                 isActive 
-                  ? 'bg-slate-50/80 border-slate-200 shadow-sm' 
-                  : 'bg-transparent border-transparent hover:bg-slate-50/50'
+                  ? 'bg-gray-50/80 border-[var(--color-border-default)] shadow-sm' 
+                  : 'bg-transparent border-transparent hover:bg-gray-50/50'
               }`}
             >
               <button
@@ -92,13 +92,13 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
                   <div className="flex items-center gap-2">
                     <h4 
                       className={`text-[15px] font-bold transition-colors duration-300 ${
-                        isActive ? 'text-slate-900' : 'text-slate-600'
+                        isActive ? 'text-[var(--color-text-primary)]' : 'text-[var(--color-text-secondary)]'
                       }`}
                     >
                       {mod.name}
                     </h4>
                     {mod.comingSoon && (
-                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-extrabold text-slate-400 uppercase tracking-wider">
+                      <span className="px-2 py-0.5 rounded-md bg-slate-100 text-[10px] font-extrabold text-[var(--color-text-muted)] uppercase tracking-wider">
                         Soon
                       </span>
                     )}
@@ -107,8 +107,8 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
 
                 <ChevronDown 
                   size={18} 
-                  className={`text-slate-400 transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${
-                    isActive ? 'rotate-180 text-slate-600' : 'rotate-0'
+                  className={`text-[var(--color-text-muted)] transition-transform duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] ${
+                    isActive ? 'rotate-180 text-[var(--color-text-secondary)]' : 'rotate-0'
                   }`} 
                 />
               </button>
@@ -119,7 +119,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="pl-[72px] pr-6 pb-5 text-[14px] leading-relaxed text-slate-500 font-medium">
+                  <p className="pl-[72px] pr-6 pb-5 text-[14px] leading-relaxed text-[var(--color-text-secondary)] font-medium">
                     {mod.description}
                   </p>
                 </div>
@@ -136,7 +136,7 @@ export default function PillarsDesktop() {
   return (
     <section 
       id="pillars" 
-      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       {/* Background Decorative Blobs */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" />
@@ -148,7 +148,7 @@ export default function PillarsDesktop() {
             <Sparkles size={14} className="text-purple-600" />
             {PILLARS_HEADING.section}
           </span>
-          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-slate-900 tracking-tight">
+          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-[var(--color-text-primary)] tracking-tight">
             Built on Core Pillars
           </h2>
         </div>

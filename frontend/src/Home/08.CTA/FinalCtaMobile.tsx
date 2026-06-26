@@ -2,7 +2,7 @@ import { FINAL_CTA_CONTENT } from './data';
 
 export default function FinalCtaMobile() {
   return (
-    <section id="final-cta" className="bg-gradient-to-br from-[#6B21A8] via-[#7C3AED] to-[#D946EF] py-8">
+    <section id="final-cta" className="bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-8">
       <div className="px-4 text-center">
         <h2 className="text-[1.35rem] leading-tight font-extrabold text-white mb-3">
           {FINAL_CTA_CONTENT.heading}

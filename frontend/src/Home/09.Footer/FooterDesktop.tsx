@@ -32,7 +32,7 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-gradient-to-br from-[#0F1021] via-[#1A1B2E] to-purple-950 pt-2 pb-2 lg:pt-2 lg:pb-2 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
+      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] pt-2 pb-2 lg:pt-2 lg:pb-2 border-t border-white/10 selection:bg-purple-500/30 selection:text-white"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -44,7 +44,7 @@ export default function FooterDesktop() {
               className="h-12 lg:h-16 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
             />
             <div className="hidden lg:block w-px h-5 bg-white/10" />
-            <span className="text-[13px] font-medium text-slate-400">
+            <span className="text-[13px] font-medium text-[var(--color-text-muted)]">
               {FOOTER_COPYRIGHT}
             </span>
           </div>
@@ -54,7 +54,7 @@ export default function FooterDesktop() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[13px] font-bold text-slate-400 hover:text-white transition-colors duration-300 outline-none focus-visible:text-purple-400 focus-visible:underline underline-offset-4"
+                className="text-[13px] font-bold text-[var(--color-text-muted)] hover:text-white transition-colors duration-300 outline-none focus-visible:text-purple-400 focus-visible:underline underline-offset-4"
               >
                 {link.label}
               </a>
@@ -67,7 +67,7 @@ export default function FooterDesktop() {
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
-                className="group flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-slate-400 hover:bg-gradient-to-tr hover:from-purple-600 hover:to-fuchsia-500 hover:text-white hover:border-transparent hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
+                className="group flex items-center justify-center w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-[var(--color-text-muted)] hover:bg-gradient-to-tr hover:from-purple-600 hover:to-fuchsia-500 hover:text-white hover:border-transparent hover:shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-400"
               >
                 <SocialIcon icon={social.icon} size={18} />
               </a>

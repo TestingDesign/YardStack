@@ -55,7 +55,7 @@ export default function FindYourPlaceMobile() {
           {FIND_YOUR_PLACE_CONTENT.sectionLabel}
         </p>
 
-        <h2 className="text-center text-[1.85rem] font-extrabold text-slate-900 leading-[1.14] mb-3 tracking-[-0.02em]">
+        <h2 className="text-center text-[1.85rem] font-extrabold text-[var(--color-text-primary)] leading-[1.14] mb-3 tracking-[-0.02em]">
           {FIND_YOUR_PLACE_CONTENT.heading}
         </h2>
 
@@ -130,7 +130,7 @@ export default function FindYourPlaceMobile() {
               <div className="w-10 h-10 rounded-[4px] bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] flex items-center justify-center shrink-0">
                 <Building2 size={20} className="text-white" />
               </div>
-              <h3 className="text-[1.1rem] font-extrabold text-slate-900 m-0 leading-[1.3] tracking-[-0.01em]">
+              <h3 className="text-[1.1rem] font-extrabold text-[var(--color-text-primary)] m-0 leading-[1.3] tracking-[-0.01em]">
                 {selectedRole.helpTitle}
               </h3>
             </div>
@@ -183,7 +183,7 @@ export default function FindYourPlaceMobile() {
                     <div className="w-7 h-7 rounded-[2px] bg-purple-50 flex items-center justify-center shrink-0 group-hover:bg-white/20 transition-colors">
                       <ModuleIcon name={module.name} size={14} className="text-[var(--color-primary-600)] group-hover:text-white transition-colors" />
                     </div>
-                    <span className="text-xs font-bold text-slate-900 group-hover:text-white transition-colors">
+                    <span className="text-xs font-bold text-[var(--color-text-primary)] group-hover:text-white transition-colors">
                       {module.name}
                     </span>
                   </div>

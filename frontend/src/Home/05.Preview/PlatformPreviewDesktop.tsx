@@ -32,7 +32,7 @@ export default function PlatformPreviewDesktop() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" />
 
@@ -53,7 +53,7 @@ export default function PlatformPreviewDesktop() {
               
               <div className="flex items-center justify-between">
                 <h3 
-                  className={`text-sm font-extrabold text-slate-900 ${
+                  className={`text-sm font-extrabold text-[var(--color-text-primary)] ${
                     section.key === 'spotlight' 
                       ? 'bg-purple-50 text-purple-800 px-3 py-1 rounded-lg border border-purple-100' 
                       : ''
@@ -62,9 +62,9 @@ export default function PlatformPreviewDesktop() {
                   {section.title}
                 </h3>
                 
-                <button className="group/btn flex items-center gap-0.5 text-[11px] font-bold text-slate-500 hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-sm">
+                <button className="group/btn flex items-center gap-0.5 text-[11px] font-bold text-[var(--color-text-secondary)] hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-sm">
                   {section.viewAllLabel}
-                  <ChevronRight size={14} className="text-slate-400 group-hover/btn:text-purple-600 transition-colors" />
+                  <ChevronRight size={14} className="text-[var(--color-text-muted)] group-hover/btn:text-purple-600 transition-colors" />
                 </button>
               </div>
 
@@ -84,7 +84,7 @@ export default function PlatformPreviewDesktop() {
                           </span>
                         )}
                       </div>
-                      <p className="text-[11px] font-bold text-slate-600 m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
+                      <p className="text-[11px] font-bold text-[var(--color-text-secondary)] m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
                         {item.title}
                       </p>
                     </div>
@@ -101,7 +101,7 @@ export default function PlatformPreviewDesktop() {
                       <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={18} />
                       </div>
-                      <span className="text-xs font-bold text-slate-700 group-hover/item:text-white transition-colors">
+                      <span className="text-xs font-bold text-[var(--color-text-primary)] group-hover/item:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>
@@ -118,7 +118,7 @@ export default function PlatformPreviewDesktop() {
                       <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
                         <PreviewIcon icon={item.icon || 'building'} color="#7C3AED" size={20} />
                       </div>
-                      <span className="text-[10px] font-bold text-slate-600 leading-tight group-hover/item:text-white transition-colors">
+                      <span className="text-[10px] font-bold text-[var(--color-text-secondary)] leading-tight group-hover/item:text-white transition-colors">
                         {item.title}
                       </span>
                     </div>

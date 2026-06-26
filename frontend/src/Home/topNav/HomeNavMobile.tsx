@@ -29,7 +29,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             onClick={() => { setActiveLink('home'); setIsOpen(false); }}
             className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
           >
-            <span className="text-[24px] font-extrabold text-slate-900 leading-none tracking-tight">
+            <span className="text-[24px] font-extrabold text-[var(--color-text-primary)] leading-none tracking-tight">
               N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
             </span>
           </a>
@@ -37,7 +37,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="w-9 h-9 flex items-center justify-center rounded-[4px] text-slate-700 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+            className="w-9 h-9 flex items-center justify-center rounded-[4px] text-[var(--color-text-primary)] hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
             aria-label="Toggle menu"
           >
             {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -53,13 +53,13 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between p-4 border-b border-purple-900/5 h-[60px]">
-              <span className="text-[24px] font-extrabold text-slate-900 leading-none tracking-tight">
+              <span className="text-[24px] font-extrabold text-[var(--color-text-primary)] leading-none tracking-tight">
                 N<span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 to-fuchsia-500">4</span>RE
               </span>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
-                className="w-8 h-8 flex items-center justify-center rounded-[4px] text-slate-500 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
+                className="w-8 h-8 flex items-center justify-center rounded-[4px] text-[var(--color-text-secondary)] hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500"
               >
                 <X size={18} />
               </button>

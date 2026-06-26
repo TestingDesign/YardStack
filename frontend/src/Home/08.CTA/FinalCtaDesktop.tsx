@@ -5,7 +5,7 @@ export default function FinalCtaDesktop() {
   return (
     <section 
       id="final-cta" 
-      className="relative py-16 lg:py-24 overflow-hidden bg-slate-950 selection:bg-fuchsia-500/30 selection:text-white"
+      className="relative py-16 lg:py-24 overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] selection:bg-fuchsia-500/30 selection:text-white"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-800 rounded-full blur-[120px] opacity-40 pointer-events-none" />
 

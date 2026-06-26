@@ -19,7 +19,7 @@ export default function ComingSoonDesktop() {
   return (
     <section 
       id="coming-soon" 
-      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" />
 
@@ -39,7 +39,7 @@ export default function ComingSoonDesktop() {
               return (
                 <div
                   key={item.name}
-                  className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-slate-100/80 shadow-sm cursor-pointer overflow-hidden"
+                  className="group relative flex flex-col items-center text-center p-6 rounded-2xl bg-white border border-gray-100/80 shadow-sm cursor-pointer overflow-hidden"
                   style={{
                     transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                     transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',

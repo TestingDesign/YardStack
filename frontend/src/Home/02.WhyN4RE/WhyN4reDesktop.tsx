@@ -29,7 +29,7 @@ export default function WhyN4reDesktop() {
   return (
     <section 
       id="why-n4re" 
-      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
     >
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] pointer-events-none"
@@ -45,7 +45,7 @@ export default function WhyN4reDesktop() {
             {WHY_N4RE_CONTENT.subtitle}
             <Sparkles size={14} className="text-fuchsia-600" />
           </span>
-          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-slate-900 max-w-3xl tracking-tight">
+          <h2 className="text-4xl lg:text-[44px] leading-[1.15] font-extrabold text-[var(--color-text-primary)] max-w-3xl tracking-tight">
             {WHY_N4RE_CONTENT.heading}
             <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500">
@@ -58,10 +58,10 @@ export default function WhyN4reDesktop() {
           <div className="rounded-[8px] bg-white/80 backdrop-blur-xl border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] relative">
               
-              <div className="p-8 lg:p-14 lg:pr-16 bg-slate-50/50">
+              <div className="p-8 lg:p-14 lg:pr-16 bg-gray-50/50">
                 <div className="flex items-center gap-3 mb-10">
                   <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-slate-500">
+                  <p className="text-sm font-extrabold uppercase tracking-widest text-[var(--color-text-secondary)]">
                     {WHY_N4RE_CONTENT.todayHeader}
                   </p>
                 </div>
@@ -78,7 +78,7 @@ export default function WhyN4reDesktop() {
                       >
                         <IconRenderer icon={item.icon} color={item.color} size={22} />
                       </div>
-                      <span className="font-medium text-slate-600 leading-relaxed mt-1 lg:text-[15px] group-hover:text-slate-900 transition-colors">
+                      <span className="font-medium text-[var(--color-text-secondary)] leading-relaxed mt-1 lg:text-[15px] group-hover:text-[var(--color-text-primary)] transition-colors">
                         {item.text}
                       </span>
                     </li>
@@ -99,7 +99,7 @@ export default function WhyN4reDesktop() {
                 
                 <div className="flex items-center gap-3 mb-10">
                   <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-slate-900">
+                  <p className="text-sm font-extrabold uppercase tracking-widest text-[var(--color-text-primary)]">
                     {WHY_N4RE_CONTENT.n4reHeader}
                   </p>
                 </div>
@@ -138,7 +138,7 @@ export default function WhyN4reDesktop() {
                           <div className="flex-1">
                             <h3 
                               className={`text-base font-extrabold tracking-wide transition-colors duration-300 ${
-                                isActive ? 'text-purple-900' : 'text-slate-800'
+                                isActive ? 'text-purple-900' : 'text-[var(--color-text-primary)]'
                               }`}
                             >
                               {sol.pillar}
@@ -147,7 +147,7 @@ export default function WhyN4reDesktop() {
                           
                           <div 
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
-                              isActive ? 'bg-purple-100 text-purple-700 rotate-90' : 'bg-slate-100 text-slate-400'
+                              isActive ? 'bg-purple-100 text-purple-700 rotate-90' : 'bg-slate-100 text-[var(--color-text-muted)]'
                             }`}
                           >
                             <ArrowRight size={16} strokeWidth={2.5} />
@@ -160,7 +160,7 @@ export default function WhyN4reDesktop() {
                           }`}
                         >
                           <div className="overflow-hidden">
-                            <p className="text-[15px] leading-relaxed text-slate-600 font-medium pl-[76px] pr-4 pb-2">
+                            <p className="text-[15px] leading-relaxed text-[var(--color-text-secondary)] font-medium pl-[76px] pr-4 pb-2">
                               {sol.description}
                             </p>
                           </div>

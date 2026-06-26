@@ -37,7 +37,7 @@ export default function EcosystemDesktop() {
   return (
     <section 
       id="ecosystem" 
-      className="relative bg-[#FAFAFA] py-16 lg:py-24 overflow-hidden"
+      className="relative bg-[var(--color-bg-muted)] py-16 lg:py-24 overflow-hidden"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-400/5 rounded-full blur-[120px] pointer-events-none" />
 
@@ -62,7 +62,7 @@ export default function EcosystemDesktop() {
                 />
               </div>
               
-              <span className="text-[13px] font-bold text-slate-800 leading-tight group-hover:text-purple-950 transition-colors duration-300 text-center px-1">
+              <span className="text-[13px] font-bold text-[var(--color-text-primary)] leading-tight group-hover:text-purple-950 transition-colors duration-300 text-center px-1">
                 {member.label}
               </span>
 

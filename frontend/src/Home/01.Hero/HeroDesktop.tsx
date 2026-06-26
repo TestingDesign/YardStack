@@ -45,7 +45,7 @@ export default function HeroDesktop() {
   const cardAngles = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
 
   return (
-    <section id="hero" className="relative bg-[#FAFAFA] overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+    <section id="hero" className="relative bg-[var(--color-bg-muted)] overflow-hidden selection:bg-purple-200 selection:text-purple-900">
       <div className="absolute bottom-0 pointer-events-none z-0" style={{ right: 0, width: "55%", height: "200px" }}>
         <svg viewBox="0 0 800 200" preserveAspectRatio="xMaxYMax meet" className="w-full h-full block" xmlns="http://www.w3.org/2000/svg">
           <g transform="translate(800,0) scale(-1,1)" opacity="0.05" fill="#6B21A8">
@@ -136,20 +136,20 @@ export default function HeroDesktop() {
             <span className="text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 w-fit">
               {HERO_CONTENT.tagline}
             </span>
-            <h1 className="text-4xl lg:text-[56px] leading-[1.1] font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-4xl lg:text-[56px] leading-[1.1] font-extrabold text-[var(--color-text-primary)] tracking-tight">
               Connecting <br className="hidden lg:block" />
               <AnimatedCity className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500" suffix="'s" /><br />
               <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500">Real Estate</span>{" "}
               Ecosystem
             </h1>
-            <p className="text-lg font-semibold text-slate-800 max-w-md">{HERO_CONTENT.subHeading}</p>
-            <p className="text-base leading-relaxed text-slate-500 max-w-md">{HERO_CONTENT.description}</p>
+            <p className="text-lg font-semibold text-[var(--color-text-primary)] max-w-md">{HERO_CONTENT.subHeading}</p>
+            <p className="text-base leading-relaxed text-[var(--color-text-secondary)] max-w-md">{HERO_CONTENT.description}</p>
             
             <div className="flex flex-wrap items-center gap-4 mt-2">
               <button className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-gradient-to-r from-purple-800 to-purple-700 text-white text-sm font-bold shadow-lg shadow-purple-800/25 hover:shadow-xl hover:shadow-purple-800/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
                 {HERO_CONTENT.primaryCta}
               </button>
-              <button className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/60 backdrop-blur-sm text-slate-700 text-sm font-bold border border-slate-200/60 shadow-sm hover:bg-white hover:border-purple-200 hover:text-purple-800 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
+              <button className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-white/60 backdrop-blur-sm text-[var(--color-text-primary)] text-sm font-bold border border-[var(--color-border-default)]/60 shadow-sm hover:bg-white hover:border-purple-200 hover:text-purple-800 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]">
                 {HERO_CONTENT.secondaryCta}
                 <ArrowRight size={16} className="ml-1" />
               </button>
@@ -164,8 +164,8 @@ export default function HeroDesktop() {
                 ))}
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-sm font-extrabold text-slate-900 leading-tight">{HERO_CONTENT.supportingTextBold}</span>
-                <span className="text-xs font-medium text-slate-500 leading-tight">{HERO_CONTENT.supportingText}</span>
+                <span className="text-sm font-extrabold text-[var(--color-text-primary)] leading-tight">{HERO_CONTENT.supportingTextBold}</span>
+                <span className="text-xs font-medium text-[var(--color-text-secondary)] leading-tight">{HERO_CONTENT.supportingText}</span>
               </div>
             </div>
           </div>
@@ -236,12 +236,12 @@ export default function HeroDesktop() {
                   </div>
                   
                   <div className="flex flex-col gap-1 w-full">
-                    <span className={`font-bold leading-tight whitespace-pre-line transition-colors duration-500 ${isActive ? "text-purple-900" : "text-slate-800"}`} style={{ fontSize: isLg ? "13px" : "12px" }}>
+                    <span className={`font-bold leading-tight whitespace-pre-line transition-colors duration-500 ${isActive ? "text-purple-900" : "text-[var(--color-text-primary)]"}`} style={{ fontSize: isLg ? "13px" : "12px" }}>
                       {cat.label}
                     </span>
                     <div className={`grid transition-all duration-500 overflow-hidden ${isActive ? "grid-rows-[1fr] opacity-100 mt-1" : "grid-rows-[0fr] opacity-0"}`}>
                       <div className="min-h-0">
-                        <span className="block text-[11px] text-slate-500 font-medium leading-snug px-1 pb-1">
+                        <span className="block text-[11px] text-[var(--color-text-secondary)] font-medium leading-snug px-1 pb-1">
                           {cat.description || "Explore this area."}
                         </span>
                       </div>

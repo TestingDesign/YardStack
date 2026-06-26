@@ -42,7 +42,7 @@ export default function WhyN4reMobile() {
             </p>
             <ul className="flex flex-col gap-4">
               {TODAY_PROBLEMS.map((item) => (
-                <li key={item.text} className="flex items-center gap-4 text-[13px] text-slate-700">
+                <li key={item.text} className="flex items-center gap-4 text-[13px] text-[var(--color-text-primary)]">
                   <div 
                     className="w-9 h-9 rounded-[2px] flex items-center justify-center shrink-0 shadow-sm" 
                     style={{ backgroundColor: item.bgColor }}
@@ -62,7 +62,7 @@ export default function WhyN4reMobile() {
             </div>
           </div>
 
-          <div className="p-6 sm:p-8 bg-slate-50/30">
+          <div className="p-6 sm:p-8 bg-gray-50/30">
             <p className="text-center text-[10px] font-extrabold uppercase tracking-widest text-green-600 mb-6">
               {WHY_N4RE_CONTENT.n4reHeader}
             </p>

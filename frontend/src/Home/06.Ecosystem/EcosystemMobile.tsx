@@ -56,7 +56,7 @@ export default function EcosystemMobile() {
                   <EcosystemIcon icon={member.icon} color="#6B21A8" size={24} />
                 </div>
               </div>
-              <span className="text-[9px] font-bold text-slate-700 leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
+              <span className="text-[9px] font-bold text-[var(--color-text-primary)] leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
                 {member.label}
               </span>
             </div>

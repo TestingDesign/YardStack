@@ -8,6 +8,9 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
+import CloseIcon from '@mui/icons-material/Close'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
@@ -273,10 +276,68 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
   )
 }
 
+function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
+      <div 
+        className="bg-white rounded-2xl w-[90%] max-w-[400px] p-6 shadow-2xl animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-[20px] font-black text-gray-900">Create new playlist</h2>
+          <button 
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-800 transition-colors border-none cursor-pointer"
+          >
+            <CloseIcon sx={{ fontSize: 18 }} />
+          </button>
+        </div>
+        
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-bold text-gray-700">Name</label>
+            <input 
+              type="text" 
+              placeholder="E.g. Real Estate Tips" 
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[14px]"
+              autoFocus
+            />
+          </div>
+          
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-bold text-gray-700">Privacy</label>
+            <select className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[14px] bg-white">
+              <option value="private">Private (Only you can view)</option>
+              <option value="public">Public (Anyone can view)</option>
+              <option value="unlisted">Unlisted (Anyone with link)</option>
+            </select>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-end gap-3 mt-8">
+          <button 
+            onClick={onClose}
+            className="px-5 py-2 rounded-full text-[14px] font-bold text-gray-600 hover:bg-gray-100 transition-colors border-none bg-transparent cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={onClose}
+            className="px-6 py-2 rounded-full text-[14px] font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md hover:shadow-lg transition-all border-none cursor-pointer"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
+  const [showPlaylistModal, setShowPlaylistModal] = useState(false)
   const perPage = 10
 
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -333,29 +394,16 @@ export default function PodcastDesktop() {
     : -1
 
   return (
-    <>
+    <div className="relative flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] overflow-hidden">
       <style>{STYLES}</style>
 
-      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
         <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
         <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex-1 min-w-0 flex flex-col gap-7">
-            {activeEpisode ? (
-              <div className="w-full bg-black rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out aspect-[21/9] border border-white/5">
-                <PodcastVideoPlayerDesktop
-                  episode={activeEpisode}
-                  onClose={() => setActiveEpisode(null)}
-                  onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
-                  onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
-                  hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-                  hasPrev={activeIdx > 0}
-                  inline
-                />
-              </div>
-            ) : (
               <div
                 className="w-full bg-white rounded-[8px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.07),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_16px_48px_rgba(124,58,237,0.14),0_4px_16px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
                 onClick={() => setActiveEpisode(filtered[0])}
@@ -422,7 +470,6 @@ export default function PodcastDesktop() {
                   </div>
                 </div>
               </div>
-            )}
 
             <div className="w-full flex flex-col gap-3">
               <SectionHeader
@@ -595,6 +642,85 @@ export default function PodcastDesktop() {
         </div>
       </div>
 
-    </>
+      {activeEpisode && (
+        <div className="absolute inset-0 z-[100] bg-[#f8f9fa] animate-in fade-in zoom-in-95 duration-300 flex flex-col overflow-y-auto scrollbar-none">
+          <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm px-6 py-3 border-b border-gray-100 flex items-center gap-4 shadow-sm shrink-0">
+            <button 
+              onClick={() => setActiveEpisode(null)}
+              className="flex items-center gap-2 text-[14px] font-bold text-gray-700 hover:text-purple-600 transition-colors bg-transparent border-none cursor-pointer"
+            >
+              <ArrowBackIcon sx={{ fontSize: 20 }} /> Back to Podcasts
+            </button>
+          </div>
+
+          <div className="flex-1 w-full max-w-[1600px] mx-auto p-4 md:p-6 flex flex-col xl:flex-row gap-6">
+            <div className="flex-1 flex flex-col min-w-0">
+              <div className="w-full bg-black rounded-2xl overflow-hidden aspect-[16/9] lg:aspect-[21/9] shadow-lg shrink-0">
+                <PodcastVideoPlayerDesktop
+                  episode={activeEpisode}
+                  onClose={() => setActiveEpisode(null)}
+                  onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
+                  onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
+                  hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+                  hasPrev={activeIdx > 0}
+                  inline
+                  hideTopOverlay
+                />
+              </div>
+              
+              <div className="mt-5 flex flex-col gap-4 px-2">
+                <h1 className="text-[22px] font-black text-gray-900 leading-tight">{activeEpisode.title}</h1>
+                
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-11 h-11 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white font-bold flex items-center justify-center text-[18px] shadow-sm">
+                      {activeEpisode.speaker?.charAt(0)}
+                    </div>
+                    <div className="flex flex-col">
+                      <div className="flex items-center gap-1.5">
+                        <h3 className="text-[15px] font-bold text-gray-900 leading-tight">{activeEpisode.speaker}</h3>
+                        {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-500" />}
+                      </div>
+                      <p className="text-[12.5px] text-gray-500 font-medium leading-tight">{activeEpisode.role}</p>
+                    </div>
+                    <button className="ml-4 px-5 py-2 bg-gray-900 text-white rounded-full text-[13px] font-bold hover:bg-gray-800 transition-colors shadow-sm cursor-pointer border-none">
+                      Follow
+                    </button>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[13px] font-bold transition-colors cursor-pointer border-none">
+                      <BookmarkBorderIcon sx={{ fontSize: 18 }} /> Save
+                    </button>
+                    <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[13px] font-bold transition-colors cursor-pointer border-none">
+                      <ShareIcon sx={{ fontSize: 18 }} /> Share
+                    </button>
+                    <button 
+                      onClick={() => setShowPlaylistModal(true)}
+                      className="flex items-center gap-2 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-[13px] font-bold transition-colors border border-purple-200 cursor-pointer shadow-sm"
+                    >
+                      <PlaylistAddIcon sx={{ fontSize: 18 }} /> Create Playlist
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full xl:w-[400px] shrink-0 flex flex-col gap-4 mt-6 xl:mt-0">
+              <h3 className="text-[16px] font-black text-gray-900 px-1">Up Next</h3>
+              <div className="flex flex-col gap-4">
+                {filteredWithoutTop.slice(0, 10).map((ep, idx) => (
+                  <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showPlaylistModal && (
+        <CreatePlaylistModal onClose={() => setShowPlaylistModal(false)} />
+      )}
+    </div>
   )
 }

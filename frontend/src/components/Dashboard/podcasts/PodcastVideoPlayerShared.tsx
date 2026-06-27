@@ -15,6 +15,7 @@ export interface PodcastVideoPlayerProps {
   hasPrev?: boolean
   initialLayout?: ViewLayout
   inline?: boolean
+  hideTopOverlay?: boolean
 }
 
 export function fmtTime(secs: number) {

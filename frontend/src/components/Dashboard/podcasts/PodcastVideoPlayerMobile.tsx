@@ -25,6 +25,7 @@ export default function PodcastVideoPlayerMobile({
   onPrev,
   hasNext = false,
   hasPrev = false,
+  hideTopOverlay = false,
 }: PodcastVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -240,17 +241,19 @@ export default function PodcastVideoPlayerMobile({
           }`} 
         />
 
-        {/* Always-visible close button – never hidden with controls */}
-        <div className="absolute top-2 right-2 z-40">
-          <button
-            type="button"
-            onClick={(e) => { e.stopPropagation(); handleClose() }}
-            className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
-            aria-label="Close player"
-          >
-            <CloseIcon sx={{ fontSize: 16 }} />
-          </button>
-        </div>
+        {/* Always-visible close button unless hidden */}
+        {!hideTopOverlay && (
+          <div className="absolute top-2 right-2 z-40">
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); handleClose() }}
+              className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
+              aria-label="Close player"
+            >
+              <CloseIcon sx={{ fontSize: 16 }} />
+            </button>
+          </div>
+        )}
 
         {/* Fading top overlay – title only */}
         <div 

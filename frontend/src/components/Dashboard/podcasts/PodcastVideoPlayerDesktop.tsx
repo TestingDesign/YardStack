@@ -24,6 +24,7 @@ export default function PodcastVideoPlayerDesktop({
   hasNext = false,
   hasPrev = false,
   inline = false,
+  hideTopOverlay = false,
 }: PodcastVideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -296,11 +297,12 @@ export default function PodcastVideoPlayerDesktop({
               <PlayArrowIcon sx={{ fontSize: 48 }} className="ml-1" />
             </div>
           </div>
-        </div>
 
-        {topControls}
-        {closeButton}
-        {bottomControls}
+          {!hideTopOverlay && closeButton}
+          {!hideTopOverlay && topControls}
+          {bottomControls}
+
+        </div>
       </div>
     </div>
   )

@@ -8,6 +8,8 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
+import CloseIcon from '@mui/icons-material/Close'
 import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 
 import PodcastTabs from './PodcastTabs'
@@ -292,10 +294,68 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
   )
 })
 
+function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
+      <div 
+        className="bg-white rounded-2xl w-[90%] max-w-[400px] p-6 shadow-2xl animate-in zoom-in-95 duration-200"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-[20px] font-black text-gray-900">Create new playlist</h2>
+          <button 
+            onClick={onClose}
+            className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-800 transition-colors border-none cursor-pointer"
+          >
+            <CloseIcon sx={{ fontSize: 18 }} />
+          </button>
+        </div>
+        
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-bold text-gray-700">Name</label>
+            <input 
+              type="text" 
+              placeholder="E.g. Real Estate Tips" 
+              className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[14px]"
+              autoFocus
+            />
+          </div>
+          
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-bold text-gray-700">Privacy</label>
+            <select className="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[14px] bg-white">
+              <option value="private">Private (Only you can view)</option>
+              <option value="public">Public (Anyone can view)</option>
+              <option value="unlisted">Unlisted (Anyone with link)</option>
+            </select>
+          </div>
+        </div>
+        
+        <div className="flex items-center justify-end gap-3 mt-8">
+          <button 
+            onClick={onClose}
+            className="px-5 py-2 rounded-full text-[14px] font-bold text-gray-600 hover:bg-gray-100 transition-colors border-none bg-transparent cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={onClose}
+            className="px-6 py-2 rounded-full text-[14px] font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md hover:shadow-lg transition-all border-none cursor-pointer"
+          >
+            Create
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function PodcastMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
-  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
   const [page, setPage] = useState(1)
+  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
+  const [showPlaylistModal, setShowPlaylistModal] = useState(false)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const perPage = 10
 
@@ -358,15 +418,69 @@ export default function PodcastMobile() {
         </div>
 
         {activeEpisode && (
-          <PodcastVideoPlayerMobile
-            episode={activeEpisode}
-            onClose={() => setActiveEpisode(null)}
-            onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
-            onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
-            hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-            hasPrev={activeIdx > 0}
-            inline={false}
-          />
+          <div className="flex flex-col bg-white border-b border-gray-100 pb-4 animate-in slide-in-from-top-4 duration-300 relative z-50">
+            <div className="sticky top-0 z-[60] bg-white/95 backdrop-blur-sm px-3 py-2 flex items-center shadow-sm">
+              <button 
+                onClick={() => setActiveEpisode(null)}
+                className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-700 border-none cursor-pointer"
+              >
+                <ChevronLeft size={18} />
+              </button>
+              <span className="ml-2 text-[13px] font-bold text-gray-900">Now Playing</span>
+            </div>
+
+            <PodcastVideoPlayerMobile
+              episode={activeEpisode}
+              onClose={() => setActiveEpisode(null)}
+              onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
+              onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
+              hasNext={activeIdx < PODCAST_EPISODES.length - 1}
+              hasPrev={activeIdx > 0}
+              hideTopOverlay
+            />
+            
+            <div className="px-3 pt-3 flex flex-col gap-2.5">
+              <h1 className="text-[16px] font-black text-gray-900 leading-tight">{activeEpisode.title}</h1>
+              <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
+                <span className="flex items-center gap-1"><Eye size={12} className="text-purple-500" /> 28K Views</span>
+                <span className="w-1 h-1 rounded-full bg-gray-300" />
+                <span>1 day ago</span>
+              </div>
+              
+              <div className="flex items-center justify-between mt-1">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white font-bold flex items-center justify-center text-[14px]">
+                    {activeEpisode.speaker?.charAt(0)}
+                  </div>
+                  <div className="flex flex-col">
+                    <div className="flex items-center gap-1">
+                      <h3 className="text-[13px] font-bold text-gray-900">{activeEpisode.speaker}</h3>
+                      {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />}
+                    </div>
+                    <p className="text-[10px] text-gray-500 font-medium">{activeEpisode.role}</p>
+                  </div>
+                </div>
+                <button className="px-3.5 py-1.5 bg-gray-900 text-white rounded-full text-[11px] font-bold border-none">
+                  Follow
+                </button>
+              </div>
+
+              <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory pt-2 pb-1 [&::-webkit-scrollbar]:hidden">
+                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[11px] font-bold shrink-0 border-none">
+                  <BookmarkBorderIcon sx={{ fontSize: 16 }} /> Save
+                </button>
+                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[11px] font-bold shrink-0 border-none">
+                  <ShareIcon sx={{ fontSize: 16 }} /> Share
+                </button>
+                <button 
+                  onClick={() => setShowPlaylistModal(true)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-[11px] font-bold shrink-0 border border-purple-200"
+                >
+                  <PlaylistAddIcon sx={{ fontSize: 16 }} /> Create Playlist
+                </button>
+              </div>
+            </div>
+          </div>
         )}
 
         <div className="flex-1 flex flex-col">
@@ -615,6 +729,9 @@ export default function PodcastMobile() {
           </div>
         </div>
       </div>
+      {showPlaylistModal && (
+        <CreatePlaylistModal onClose={() => setShowPlaylistModal(false)} />
+      )}
     </>
   )
 }

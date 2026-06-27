@@ -11,8 +11,10 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import WorkIcon from '@mui/icons-material/Work'
 import CircularProgress from '@mui/material/CircularProgress'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 
 import ActivityTabs from './ActivityTabs'
+import { ActivityBoardWidgets } from './ActivityBoardWidgets'
 import {
   ACTIVITY_ITEMS,
   type ActivityItem,
@@ -240,50 +242,71 @@ const OpportunityCard = memo(function OpportunityCard({
 
           <div className="shrink-0 flex flex-col items-center justify-between py-4 px-4 border-l border-gray-100/80 w-[160px] bg-gray-50/30 backdrop-blur-sm relative overflow-hidden">
             {isExpanded ? (
-              <div className="flex flex-col items-center gap-2.5 w-full animate-in fade-in zoom-in-95 duration-500 relative z-10">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                  }}
-                  className="w-full px-5 py-2.5 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border border-pink-500/20 bg-gradient-to-r from-[#E91E8C] to-[#F472B6] bg-size-[200%_auto] hover:bg-position-[100%_center] hover:scale-[1.03] shadow-[0_4px_12px_rgba(233,30,140,0.3)] hover:shadow-[0_6px_20px_rgba(233,30,140,0.4)] transition-all duration-500 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50"
-                >
-                  Apply Now
-                </button>
-                <button
-                  onClick={toggleSave}
-                  className="flex items-center justify-center gap-1.5 w-full py-2 rounded-[4px] text-[12px] font-semibold text-gray-700 cursor-pointer border border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-pink-50 hover:border-pink-200 hover:text-[#E91E8C] hover:shadow-[0_4px_12px_rgba(233,30,140,0.12)] hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0"
-                >
-                  {isSaved ? (
-                    <BookmarkIcon sx={{ fontSize: 16 }} className="text-[#E91E8C]" />
-                  ) : (
-                    <BookmarkBorderIcon sx={{ fontSize: 16 }} className="text-gray-400" />
-                  )}
-                  {isSaved ? 'Saved' : 'Save'}
-                </button>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    setIsDismissing(true)
-                  }}
-                  className="flex items-center justify-center gap-1 w-full py-1.5 rounded-[4px] text-[11px] font-medium cursor-pointer border-none bg-transparent hover:bg-red-50 text-red-500 transition-all duration-300"
-                >
-                  <CloseIcon sx={{ fontSize: 14 }} />
-                  Not Interested
-                </button>
+              <div className="flex flex-col items-center justify-between h-full w-full animate-in fade-in zoom-in-95 duration-500 relative z-10">
+                <div className="flex flex-col items-center gap-2.5 w-full">
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setIsDismissing(true)
+                    }}
+                    className="flex items-center justify-center gap-1 w-full py-1.5 rounded-[4px] text-[11px] font-medium cursor-pointer border-none bg-transparent hover:bg-red-50 text-red-500 transition-all duration-300"
+                  >
+                    <CloseIcon sx={{ fontSize: 14 }} />
+                    Not Interested
+                  </button>
+                </div>
+                <div className="flex flex-col items-center gap-2.5 w-full">
+                  <div className="flex flex-col items-center gap-1.5 w-full">
+                    <button
+                      onClick={toggleSave}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-[4px] text-[12px] font-semibold text-gray-700 cursor-pointer border border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-pink-50 hover:border-pink-200 hover:text-[#E91E8C] hover:shadow-[0_4px_12px_rgba(233,30,140,0.12)] hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0"
+                    >
+                      {isSaved ? (
+                        <BookmarkIcon sx={{ fontSize: 16 }} className="text-[#E91E8C]" />
+                      ) : (
+                        <BookmarkBorderIcon sx={{ fontSize: 16 }} className="text-gray-400" />
+                      )}
+                      {isSaved ? 'Saved' : 'Save'}
+                    </button>
+                    <button
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-[4px] text-[12px] font-semibold text-gray-700 cursor-pointer border border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-purple-50 hover:border-purple-200 hover:text-purple-600 hover:shadow-[0_4px_12px_rgba(147,51,234,0.12)] hover:-translate-y-0.5 transition-all duration-300 active:translate-y-0"
+                      aria-label="Share"
+                    >
+                      <ShareOutlinedIcon sx={{ fontSize: 16 }} className="text-inherit" />
+                      Share
+                    </button>
+                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                    }}
+                    className="w-full px-5 py-2.5 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border border-pink-500/20 bg-gradient-to-r from-[#E91E8C] to-[#F472B6] bg-size-[200%_auto] hover:bg-position-[100%_center] hover:scale-[1.03] shadow-[0_4px_12px_rgba(233,30,140,0.3)] hover:shadow-[0_6px_20px_rgba(233,30,140,0.4)] transition-all duration-500 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50"
+                  >
+                    Apply Now
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="flex flex-col items-center justify-between h-full w-full animate-in fade-in duration-500 relative z-10">
-                <button
-                  onClick={toggleSave}
-                  className="flex items-center justify-center w-9 h-9 rounded-[4px] text-gray-400 bg-transparent border border-transparent hover:text-[#E91E8C] hover:bg-white hover:border-pink-100 hover:shadow-[0_4px_12px_rgba(233,30,140,0.12)] transition-all duration-300 hover:scale-[1.05] hover:-translate-y-0.5 active:scale-[0.95] active:translate-y-0 cursor-pointer"
-                  aria-label={isSaved ? 'Saved' : 'Save'}
-                >
-                  {isSaved ? (
-                    <BookmarkIcon sx={{ fontSize: 20 }} className="text-[#E91E8C] drop-shadow-sm" />
-                  ) : (
-                    <BookmarkBorderIcon sx={{ fontSize: 20 }} />
-                  )}
-                </button>
+                <div className="flex items-center gap-1 justify-center w-full">
+                  <button
+                    onClick={toggleSave}
+                    className="flex items-center justify-center w-9 h-9 rounded-[4px] text-gray-400 bg-transparent border border-transparent hover:text-[#E91E8C] hover:bg-white hover:border-pink-100 hover:shadow-[0_4px_12px_rgba(233,30,140,0.12)] transition-all duration-300 hover:scale-[1.05] hover:-translate-y-0.5 active:scale-[0.95] active:translate-y-0 cursor-pointer"
+                    aria-label={isSaved ? 'Saved' : 'Save'}
+                  >
+                    {isSaved ? (
+                      <BookmarkIcon sx={{ fontSize: 20 }} className="text-[#E91E8C] drop-shadow-sm" />
+                    ) : (
+                      <BookmarkBorderIcon sx={{ fontSize: 20 }} />
+                    )}
+                  </button>
+                  <button
+                    className="flex items-center justify-center w-9 h-9 rounded-[4px] text-gray-400 bg-transparent border border-transparent hover:text-gray-800 hover:bg-white hover:border-gray-200 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-[1.05] hover:-translate-y-0.5 active:scale-[0.95] active:translate-y-0 cursor-pointer"
+                    aria-label="Share"
+                  >
+                    <ShareOutlinedIcon sx={{ fontSize: 20 }} />
+                  </button>
+                </div>
 
                 <button
                   onClick={(e) => {
@@ -309,26 +332,29 @@ const OpportunityCard = memo(function OpportunityCard({
   )
 })
 
-const AdsPlaceholder = memo(function AdsPlaceholder() {
+export const AdvertisementPlaceholder = memo(function AdvertisementPlaceholder() {
   return (
-    <>
-      <div className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center flex-1 min-h-[160px] max-h-[260px] relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(79,70,229,0.12)] hover:-translate-y-1 transition-all duration-500">
-        <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors duration-700" />
-        <div className="text-center relative z-10 p-6 flex flex-col items-center transform transition-transform duration-700 group-hover:scale-105">
-          <span className="block text-xl mb-3 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
-            Advertisement
-          </span>
-        </div>
+    <div className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center flex-1 min-h-[160px] max-h-[260px] relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(79,70,229,0.12)] hover:-translate-y-1 transition-all duration-500">
+      <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors duration-700" />
+      <div className="text-center relative z-10 p-6 flex flex-col items-center transform transition-transform duration-700 group-hover:scale-105">
+        <span className="block text-xl mb-3 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
+          Advertisement
+        </span>
       </div>
-      <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] shrink-0 relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(233,30,140,0.12)] hover:-translate-y-1 transition-all duration-500">
-        <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors duration-700" />
-        <div className="text-center relative z-10 p-6 flex flex-col items-center transform transition-transform duration-700 group-hover:scale-105">
-          <span className="block text-sm mb-3 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
-            Sponsored
-          </span>
-        </div>
+    </div>
+  )
+})
+
+const SponsoredPlaceholder = memo(function SponsoredPlaceholder() {
+  return (
+    <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] shrink-0 relative overflow-hidden group shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_48px_rgba(233,30,140,0.12)] hover:-translate-y-1 transition-all duration-500">
+      <div className="absolute inset-0 bg-white/20 group-hover:bg-transparent transition-colors duration-700" />
+      <div className="text-center relative z-10 p-6 flex flex-col items-center transform transition-transform duration-700 group-hover:scale-105">
+        <span className="block text-sm mb-3 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
+          Sponsored
+        </span>
       </div>
-    </>
+    </div>
   )
 })
 
@@ -465,8 +491,17 @@ export default function ActivityBoardDesktop() {
             )}
           </div>
 
-          <div className="col-span-4 hidden lg:flex flex-col h-full gap-2 px-1 pt-1">
-            <AdsPlaceholder />
+          <div className="col-span-4 hidden lg:flex flex-col h-full gap-4 px-1 pt-1 overflow-y-auto pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
+            <ActivityBoardWidgets 
+              adsContent={
+                <div className="flex flex-col gap-2 shrink-0">
+                  <AdvertisementPlaceholder />
+                </div>
+              }
+            />
+            <div className="flex flex-col gap-2 shrink-0">
+              <SponsoredPlaceholder />
+            </div>
             <div className="shrink-0 pb-4">
               <HiringCTA />
             </div>

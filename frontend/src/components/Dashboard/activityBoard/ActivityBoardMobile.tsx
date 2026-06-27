@@ -7,11 +7,13 @@ import BookmarkIcon from '@mui/icons-material/Bookmark'
 import CloseIcon from '@mui/icons-material/Close'
 import CircularProgress from '@mui/material/CircularProgress'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import GroupIcon from '@mui/icons-material/Group'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 import ActivityTabs from './ActivityTabs'
+import { ActivityBoardWidgets } from './ActivityBoardWidgets'
 import { ACTIVITY_ITEMS, type ActivityItem } from './data'
 
 const ITEMS_PER_PAGE = 8
@@ -162,6 +164,15 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
               </div>
 
               <button
+                className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition-all duration-300 active:scale-95 cursor-pointer ${
+                  swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
+                }`}
+                aria-label="Share"
+              >
+                <ShareOutlinedIcon sx={{ fontSize: 16 }} />
+              </button>
+
+              <button
                 onClick={(e) => { e.stopPropagation(); onToggle(); }}
                 className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded-[4px] border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
@@ -305,7 +316,7 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
   )
 })
 
-const AdvertisementBlock = memo(function AdvertisementBlock() {
+export const AdvertisementBlock = memo(function AdvertisementBlock() {
   return (
     <div className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center w-full h-[120px] my-3 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
       <div className="text-center relative z-10 p-4 flex flex-col items-center">
@@ -440,7 +451,12 @@ export default function ActivityBoardMobile() {
           </div>
         )}
 
-        {displayedItems.length > 0 && <HiringCTA />}
+        {displayedItems.length > 0 && (
+          <div className="flex flex-col gap-4 mt-6">
+            <ActivityBoardWidgets />
+            <HiringCTA />
+          </div>
+        )}
       </div>
     </div>
   )

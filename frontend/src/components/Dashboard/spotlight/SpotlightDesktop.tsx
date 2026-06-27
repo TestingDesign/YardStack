@@ -19,6 +19,7 @@ import { Users, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } 
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
+import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 
 const STYLES = `
   @keyframes shimmer {
@@ -644,33 +645,7 @@ export default function SpotlightDesktop() {
               </div>
             </div>
 
-            <div className="rounded-[4px] overflow-hidden relative cursor-pointer w-full aspect-[4/5] shadow-[0_8px_32px_rgba(0,0,0,0.18)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(66,32,130,0.35)] hover:-translate-y-1 group/ad">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2a1550] to-[#0f1035]" />
-              <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center mix-blend-overlay group-hover/ad:scale-110 transition-transform duration-700" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-purple-900/60 to-transparent opacity-0 group-hover/ad:opacity-100 transition-opacity duration-500" />
-
-              <div className="relative z-10 flex flex-col p-5 text-white h-full justify-end">
-                <div className="flex items-center justify-between w-full mb-auto mt-2">
-                  <span className="text-[10px] font-black text-white uppercase tracking-[0.18em] border border-white/30 rounded-full px-2.5 py-1 bg-black/40 backdrop-blur-md">
-                    Sponsored
-                  </span>
-                  <button className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-white/20 transition-all cursor-pointer border-none" aria-label="Ad options">
-                    <MoreVertIcon sx={{ fontSize: 18 }} />
-                  </button>
-                </div>
-                
-                <h3 className="text-[22px] font-black leading-tight mb-2 text-white drop-shadow-lg">
-                  Elevate Your<br />Real Estate<br />Portfolio
-                </h3>
-                <p className="text-[13px] text-white/80 leading-relaxed mb-5 font-medium max-w-[200px]">
-                  Join the elite network of property investors today.
-                </p>
-                <button className="w-full py-3 bg-white text-gray-900 hover:bg-purple-50 text-[13px] font-black rounded-[8px] transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer border-none">
-                  Explore Now
-                </button>
-              </div>
-            </div>
+            <AdvertisementPlaceholder />
 
             <div className="flex flex-col rounded-lg p-4">
               <div className="flex items-center justify-between mb-4">

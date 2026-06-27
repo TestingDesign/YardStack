@@ -10,6 +10,7 @@ import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
+import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 import PodcastTabs from './PodcastTabs'
 import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
@@ -546,26 +547,7 @@ export default function PodcastDesktop() {
 
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-            <div className="rounded-[8px] overflow-hidden relative cursor-pointer w-full shadow-[0_8px_32px_rgba(0,0,0,0.18),0_2px_8px_rgba(0,0,0,0.1)] transition-all duration-500 hover:shadow-[0_16px_48px_rgba(66,32,130,0.35),0_4px_16px_rgba(0,0,0,0.12)] hover:-translate-y-1 group/ad">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2a1550] to-[#0f1035]" />
-              <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(ellipse 120% 80% at 90% 10%, rgba(217,70,239,0.45) 0%, transparent 60%)' }} />
-              <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-purple-700/20 blur-3xl translate-y-1/2 -translate-x-1/4 group-hover/ad:bg-purple-600/30 transition-colors duration-500" />
-
-              <div className="relative z-10 flex flex-col p-5 text-white" style={{ minHeight: 220 }}>
-                <span className="text-[9px] font-black text-purple-300 uppercase tracking-[0.18em] mb-3 border border-purple-400/30 rounded-full px-2.5 py-0.5 w-fit bg-purple-400/10">
-                  Advertisement
-                </span>
-                <h3 className="text-[19px] font-black leading-tight mb-2 text-white drop-shadow-sm">
-                  Find Your Next<br />Real Estate<br />Opportunity
-                </h3>
-                <p className="text-[12px] text-white/65 leading-relaxed mb-5 font-medium">
-                  Discover verified listings, connect with experts, and close deals today.
-                </p>
-                <button className="px-5 py-2 bg-white text-gray-900 hover:bg-purple-50 text-[12px] font-black rounded-xl w-fit transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-105 active:scale-95 cursor-pointer">
-                  Explore Listings →
-                </button>
-              </div>
-            </div>
+            <AdvertisementPlaceholder />
 
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 

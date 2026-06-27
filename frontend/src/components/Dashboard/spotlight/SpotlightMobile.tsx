@@ -16,6 +16,7 @@ import { Flame, Eye, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
+import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
 const MOBILE_STYLES = `
   @keyframes shimmer {
@@ -364,12 +365,8 @@ export default function SpotlightMobile() {
         </div>
 
         <div className="flex-1 flex flex-col pb-10">
-            <div className="mt-4 mx-4 bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
-              <div className="text-center relative z-10 p-4 flex flex-col items-center">
-                <span className="block text-sm mb-2 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
-                  Advertisement
-                </span>
-              </div>
+            <div className="mt-4 mx-4">
+              <AdvertisementBlock />
             </div>
 
             <div className="mt-6">

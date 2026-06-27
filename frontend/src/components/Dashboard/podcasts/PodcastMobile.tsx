@@ -13,6 +13,7 @@ import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mi
 import PodcastTabs from './PodcastTabs'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
+import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
 const MOBILE_STYLES = `
   @keyframes shimmer {
@@ -483,28 +484,8 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-6 mx-3 rounded-[4px] overflow-hidden relative shadow-[0_6px_24px_rgba(0,0,0,0.18)] transition-all duration-500 hover:shadow-[0_12px_36px_rgba(66,32,130,0.3)] hover:-translate-y-0.5 cursor-pointer group/ad animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#1a0533] via-[#2a1550] to-[#0f1035]" />
-            <div className="absolute inset-0 opacity-35" style={{ backgroundImage: 'radial-gradient(ellipse 130% 80% at 90% 10%, rgba(217,70,239,0.45) 0%, transparent 55%)' }} />
-            <div className="absolute bottom-0 right-0 w-48 h-48 rounded-full bg-purple-700/20 blur-3xl translate-y-1/3 translate-x-1/4 group-hover/ad:bg-purple-600/30 transition-colors duration-500" />
-            <div className="relative z-10 p-4 flex flex-col justify-center min-h-[120px]">
-              <div className="flex justify-between items-start gap-4">
-                <div className="flex-1">
-                  <span className="text-[9px] font-black text-purple-300 uppercase tracking-[0.16em] border border-purple-400/30 rounded-full px-2.5 py-0.5 bg-purple-400/10 inline-block mb-2">
-                    Advertisement
-                  </span>
-                  <h3 className="text-[16px] font-black leading-tight mb-1 text-white drop-shadow-sm">
-                    Find Your Next Real Estate Opportunity
-                  </h3>
-                  <p className="text-[11px] text-white/65 hinted line-clamp-2 leading-relaxed font-medium">
-                    Discover verified listings & connect with experts.
-                  </p>
-                </div>
-              </div>
-              <button className="mt-4 px-4 py-2.5 bg-white text-gray-900 hover:bg-purple-50 text-[11px] font-black rounded-[4px] w-full transition-all duration-300 shadow-[0_4px_16px_rgba(255,255,255,0.15)] hover:shadow-[0_6px_24px_rgba(255,255,255,0.25)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer text-center border-none">
-                Explore Listings →
-              </button>
-            </div>
+          <div className="mt-6 mx-3">
+            <AdvertisementBlock />
           </div>
 
           <div className="mt-8 mx-3">

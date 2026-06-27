@@ -79,22 +79,35 @@ function MobileMoreMenu({
           className="absolute right-0 top-[110%] w-44 bg-white rounded-[6px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
         >
           {[
-            { Icon: ShareOutlinedIcon,        label: 'Share spotlight'   },
+            { Icon: ShareOutlinedIcon, label: 'Share spotlight' },
             { Icon: BookmarkBorderIcon, label: 'Save to playlist' },
           ].map(({ Icon, label }) => (
-            <button key={label} type="button" onClick={onAction}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left">
-              <Icon sx={{ fontSize: 15 }} />{label}
+            <button 
+              key={label} 
+              type="button" 
+              onClick={onAction}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left"
+            >
+              <Icon sx={{ fontSize: 15 }} />
+              {label}
             </button>
           ))}
           <div className="h-px bg-purple-50 my-1 mx-3" />
-          <button type="button" onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-500 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer text-left">
-            <VisibilityOffIcon sx={{ fontSize: 15 }} />Not interested
+          <button 
+            type="button" 
+            onClick={onAction}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-500 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer text-left"
+          >
+            <VisibilityOffIcon sx={{ fontSize: 15 }} />
+            Not interested
           </button>
-          <button type="button" onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-red-500 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left">
-            <FlagOutlinedIcon sx={{ fontSize: 15 }} />Report spotlight
+          <button 
+            type="button" 
+            onClick={onAction}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-red-500 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
+          >
+            <FlagOutlinedIcon sx={{ fontSize: 15 }} />
+            Report spotlight
           </button>
         </div>
       )}
@@ -108,9 +121,9 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
   onNext,
   onPrev
 }: { 
-  video: SpotlightVideo, 
-  onClose: () => void,
-  onNext?: () => void,
+  video: SpotlightVideo 
+  onClose: () => void
+  onNext?: () => void
   onPrev?: () => void
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -128,7 +141,7 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
 
   return (
     <div className="relative w-full h-full bg-black flex flex-col overflow-hidden">
-      <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} opacity-90`} />
+      <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
       
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-30">
         <button 
@@ -261,7 +274,7 @@ const SpotlightCard = memo(function SpotlightCard({
       onClick={() => onPlay(video)}
     >
       <div className="relative w-full aspect-[9/16] rounded-[6px] overflow-hidden mb-2 shadow-[0_4px_14px_rgba(0,0,0,0.08)]">
-        <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} opacity-90`} />
+        <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
         
         <div className="absolute inset-0 flex items-center justify-center opacity-100">
@@ -339,31 +352,18 @@ export default function SpotlightMobile() {
     : -1
 
   return (
-    <>
+    <div className="relative w-full h-full flex flex-col bg-[#f8f9fa] overflow-hidden">
       <style>{MOBILE_STYLES}</style>
 
       <div 
         ref={scrollContainerRef}
-        className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-[#f8f9fa] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] flex flex-col"
+        className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] flex flex-col"
       >
         <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md">
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        {activeVideo && (
-          <div className="px-3 pt-3 shrink-0 animate-in fade-in zoom-in-95 duration-300">
-             <div className="w-full aspect-[9/16] max-h-[600px] mx-auto rounded-[12px] overflow-hidden relative bg-black shadow-lg border border-purple-100/10">
-               <ActiveVideoPlayer
-                 video={activeVideo}
-                 onClose={() => setActiveVideo(null)}
-                 onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-                 onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
-               />
-             </div>
-          </div>
-        )}
-
-          <div className="flex-1 flex flex-col pb-10">
+        <div className="flex-1 flex flex-col pb-10">
             <div className="mt-4 mx-4 bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[120px] relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
               <div className="text-center relative z-10 p-4 flex flex-col items-center">
                 <span className="block text-sm mb-2 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
@@ -499,9 +499,19 @@ export default function SpotlightMobile() {
                 </div>
               )}
             </div>
-
-          </div>
         </div>
-    </>
+      </div>
+
+      {activeVideo && (
+        <div className="absolute inset-0 z-50 bg-black animate-in fade-in slide-in-from-bottom-8 duration-300">
+          <ActiveVideoPlayer
+            video={activeVideo}
+            onClose={() => setActiveVideo(null)}
+            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
+          />
+        </div>
+      )}
+    </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Building2, Home, TrendingUp, MapPin, Building } from 'lucide-react';
+import { Building2, Home, TrendingUp, MapPin } from 'lucide-react';
 
 export const SEGMENTS_CONTENT = {
   tagline: "REAL ESTATE SEGMENTS WE SERVE",

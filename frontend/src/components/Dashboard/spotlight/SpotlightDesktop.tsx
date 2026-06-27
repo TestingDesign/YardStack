@@ -15,8 +15,6 @@ import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import FullscreenIcon from '@mui/icons-material/Fullscreen'
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import { Users, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
@@ -29,7 +27,7 @@ const STYLES = `
   }
   @keyframes floatUp {
     0%,100% { transform: translateY(0px); }
-    50%      { transform: translateY(-4px); }
+    50%     { transform: translateY(-4px); }
   }
   @keyframes pulseRing {
     0%   { transform: scale(1);   opacity: .6; }
@@ -167,18 +165,19 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
       className={`card-shimmer group flex flex-col cursor-pointer transition-all duration-500 ease-out animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{
-        animationDelay: `${index * 55}ms`,
-      }}
+      style={{ animationDelay: `${index * 55}ms` }}
       onClick={() => onPlay(video)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(video) }
+        if (e.key === 'Enter' || e.key === ' ') { 
+          e.preventDefault() 
+          onPlay(video) 
+        }
       }}
     >
       <div className="relative w-full aspect-[9/16] rounded-[4px] overflow-hidden mb-3 flex-shrink-0 bg-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:shadow-[0_20px_48px_rgba(124,58,237,0.22),0_8px_24px_rgba(0,0,0,0.12)] group-hover:-translate-y-1">
-        <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
+        <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
         
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80 transition-opacity duration-300 group-hover:opacity-90" />
 
@@ -272,7 +271,6 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
   onPrev?: () => void
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isCleanMode, setIsCleanMode] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -286,125 +284,99 @@ const ActiveVideoPlayer = memo(function ActiveVideoPlayer({
   }, [])
 
   return (
-    <div className="w-full h-full flex items-center justify-center gap-4 bg-black/95 rounded-2xl animate-in fade-in zoom-in-[0.98] duration-500 relative overflow-hidden">
+    <div className="w-full h-full flex flex-row bg-black animate-in fade-in duration-300 overflow-hidden relative">
+      
       <button 
         onClick={onClose}
-        className={`absolute top-6 left-6 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-all z-50 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        className="absolute top-6 left-6 w-10 h-10 flex items-center justify-center bg-black/40 hover:bg-black/70 backdrop-blur-md rounded-full text-white transition-all z-50 cursor-pointer border-none"
         aria-label="Go back"
       >
-        <ArrowBackIosNewIcon sx={{ fontSize: 20 }} />
+        <ArrowBackIosNewIcon sx={{ fontSize: 20 }} className="ml-1" />
       </button>
 
-      <div className={`w-[380px] h-[85%] max-h-[800px] min-h-[500px] relative overflow-hidden bg-black flex flex-col my-auto transition-all duration-300 ${isCleanMode ? 'scale-105 rounded-none z-[100]' : 'rounded-2xl shadow-2xl border border-white/10'}`}>
-        <div className={`absolute inset-0 bg-linear-to-b ${video.gradient} transition-opacity duration-300 ${isCleanMode ? 'opacity-0' : 'opacity-90'}`} />
-        
-        <div className={`absolute top-4 left-4 right-4 flex items-center justify-between z-30 transition-opacity duration-300 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          <div className="flex items-center gap-1.5 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 text-white">
-            <PlayArrowOutlinedIcon sx={{ fontSize: 18 }} />
-            <span className="text-[13px] font-semibold">{video.views} views</span>
-          </div>
-          <div className="bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 text-[13px] font-bold text-white">
-            {video.duration}
-          </div>
-        </div>
-
-        <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-          <div className="w-20 h-20 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-2xl">
-            <PlayArrowOutlinedIcon sx={{ fontSize: 48 }} />
-          </div>
-        </div>
-
-        <div className={`absolute bottom-8 left-5 right-14 flex flex-col gap-3 z-20 pointer-events-none transition-opacity duration-300 ${isCleanMode ? 'opacity-0' : 'opacity-100'}`}>
-          <h2 className="text-white text-[18px] font-extrabold leading-snug drop-shadow-xl pr-4">
-            {video.title}
-          </h2>
-          
-          <div className="flex items-center gap-3 pointer-events-auto">
-            <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0 shadow-lg">
-              <span className="text-[14px] font-extrabold text-[#1f1633]">{video.authorInitial}</span>
-            </div>
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className="text-white text-[15px] font-bold drop-shadow-md truncate">
-                {video.author}
-              </span>
-              {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-[#3B82F6] drop-shadow-md shrink-0" />}
+      <div className="absolute bottom-8 left-8 max-w-[350px] z-40 flex flex-col gap-3">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 p-[2px]">
+            <div className="w-full h-full rounded-full bg-black border-2 border-black flex items-center justify-center overflow-hidden">
+               <span className="text-white text-[13px] font-bold">{video.authorInitial}</span>
             </div>
           </div>
+          <div className="flex items-center gap-2">
+            <span className="text-white font-bold text-[14px] hover:underline cursor-pointer">{video.author}</span>
+            {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-500" />}
+            <span className="text-white font-bold text-[14px] mx-1">·</span>
+            <button className="text-blue-500 font-bold text-[14px] hover:text-white transition-colors cursor-pointer border-none bg-transparent p-0">Follow</button>
+          </div>
+        </div>
+        <div className="text-white/90 text-[14px] leading-relaxed">
+          {video.title}
+        </div>
+      </div>
+
+      <div className="flex-1 flex items-center justify-center relative py-6">
+        <div className="h-full aspect-[9/16] relative overflow-hidden rounded-[8px] bg-[#111]">
+          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
+          <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
+            <div className="w-20 h-20 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-2xl">
+              <PlayArrowOutlinedIcon sx={{ fontSize: 48 }} />
+            </div>
+          </div>
+          <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 z-30">
+            <div className="h-full bg-white w-1/3 rounded-r-full shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+          </div>
+          <div className="absolute bottom-4 left-4 z-40">
+            <div className="bg-black/60 backdrop-blur-md text-white text-[12px] font-semibold px-2 py-1 rounded flex items-center gap-1">
+              <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} /> {video.views}
+            </div>
+          </div>
         </div>
 
-        <button 
-          onClick={(e) => {
-            e.stopPropagation()
-            setIsCleanMode(!isCleanMode)
-          }}
-          className="absolute bottom-6 right-4 z-40 w-10 h-10 flex items-center justify-center bg-black/40 backdrop-blur-md rounded-full text-white hover:bg-black/60 transition-colors"
-          aria-label={isCleanMode ? "Exit full screen" : "View full screen"}
-        >
-          {isCleanMode ? <FullscreenExitIcon /> : <FullscreenIcon />}
+        <div className="absolute top-1/2 -translate-y-1/2 left-[calc(50%+max(30vh,220px)+24px)] flex flex-col gap-6 z-40">
+          <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
+            <div className="w-12 h-12 rounded-full bg-[#262626] hover:bg-[#363636] flex items-center justify-center transition-colors">
+              <FavoriteBorderIcon sx={{ fontSize: 24, color: 'white' }} />
+            </div>
+            <span className="text-white text-[12px] font-medium">12.4K</span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
+            <div className="w-12 h-12 rounded-full bg-[#262626] hover:bg-[#363636] flex items-center justify-center transition-colors">
+              <ShareOutlinedIcon sx={{ fontSize: 24, color: 'white' }} />
+            </div>
+            <span className="text-white text-[12px] font-medium">Share</span>
+          </div>
+          <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
+            <div className="w-12 h-12 rounded-full bg-[#262626] hover:bg-[#363636] flex items-center justify-center transition-colors">
+              <BookmarkBorderIcon sx={{ fontSize: 24, color: 'white' }} />
+            </div>
+            <span className="text-white text-[12px] font-medium">Save</span>
+          </div>
+          <div className="relative" ref={menuRef}>
+            <div 
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(!isMenuOpen) }}
+              className="w-12 h-12 rounded-full bg-[#262626] hover:bg-[#363636] flex items-center justify-center transition-colors group cursor-pointer"
+            >
+              <MoreVertIcon sx={{ fontSize: 24, color: 'white' }} />
+            </div>
+            {isMenuOpen && (
+              <div className="absolute top-full left-0 mt-2 w-48 bg-[#262626] backdrop-blur-md rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.3)] py-1 z-40 flex flex-col text-[14px] border border-[#363636] overflow-hidden transform origin-top-left transition-all">
+                <button onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 px-4 py-3 text-red-500 hover:bg-[#363636] transition-colors w-full text-left font-medium cursor-pointer border-none bg-transparent">
+                  <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} /> Report
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
+        <button onClick={onPrev} disabled={!onPrev} className={`w-12 h-12 flex items-center justify-center rounded-full transition-colors border-none ${onPrev ? 'bg-[#262626] hover:bg-[#363636] text-white cursor-pointer' : 'bg-[#111] text-white/30 cursor-not-allowed'}`}>
+          <KeyboardArrowUpIcon sx={{ fontSize: 28 }} />
         </button>
-
-        <div className={`absolute bottom-0 left-0 right-0 h-1.5 bg-white/20 z-30 transition-opacity duration-300 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-          <div className="h-full bg-[#FF0000] w-1/3 rounded-r-full shadow-[0_0_12px_rgba(255,0,0,0.8)]" />
-        </div>
+        <button onClick={onNext} disabled={!onNext} className={`w-12 h-12 flex items-center justify-center rounded-full transition-colors border-none ${onNext ? 'bg-[#262626] hover:bg-[#363636] text-white cursor-pointer' : 'bg-[#111] text-white/30 cursor-not-allowed'}`}>
+          <KeyboardArrowDownIcon sx={{ fontSize: 28 }} />
+        </button>
       </div>
 
-      <div className={`flex flex-col gap-6 transition-opacity duration-300 ${isCleanMode ? 'opacity-0 pointer-events-none' : 'opacity-100'} animate-in slide-in-from-bottom-8 duration-500 delay-150 fill-mode-both`}>
-        <div className="flex flex-col gap-3 mb-2 bg-white/5 p-2 rounded-full border border-white/10">
-          <button 
-            onClick={onPrev}
-            disabled={!onPrev}
-            className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${onPrev ? 'bg-white/10 hover:bg-white/20 text-white shadow-sm' : 'text-white/30 cursor-not-allowed'}`}
-            aria-label="Previous video"
-          >
-            <KeyboardArrowUpIcon sx={{ fontSize: 28 }} />
-          </button>
-          <button 
-            onClick={onNext}
-            disabled={!onNext}
-            className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${onNext ? 'bg-white/10 hover:bg-white/20 text-white shadow-sm' : 'text-white/30 cursor-not-allowed'}`}
-            aria-label="Next video"
-          >
-            <KeyboardArrowDownIcon sx={{ fontSize: 28 }} />
-          </button>
-        </div>
-
-        <div className="flex flex-col items-center gap-1.5">
-          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm" aria-label="Like video">
-            <FavoriteBorderIcon sx={{ fontSize: 24 }} />
-          </button>
-          <span className="text-white/70 text-[13px] font-medium">Like</span>
-        </div>
-        <div className="flex flex-col items-center gap-1.5">
-          <button className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm" aria-label="Share video">
-            <ShareOutlinedIcon sx={{ fontSize: 24 }} />
-          </button>
-          <span className="text-white/70 text-[13px] font-medium">Share</span>
-        </div>
-        <div className="flex flex-col items-center gap-1.5 relative" ref={menuRef}>
-          <button 
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              setIsMenuOpen(!isMenuOpen)
-            }}
-            className="w-12 h-12 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors shadow-sm"
-            aria-label="More options"
-          >
-            <MoreVertIcon sx={{ fontSize: 24 }} />
-          </button>
-          {isMenuOpen && (
-            <div className="absolute bottom-full right-[120%] mb-2 mr-2 w-48 bg-white backdrop-blur-md rounded-xl shadow-xl py-1 z-40 flex flex-col text-[14px] border border-gray-100 overflow-hidden transform origin-bottom-right transition-all">
-              <button 
-                onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }}
-                className="flex items-center gap-3 px-4 py-2.5 text-red-600 hover:bg-red-50 transition-colors w-full text-left font-medium"
-              >
-                <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} />
-                Report
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   )
 })
@@ -478,7 +450,7 @@ export default function SpotlightDesktop() {
         <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex-1 min-w-0 flex flex-col gap-7">
             {activeVideo ? (
-              <div className="w-full rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out aspect-[21/9]">
+              <div className="w-full h-[80vh] min-h-[600px] max-h-[900px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
                 <ActiveVideoPlayer
                   video={activeVideo}
                   onClose={() => setActiveVideo(null)}
@@ -492,7 +464,7 @@ export default function SpotlightDesktop() {
                 onClick={() => setActiveVideo(filtered[0])}
               >
                 <div className="relative w-full lg:w-[45%] xl:w-[35%] aspect-[9/16] max-h-[450px] bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-l-none lg:rounded-r-[8px]">
-                  <div className={`absolute inset-0 bg-linear-to-b ${filtered[0]?.gradient || 'from-[#0f172a] to-[#1e3a8a]'} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
+                  <div className={`absolute inset-0 bg-gradient-to-b ${filtered[0]?.gradient || 'from-[#0f172a] to-[#1e3a8a]'} opacity-90 group-hover:opacity-100 transition-opacity duration-300`} />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -752,8 +724,6 @@ export default function SpotlightDesktop() {
           </div>
         </div>
       </div>
-
-
     </>
   )
 }

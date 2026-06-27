@@ -1,106 +1,65 @@
-
-export interface PreviewItem {
-  title: React.ReactNode
-  gradient?: string
-  logoBg?: string
-  logoColor?: string
-  logoText?: string
-  icon?: string
-}
+import React from 'react';
+import { PlayCircle, Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react';
 
 export interface PreviewSection {
-  key: string
-  title: string
-  viewAllLabel: string
-  items: PreviewItem[]
+  key: string;
+  title: string;
+  description: string;
+  badge: string;
 }
 
-export const PREVIEW_SECTIONS: PreviewSection[] = [
+export const PREVIEW_TABS: PreviewSection[] = [
   {
     key: 'spotlight',
-    title: 'Spotlight Preview',
-    viewAllLabel: 'View All',
-    items: [
-      {
-        title: <>Hyderabad Market Trends 2024</>,
-        gradient: 'linear-gradient(135deg, #4c1d95, #1e3a8a)',
-        logoBg: '#1e3a8a',
-        logoColor: '#ffffff',
-        icon: 'play',
-      },
-      {
-        title: 'Lead Generation Strategies',
-        gradient: 'linear-gradient(135deg, #e11d48, #831843)',
-        logoBg: '#831843',
-        logoColor: '#ffffff',
-        icon: 'play',
-      },
-      {
-        title: 'Sales Productivity Tips',
-        gradient: 'linear-gradient(135deg, #d946ef, #4c1d95)',
-        logoBg: '#4c1d95',
-        logoColor: '#ffffff',
-        icon: 'play',
-      },
-    ],
+    title: 'Spotlight',
+    description: 'Bite-sized, high-impact video content driving market trends.',
+    badge: 'Video Feed',
   },
   {
     key: 'red-expert',
-    title: 'RED Expert Preview',
-    viewAllLabel: 'View All',
-    items: [
-      {
-        title: 'Builder Conversations',
-        gradient: 'linear-gradient(135deg, #0369a1, #0c4a6e)',
-        logoBg: '#0369a1',
-        logoColor: '#ffffff',
-        logoText: 'B',
-      },
-      {
-        title: 'Marketing Leaders',
-        gradient: 'linear-gradient(135deg, #b45309, #78350f)',
-        logoBg: '#b45309',
-        logoColor: '#ffffff',
-        logoText: 'ML',
-      },
-      {
-        title: 'Technology Experts',
-        gradient: 'linear-gradient(135deg, #065f46, #022c22)',
-        logoBg: '#065f46',
-        logoColor: '#ffffff',
-        logoText: 'TE',
-      },
-      {
-        title: 'Channel Partners',
-        gradient: 'linear-gradient(135deg, #1e40af, #172554)',
-        logoBg: '#1e40af',
-        logoColor: '#ffffff',
-        logoText: 'CP',
-      },
-    ],
+    title: 'RED Expert',
+    description: 'Connect with verified industry leaders and seasoned professionals.',
+    badge: 'Network',
   },
   {
     key: 'opportunities',
-    title: 'Opportunities Preview',
-    viewAllLabel: 'View All',
-    items: [
-      { title: 'Looking for CRM Vendor', logoBg: '#FFF7ED', logoColor: '#EA580C', icon: 'briefcase' },
-      { title: 'Hiring Sales Manager', logoBg: '#FFF7ED', logoColor: '#EA580C', icon: 'briefcase' },
-      { title: 'Seeking Channel Partners', logoBg: '#FFF7ED', logoColor: '#EA580C', icon: 'briefcase' },
-      { title: 'Marketing Agency Requirement', logoBg: '#FFF7ED', logoColor: '#EA580C', icon: 'briefcase' },
-    ],
+    title: 'Opportunities',
+    description: 'Live requirements, vendor matching, and B2B lead generation.',
+    badge: 'Marketplace',
   },
   {
     key: 'directory',
-    title: 'Directory Preview',
-    viewAllLabel: 'View All',
-    items: [
-      { title: 'Builders', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'building' },
-      { title: 'Channel Partners', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'users' },
-      { title: 'Bankers', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'landmark' },
-      { title: 'Marketing Agencies', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'megaphone' },
-      { title: 'CRM Providers', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'monitor' },
-      { title: 'Interior Designers', logoBg: '#FFFFFF', logoColor: '#6B21A8', icon: 'palette' },
-    ],
+    title: 'Directory',
+    description: 'A comprehensive database of all real estate stakeholders.',
+    badge: 'Database',
   },
-]
+];
+
+export const MOCK_DATA = {
+  spotlight: [
+    { title: 'Hyderabad Market Trends Q3', views: '12.4k', gradient: 'from-purple-600 to-blue-600', duration: '2:15' },
+    { title: 'Lead Generation Masterclass', views: '8.1k', gradient: 'from-rose-500 to-orange-500', duration: '4:30' },
+    { title: 'Commercial Real Estate Outlook', views: '15.2k', gradient: 'from-emerald-500 to-teal-600', duration: '3:45' },
+    { title: 'NRI Investment Guide', views: '9.3k', gradient: 'from-blue-500 to-cyan-500', duration: '5:10' },
+  ],
+  redExpert: [
+    { title: 'Mastering Real Estate Sales', author: 'Arjun Reddy', gradient: 'from-blue-600 to-purple-600', duration: '12:45' },
+    { title: 'Negotiation Tactics 2024', author: 'Meera Menon', gradient: 'from-rose-600 to-pink-600', duration: '08:20' },
+    { title: 'Building Trust with Clients', author: 'Siddharth Rao', gradient: 'from-emerald-600 to-teal-600', duration: '15:10' },
+    { title: 'Effective Digital Marketing', author: 'Priya Sharma', gradient: 'from-orange-600 to-amber-600', duration: '10:05' },
+  ],
+  opportunities: [
+    { title: 'Looking for CRM Vendor', company: 'Apex Developments', location: 'Hyderabad', budget: '₹5L - ₹10L', type: 'Full-Time' },
+    { title: 'Hiring Sales Manager', company: 'Zenith Strategies', location: 'Bangalore', budget: '₹12L - ₹15L PA', type: 'Contract' },
+    { title: 'Seeking Channel Partners', company: 'Elite Estates', location: 'Remote', budget: 'Commission Based', type: 'Partnership' },
+    { title: 'Marketing Agency Requirement', company: 'Verma Associates', location: 'Mumbai', budget: '₹2L / month', type: 'Project' },
+  ],
+  directory: [
+    { title: 'Builders', count: '1,200+', icon: Building2, color: 'text-purple-500' },
+    { title: 'Channel Partners', count: '5,500+', icon: Users, color: 'text-blue-500' },
+    { title: 'Bankers', count: '300+', icon: Landmark, color: 'text-emerald-500' },
+    { title: 'Agencies', count: '450+', icon: Megaphone, color: 'text-rose-500' },
+    { title: 'Tech Providers', count: '150+', icon: Monitor, color: 'text-cyan-500' },
+    { title: 'Designers', count: '800+', icon: Palette, color: 'text-orange-500' },
+  ],
+};

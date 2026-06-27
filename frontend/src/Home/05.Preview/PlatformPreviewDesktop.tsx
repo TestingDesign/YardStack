@@ -1,136 +1,192 @@
-import { 
-  ChevronRight, 
-  PlayCircle, 
-  Briefcase, 
-  Users, 
-  Handshake, 
-  Megaphone, 
-  Building2, 
-  Landmark, 
-  Monitor, 
-  Palette 
-} from 'lucide-react';
-import { PREVIEW_SECTIONS } from './data';
-
-const PreviewIcon = ({ icon, color, size = 16 }: { icon: string; color: string; size?: number }) => {
-  const props = { size, color, strokeWidth: 1.5 };
-  switch (icon) {
-    case 'play': return <PlayCircle {...props} />;
-    case 'briefcase': return <Briefcase {...props} />;
-    case 'users': return <Users {...props} />;
-    case 'handshake': return <Handshake {...props} />;
-    case 'megaphone': return <Megaphone {...props} />;
-    case 'building': return <Building2 {...props} />;
-    case 'landmark': return <Landmark {...props} />;
-    case 'monitor': return <Monitor {...props} />;
-    case 'palette': return <Palette {...props} />;
-    default: return null;
-  }
-};
+import React, { useState } from 'react';
+import { Play, Star, Briefcase, MapPin, CheckCircle2 } from 'lucide-react';
+import { PREVIEW_TABS, MOCK_DATA } from './data';
 
 export default function PlatformPreviewDesktop() {
+  const [activeTab, setActiveTab] = useState(PREVIEW_TABS[0].key);
+
+  const renderActiveMockUI = () => {
+    switch (activeTab) {
+      case 'spotlight':
+        return (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in zoom-in-95 duration-500">
+            {MOCK_DATA.spotlight.map((video, idx) => (
+              <div key={idx} className="group relative rounded-[4px] overflow-hidden cursor-pointer aspect-[9/16] bg-gray-900 border border-white/10 shadow-lg">
+                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-50 group-hover:opacity-70 transition-opacity duration-300`} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/30 shadow-xl">
+                    <Play className="text-white ml-0.5" size={20} fill="currentColor" />
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                  <h4 className="text-white font-bold text-xs leading-tight mb-1 line-clamp-2">{video.title}</h4>
+                  <div className="flex justify-between items-center">
+                    <p className="text-gray-300 text-[10px]">{video.views} views</p>
+                    <span className="text-white text-[9px] font-bold opacity-80">{video.duration}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      case 'red-expert':
+        return (
+          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+            {MOCK_DATA.redExpert.map((video, idx) => (
+              <div key={idx} className="group relative rounded-[4px] overflow-hidden cursor-pointer aspect-video bg-gray-900 border border-white/10 shadow-lg">
+                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-300`} />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform duration-300 border border-white/30">
+                    <Play className="text-white ml-1" size={24} fill="currentColor" />
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <h4 className="text-white font-bold text-sm leading-tight mb-1">{video.title}</h4>
+                      <p className="text-gray-300 text-xs flex items-center gap-1">
+                        {video.author} <CheckCircle2 size={10} className="text-blue-400" />
+                      </p>
+                    </div>
+                    <span className="bg-black/60 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-[2px] border border-white/10">
+                      {video.duration}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
+      case 'opportunities':
+        return (
+          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+            {MOCK_DATA.opportunities.map((opp, idx) => (
+              <div key={idx} className="group p-4 rounded-[4px] bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all flex flex-col justify-between cursor-pointer">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[10px] font-bold px-2 py-0.5 rounded-[2px] uppercase tracking-wider">
+                      {opp.type}
+                    </span>
+                  </div>
+                  <h4 className="text-white font-bold text-base mb-1">{opp.title}</h4>
+                  <p className="text-gray-400 text-xs flex items-center gap-3 mb-3">
+                    <span className="flex items-center gap-1"><Briefcase size={12} /> {opp.company}</span>
+                    <span className="flex items-center gap-1"><MapPin size={12} /> {opp.location}</span>
+                  </p>
+                  <div className="flex items-center gap-2 mb-4">
+                    <span className="px-2 py-1 bg-white/5 rounded-[2px] text-xs font-semibold text-emerald-400 border border-emerald-500/20">
+                      {opp.budget}
+                    </span>
+                  </div>
+                </div>
+                <button className="w-full py-2 rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors">
+                  Apply Now
+                </button>
+              </div>
+            ))}
+          </div>
+        );
+      case 'directory':
+        return (
+          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+            {MOCK_DATA.directory.map((cat, idx) => {
+              const Icon = cat.icon;
+              return (
+                <div key={idx} className="group flex items-center gap-4 p-4 rounded-[4px] bg-white/5 border border-white/10 hover:bg-white/10 hover:-translate-y-1 transition-all cursor-pointer">
+                  <div className={`w-12 h-12 rounded-[4px] bg-white/10 flex items-center justify-center ${cat.color} group-hover:scale-110 transition-transform`}>
+                    <Icon size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold text-sm">{cat.title}</h4>
+                    <p className="text-gray-400 text-xs font-semibold">{cat.count} Listed</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
+      className="relative bg-[#0B0F19] overflow-hidden selection:bg-purple-500/30 selection:text-white py-16 lg:py-24"
     >
-      <div 
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" 
-        aria-hidden="true"
-      />
+      {/* Background Glows */}
+      <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2" aria-hidden="true" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
         
-        <div className="text-center mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-          <span className="inline-block text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
-            A Glimpse of What You'll Discover
+        {/* Section Header */}
+        <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+          <span className="inline-block text-xs font-black uppercase tracking-[0.2em] text-purple-400 mb-3">
+            Platform Capabilities
           </span>
+          <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tight">
+            A Glimpse of What You'll <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Discover</span>
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-          {PREVIEW_SECTIONS.map((section, index) => (
-            <div
-              key={section.key}
-              className="group/card flex flex-col gap-4 p-5 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 hover:-translate-y-1 transition-all duration-300 animate-in zoom-in-95 fade-in duration-700 ease-out"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              
-              <div className="flex items-center justify-between">
-                <h3 
-                  className={`text-[15px] font-extrabold text-gray-900 ${
-                    section.key === 'spotlight' 
-                      ? 'bg-purple-50 text-purple-800 px-3 py-1 rounded-[4px] border border-purple-100' 
-                      : ''
+        {/* Interactive Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
+          
+          {/* Left Navigation */}
+          <div className="flex flex-col gap-2">
+            {PREVIEW_TABS.map((tab) => {
+              const isActive = activeTab === tab.key;
+              return (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key)}
+                  className={`text-left p-6 rounded-[8px] transition-all duration-300 border outline-none focus-visible:ring-2 focus-visible:ring-purple-500 relative overflow-hidden group ${
+                    isActive 
+                      ? 'bg-white/10 border-white/20 shadow-2xl shadow-purple-900/20' 
+                      : 'bg-transparent border-transparent hover:bg-white/5 hover:border-white/10'
                   }`}
                 >
-                  {section.title}
-                </h3>
-                
-                <button className="group/btn flex items-center gap-0.5 text-[12px] font-bold text-gray-500 hover:text-purple-700 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 rounded-[4px] px-1 py-0.5">
-                  {section.viewAllLabel}
-                  <ChevronRight size={14} className="text-gray-400 group-hover/btn:text-purple-600 transition-colors" />
+                  {isActive && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-transparent pointer-events-none" />
+                  )}
+                  <div className="relative z-10">
+                    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 ${
+                      isActive ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-400 group-hover:text-gray-300'
+                    }`}>
+                      {tab.badge}
+                    </span>
+                    <h3 className={`text-xl font-bold mb-2 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}`}>
+                      {tab.title}
+                    </h3>
+                    <p className={`text-sm leading-relaxed ${isActive ? 'text-gray-300' : 'text-gray-500'}`}>
+                      {tab.description}
+                    </p>
+                  </div>
                 </button>
+              );
+            })}
+          </div>
+
+          {/* Right Mock UI Window */}
+          <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 h-full min-h-[500px]">
+            {/* Mac-style Window Header */}
+            <div className="h-12 bg-white/5 border-b border-white/10 flex items-center px-4 gap-2">
+              <div className="w-3 h-3 rounded-full bg-rose-500/80" />
+              <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+              <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
+              <div className="mx-auto flex items-center gap-2 px-4 py-1 rounded-[4px] bg-black/40 border border-white/5 text-[10px] text-gray-400 font-medium">
+                <Star size={12} className="text-purple-400" /> n4re.com/app/{activeTab}
               </div>
-
-              {(section.key === 'spotlight' || section.key === 'red-expert') ? (
-                <div className="grid grid-cols-3 gap-2 mt-1">
-                  {section.items.slice(0, 3).map((item, i) => (
-                    <div key={i} className="group/item flex flex-col gap-2 cursor-pointer">
-                      <div 
-                        className="aspect-square rounded-[4px] flex items-center justify-center shadow-sm border border-white/20 transition-all duration-300 group-hover/item:-translate-y-1 group-hover/item:shadow-lg group-hover/item:shadow-purple-900/15 group-hover/item:border-transparent group-hover/item:scale-105"
-                        style={{ background: item.gradient || item.logoBg }}
-                      >
-                        {item.icon ? (
-                          <PreviewIcon icon={item.icon} color="#FFFFFF" size={24} />
-                        ) : (
-                          <span className="text-xl font-black text-white tracking-tight drop-shadow-sm">
-                            {item.logoText}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[11px] font-bold text-gray-600 m-0 leading-tight text-center group-hover/item:text-purple-700 transition-colors truncate px-1">
-                        {item.title}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-              ) : section.key === 'opportunities' ? (
-                <div className="flex flex-col gap-2 mt-1">
-                  {section.items.map((item, i) => (
-                    <div 
-                      key={i} 
-                      className="group/item flex items-center gap-3 p-2.5 rounded-[4px] bg-orange-50/50 border border-orange-100/80 hover:bg-gradient-to-r hover:from-purple-700 hover:to-purple-500 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-0.5"
-                    >
-                      <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
-                        <PreviewIcon icon={item.icon || 'briefcase'} color={item.logoColor || '#EA580C'} size={18} />
-                      </div>
-                      <span className="text-[13px] font-bold text-gray-800 group-hover/item:text-white transition-colors">
-                        {item.title}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-              ) : (
-                <div className="grid grid-cols-3 gap-2 mt-1">
-                  {section.items.slice(0, 6).map((item, i) => (
-                    <div 
-                      key={i} 
-                      className="group/item flex flex-col items-center justify-center gap-1.5 p-2.5 text-center rounded-[4px] bg-purple-50/50 border border-purple-100/60 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-700 hover:border-transparent transition-all duration-300 cursor-pointer hover:shadow-lg hover:shadow-purple-900/15 hover:-translate-y-1"
-                    >
-                      <div className="flex items-center justify-center transition-all duration-300 group-hover/item:brightness-0 group-hover/item:invert group-hover/item:scale-110">
-                        <PreviewIcon icon={item.icon || 'building'} color="#7C3AED" size={18} />
-                      </div>
-                      <span className="text-[10px] font-bold text-gray-600 leading-tight group-hover/item:text-white transition-colors">
-                        {item.title}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
-          ))}
+
+            {/* Dynamic Content Area */}
+            <div className="p-6 h-[calc(100%-3rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto custom-scrollbar">
+              {renderActiveMockUI()}
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

@@ -14,8 +14,10 @@ import PodcastDesktop from './podcasts/PodcastDesktop'
 import PodcastMobile from './podcasts/PodcastMobile'
 import SpotlightDesktop from './spotlight/SpotlightDesktop'
 import SpotlightMobile from './spotlight/SpotlightMobile'
-import LaunchingSoon from './launchingSoon/LaunchingSoon'
-import Directory from './directory/Directory'
+import LaunchingSoonDesktop from './launchingSoon/LaunchingSoonDesktop'
+import LaunchingSoonMobile from './launchingSoon/LaunchingSoonMobile'
+import DirectoryDesktop from './directory/DirectoryDesktop'
+import DirectoryMobile from './directory/DirectoryMobile'
 import DashboardHeader from './DashboardHeader'
 import DashboardSidebar from '../commonfiles/sidebar/DashboardSidebar'
 import type { DashboardNavKey } from '../commonfiles/sidebar/DashboardSidebar'
@@ -160,7 +162,7 @@ function DesktopDashboard() {
 
       <div className="flex-1 overflow-hidden flex flex-col focus-visible:outline-none" tabIndex={-1}>
         {activeTab === 'launchingSoon' ? (
-          <LaunchingSoon />
+          <LaunchingSoonDesktop />
         ) : activeTab === 'activityBoard' ? (
           <ActivityBoardDesktop />
         ) : activeTab === 'podcasts' ? (
@@ -168,7 +170,7 @@ function DesktopDashboard() {
         ) : activeTab === 'spotlight' ? (
           <SpotlightDesktop />
         ) : activeTab === 'directory' ? (
-          <Directory />
+          <DirectoryDesktop />
         ) : (
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <header className="mb-6">
@@ -256,7 +258,7 @@ function MobileDashboard() {
 
       <div className="flex-1 min-h-0 overflow-hidden flex flex-col hide-scrollbar focus-visible:outline-none" tabIndex={-1}>
         {activeTab === 'launchingSoon' ? (
-          <LaunchingSoon />
+          <LaunchingSoonMobile />
         ) : activeTab === 'activityBoard' ? (
           <ActivityBoardMobile />
         ) : activeTab === 'podcasts' ? (
@@ -264,7 +266,7 @@ function MobileDashboard() {
         ) : activeTab === 'spotlight' ? (
           <SpotlightMobile />
         ) : activeTab === 'directory' ? (
-          <Directory />
+          <DirectoryMobile />
         ) : (
           <div className="flex-1 overflow-y-auto px-2 py-2 bg-white">
             <header className="mb-5">

@@ -83,7 +83,7 @@ export const CommonTabs = memo(function CommonTabs({
   active,
   onChange,
   extraControls,
-  containerClassName = 'bg-transparent py-0.5 @md:pt-2 px-2 @md:px-0',
+  containerClassName = 'bg-transparent py-0.5 @md:pt-1 px-1 @md:px-0',
   ariaLabel = 'Category filters',
 }: CommonTabsProps) {
   const scrollRef = useRef<HTMLDivElement>(null)

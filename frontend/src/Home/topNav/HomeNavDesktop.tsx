@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { NAV_CTAS } from './data';
 import Logo from '../01.Hero/Logo.png';
@@ -7,18 +8,40 @@ interface HomeNavDesktopProps {
 }
 
 export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <header className="absolute top-0 left-0 w-full z-50 animate-in fade-in slide-in-from-top-4 duration-700 ease-out">
-      <div className="flex items-center justify-between w-full px-16 lg:px-16 -py-48">
+    <header 
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-in-out ${
+        scrolled 
+          ? 'bg-white/90 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.04)] py-3' 
+          : 'bg-transparent animate-in fade-in slide-in-from-top-4 py-6'
+      }`}
+      style={{
+        paddingLeft: scrolled ? '20px' : 'max(1rem, calc(50vw - 608px))',
+        paddingRight: scrolled ? '20px' : 'max(1rem, calc(50vw - 608px))'
+      }}
+    >
+      <div className="flex items-center justify-between w-full h-full mx-auto">
 
         <a
           href="#hero"
-          className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 rounded-[4px] transition-transform active:scale-95"
+          className={`relative flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 rounded-[4px] transition-all duration-700 active:scale-95 h-[40px] ${
+            scrolled ? 'w-[140px] -px-8' : 'w-[160px] '
+          }`}
         >
           <img
             src={Logo}
             alt="N4RE Logo"
-            className="w-[100px] lg:w-[100px] h-auto object-contain drop-shadow-sm"
+            className="absolute top-1/2 left-0 -translate-y-1/2 w-full h-auto object-contain drop-shadow-sm transition-all duration-700"
             draggable={false}
           />
         </a>

@@ -61,10 +61,15 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
               <ModuleIcon name={mod.name} color={pillar.color} />
             </div>
             <div>
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
                 <h4 className="text-[13px] font-extrabold text-white m-0 transition-colors">
                   {mod.name}
                 </h4>
+                {mod.earlyAccess && (
+                  <span className="px-2 py-0.5 rounded-[4px] bg-purple-500/20 text-[9px] font-extrabold text-purple-400 tracking-wider border border-purple-500/30 group-hover:text-white group-hover:border-white/50 group-hover:bg-white/20 transition-all">
+                    Early Access
+                  </span>
+                )}
               </div>
               <p className="text-[12px] text-gray-400 leading-[1.5] m-0 mb-1 font-medium group-hover:text-white/90 transition-colors">
                 {mod.description}

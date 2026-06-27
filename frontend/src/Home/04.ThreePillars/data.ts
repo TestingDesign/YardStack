@@ -8,6 +8,7 @@ export interface Module {
   description: string;
   outcome: string;
   comingSoon?: boolean;
+  earlyAccess?: boolean;
 }
 
 export interface Pillar {
@@ -35,11 +36,13 @@ export const PILLARS: Pillar[] = [
         name: 'Spotlight',
         description: 'Short-form insights, updates and success stories.',
         outcome: 'Visibility • Awareness • Personal Branding',
+        earlyAccess: true,
       },
       {
         name: 'RED Expert',
         description: 'Expert conversations, interviews and industry discussions.',
         outcome: 'Knowledge • Industry Insights • Professional Growth',
+        earlyAccess: true,
       },
       {
         name: 'Learn',
@@ -62,6 +65,7 @@ export const PILLARS: Pillar[] = [
         name: 'Directory',
         description: 'Discover professionals, businesses, vendors and experts.',
         outcome: 'Networking • Business Discovery • Lead Generation',
+        earlyAccess: true,
       },
       {
         name: 'City Inventory',
@@ -84,6 +88,7 @@ export const PILLARS: Pillar[] = [
         name: 'Opportunities',
         description: 'Requirements, hiring, collaborations and partnerships.',
         outcome: 'Business Growth • Hiring • Partnerships • Opportunity Discovery',
+        earlyAccess: true,
       },
       {
         name: 'Showcase',

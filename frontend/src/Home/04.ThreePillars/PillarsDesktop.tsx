@@ -72,12 +72,12 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                 isActive 
                   ? 'bg-slate-700/50 border-slate-600 shadow-sm' 
                   : 'bg-transparent border-transparent hover:bg-slate-700/30 hover:border-slate-600'
-              }`}
+              } ${mod.comingSoon ? 'opacity-80' : ''}`}
             >
               <button
-                onClick={() => setActiveModuleIdx(isActive ? null : i)}
+                onClick={() => !mod.comingSoon && setActiveModuleIdx(isActive ? null : i)}
                 aria-expanded={isActive}
-                className="w-full flex items-center justify-between p-3 text-left outline-none rounded-[4px] focus-visible:ring-2 focus-visible:ring-purple-500/50"
+                className={`w-full flex items-center justify-between p-3 text-left outline-none rounded-[4px] focus-visible:ring-2 focus-visible:ring-purple-500/50 ${mod.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <div className="flex items-center gap-3.5">
                   <div 
@@ -96,20 +96,27 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                     >
                       {mod.name}
                     </h4>
+                    {mod.earlyAccess && (
+                      <span className="px-2 py-0.5 rounded-[4px] bg-purple-500/20 text-[10px] font-extrabold text-purple-400 tracking-wider border border-purple-500/30">
+                        Early Access
+                      </span>
+                    )}
                     {mod.comingSoon && (
                       <span className="px-2 py-0.5 rounded-[4px] bg-slate-700 text-[10px] font-extrabold text-gray-400 tracking-wider">
-                        Coming Soon
+                        Launching Soon
                       </span>
                     )}
                   </div>
                 </div>
 
-                <ChevronDown 
-                  size={16} 
-                  className={`text-gray-500 transition-transform duration-300 ease-out shrink-0 ${
-                    isActive ? 'rotate-180 text-gray-300' : 'rotate-0'
-                  }`} 
-                />
+                {!mod.comingSoon && (
+                  <ChevronDown 
+                    size={16} 
+                    className={`text-gray-500 transition-transform duration-300 ease-out shrink-0 ${
+                      isActive ? 'rotate-180 text-gray-300' : 'rotate-0'
+                    }`} 
+                  />
+                )}
               </button>
               
               <div 

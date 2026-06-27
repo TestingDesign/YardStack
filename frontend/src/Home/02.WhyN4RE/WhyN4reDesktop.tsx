@@ -17,7 +17,13 @@ const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string;
 };
 
 export default function WhyN4reDesktop() {
-  const [activeSolution, setActiveSolution] = useState<number | null>(0);
+  const [activeSolutions, setActiveSolutions] = useState<number[]>(N4RE_SOLUTIONS.map((_, i) => i));
+
+  const toggleSolution = (idx: number) => {
+    setActiveSolutions(prev => 
+      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+    );
+  };
 
   return (
     <section 
@@ -84,35 +90,35 @@ export default function WhyN4reDesktop() {
 
               <div className="hidden lg:block absolute left-1/2 top-12 bottom-12 w-px bg-gradient-to-b from-transparent via-gray-200 to-transparent -translate-x-1/2" aria-hidden="true" />
               
-              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-white border border-gray-100 shadow-xl shadow-purple-900/10 items-center justify-center" aria-hidden="true">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shadow-inner">
-                  <ArrowRight size={16} strokeWidth={2.5} className="text-purple-700" />
+              <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-slate-900 border border-slate-700 shadow-xl shadow-purple-900/10 items-center justify-center" aria-hidden="true">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center shadow-inner">
+                  <ArrowRight size={16} strokeWidth={2.5} className="text-purple-400" />
                 </div>
               </div>
 
-              <div className="border-t border-gray-100 lg:border-t-0 p-6 lg:p-12 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-200/30 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+              <div className="border-t border-slate-700 lg:border-t-0 p-6 lg:p-12 relative overflow-hidden bg-slate-900">
+                <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-500/10 rounded-full blur-3xl -z-10 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
                 
                 <div className="flex items-center gap-3 mb-8">
                   <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                  <p className="text-sm font-extrabold uppercase tracking-widest text-gray-900">
+                  <p className="text-sm font-extrabold uppercase tracking-widest text-slate-200">
                     {WHY_N4RE_CONTENT.n4reHeader}
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-3">
                   {N4RE_SOLUTIONS.map((sol, idx) => {
-                    const isActive = activeSolution === idx;
+                    const isActive = activeSolutions.includes(idx);
                     
                     return (
                       <button 
                         key={idx}
-                        onClick={() => setActiveSolution(isActive ? null : idx)}
+                        onClick={() => toggleSolution(idx)}
                         aria-expanded={isActive}
                         className={`group w-full text-left flex flex-col p-4 rounded-[8px] transition-all duration-300 ease-out border outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
                           isActive 
-                            ? 'bg-slate-900 border-slate-800 shadow-xl shadow-slate-900/20' 
-                            : 'bg-transparent border-transparent hover:bg-white/60 hover:border-gray-200'
+                            ? 'bg-slate-800 border-slate-700 shadow-xl shadow-slate-900/50' 
+                            : 'bg-transparent border-transparent hover:bg-slate-800/60 hover:border-slate-700'
                         }`}
                       >
                         <div className="flex items-center gap-4">
@@ -135,7 +141,7 @@ export default function WhyN4reDesktop() {
                           <div className="flex-1">
                             <h3 
                               className={`text-[15px] font-extrabold tracking-wide transition-colors duration-300 ${
-                                isActive ? 'text-white' : 'text-gray-900'
+                                isActive ? 'text-white' : 'text-slate-200'
                               }`}
                             >
                               {sol.pillar}
@@ -145,8 +151,8 @@ export default function WhyN4reDesktop() {
                           <div 
                             className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
                               isActive 
-                                ? 'bg-slate-800 text-white rotate-90' 
-                                : 'bg-slate-100 text-gray-400 group-hover:bg-purple-50 group-hover:text-purple-500'
+                                ? 'bg-slate-700 text-white rotate-90' 
+                                : 'bg-slate-800 text-slate-400 group-hover:bg-slate-700 group-hover:text-white'
                             }`}
                           >
                             <ArrowRight size={16} strokeWidth={2.5} />
@@ -160,7 +166,7 @@ export default function WhyN4reDesktop() {
                         >
                           <div className="overflow-hidden">
                             <p className={`text-[14px] leading-relaxed font-medium pl-[64px] pr-2 pb-2 transition-colors duration-300 ${
-                              isActive ? 'text-slate-300' : 'text-gray-600'
+                              isActive ? 'text-slate-300' : 'text-slate-400'
                             }`}>
                               {sol.description}
                             </p>

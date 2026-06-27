@@ -16,7 +16,13 @@ const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string;
 };
 
 export default function WhyN4reMobile() {
-  const [activeSolution, setActiveSolution] = useState<number | null>(0);
+  const [activeSolutions, setActiveSolutions] = useState<number[]>(N4RE_SOLUTIONS.map((_, i) => i));
+
+  const toggleSolution = (idx: number) => {
+    setActiveSolutions(prev => 
+      prev.includes(idx) ? prev.filter(i => i !== idx) : [...prev, idx]
+    );
+  };
 
   return (
     <section id="why-n4re" className="relative bg-slate-50 py-8 overflow-hidden">
@@ -79,28 +85,28 @@ export default function WhyN4reMobile() {
             </div>
           </div>
 
-          <div className="p-6 relative overflow-hidden bg-white">
-            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-purple-200/30 rounded-full blur-3xl -z-10 pointer-events-none translate-x-1/3 -translate-y-1/3" />
+          <div className="p-6 relative overflow-hidden bg-slate-900">
+            <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-3xl -z-10 pointer-events-none translate-x-1/3 -translate-y-1/3" />
             
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-              <p className="text-xs font-extrabold uppercase tracking-widest text-gray-900 m-0">
+              <p className="text-xs font-extrabold uppercase tracking-widest text-slate-200 m-0">
                 {WHY_N4RE_CONTENT.n4reHeader}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               {N4RE_SOLUTIONS.map((sol, idx) => {
-                const isActive = activeSolution === idx;
+                const isActive = activeSolutions.includes(idx);
                 
                 return (
                   <button 
                     key={idx}
-                    onClick={() => setActiveSolution(isActive ? null : idx)}
+                    onClick={() => toggleSolution(idx)}
                     aria-expanded={isActive}
                     className={`group w-full text-left flex flex-col p-3 rounded-[8px] transition-all duration-300 ease-out border outline-none ${
                       isActive 
-                        ? 'bg-slate-900 border-slate-800 shadow-xl shadow-slate-900/20' 
+                        ? 'bg-slate-800 border-slate-700 shadow-xl shadow-slate-900/50' 
                         : 'bg-transparent border-transparent'
                     }`}
                   >
@@ -118,13 +124,13 @@ export default function WhyN4reMobile() {
                       </div>
                       
                       <div className="flex-1">
-                        <h3 className={`text-[13px] font-extrabold tracking-wide transition-colors duration-300 ${isActive ? 'text-white' : 'text-gray-900'}`}>
+                        <h3 className={`text-[13px] font-extrabold tracking-wide transition-colors duration-300 ${isActive ? 'text-white' : 'text-slate-200'}`}>
                           {sol.pillar}
                         </h3>
                       </div>
                       
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 shrink-0 ${
-                          isActive ? 'bg-slate-800 text-white rotate-90' : 'bg-slate-100 text-gray-400'
+                          isActive ? 'bg-slate-700 text-white rotate-90' : 'bg-slate-800 text-slate-400'
                         }`}
                       >
                         <ArrowRight size={14} strokeWidth={2.5} />
@@ -133,7 +139,7 @@ export default function WhyN4reMobile() {
                     
                     <div className={`grid transition-all duration-300 ease-out ${isActive ? 'grid-rows-[1fr] opacity-100 mt-3' : 'grid-rows-[0fr] opacity-0 mt-0'}`}>
                       <div className="overflow-hidden">
-                        <p className={`text-[12px] leading-relaxed font-medium pl-[52px] pr-2 pb-1 m-0 transition-colors duration-300 ${isActive ? 'text-slate-300' : 'text-gray-600'}`}>
+                        <p className={`text-[12px] leading-relaxed font-medium pl-[52px] pr-2 pb-1 m-0 transition-colors duration-300 ${isActive ? 'text-slate-300' : 'text-slate-400'}`}>
                           {sol.description}
                         </p>
                       </div>

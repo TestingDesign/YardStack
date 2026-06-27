@@ -13,9 +13,9 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
         <div className="flex items-center justify-between min-h-[80px] py-2 px-4">
           <a
             href="#hero"
-            className="flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98]"
+            className="relative flex shrink-0 items-center outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-md transition-transform active:scale-[0.98] w-[160px] h-[40px]"
           >
-            <img src={Logo} alt="Logo" className="w-[140px] h-auto object-contain" draggable={false} />
+            <img src={Logo} alt="Logo" className="absolute top-1/2 left-0 -translate-y-1/2 w-[160px] h-auto object-contain" draggable={false} />
           </a>
 
           <div className="flex items-center gap-2 shrink-0">

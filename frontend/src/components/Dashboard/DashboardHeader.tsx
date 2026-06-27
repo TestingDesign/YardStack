@@ -50,22 +50,14 @@ const NavCard = memo(function NavCard({
           : 'bg-white text-[#374151] border-gray-200 hover:border-gray-300 hover:shadow-sm hover:-translate-y-0.5'
       }`}
     >
-      {item.badge && (
-        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold px-2 py-[2px] rounded-full bg-[#7C3AED] text-white leading-none z-10 shadow-sm">
-          {item.badge}
-        </span>
-      )}
-
       <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-5 h-5 md:w-6 md:h-6 text-[#374151]'}`}>
         {isImage ? (
           <img src={icon as string} alt={item.label} className="w-full h-full object-contain" draggable={false} />
         ) : (
           <span className="text-[20px] md:text-[24px]">
             {typeof icon === 'object' && icon !== null && '$$typeof' in icon && !('props' in icon)
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
               : typeof icon === 'function'
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
               : icon}
           </span>
@@ -79,6 +71,12 @@ const NavCard = memo(function NavCard({
       >
         {item.label}
       </span>
+
+      {item.badge && (
+        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold px-2 py-[2px] rounded-full bg-[#7C3AED] text-white leading-none z-10 shadow-sm border border-white">
+          {item.badge}
+        </span>
+      )}
     </button>
   )
 })
@@ -175,7 +173,7 @@ export default function DashboardHeader({
               ref={navScrollRef}
               onScroll={handleNavScroll}
               aria-label="Primary Navigation"
-              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto w-full px-1 py-1 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
+              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto w-full px-1 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
             >
               {navItems.map((item) => (
                 <div key={item.key} className="snap-start shrink-0">

@@ -55,7 +55,7 @@ const TAB_ITEMS = [
   })),
   {
     key: 'launchingSoon',
-    label: 'Upcoming',
+    label: 'Launching',
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     Icon: RocketLaunchIcon as any,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

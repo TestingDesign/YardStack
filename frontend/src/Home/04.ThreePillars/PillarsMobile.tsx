@@ -42,7 +42,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
         >
           {pillar.title}
         </h3>
-        <p style={{ fontSize: '13px', fontWeight: 700, color: '#1A1A2E', margin: 0 }}>
+        <p style={{ fontSize: '13px', fontWeight: 700, color: '#F8FAFC', margin: 0 }}>
           {pillar.subtitle}
         </p>
       </div>
@@ -62,11 +62,11 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
             </div>
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <h4 className="text-[13px] font-extrabold text-[#1A1A2E] m-0 group-hover:text-white transition-colors">
+                <h4 className="text-[13px] font-extrabold text-white m-0 transition-colors">
                   {mod.name}
                 </h4>
               </div>
-              <p className="text-[12px] text-[#4B5563] leading-[1.5] m-0 mb-1 font-medium group-hover:text-white/90 transition-colors">
+              <p className="text-[12px] text-gray-400 leading-[1.5] m-0 mb-1 font-medium group-hover:text-white/90 transition-colors">
                 {mod.description}
               </p>
               {mod.comingSoon && (
@@ -84,7 +84,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
 
 export default function PillarsMobile() {
   return (
-    <section id="pillars" style={{ background: '#FFFFFF', padding: '32px 0' }}>
+    <section id="pillars" style={{ background: '#0F172A', padding: '32px 0' }}>
       <div style={{ padding: '0 16px' }}>
         <p style={{
           textAlign: 'center',
@@ -92,7 +92,7 @@ export default function PillarsMobile() {
           fontWeight: 800,
           letterSpacing: '0.15em',
           textTransform: 'uppercase',
-          color: '#6B21A8',
+          color: '#C084FC',
           margin: '0 0 24px 0',
         }}>
           {PILLARS_HEADING.section}

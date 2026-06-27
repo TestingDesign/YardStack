@@ -35,7 +35,7 @@ export default function SegmentsDesktop() {
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <div className="flex flex-col items-center -mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" aria-hidden="true" />
             {SEGMENTS_CONTENT.tagline}
@@ -47,9 +47,6 @@ export default function SegmentsDesktop() {
               from every real estate segment
             </span>
           </h2>
-          <p className="text-base font-medium text-gray-600 max-w-2xl leading-relaxed">
-            {SEGMENTS_CONTENT.description}
-          </p>
         </div>
 
         <div className="relative w-full h-[600px] mx-auto animate-in zoom-in-95 fade-in duration-1000 delay-150 ease-out">
@@ -90,11 +87,8 @@ export default function SegmentsDesktop() {
             
             <div className="relative w-[180px] h-[180px] rounded-full bg-gradient-to-br from-purple-900 to-[#3b0764] shadow-[0_0_40px_rgba(88,28,135,0.4)] flex flex-col items-center justify-center text-center px-4 text-white border-4 border-white">
               <div className="flex flex-col items-center -mt-4">
-                <img src={Logo} alt="N4RE Logo" className="w-[150px] h-auto object-contain mb-1.5" draggable={false} />
-                <div className="w-8 h-0.5 bg-purple-400/50 mb-1.5 rounded-full" />
-                <p className="text-[9px] font-bold uppercase tracking-wider text-purple-200 leading-tight">
-                  One Ecosystem.<br/>Every Connection.
-                </p>
+                <img src={Logo} alt="N4RE Logo" className="w-[350px] h-auto object-contain mb-1.5" draggable={false} />
+                {/* <div className="w-8 h-0.5 bg-purple-400/50 mb-1.5 rounded-full" /> */}
               </div>
             </div>
           </div>

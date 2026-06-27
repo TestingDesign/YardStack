@@ -41,7 +41,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
 
   return (
     <div 
-      className="group relative flex flex-col rounded-3xl bg-white/80 backdrop-blur-xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-500 p-6 lg:p-8 animate-in zoom-in-95 fade-in duration-700 ease-out"
+      className="group relative flex flex-col rounded-3xl bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden hover:shadow-xl hover:shadow-purple-900/20 transition-all duration-500 p-6 lg:p-8 animate-in zoom-in-95 fade-in duration-700 ease-out"
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div 
@@ -56,7 +56,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
         >
           {pillar.title}
         </h3>
-        <p className="text-xl lg:text-[22px] font-extrabold text-gray-900 leading-snug tracking-tight">
+        <p className="text-xl lg:text-[22px] font-extrabold text-white leading-snug tracking-tight">
           {pillar.subtitle}
         </p>
       </div>
@@ -70,8 +70,8 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
               key={i}
               className={`rounded-[4px] transition-all duration-300 border ${
                 isActive 
-                  ? 'bg-slate-50 border-gray-200 shadow-sm' 
-                  : 'bg-transparent border-transparent hover:bg-slate-50/50 hover:border-gray-100'
+                  ? 'bg-slate-700/50 border-slate-600 shadow-sm' 
+                  : 'bg-transparent border-transparent hover:bg-slate-700/30 hover:border-slate-600'
               }`}
             >
               <button
@@ -82,7 +82,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                 <div className="flex items-center gap-3.5">
                   <div 
                     className={`flex items-center justify-center w-9 h-9 rounded-[4px] transition-colors duration-300 shrink-0 ${
-                      isActive ? 'bg-white shadow-sm' : 'bg-transparent'
+                      isActive ? 'bg-slate-600 shadow-sm' : 'bg-transparent'
                     }`}
                   >
                     <ModuleIcon name={mod.name} color={pillar.color} isActive={isActive} />
@@ -91,13 +91,13 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <h4 
                       className={`text-sm font-bold transition-colors duration-300 ${
-                        isActive ? 'text-gray-900' : 'text-gray-600'
+                        isActive ? 'text-white' : 'text-gray-300'
                       }`}
                     >
                       {mod.name}
                     </h4>
                     {mod.comingSoon && (
-                      <span className="px-2 py-0.5 rounded-[4px] bg-slate-200/70 text-[10px] font-extrabold text-gray-500 tracking-wider">
+                      <span className="px-2 py-0.5 rounded-[4px] bg-slate-700 text-[10px] font-extrabold text-gray-400 tracking-wider">
                         Coming Soon
                       </span>
                     )}
@@ -106,8 +106,8 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
 
                 <ChevronDown 
                   size={16} 
-                  className={`text-gray-400 transition-transform duration-300 ease-out shrink-0 ${
-                    isActive ? 'rotate-180 text-gray-600' : 'rotate-0'
+                  className={`text-gray-500 transition-transform duration-300 ease-out shrink-0 ${
+                    isActive ? 'rotate-180 text-gray-300' : 'rotate-0'
                   }`} 
                 />
               </button>
@@ -118,7 +118,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <p className="pl-[62px] pr-4 pb-4 text-[14px] leading-relaxed text-gray-600 font-medium">
+                  <p className="pl-[62px] pr-4 pb-4 text-[14px] leading-relaxed text-gray-400 font-medium">
                     {mod.description}
                   </p>
                 </div>
@@ -135,19 +135,19 @@ export default function PillarsDesktop() {
   return (
     <section 
       id="pillars" 
-      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-900 py-4 lg:py-4 overflow-hidden selection:bg-purple-500 selection:text-white"
     >
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-pink-200/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" aria-hidden="true" />
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
+      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" aria-hidden="true" />
 
       <div className="max-w-[1280px] mx-auto px-4 lg:px-8 relative z-10">
         <div className="flex flex-col items-center mb-12 lg:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-          <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
-            <Sparkles size={14} className="text-purple-600" aria-hidden="true" />
+          <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-fuchsia-400 mb-4">
+            <Sparkles size={14} className="text-purple-400" aria-hidden="true" />
             {PILLARS_HEADING.section}
           </span>
-          <h2 className="text-4xl lg:text-[44px] leading-[1.2] font-extrabold text-gray-900 tracking-tight">
-            Built on Core Pillars
+          <h2 className="text-4xl lg:text-[44px] leading-[1.2] font-extrabold text-white tracking-tight">
+             3 Core Pillars, 8 Modules
           </h2>
         </div>
 

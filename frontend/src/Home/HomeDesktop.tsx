@@ -21,14 +21,14 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
     >
       <HomeNavDesktop viewMode={viewMode} />
       <HeroDesktop />
+      <PillarsDesktop />
       <WhyN4reDesktop />
       <FindYourPlaceDesktop />
-      <PillarsDesktop />
       <PlatformPreviewDesktop />
       {/* <EcosystemDesktop /> */}
       <SegmentsDesktop />
       {/* <ProfilesDesktop /> */}
-      <ComingSoonDesktop />
+      {/* <ComingSoonDesktop /> */}
       <FinalCtaDesktop />
       <FooterDesktop />
     </main>

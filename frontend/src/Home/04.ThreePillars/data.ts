@@ -1,5 +1,5 @@
 export const PILLARS_HEADING = {
-  section: 'Features built to accelerate your Business Growth — 3 Core Pillars, 8 Modules',
+  section: 'Features built to accelerate your Business Growth',
   tagline: 'One Ecosystem. Three Pillars. Eight Modules.',
 }
 
@@ -26,10 +26,10 @@ export const PILLARS: Pillar[] = [
     key: 'content',
     title: 'CONTENT',
     subtitle: 'Learn. Discover. Build Authority.',
-    color: '#4C1D95',
-    borderColor: '#E9D5FF',
-    columnBg: '#FAF5FF',
-    cardBg: '#FFFFFF',
+    color: '#C084FC',
+    borderColor: '#334155',
+    columnBg: '#1E293B',
+    cardBg: '#0F172A',
     modules: [
       {
         name: 'Spotlight',
@@ -53,10 +53,10 @@ export const PILLARS: Pillar[] = [
     key: 'connections',
     title: 'CONNECTIONS',
     subtitle: 'Find. Evaluate. Connect.',
-    color: '#166534',
-    borderColor: '#BBF7D0',
-    columnBg: '#F0FDF4',
-    cardBg: '#FFFFFF',
+    color: '#4ADE80',
+    borderColor: '#334155',
+    columnBg: '#1E293B',
+    cardBg: '#0F172A',
     modules: [
       {
         name: 'Directory',
@@ -75,10 +75,10 @@ export const PILLARS: Pillar[] = [
     key: 'conversations',
     title: 'CONVERSATIONS',
     subtitle: 'Engage. Collaborate. Grow.',
-    color: '#C2410C',
-    borderColor: '#FED7AA',
-    columnBg: '#FFF7ED',
-    cardBg: '#FFFFFF',
+    color: '#FB923C',
+    borderColor: '#334155',
+    columnBg: '#1E293B',
+    cardBg: '#0F172A',
     modules: [
       {
         name: 'Opportunities',

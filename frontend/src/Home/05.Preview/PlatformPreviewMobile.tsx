@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Play, Star, Briefcase, MapPin, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { Play, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
 
 export default function PlatformPreviewMobile() {
@@ -9,7 +9,7 @@ export default function PlatformPreviewMobile() {
     switch (activeTab) {
       case 'spotlight':
         return (
-          <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
+          <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 snap-x snap-mandatory after:content-[''] after:w-4 after:shrink-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {MOCK_DATA.spotlight.map((video, idx) => (
               <div key={idx} className="shrink-0 snap-start relative rounded-[4px] overflow-hidden w-[140px] aspect-[9/16] bg-gray-900 border border-white/10 shadow-lg cursor-pointer">
                 <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-50`} />
@@ -27,12 +27,18 @@ export default function PlatformPreviewMobile() {
                 </div>
               </div>
             ))}
+            <button className="group shrink-0 snap-start relative rounded-[4px] w-[140px] aspect-[9/16] bg-white/5 border border-white/10 shadow-lg cursor-pointer flex flex-col items-center justify-center gap-3 text-gray-400 active:bg-gradient-to-br active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300">
+              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-active:scale-110 transition-transform">
+                <RefreshCcw size={18} className="group-active:rotate-180 transition-transform duration-700" />
+              </div>
+              <span className="text-[12px] font-bold text-center leading-tight">Load More<br/>Spotlights</span>
+            </button>
           </div>
         );
       case 'red-expert':
         return (
-          <div className="flex flex-col gap-3 animate-in fade-in zoom-in-95 duration-500">
-            {MOCK_DATA.redExpert.slice(0, 3).map((video, idx) => (
+          <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
+            {MOCK_DATA.redExpert.map((video, idx) => (
               <div key={idx} className="relative rounded-[4px] overflow-hidden aspect-video bg-gray-900 border border-white/10 shadow-lg cursor-pointer active:scale-[0.98] transition-transform">
                 <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-40`} />
                 <div className="absolute inset-0 flex items-center justify-center">
@@ -55,11 +61,17 @@ export default function PlatformPreviewMobile() {
                 </div>
               </div>
             ))}
+            <div className="mt-3 flex justify-center w-full">
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[12px] font-bold text-gray-300 active:bg-gradient-to-r active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300 shadow-lg">
+                <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700" />
+                Load More Experts
+              </button>
+            </div>
           </div>
         );
       case 'opportunities':
         return (
-          <div className="flex flex-col gap-3 animate-in fade-in zoom-in-95 duration-500">
+          <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.opportunities.map((opp, idx) => (
               <div key={idx} className="p-3.5 rounded-[4px] bg-white/5 border border-white/10 active:border-purple-500/50 active:bg-white/10 transition-colors flex flex-col justify-between cursor-pointer">
                 <div>
@@ -79,16 +91,22 @@ export default function PlatformPreviewMobile() {
                     </span>
                   </div>
                 </div>
-                <button className="w-full py-1.5 rounded-[4px] bg-purple-600 active:bg-purple-500 text-white text-[11px] font-bold transition-colors">
+                <button className="self-end px-3 py-1.5 rounded-[4px] bg-purple-600 active:bg-purple-500 text-white text-[11px] font-bold transition-colors mt-1">
                   Apply Now
                 </button>
               </div>
             ))}
+            <div className="mt-3 flex justify-center w-full">
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[12px] font-bold text-gray-300 active:bg-gradient-to-r active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300 shadow-lg">
+                <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700" />
+                Load More Opportunities
+              </button>
+            </div>
           </div>
         );
       case 'directory':
         return (
-          <div className="grid grid-cols-2 gap-3 animate-in fade-in zoom-in-95 duration-500">
+          <div className="grid grid-cols-2 gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.directory.map((cat, idx) => {
               const Icon = cat.icon;
               return (
@@ -132,7 +150,7 @@ export default function PlatformPreviewMobile() {
         </div>
 
         {/* Horizontal Scroll Tabs */}
-        <div className="flex overflow-x-auto gap-2 pb-4 mb-2 -mx-4 px-4 custom-scrollbar snap-x snap-mandatory">
+        <div className="flex overflow-x-auto gap-2 pb-4 mb-2 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {PREVIEW_TABS.map((tab) => {
             const isActive = activeTab === tab.key;
             return (
@@ -167,7 +185,7 @@ export default function PlatformPreviewMobile() {
         </div>
 
         {/* Mock UI Window */}
-        <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 min-h-[400px]">
+        <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 min-h-[400px] max-h-[500px]">
           {/* Mac-style Window Header */}
           <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-3 gap-1.5">
             <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
@@ -179,7 +197,7 @@ export default function PlatformPreviewMobile() {
           </div>
 
           {/* Dynamic Content Area */}
-          <div className="p-4 h-[calc(100%-2.5rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto">
+          <div className="px-4 pt-4 pb-1 h-[calc(100%-2.5rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {renderActiveMockUI()}
           </div>
         </div>

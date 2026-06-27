@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Play, Star, Briefcase, MapPin, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import { Play, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
 
 export default function PlatformPreviewDesktop() {
@@ -9,7 +9,7 @@ export default function PlatformPreviewDesktop() {
     switch (activeTab) {
       case 'spotlight':
         return (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pb-6 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.spotlight.map((video, idx) => (
               <div key={idx} className="group relative rounded-[4px] overflow-hidden cursor-pointer aspect-[9/16] bg-gray-900 border border-white/10 shadow-lg">
                 <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-50 group-hover:opacity-70 transition-opacity duration-300`} />
@@ -27,11 +27,17 @@ export default function PlatformPreviewDesktop() {
                 </div>
               </div>
             ))}
+            <div className="col-span-full mt-4 flex items-center justify-center">
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[13px] font-bold text-gray-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-lg hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]">
+                <RefreshCcw size={16} className="group-hover:rotate-180 transition-transform duration-700" />
+                Load More Spotlights
+              </button>
+            </div>
           </div>
         );
       case 'red-expert':
         return (
-          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="grid grid-cols-2 gap-4 pb-6 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.redExpert.map((video, idx) => (
               <div key={idx} className="group relative rounded-[4px] overflow-hidden cursor-pointer aspect-video bg-gray-900 border border-white/10 shadow-lg">
                 <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-40 group-hover:opacity-60 transition-opacity duration-300`} />
@@ -55,11 +61,17 @@ export default function PlatformPreviewDesktop() {
                 </div>
               </div>
             ))}
+            <div className="col-span-full mt-4 flex items-center justify-center">
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[13px] font-bold text-gray-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-lg hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]">
+                <RefreshCcw size={16} className="group-hover:rotate-180 transition-transform duration-700" />
+                Load More Experts
+              </button>
+            </div>
           </div>
         );
       case 'opportunities':
         return (
-          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="grid grid-cols-2 gap-4 pb-6 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.opportunities.map((opp, idx) => (
               <div key={idx} className="group p-4 rounded-[4px] bg-white/5 border border-white/10 hover:border-purple-500/50 hover:bg-white/10 transition-all flex flex-col justify-between cursor-pointer">
                 <div>
@@ -79,16 +91,22 @@ export default function PlatformPreviewDesktop() {
                     </span>
                   </div>
                 </div>
-                <button className="w-full py-2 rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors">
+                <button className="self-end px-4 py-1.5 rounded-[4px] bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold transition-colors mt-1">
                   Apply Now
                 </button>
               </div>
             ))}
+            <div className="col-span-full mt-4 flex items-center justify-center">
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[13px] font-bold text-gray-300 hover:bg-gradient-to-r hover:from-purple-600 hover:to-purple-500 hover:text-white hover:border-transparent transition-all duration-300 shadow-lg hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]">
+                <RefreshCcw size={16} className="group-hover:rotate-180 transition-transform duration-700" />
+                Load More Opportunities
+              </button>
+            </div>
           </div>
         );
       case 'directory':
         return (
-          <div className="grid grid-cols-2 gap-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="grid grid-cols-2 gap-4 pb-6 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.directory.map((cat, idx) => {
               const Icon = cat.icon;
               return (
@@ -152,11 +170,11 @@ export default function PlatformPreviewDesktop() {
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-transparent pointer-events-none" />
                   )}
                   <div className="relative z-10">
-                    <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 ${
+                   {/*  <span className={`inline-block px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider mb-3 ${
                       isActive ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-400 group-hover:text-gray-300'
                     }`}>
                       {tab.badge}
-                    </span>
+                    </span> */}
                     <h3 className={`text-xl font-bold mb-2 ${isActive ? 'text-white' : 'text-gray-400 group-hover:text-gray-200'}`}>
                       {tab.title}
                     </h3>
@@ -170,7 +188,7 @@ export default function PlatformPreviewDesktop() {
           </div>
 
           {/* Right Mock UI Window */}
-          <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 h-full min-h-[500px]">
+          <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 h-full min-h-[500px] max-h-[600px]">
             {/* Mac-style Window Header */}
             <div className="h-12 bg-white/5 border-b border-white/10 flex items-center px-4 gap-2">
               <div className="w-3 h-3 rounded-full bg-rose-500/80" />
@@ -182,7 +200,7 @@ export default function PlatformPreviewDesktop() {
             </div>
 
             {/* Dynamic Content Area */}
-            <div className="p-6 h-[calc(100%-3rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto custom-scrollbar">
+            <div className="px-6 pt-6 pb-2 h-[calc(100%-3rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               {renderActiveMockUI()}
             </div>
           </div>

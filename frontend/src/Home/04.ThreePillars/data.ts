@@ -1,5 +1,5 @@
 export const PILLARS_HEADING = {
-  section: 'EXPLORE N4RE — THREE PILLARS, EIGHT MODULES',
+  section: 'Features built to accelerate your Business Growth — 3 Core Pillars, 8 Modules',
   tagline: 'One Ecosystem. Three Pillars. Eight Modules.',
 }
 

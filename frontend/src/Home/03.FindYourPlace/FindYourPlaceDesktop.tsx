@@ -40,7 +40,7 @@ export default function FindYourPlaceDesktop() {
   return (
     <section
       id="find-your-place"
-      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-12 lg:py-20"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
     >
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-300/10 rounded-full blur-[120px] pointer-events-none" 

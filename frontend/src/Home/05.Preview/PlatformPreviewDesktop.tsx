@@ -32,7 +32,7 @@ export default function PlatformPreviewDesktop() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
     >
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-purple-300/10 rounded-full blur-[100px] pointer-events-none" 

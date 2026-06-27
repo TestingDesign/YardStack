@@ -1,5 +1,5 @@
 export const HERO_CONTENT = {
-  tagline: 'Network 4 Real Estate',
+  tagline: 'Network 4 Real Estate(N4RE)',
   headline: <>Connecting Hyderabad's Real Estate Ecosystem</>,
   subHeading: <>A dedicated platform for professionals, businesses and service providers who power Hyderabad's real estate market.</>,
   primaryCta: 'Join N4RE',

@@ -3,7 +3,7 @@ import { Sparkles, User, Zap, Plus } from 'lucide-react';
 
 export default function ProfilesMobile() {
   return (
-    <section id="profiles" className="relative bg-white py-12 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+    <section id="profiles" className="relative bg-white overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-50/50 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="px-4 relative z-10">

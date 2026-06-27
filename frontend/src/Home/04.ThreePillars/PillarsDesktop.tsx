@@ -142,7 +142,7 @@ export default function PillarsDesktop() {
   return (
     <section 
       id="pillars" 
-      className="relative bg-slate-900 py-4 lg:py-4 overflow-hidden selection:bg-purple-500 selection:text-white"
+      className="relative bg-slate-900 overflow-hidden selection:bg-purple-500 selection:text-white py-8 lg:py-12"
     >
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" aria-hidden="true" />

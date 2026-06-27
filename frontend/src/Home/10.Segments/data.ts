@@ -1,4 +1,4 @@
-import { Building2, Home, TrendingUp, MapPin } from 'lucide-react';
+import { Building, Building2, Home, MapPin } from 'lucide-react';
 
 export const SEGMENTS_CONTENT = {
   tagline: "REAL ESTATE SEGMENTS WE SERVE",
@@ -8,28 +8,29 @@ export const SEGMENTS_CONTENT = {
 
 export const SEGMENTS = [
   {
+    id: "residential",
+    title: "Residential",
+    description: "Apartments • Villas • Communities",
+    icon: Building,
+    color: "#E11D48", 
+    bgColor: "#FFE4E6", 
+  },
+  
+  {
+    id: "luxury",
+    title: "Luxury Housing",
+    description: "Premium & Luxury Developments",
+    icon: Home,
+    color: "#EA580C", // Orange-600
+    bgColor: "#FFF7ED", // Orange-50
+  },
+  {
     id: "commercial",
     title: "Commercial Real Estate",
     description: "Office • Retail • Leasing",
     icon: Building2,
     color: "#3B82F6", // Blue-500
     bgColor: "#EFF6FF", // Blue-50
-  },
-  {
-    id: "luxury",
-    title: "Luxury Housing",
-    description: "Apartments • Villas • Communities • Premium & Luxury Developments",
-    icon: Home,
-    color: "#EA580C", // Orange-600
-    bgColor: "#FFF7ED", // Orange-50
-  },
-  {
-    id: "investment",
-    title: "Investment Advisory",
-    description: "Investments • Advisory • Wealth Planning",
-    icon: TrendingUp,
-    color: "#EAB308", // Yellow-500
-    bgColor: "#FEFCE8", // Yellow-50
   },
   {
     id: "plotted",

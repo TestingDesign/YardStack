@@ -89,7 +89,7 @@ function PillarCard({ pillar }: { pillar: Pillar }) {
 
 export default function PillarsMobile() {
   return (
-    <section id="pillars" style={{ background: '#0F172A', padding: '32px 0' }}>
+    <section className="py-8" id="pillars" style={{ background: '#0F172A', }}>
       <div style={{ padding: '0 16px' }}>
         <p style={{
           textAlign: 'center',

@@ -3,7 +3,7 @@ import { FINAL_CTA_CONTENT } from './data';
 
 export default function FinalCtaMobile() {
   return (
-    <section id="final-cta" className="relative py-12 overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] selection:bg-fuchsia-500/30 selection:text-white">
+    <section id="final-cta" className="relative overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] selection:bg-fuchsia-500/30 selection:text-white py-8">
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-800 rounded-full blur-[80px] opacity-40 pointer-events-none" 
         aria-hidden="true"

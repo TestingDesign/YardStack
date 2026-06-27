@@ -75,7 +75,7 @@ export default function HeroMobile() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-[#F8F7FC]"
+      className="relative overflow-hidden bg-[#F8F7FC] pt-[100px] pb-8"
     >
       <div
         className="absolute bottom-0 left-0 w-full h-[200px] opacity-10 pointer-events-none"

@@ -36,7 +36,7 @@ export default function EcosystemDesktop() {
   return (
     <section 
       id="ecosystem" 
-      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
     >
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-400/5 rounded-full blur-[120px] pointer-events-none" 

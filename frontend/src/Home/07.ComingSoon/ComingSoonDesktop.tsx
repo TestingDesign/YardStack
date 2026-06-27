@@ -19,7 +19,7 @@ export default function ComingSoonDesktop() {
   return (
     <section 
       id="coming-soon" 
-      className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" aria-hidden="true" />
 

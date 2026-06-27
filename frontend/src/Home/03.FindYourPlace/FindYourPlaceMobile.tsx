@@ -49,7 +49,7 @@ export default function FindYourPlaceMobile() {
   return (
     <section
       id="find-your-place"
-      className="relative bg-slate-50 overflow-hidden font-sans py-8 pb-10"
+      className="relative bg-slate-50 overflow-hidden font-sans py-8"
     >
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-300/10 rounded-full blur-[80px] pointer-events-none" 

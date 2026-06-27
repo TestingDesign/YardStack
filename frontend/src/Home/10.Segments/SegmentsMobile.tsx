@@ -4,7 +4,7 @@ import Logo from './Logo.png';
 
 export default function SegmentsMobile() {
   return (
-    <section id="segments" className="relative bg-slate-50 py-12 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+    <section id="segments" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="px-4 relative z-10">

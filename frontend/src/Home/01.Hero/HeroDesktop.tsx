@@ -81,7 +81,7 @@ export default function HeroDesktop() {
   return (
     <section 
       id="hero" 
-      className="relative bg-white pt-[100px] pb-10 lg:pt-[120px] lg:pb-16 overflow-hidden selection:bg-[#D946EF]/20 selection:text-[#422082]"
+      className="relative bg-white overflow-hidden selection:bg-[#D946EF]/20 selection:text-[#422082] pt-[100px] pb-8 lg:pt-[120px] lg:pb-12"
     >
       <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-purple-50/70 z-0 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-full h-[450px] pointer-events-none z-0 opacity-20">

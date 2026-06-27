@@ -25,7 +25,7 @@ export default function WhyN4reMobile() {
   };
 
   return (
-    <section id="why-n4re" className="relative bg-slate-50 py-8 overflow-hidden">
+    <section id="why-n4re" className="relative bg-slate-50 overflow-hidden py-8">
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] pointer-events-none"
         style={{

@@ -49,9 +49,13 @@ export default function FindYourPlaceMobile() {
   return (
     <section
       id="find-your-place"
-      className="bg-white font-sans py-8 pb-10"
+      className="relative bg-slate-50 overflow-hidden font-sans py-8 pb-10"
     >
-      <div className="px-4">
+      <div 
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-300/10 rounded-full blur-[80px] pointer-events-none" 
+        aria-hidden="true"
+      />
+      <div className="px-4 relative z-10">
         <p className="text-center text-[10px] font-extrabold tracking-widest uppercase text-[var(--color-primary-600)] mb-3">
           {FIND_YOUR_PLACE_CONTENT.sectionLabel}
         </p>
@@ -64,7 +68,7 @@ export default function FindYourPlaceMobile() {
           {FIND_YOUR_PLACE_CONTENT.description}
         </p>
 
-        <div className="bg-white rounded-[8px] border border-purple-600/5 shadow-[0_8px_24px_rgba(0,0,0,0.04)] p-4 flex flex-col gap-6 relative overflow-hidden">
+        <div className="bg-white/80 backdrop-blur-xl rounded-2xl border border-white shadow-2xl shadow-purple-900/5 p-5 flex flex-col gap-6 relative overflow-hidden">
           <div className="absolute bottom-0 right-0 w-full h-[40%] pointer-events-none z-0 opacity-20">
             <img src={BG} alt="City Background" className="w-full h-full object-cover object-right-bottom" draggable={false} />
           </div>
@@ -151,23 +155,7 @@ export default function FindYourPlaceMobile() {
               ))}
             </ul>
 
-            <button
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                width: '100%',
-                marginTop: '24px',
-                padding: '12px 20px',
-                borderRadius: '8px',
-                background: '#FFFFFF',
-                border: '1.5px solid rgba(107,33,168,0.3)',
-                color: '#6B21A8',
-                fontSize: '13px',
-                fontWeight: 700,
-                }}
-            >
+            <button className="w-full mt-6 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white text-purple-700 text-[13px] font-extrabold border-2 border-purple-100 shadow-sm transition-all duration-300 active:scale-[0.98]">
               {selectedRole.ctaLabel}
               <ArrowRight size={16} />
             </button>

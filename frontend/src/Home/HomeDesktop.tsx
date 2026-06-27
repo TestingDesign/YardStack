@@ -5,7 +5,7 @@ import FindYourPlaceDesktop from './03.FindYourPlace/FindYourPlaceDesktop';
 import PillarsDesktop from './04.ThreePillars/PillarsDesktop';
 import PlatformPreviewDesktop from './05.Preview/PlatformPreviewDesktop';
 import SegmentsDesktop from './10.Segments/SegmentsDesktop';
-import ComingSoonDesktop from './07.ComingSoon/ComingSoonDesktop';
+/* import ComingSoonDesktop from './07.ComingSoon/ComingSoonDesktop'; */
 import FinalCtaDesktop from './08.CTA/FinalCtaDesktop';
 import FooterDesktop from './09.Footer/FooterDesktop';
 
@@ -21,8 +21,8 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
     >
       <HomeNavDesktop viewMode={viewMode} />
       <HeroDesktop />
-      <PillarsDesktop />
       <WhyN4reDesktop />
+      <PillarsDesktop />
       <FindYourPlaceDesktop />
       <PlatformPreviewDesktop />
       {/* <EcosystemDesktop /> */}

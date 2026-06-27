@@ -4,7 +4,7 @@ import Logo from './Logo.png';
 
 export default function SegmentsMobile() {
   return (
-    <section id="segments" className="relative bg-[var(--color-bg-muted)] py-12 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+    <section id="segments" className="relative bg-slate-50 py-12 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="px-4 relative z-10">
@@ -13,13 +13,13 @@ export default function SegmentsMobile() {
             <Sparkles size={12} className="text-purple-600" />
             {SEGMENTS_CONTENT.tagline}
           </span>
-          <h2 className="text-[28px] leading-[1.2] font-extrabold text-[var(--color-text-primary)] tracking-tight mb-3">
-            We serve professionals from <br/>
+          <h2 className="text-[28px] leading-[1.2] font-extrabold text-gray-900 tracking-tight mb-3">
+            We serve professionals and companies <br/>
             <span className="bg-clip-text text-transparent bg-gradient-to-br from-purple-800 to-purple-500">
-              every real estate segment
+              from every real estate segment
             </span>
           </h2>
-          <p className="text-sm font-medium text-[var(--color-text-secondary)] leading-relaxed">
+          <p className="text-sm font-medium text-gray-600 leading-relaxed max-w-[320px]">
             Whether you work in residential, luxury, plotted developments, commercial real estate or investment advisory, N4RE helps you connect and grow.
           </p>
         </div>
@@ -30,7 +30,7 @@ export default function SegmentsMobile() {
               <div className="w-[140px] h-[140px] rounded-full bg-gradient-to-br from-purple-900 to-[#3b0764] shadow-[0_0_30px_rgba(88,28,135,0.3)] flex flex-col items-center justify-center text-center px-3 text-white border-[3px] border-white">
                 <div className="flex flex-col items-center -mt-3">
                   <img src={Logo} alt="N4RE Logo" className="w-[75px] h-auto object-contain mb-1" draggable={false} />
-                  <div className="w-6 h-0.5 bg-purple-400/50 mb-1 rounded-full" />
+                  {/* <div className="w-6 h-0.5 bg-purple-400/50 mb-1 rounded-full" /> */}
                 </div>
               </div>
             </div>

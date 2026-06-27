@@ -176,29 +176,28 @@ export default function HeroMobile() {
             <img src={Logo} alt="Logo" className="w-[70%] h-[70%] object-contain" draggable={false} />
           </div>
 
-          {ECOSYSTEM_CATEGORIES.slice(0, 5).map((cat, i) => {
-            const mobilePositions = [
-              { top: '-5%', left: '50%' },
-              { top: '35%', left: '90%' },
-              { top: '90%', left: '70%' },
-              { top: '90%', left: '30%' },
-              { top: '35%', left: '10%' },
-            ];
+          {ECOSYSTEM_CATEGORIES.map((cat, i) => {
+            const angle = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6][i] || 0;
+            const radians = (angle - 90) * (Math.PI / 180);
+            const radius = 135;
+            const x = Math.cos(radians) * radius;
+            const y = Math.sin(radians) * radius;
+
             return (
               <div
                 key={i}
-                className="absolute z-20 flex flex-col items-center justify-center gap-1.5 rounded-[12px] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] px-3 py-2.5 min-w-[100px] text-center border border-white/80 ys-fade-in"
+                className="absolute z-20 flex flex-col items-center justify-center gap-1 rounded-[10px] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.06)] px-2 py-1.5 min-w-[75px] max-w-[85px] text-center border border-white/80 ys-fade-in"
                 style={{
-                  top: mobilePositions[i].top,
-                  left: mobilePositions[i].left,
+                  top: `calc(50% + ${y}px)`,
+                  left: `calc(50% + ${x}px)`,
                   transform: 'translate(-50%, -50%)',
                   animationDelay: `${i * 100}ms`,
                 }}
               >
-                <div className="w-8 h-8 rounded-full bg-[#f8f5fc] flex items-center justify-center border border-[#6B21A8]/5">
+                <div className="w-6 h-6 rounded-full bg-[#f8f5fc] flex items-center justify-center border border-[#6B21A8]/5">
                   <CategoryIcon icon={cat.icon} />
                 </div>
-                <span className="text-[10px] font-extrabold text-[#111827] leading-tight whitespace-pre-line">
+                <span className="text-[8px] font-extrabold text-[#111827] leading-tight whitespace-pre-line">
                   {cat.label}
                 </span>
               </div>

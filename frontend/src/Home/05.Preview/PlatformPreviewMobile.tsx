@@ -64,8 +64,8 @@ export default function PlatformPreviewMobile() {
               </div>
 
               {(section.key === 'spotlight' || section.key === 'red-expert') ? (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-                  {section.items.slice(0, 3).map((item, i) => (
+                <div style={{ display: 'grid', gridTemplateColumns: `repeat(${section.items.length > 3 ? 4 : 3}, 1fr)`, gap: '8px' }}>
+                  {section.items.map((item, i) => (
                     <div key={i} className="group flex flex-col gap-1.5 cursor-pointer">
                       <div className="aspect-square rounded-[4px] flex items-center justify-center shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)] transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px"
                         style={{
@@ -85,7 +85,7 @@ export default function PlatformPreviewMobile() {
                 </div>
               ) : section.key === 'opportunities' ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {section.items.slice(0, 3).map((item, i) => (
+                  {section.items.map((item, i) => (
                     <div key={i} className="group flex items-center gap-2.5 p-2.5 rounded-[4px] border border-[rgba(234,88,12,0.1)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
                       style={{
                         background: 'rgba(234,88,12,0.03)',
@@ -99,8 +99,8 @@ export default function PlatformPreviewMobile() {
                   ))}
                 </div>
               ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-                  {section.items.slice(0, 6).map((item, i) => (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  {section.items.map((item, i) => (
                     <div key={i} className="group flex flex-col items-center gap-1.5 p-[10px_6px] text-center rounded-[4px] border border-[rgba(124,58,237,0.06)] transition-all cursor-pointer hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:via-purple-600 hover:to-[var(--color-primary-600)] hover:text-white hover:border-transparent hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] hover:-translate-y-px"
                       style={{
                         backgroundColor: 'rgba(124,58,237,0.02)',

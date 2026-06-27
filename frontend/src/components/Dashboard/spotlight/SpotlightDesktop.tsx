@@ -440,26 +440,17 @@ export default function SpotlightDesktop() {
     : -1
 
   return (
-    <>
+    <div className="relative flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] overflow-hidden">
       <style>{STYLES}</style>
 
-      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-12">
         <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 ">
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
         <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
           <div className="flex-1 min-w-0 flex flex-col gap-7">
-            {activeVideo ? (
-              <div className="w-full h-[80vh] min-h-[600px] max-h-[900px] rounded-2xl overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.3),0_4px_16px_rgba(0,0,0,0.15)] shrink-0 relative animate-in fade-in zoom-in-[0.98] duration-500 ease-out">
-                <ActiveVideoPlayer
-                  video={activeVideo}
-                  onClose={() => setActiveVideo(null)}
-                  onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-                  onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
-                />
-              </div>
-            ) : (
+
               <div
                 className="w-full bg-white rounded-[8px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.07),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_16px_48px_rgba(124,58,237,0.14),0_4px_16px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
                 onClick={() => setActiveVideo(filtered[0])}
@@ -521,7 +512,6 @@ export default function SpotlightDesktop() {
                   </div>
                 </div>
               </div>
-            )}
 
             <div className="w-full flex flex-col gap-3">
               <SectionHeader
@@ -699,6 +689,17 @@ export default function SpotlightDesktop() {
           </div>
         </div>
       </div>
-    </>
+      
+      {activeVideo && (
+        <div className="absolute inset-0 z-[100] bg-black animate-in fade-in zoom-in-95 duration-300">
+          <ActiveVideoPlayer
+            video={activeVideo}
+            onClose={() => setActiveVideo(null)}
+            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
+          />
+        </div>
+      )}
+    </div>
   )
 }

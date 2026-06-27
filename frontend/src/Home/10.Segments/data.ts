@@ -8,14 +8,6 @@ export const SEGMENTS_CONTENT = {
 
 export const SEGMENTS = [
   {
-    id: "residential",
-    title: "Residential",
-    description: "Apartments • Villas • Communities",
-    icon: Building,
-    color: "#6B21A8", // Purple-700
-    bgColor: "#F3E8FF", // Purple-100
-  },
-  {
     id: "commercial",
     title: "Commercial Real Estate",
     description: "Office • Retail • Leasing",
@@ -26,7 +18,7 @@ export const SEGMENTS = [
   {
     id: "luxury",
     title: "Luxury Housing",
-    description: "Premium & Luxury Developments",
+    description: "Apartments • Villas • Communities • Premium & Luxury Developments",
     icon: Home,
     color: "#EA580C", // Orange-600
     bgColor: "#FFF7ED", // Orange-50

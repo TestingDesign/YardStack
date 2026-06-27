@@ -4,15 +4,31 @@ import Logo from './Logo.png';
 
 export default function SegmentsDesktop() {
   const positions = [
-    { left: '50%', top: '12%' },
-    { left: '82%', top: '45%' },
-    { left: '18%', top: '45%' },
-    { left: '72%', top: '82%' },
-    { left: '28%', top: '82%' },
+    { left: '25%', top: '25%' },
+    { left: '75%', top: '25%' },
+    { left: '25%', top: '75%' },
+    { left: '75%', top: '75%' },
   ];
 
   return (
     <section id="segments" className="relative bg-slate-50 py-4 lg:py-4 overflow-hidden selection:bg-purple-200 selection:text-purple-900">
+      <style>{`
+        @keyframes float-segment {
+          0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+          50% { transform: translate(-50%, -50%) translateY(-8px); }
+        }
+        .animate-float-segment {
+          animation: float-segment 6s ease-in-out infinite;
+        }
+        @keyframes dash-flow {
+          to {
+            stroke-dashoffset: -24;
+          }
+        }
+        .animate-dash-flow {
+          animation: dash-flow 2s linear infinite;
+        }
+      `}</style>
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-400/5 rounded-full blur-[120px] pointer-events-none" 
         aria-hidden="true"
@@ -49,6 +65,7 @@ export default function SegmentsDesktop() {
                   strokeWidth="2"
                   strokeDasharray="6 6"
                   opacity="0.4"
+                  className="animate-dash-flow"
                 />
                 <circle
                   cx={pos.left}
@@ -87,11 +104,11 @@ export default function SegmentsDesktop() {
             return (
               <div
                 key={segment.id}
-                className="absolute z-10 w-[260px] bg-white/90 backdrop-blur-xl rounded-[4px] p-4 flex items-center gap-4 shadow-xl shadow-purple-900/5 border border-white hover:-translate-y-1 hover:shadow-2xl hover:shadow-purple-900/15 transition-all duration-300 group cursor-default"
+                className="absolute z-10 w-[260px] bg-white/90 backdrop-blur-xl rounded-[4px] p-4 flex items-center gap-4 shadow-xl shadow-purple-900/5 border border-white hover:shadow-2xl hover:shadow-purple-900/15 transition-shadow duration-300 group cursor-default animate-float-segment"
                 style={{
                   left: positions[i].left,
                   top: positions[i].top,
-                  transform: 'translate(-50%, -50%)',
+                  animationDelay: `${i * 1.5}s`,
                 }}
               >
                 <div 

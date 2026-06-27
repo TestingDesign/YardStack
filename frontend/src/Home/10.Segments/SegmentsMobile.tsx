@@ -42,12 +42,16 @@ export default function SegmentsMobile() {
 
           {/* Segment Cards */}
           <div className="flex flex-col gap-3 w-full">
-            {SEGMENTS.map((segment) => {
+            {SEGMENTS.map((segment, index) => {
               const Icon = segment.icon;
               return (
                 <div
                   key={segment.id}
-                  className="bg-white rounded-xl p-4 flex items-center gap-4 shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100"
+                  className="bg-white rounded-xl p-4 flex items-center gap-4 shadow-[0_2px_10px_rgba(0,0,0,0.04)] border border-gray-100 animate-in fade-in slide-in-from-bottom-4 fill-mode-both"
+                  style={{
+                    animationDuration: '700ms',
+                    animationDelay: `${150 + index * 100}ms`
+                  }}
                 >
                   <div 
                     className="w-12 h-12 rounded-[8px] flex items-center justify-center shrink-0 shadow-sm"

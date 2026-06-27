@@ -97,8 +97,8 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                       {mod.name}
                     </h4>
                     {mod.comingSoon && (
-                      <span className="px-2 py-0.5 rounded-[4px] bg-slate-200/70 text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">
-                        Soon
+                      <span className="px-2 py-0.5 rounded-[4px] bg-slate-200/70 text-[10px] font-extrabold text-gray-500 tracking-wider">
+                        Coming Soon
                       </span>
                     )}
                   </div>

@@ -64,7 +64,7 @@ export default function RoadmapMobile() {
                   <h3 className="text-[0.88rem] font-bold text-[#1A1A2E] m-0 mb-0.5">{item.name}</h3>
                   <p className="text-[0.75rem] text-[#6B7280] leading-relaxed m-0 line-clamp-2">{item.description}</p>
                 </div>
-                <div className="absolute top-0 right-0 bg-[#FEF3C7] text-[#B45309] text-[7px] font-bold uppercase tracking-wider px-2 py-1 rounded-bl-[4px]">
+                <div className="absolute top-0 right-0 bg-[#FEF3C7] text-[#B45309] text-[7px] font-bold tracking-wider px-2 py-1 rounded-bl-[4px]">
                   Coming Soon
                 </div>
               </div>

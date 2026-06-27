@@ -61,7 +61,7 @@ export default function ComingSoonDesktop() {
                   />
 
                   <span 
-                    className="absolute top-3 left-3 z-10 px-2 py-1 text-[10px] font-black uppercase tracking-wider rounded-[4px]"
+                    className="absolute top-3 left-3 z-10 px-2 py-1 text-[10px] font-black tracking-wider rounded-[4px]"
                     style={{
                       background: isHovered 
                         ? 'rgba(255, 255, 255, 0.15)' 
@@ -71,7 +71,7 @@ export default function ComingSoonDesktop() {
                       transition: 'all 0.3s ease',
                     }}
                   >
-                    Soon
+                    Coming Soon
                   </span>
 
                   <div 

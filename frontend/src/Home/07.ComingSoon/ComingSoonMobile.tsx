@@ -64,12 +64,11 @@ export default function ComingSoonMobile() {
                   color: '#FFFFFF',
                   fontSize: '7px',
                   fontWeight: 800,
-                  textTransform: 'uppercase',
                   letterSpacing: '0.05em',
                   padding: '2px 6px',
                   borderRadius: '4px',
                 }}>
-                  Soon
+                  Coming Soon
                 </div>
                 
                 <div style={{

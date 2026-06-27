@@ -1,5 +1,6 @@
 import { SEGMENTS_CONTENT, SEGMENTS } from './data';
 import { Sparkles } from 'lucide-react';
+import Logo from './Logo.png';
 
 export default function SegmentsMobile() {
   return (
@@ -27,12 +28,14 @@ export default function SegmentsMobile() {
           {/* Central Hub */}
           <div className="relative w-full max-w-[280px] aspect-square rounded-full border border-purple-200/50 bg-white/40 backdrop-blur-sm flex items-center justify-center mx-auto mb-4">
             <div className="absolute inset-4 rounded-full border border-purple-200/70 bg-purple-50/50 backdrop-blur-md flex items-center justify-center">
-              <div className="w-[140px] h-[140px] rounded-full bg-gradient-to-br from-purple-900 to-[#3b0764] shadow-[0_0_30px_rgba(88,28,135,0.3)] flex flex-col items-center justify-center text-center p-4 text-white border-[3px] border-white">
-                <h3 className="text-2xl font-black tracking-tight mb-1">N4RE</h3>
-                <div className="w-6 h-0.5 bg-purple-400/50 mb-1.5 rounded-full" />
-                <p className="text-[9px] font-bold uppercase tracking-wider text-purple-200 leading-tight">
-                  One Ecosystem.<br/>Every Connection.
-                </p>
+              <div className="w-[140px] h-[140px] rounded-full bg-gradient-to-br from-purple-900 to-[#3b0764] shadow-[0_0_30px_rgba(88,28,135,0.3)] flex flex-col items-center justify-center text-center px-3 text-white border-[3px] border-white">
+                <div className="flex flex-col items-center -mt-3">
+                  <img src={Logo} alt="N4RE Logo" className="w-[75px] h-auto object-contain mb-1" draggable={false} />
+                  <div className="w-6 h-0.5 bg-purple-400/50 mb-1 rounded-full" />
+                  <p className="text-[8px] font-bold uppercase tracking-wider text-purple-200 leading-tight">
+                    One Ecosystem.<br/>Every Connection.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

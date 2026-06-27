@@ -24,7 +24,7 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       <PlatformPreviewMobile />
       {/* <EcosystemMobile /> */}
       <SegmentsMobile />
-      <ProfilesMobile />
+     {/*  <ProfilesMobile /> */}
       <ComingSoonMobile />
       <FooterMobile />
     </div>

@@ -265,7 +265,7 @@ const OpportunityCard = memo(function OpportunityCard({
                     e.stopPropagation()
                     setIsDismissing(true)
                   }}
-                  className="flex items-center justify-center gap-1 w-full py-1.5 rounded-[4px] text-[11px] font-medium text-gray-400 cursor-pointer border-none bg-transparent hover:bg-red-50 hover:text-red-500 transition-all duration-300"
+                  className="flex items-center justify-center gap-1 w-full py-1.5 rounded-[4px] text-[11px] font-medium cursor-pointer border-none bg-transparent hover:bg-red-50 text-red-500 transition-all duration-300"
                 >
                   <CloseIcon sx={{ fontSize: 14 }} />
                   Not Interested

@@ -36,11 +36,10 @@ const LAUNCHING_ITEMS: LaunchingItem[] = [
 
 function LaunchingCard({ item }: { item: LaunchingItem }) {
   return (
-    <div className="group flex flex-col bg-white border border-[#EDEBF8] rounded-[8px] p-6 relative shadow-[0_2px_12px_rgba(107,33,168,0.04)] transition-all duration-300 ease-out hover:shadow-[0_8px_28px_rgba(107,33,168,0.12)] hover:-translate-y-1 hover:border-purple-200">
+    <div className="group flex flex-col aspect-square justify-between bg-white border border-[#EDEBF8] rounded-[12px] p-6 relative shadow-[0_2px_12px_rgba(107,33,168,0.04)] transition-all duration-300 ease-out hover:shadow-[0_8px_28px_rgba(107,33,168,0.12)] hover:-translate-y-1 hover:border-purple-200">
       
-
-      <div className="flex items-start gap-5 flex-1">
-        <div className="shrink-0 mt-0.5 group-hover:scale-110 transition-transform duration-300 ease-out">
+      <div className="flex flex-col items-center justify-center text-center gap-4 flex-1">
+        <div className="shrink-0 group-hover:scale-110 transition-transform duration-300 ease-out">
           {item.icon}
         </div>
         <div>
@@ -53,9 +52,8 @@ function LaunchingCard({ item }: { item: LaunchingItem }) {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mt-6 pt-5 border-t border-[#F0EDF8] text-purple-800 group-hover:border-purple-100 transition-colors duration-300">
+      <div className="flex items-center justify-center gap-2 mt-4 pt-4 border-t border-[#F0EDF8] text-purple-800 group-hover:border-purple-100 transition-colors duration-300">
         <Clock size={16} strokeWidth={2} className="text-purple-800 shrink-0 group-hover:animate-pulse" />
-        {/* Animated Underline Effect on Hover */}
         <span className="text-[13px] font-semibold bg-gradient-to-r from-purple-800 to-indigo-600 bg-no-repeat [background-position:0_100%] [background-size:0%_2px] group-hover:[background-size:100%_2px] transition-all duration-300 pb-0.5">
           Launching Soon
         </span>
@@ -67,8 +65,8 @@ function LaunchingCard({ item }: { item: LaunchingItem }) {
 export default function LaunchingSoonDesktop() {
   return (
     <div className="flex-1 w-full h-full bg-gradient-to-br from-[#F8F7FC] to-[#F1EEF9] overflow-y-auto py-8 px-7 box-border [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
-      <div className="max-w-[1200px] w-full mx-auto">
-        <div className="grid grid-cols-2 gap-6">
+      <div className="max-w-[1200px] w-full mx-auto h-full flex flex-col justify-center">
+        <div className="grid grid-cols-4 gap-6">
           {LAUNCHING_ITEMS.map((item) => (
             <LaunchingCard key={item.key} item={item} />
           ))}

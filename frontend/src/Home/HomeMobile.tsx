@@ -18,8 +18,8 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       <HomeNavMobile viewMode={viewMode} />
       <HeroMobile />
       <WhyN4reMobile />
-      <FindYourPlaceMobile />
       <PillarsMobile />
+      <FindYourPlaceMobile />
       <PlatformPreviewMobile />
       {/* <EcosystemMobile /> */}
       <SegmentsMobile />

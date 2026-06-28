@@ -4,7 +4,7 @@ import {  Home, User, Target, Briefcase, MessageSquare, BarChart2, Plus, Zap } f
 
 export default function ProfilesDesktop() {
   return (
-    <section id="profiles" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12">
+    <section id="profiles" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-16 lg:py-24">
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-purple-100/40 rounded-full blur-[100px] pointer-events-none" 
         aria-hidden="true"

@@ -12,7 +12,7 @@ export default function SegmentsDesktop() {
   ];
 
   return (
-    <section id="segments" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12">
+    <section id="segments" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-16 lg:py-24">
       <style>{`
         @keyframes float-segment {
           0%, 100% { transform: translate(-50%, -50%) translateY(0); }

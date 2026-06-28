@@ -15,7 +15,7 @@ const ItemIcon = ({ icon, color, size = 24 }: { icon: string; color: string; siz
 
 export default function ComingSoonMobile() {
   return (
-    <section className="py-8" id="coming-soon" style={{ background: '#FFFFFF', }}>
+    <section className="py-10" id="coming-soon" style={{ background: '#FFFFFF', }}>
       <div style={{ padding: '0 12px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
         <motion.div 

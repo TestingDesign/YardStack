@@ -22,7 +22,7 @@ const EcosystemIcon = ({ icon, color, size = 24 }: { icon: string; color: string
 
 export default function EcosystemMobile() {
   return (
-    <section className="py-8" id="ecosystem" style={{ background: '#FFFFFF', }}>
+    <section className="py-10" id="ecosystem" style={{ background: '#FFFFFF', }}>
       <div style={{ padding: '0 16px' }}>
         <motion.p 
           initial={{ opacity: 0, y: 10 }}

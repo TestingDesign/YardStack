@@ -38,7 +38,7 @@ export default function WhyN4reMobile() {
           }
         `}
       </style>
-      <section id="why-n4re" className="relative bg-slate-50 overflow-hidden py-8">
+      <section id="why-n4re" className="relative bg-slate-50 overflow-hidden py-10">
         <div 
           className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] pointer-events-none"
           style={{
@@ -75,8 +75,8 @@ export default function WhyN4reMobile() {
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
             className="rounded-[12px] bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden"
           >
-            <div className="p-6 bg-gray-50/50">
-              <div className="flex items-center gap-3 mb-6">
+            <div className="p-5 bg-gray-50/50">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="relative flex h-2.5 w-2.5 items-center justify-center">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
@@ -114,10 +114,10 @@ export default function WhyN4reMobile() {
               </div>
             </div>
 
-            <div className="p-2 relative overflow-hidden">
+            <div className="p-5 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-purple-500/10 rounded-full blur-3xl -z-10 pointer-events-none translate-x-1/3 -translate-y-1/3 animate-pulse" />
               
-              <div className="flex items-center gap-3 mb-6">
+              <div className="flex items-center gap-3 mb-5">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-float-subtle" />
                 <p className="text-xs font-extrabold uppercase tracking-widest text-slate-900 m-0">
                   {WHY_N4RE_CONTENT.n4reHeader}

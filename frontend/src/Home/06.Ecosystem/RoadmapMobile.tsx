@@ -23,7 +23,7 @@ const RoadmapIcon = ({ icon, color, size = 20 }: { icon: string; color: string; 
 
 export default function RoadmapMobile() {
   return (
-    <section id="roadmap" className="py-8">
+    <section id="roadmap" className="py-10">
       <div className="bg-[#1A1A2E] py-8">
         <div className="px-4">
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#D946EF]/70 mb-6">

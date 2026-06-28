@@ -40,7 +40,8 @@ export default function PlatformPreviewMobile() {
           <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.redExpert.map((video, idx) => (
               <div key={idx} className="relative rounded-[4px] overflow-hidden aspect-video bg-gray-900 border border-white/10 shadow-lg cursor-pointer active:scale-[0.98] transition-transform">
-                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-40`} />
+                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${video.bgImage})` }} />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 opacity-80" />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
                     <Play className="text-white ml-1" size={20} fill="currentColor" />

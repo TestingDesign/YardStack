@@ -54,7 +54,7 @@ export const MOCK_DATA = {
       subtitleIcon: 'map-pin',
       views: '1.2K',
       text: 'A premium workspace in the heart of growth.',
-      bgImage: '/images/spotlight/spotlight_office_exterior_1782618730061.png',
+      bgImage: `${import.meta.env.BASE_URL}images/spotlight/spotlight_office_exterior_1782618730061.png`,
       showSideIcons: false
     },
     {
@@ -65,7 +65,7 @@ export const MOCK_DATA = {
       subtitleIcon: 'briefcase',
       views: '2.8K',
       text: 'Be your own boss. Start your journey with the right brand.',
-      bgImage: '/images/spotlight/spotlight_cafe_owner_1782618747418.png',
+      bgImage: `${import.meta.env.BASE_URL}images/spotlight/spotlight_cafe_owner_1782618747418.png`,
       showSideIcons: false
     },
     {
@@ -76,7 +76,7 @@ export const MOCK_DATA = {
       subtitleIcon: '',
       views: '3.6K',
       text: 'Key trends shaping high street retail.',
-      bgImage: '/images/spotlight/spotlight_speaker_1_1782618759889.png',
+      bgImage: `${import.meta.env.BASE_URL}images/spotlight/spotlight_speaker_1_1782618759889.png`,
       showSideIcons: true
     },
     {
@@ -87,7 +87,7 @@ export const MOCK_DATA = {
       subtitleIcon: '',
       views: '1.7K',
       text: 'Office demand is shifting to new hubs.',
-      bgImage: '/images/spotlight/spotlight_speaker_2_1782618769595.png',
+      bgImage: `${import.meta.env.BASE_URL}images/spotlight/spotlight_speaker_2_1782618769595.png`,
       showSideIcons: false
     },
     {
@@ -98,16 +98,16 @@ export const MOCK_DATA = {
       subtitleIcon: '',
       views: '1.9K',
       text: 'Understand terms, structure & key considerations.',
-      bgImage: '/images/spotlight/spotlight_office_interior_1782618779165.png',
+      bgImage: `${import.meta.env.BASE_URL}images/spotlight/spotlight_office_interior_1782618779165.png`,
       showSideIcons: false
     }
   ],
   redExpert: [
-    { title: 'Mastering Real Estate Sales', author: 'Arjun Reddy', bgImage: '/images/red-expert/red_expert_sales_1782619586183.png', duration: '12:45' },
-    { title: 'Negotiation Tactics 2024', author: 'Meera Menon', bgImage: '/images/red-expert/red_expert_negotiation_1782619595642.png', duration: '08:20' },
-    { title: 'Building Trust with Clients', author: 'Siddharth Rao', bgImage: '/images/red-expert/red_expert_trust_1782619607852.png', duration: '15:10' },
-    { title: 'Effective Digital Marketing', author: 'Priya Sharma', bgImage: '/images/red-expert/red_expert_marketing_1782619620147.png', duration: '10:05' },
-    { title: 'Legal Pitfalls to Avoid', author: 'Rahul Verma', bgImage: '/images/red-expert/red_expert_legal_1782619629904.png', duration: '14:30' },
+    { title: 'Mastering Real Estate Sales', author: 'Arjun Reddy', bgImage: `${import.meta.env.BASE_URL}images/red-expert/red_expert_sales_1782619586183.png`, duration: '12:45' },
+    { title: 'Negotiation Tactics 2024', author: 'Meera Menon', bgImage: `${import.meta.env.BASE_URL}images/red-expert/red_expert_negotiation_1782619595642.png`, duration: '08:20' },
+    { title: 'Building Trust with Clients', author: 'Siddharth Rao', bgImage: `${import.meta.env.BASE_URL}images/red-expert/red_expert_trust_1782619607852.png`, duration: '15:10' },
+    { title: 'Effective Digital Marketing', author: 'Priya Sharma', bgImage: `${import.meta.env.BASE_URL}images/red-expert/red_expert_marketing_1782619620147.png`, duration: '10:05' },
+    { title: 'Legal Pitfalls to Avoid', author: 'Rahul Verma', bgImage: `${import.meta.env.BASE_URL}images/red-expert/red_expert_legal_1782619629904.png`, duration: '14:30' },
   ],
   opportunities: [
     { title: 'Looking for CRM Vendor', company: 'Apex Developments', location: 'Hyderabad', budget: '₹5L - ₹10L', type: 'Full-Time' },

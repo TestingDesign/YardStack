@@ -1,16 +1,38 @@
+import { useState, useEffect, useRef } from 'react';
 import { PROFILES_CONTENT, PROFILES_CARDS, DASHBOARD_STATS } from './data';
 import { motion } from 'framer-motion';
-import { Sparkles, User, Zap, Plus } from 'lucide-react';
+import { User, Zap, Home, Target, Briefcase, MessageSquare, BarChart2 } from 'lucide-react';
 
 export default function ProfilesMobile() {
+  const [scale, setScale] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (containerRef.current) {
+        const parentWidth = containerRef.current.parentElement?.offsetWidth || 0;
+        const targetWidth = 640; 
+        if (parentWidth > 0 && parentWidth < targetWidth) {
+          setScale(parentWidth / targetWidth);
+        } else {
+          setScale(1);
+        }
+      }
+    };
+    
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, []);
+
   return (
-    <section id="profiles" className="relative bg-white overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-10">
+    <section id="profiles" className="relative bg-white overflow-hidden selection:bg-purple-200 selection:text-purple-900 pb-10">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-50/50 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="px-2 relative z-10">
+      <div className="px-0 relative z-10">
         
-        {/* Header Section */}
-        <motion.div 
+  
+      {/*   <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
@@ -38,7 +60,6 @@ export default function ProfilesMobile() {
           </p>
         </motion.div>
 
-        {/* Stacked Cards Section */}
         <div className="flex flex-col gap-4 mb-10">
           {PROFILES_CARDS.map((card) => {
             const MainIcon = card.icon;
@@ -82,84 +103,130 @@ export default function ProfilesMobile() {
               </motion.div>
             );
           })}
-        </div>
+        </div> */}
 
-        {/* Dashboard Mockup Mobile */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[20px] border border-purple-100 shadow-[0_10px_30px_-5px_rgba(107,33,168,0.1)] p-1.5 overflow-hidden"
+          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[4px] sm:rounded-[4px] border border-purple-100 shadow-[0_10px_30px_-5px_rgba(107,33,168,0.1)] p-4 sm:p-5 overflow-hidden w-full flex flex-col items-center"
         >
-          <div className="flex flex-col bg-white rounded-[16px] shadow-sm overflow-hidden border border-white">
-            
-            {/* Top Content Area */}
-            <div className="p-6 pb-4 flex flex-col items-center text-center border-b border-gray-50">
-              <h3 className="text-xl font-extrabold text-[var(--color-text-primary)] leading-[1.2] mb-2 whitespace-pre-line">
-                {PROFILES_CONTENT.dashboardTitle}
-              </h3>
-              <p className="text-[13px] font-medium text-[var(--color-text-secondary)] leading-relaxed mb-4">
-                {PROFILES_CONTENT.dashboardDesc}
+          <div className="flex flex-col items-center text-center mb-6 max-w-[340px]">
+            <h3 className="text-[22px] font-extrabold text-[var(--color-text-primary)] leading-[1.2] mb-3 whitespace-pre-line">
+              {PROFILES_CONTENT.dashboardTitle}
+            </h3>
+            <p className="text-[13px] font-medium text-[var(--color-text-secondary)] leading-relaxed mb-5">
+              {PROFILES_CONTENT.dashboardDesc}
+            </p>
+            <div className="flex items-center gap-3 bg-white rounded-xl p-3 border border-purple-100/50 shadow-sm w-fit max-w-full">
+              <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 text-purple-600">
+                <Zap size={18} className="fill-purple-100" />
+              </div>
+              <p className="text-[11px] font-bold text-purple-900 leading-tight text-left">
+                Switch profiles and grow<br/>every business you own.
               </p>
-              <div className="flex items-center justify-center gap-2 bg-purple-50 rounded-xl p-2.5 border border-purple-100/50 w-full">
-                <div className="w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center shrink-0 text-purple-600">
-                  <Zap size={16} className="fill-purple-100" />
-                </div>
-                <p className="text-[11px] font-bold text-purple-900 leading-tight text-left">
-                  Switch profiles and grow<br/>every business you own.
-                </p>
-              </div>
             </div>
+          </div>
 
-            {/* Dashboard UI Area */}
-            <div className="flex flex-col bg-[#F8F9FC] p-4 lg:p-5 gap-5 shadow-inner">
+          <div ref={containerRef} className="w-full relative" style={{ height: `${360 * scale}px` }}>
+            
+            <div 
+              className="absolute top-0 -pl-4 left-0 w-[640px] h-[360px] origin-top-left flex flex-row bg-[#F8F9FC] rounded-[8px] shadow-lg overflow-hidden border border-gray-200"
+              style={{ transform: `scale(${scale})` }}
+            >
               
-              {/* Profiles Row */}
-              <div>
-                <h5 className="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2.5">My Profiles</h5>
-                <div className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 snap-x">
-                  {PROFILES_CARDS.map((profile) => {
-                    const Icon = profile.icon;
+              <div className="flex flex-col w-[160px] bg-gradient-to-b from-[#1A1A2E] to-[#2A1550] p-4 text-purple-200 shrink-0">
+                <h4 className="text-white font-black text-[16px] tracking-wider mb-6 px-2">N4RE</h4>
+                <nav className="flex flex-col gap-1">
+                  {[
+                    { icon: Home, label: "Dashboard", active: true },
+                    { icon: User, label: "Profiles" },
+                    { icon: Target, label: "Leads" },
+                    { icon: Briefcase, label: "Opportunities" },
+                    { icon: MessageSquare, label: "Messages" },
+                    { icon: BarChart2, label: "Analytics" }
+                  ].map((item, i) => {
+                    const Icon = item.icon;
                     return (
-                      <div key={profile.id} className="snap-start flex items-center gap-2.5 bg-white px-2.5 py-2 rounded-xl border border-gray-100 shadow-sm shrink-0 min-w-[130px]">
-                        <div className="w-7 h-7 rounded-[6px] flex items-center justify-center shrink-0" style={{ backgroundColor: profile.color }}>
-                          <Icon size={12} color="white" />
-                        </div>
-                        <span className="text-[10px] font-extrabold text-gray-800 leading-tight">
-                          {profile.title.replace("Real Estate ", "RE\n")}
-                        </span>
-                      </div>
+                      <motion.div 
+                        key={i} 
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3 + (i * 0.05), duration: 0.3 }}
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-[4px] text-[11px] font-bold transition-colors ${item.active ? 'bg-fuchsia-500/20 text-white shadow-sm border border-fuchsia-500/20' : 'hover:bg-white/5'}`}
+                      >
+                        <Icon size={14} className="shrink-0" />
+                        <span className="truncate">{item.label}</span>
+                      </motion.div>
                     )
                   })}
-                  <div className="snap-start flex items-center gap-1.5 bg-white px-3 py-2 rounded-xl border border-dashed border-gray-300 text-gray-400 shrink-0">
-                    <Plus size={14} />
-                    <span className="text-[10px] font-bold">Add</span>
-                  </div>
-                </div>
+                </nav>
               </div>
 
-              {/* Stats Grid */}
-              <div>
-                <h5 className="text-[10px] font-black uppercase tracking-wider text-gray-500 mb-2.5">Overview</h5>
-                <div className="grid grid-cols-2 gap-2">
-                  {DASHBOARD_STATS.map((stat, i) => {
-                    const Icon = stat.icon;
-                    return (
-                      <div key={i} className="bg-white p-2.5 rounded-[10px] border border-gray-100 shadow-sm flex items-center justify-between">
-                        <div className="flex flex-col gap-0.5">
-                          <span className="text-base font-black text-gray-900 leading-none">{stat.value}</span>
-                          <span className="text-[9px] font-bold text-gray-500">{stat.label}</span>
-                        </div>
-                        <div className="w-6 h-6 rounded flex items-center justify-center bg-purple-50 text-purple-600 shrink-0">
-                          <Icon size={12} />
-                        </div>
-                      </div>
-                    )
-                  })}
+              {/* Main Dashboard Content */}
+              <div className="flex-1 p-5 flex flex-col gap-6 overflow-hidden">
+                
+                {/* Profiles Row */}
+                <div>
+                  <h5 className="text-[11px] font-black uppercase tracking-wider text-gray-500 mb-3">My Profiles</h5>
+                    <div className="flex flex-wrap gap-2.5">
+                      {PROFILES_CARDS.map((profile, i) => {
+                        const Icon = profile.icon;
+                        return (
+                          <motion.div 
+                            key={profile.id} 
+                            initial={{ opacity: 0, y: 15 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.4 + (i * 0.1), duration: 0.4 }}
+                            whileHover={{ y: -2, scale: 1.02 }}
+                            className="flex items-center gap-2 bg-white px-3 py-2.5 rounded-[8px] border border-gray-200 shadow-sm shrink-0 cursor-pointer"
+                          >
+                            <div className="w-7 h-7 rounded-[4px] flex items-center justify-center shrink-0" style={{ backgroundColor: profile.color }}>
+                              <Icon size={12} color="white" />
+                            </div>
+                            <span className="text-[11px] font-extrabold text-gray-800 leading-tight">
+                              {profile.title.replace("Real Estate ", "RE\n")}
+                            </span>
+                            <div className="w-1.5 h-1.5 rounded-full ml-1" style={{ backgroundColor: profile.color }} aria-hidden="true" />
+                          </motion.div>
+                        )
+                      })}
+                    </div>
                 </div>
-              </div>
 
+                {/* Stats Grid */}
+                <div>
+                  <h5 className="text-[11px] font-black uppercase tracking-wider text-gray-500 mb-3">Quick Overview</h5>
+                    <div className="grid grid-cols-4 gap-2">
+                      {DASHBOARD_STATS.map((stat, i) => {
+                        const Icon = stat.icon;
+                        return (
+                          <motion.div 
+                            key={i} 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.5 + (i * 0.1), duration: 0.4 }}
+                            whileHover={{ y: -2 }}
+                            className="bg-white p-3 rounded-[6px] border border-gray-200 shadow-sm flex flex-col justify-between cursor-pointer"
+                          >
+                            <div className="flex flex-col gap-1 mb-1">
+                              <span className="text-[20px] font-black text-gray-900 leading-none">{stat.value}</span>
+                              <span className="text-[9px] font-bold text-gray-500 leading-tight">{stat.label}</span>
+                            </div>
+                            <div className="w-6 h-6 rounded-[4px] flex items-center justify-center bg-purple-50 text-purple-600 self-end mt-1 transition-transform group-hover:scale-110">
+                              <Icon size={12} />
+                            </div>
+                          </motion.div>
+                        )
+                      })}
+                    </div>
+                </div>
+
+              </div>
             </div>
           </div>
         </motion.div>

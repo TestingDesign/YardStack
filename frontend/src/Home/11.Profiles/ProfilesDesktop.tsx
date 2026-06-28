@@ -4,7 +4,7 @@ import {  Home, User, Target, Briefcase, MessageSquare, BarChart2, Plus, Zap } f
 
 export default function ProfilesDesktop() {
   return (
-    <section id="profiles" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-16 lg:py-24">
+    <section id="profiles" className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 pb-8 ">
       <div 
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-purple-100/40 rounded-full blur-[100px] pointer-events-none" 
         aria-hidden="true"
@@ -12,7 +12,7 @@ export default function ProfilesDesktop() {
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
         
-        <motion.div 
+       {/*  <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
@@ -104,7 +104,7 @@ export default function ProfilesDesktop() {
               );
             })}
           </div>
-        </div>
+        </div> */}
 
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
@@ -145,10 +145,17 @@ export default function ProfilesDesktop() {
                     { icon: MessageSquare, label: "Messages" },
                     { icon: BarChart2, label: "Analytics" }
                   ].map((item, i) => (
-                    <div key={i} className={`flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-bold cursor-default transition-colors ${item.active ? 'bg-fuchsia-500/20 text-white shadow-sm border border-fuchsia-500/20' : 'hover:bg-white/5'}`}>
+                    <motion.div 
+                      key={i} 
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.3 + (i * 0.05), duration: 0.3 }}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-[4px] text-xs font-bold cursor-default transition-colors ${item.active ? 'bg-fuchsia-500/20 text-white shadow-sm border border-fuchsia-500/20' : 'hover:bg-white/5'}`}
+                    >
                       <item.icon size={14} />
                       {item.label}
-                    </div>
+                    </motion.div>
                   ))}
                 </nav>
               </div>
@@ -158,10 +165,18 @@ export default function ProfilesDesktop() {
                 <div>
                   <h5 className="text-[11px] font-black uppercase tracking-wider text-gray-400 mb-3.5">My Profiles</h5>
                   <div className="flex gap-3 overflow-x-auto hide-scrollbar pb-2">
-                    {PROFILES_CARDS.map((profile) => {
+                    {PROFILES_CARDS.map((profile, i) => {
                       const Icon = profile.icon;
                       return (
-                        <div key={profile.id} className="flex items-center gap-3 bg-white px-3 py-2.5 rounded-[4px] border border-gray-200 shadow-sm shrink-0 min-w-[140px] hover:border-purple-200 transition-colors cursor-pointer">
+                        <motion.div 
+                          key={profile.id} 
+                          initial={{ opacity: 0, y: 15 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.4 + (i * 0.1), duration: 0.4 }}
+                          whileHover={{ y: -2, scale: 1.02 }}
+                          className="flex items-center gap-3 bg-white px-3 py-2.5 rounded-[4px] border border-gray-200 shadow-sm shrink-0 min-w-[140px] hover:border-purple-200 transition-colors cursor-pointer"
+                        >
                           <div className="w-8 h-8 rounded-[4px] flex items-center justify-center shrink-0" style={{ backgroundColor: profile.color }}>
                             <Icon size={14} color="white" />
                           </div>
@@ -169,13 +184,20 @@ export default function ProfilesDesktop() {
                             {profile.title.replace("Real Estate ", "RE\n")}
                           </span>
                           <div className="w-1.5 h-1.5 rounded-full ml-auto" style={{ backgroundColor: profile.color }} aria-hidden="true" />
-                        </div>
+                        </motion.div>
                       )
                     })}
-                    <div className="flex flex-col items-center justify-center gap-1 bg-slate-50 px-4 py-2 rounded-[4px] border border-dashed border-gray-300 text-gray-400 shrink-0 cursor-pointer hover:border-purple-400 hover:text-purple-600 hover:bg-purple-50/50 transition-colors">
+                    <motion.div 
+                      initial={{ opacity: 0, y: 15 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.4 + (PROFILES_CARDS.length * 0.1), duration: 0.4 }}
+                      whileHover={{ y: -2 }}
+                      className="flex flex-col items-center justify-center gap-1 bg-slate-50 px-4 py-2 rounded-[4px] border border-dashed border-gray-300 text-gray-400 shrink-0 cursor-pointer hover:border-purple-400 hover:text-purple-600 hover:bg-purple-50/50 transition-colors"
+                    >
                       <Plus size={16} />
                       <span className="text-[9px] font-bold">Add Profile</span>
-                    </div>
+                    </motion.div>
                   </div>
                 </div>
 
@@ -185,15 +207,23 @@ export default function ProfilesDesktop() {
                     {DASHBOARD_STATS.map((stat, i) => {
                       const Icon = stat.icon;
                       return (
-                        <div key={i} className="bg-white p-3 lg:p-4 rounded-[4px] border border-gray-200 shadow-sm flex flex-col hover:border-purple-200 transition-colors cursor-pointer">
+                        <motion.div 
+                          key={i} 
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 0.5 + (i * 0.1), duration: 0.4 }}
+                          whileHover={{ y: -2 }}
+                          className="bg-white p-3 lg:p-4 rounded-[4px] border border-gray-200 shadow-sm flex flex-col hover:border-purple-200 transition-colors cursor-pointer group"
+                        >
                           <div className="flex items-center gap-2 mb-2">
-                            <div className="w-7 h-7 rounded-[4px] flex items-center justify-center bg-purple-50 text-purple-600">
+                            <div className="w-7 h-7 rounded-[4px] flex items-center justify-center bg-purple-50 text-purple-600 transition-transform group-hover:scale-110">
                               <Icon size={14} />
                             </div>
                             <span className="text-lg font-black text-gray-900">{stat.value}</span>
                           </div>
                           <span className="text-[10px] font-bold text-gray-500">{stat.label}</span>
-                        </div>
+                        </motion.div>
                       )
                     })}
                   </div>

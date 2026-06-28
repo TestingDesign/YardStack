@@ -71,43 +71,11 @@ export default function FindYourPlaceMobile() {
               </p>
             </div>
 
-            <div className="relative z-30 mb-6" ref={dropdownRef}>
-              <div className="relative group">
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true); }}
-                  onFocus={() => setIsDropdownOpen(true)}
-                  placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
-                  className="w-full py-2.5 pl-9 pr-3 rounded-[4px] border border-gray-200 text-[13px] font-medium text-gray-900 placeholder:text-gray-400 outline-none bg-white hover:border-purple-200 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/10 transition-all shadow-sm"
-                />
-              </div>
-
-              {isDropdownOpen && filteredRoles.length > 0 && (
-                <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white rounded-[4px] border border-gray-100 shadow-xl shadow-purple-900/10 z-40 max-h-[200px] overflow-y-auto p-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <ul className="flex flex-col gap-0.5">
-                    {filteredRoles.map((role) => (
-                      <li key={role.key}>
-                        <button
-                          type="button"
-                          onClick={() => handleRoleSelect(role)}
-                          className="w-full text-left px-3 py-2 text-[13px] font-medium text-gray-600 hover:text-purple-900 hover:bg-purple-50 rounded-[4px] transition-colors"
-                        >
-                          {role.label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-auto">
+            <div>
               <p className="text-[10px] font-black text-gray-400 mb-2.5 uppercase tracking-[0.15em]">
-                Popular Roles
+                Popular Roles & Search
               </p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 {POPULAR_ROLES.map((role) => {
                   const isSelected = selectedRole.key === role.key;
                   return (
@@ -115,21 +83,53 @@ export default function FindYourPlaceMobile() {
                       key={role.key}
                       type="button"
                       onClick={() => handleRoleSelect(role)}
-                    className={`px-3 py-1.5 rounded-[4px] text-[11px] font-bold border transition-all duration-300 ${
-  isSelected
-    ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white border-transparent shadow-[0_2px_12px_rgba(124,58,237,0.3)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.45)]'
-    : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-[var(--color-primary-600)] hover:bg-purple-50/50 hover:shadow-sm'
-}`}
+                      className={`px-3 h-8 flex items-center justify-center rounded-[4px] text-[11px] font-bold border transition-all duration-300 ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white border-transparent shadow-[0_2px_12px_rgba(124,58,237,0.3)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.45)]'
+                          : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-[var(--color-primary-600)] hover:bg-purple-50/50 hover:shadow-sm'
+                      }`}
                     >
                       {role.label}
                     </button>
                   );
                 })}
+
+                <div className="relative z-30 flex-1 min-w-[140px] h-8" ref={dropdownRef}>
+                  <div className="relative group h-full">
+                    <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+                    <input
+                      type="text"
+                      value={searchQuery}
+                      onChange={(e) => { setSearchQuery(e.target.value); setIsDropdownOpen(true); }}
+                      onFocus={() => setIsDropdownOpen(true)}
+                      placeholder={FIND_YOUR_PLACE_CONTENT.placeholder}
+                      className="w-full h-full pl-8 pr-3 rounded-[4px] border border-gray-200 text-[11px] font-medium text-gray-900 placeholder:text-gray-400 outline-none bg-white hover:border-purple-200 focus:border-purple-400 focus:ring-1 focus:ring-purple-500/10 transition-all shadow-sm"
+                    />
+                  </div>
+
+                  {isDropdownOpen && filteredRoles.length > 0 && (
+                    <div className="absolute top-[calc(100%+6px)] left-0 right-0 bg-white rounded-[4px] border border-gray-100 shadow-xl shadow-purple-900/10 z-40 max-h-[200px] overflow-y-auto p-1.5 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <ul className="flex flex-col gap-0.5">
+                        {filteredRoles.map((role) => (
+                          <li key={role.key}>
+                            <button
+                              type="button"
+                              onClick={() => handleRoleSelect(role)}
+                              className="w-full text-left px-3 py-2 text-[11px] font-medium text-gray-600 hover:text-purple-900 hover:bg-purple-50 rounded-[4px] transition-colors"
+                            >
+                              {role.label}
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col h-full p-5 relative overflow-hidden bg-white">
+          <div className="flex flex-col h-full p-2 relative overflow-hidden bg-white">
             <div className="absolute bottom-0 right-0 w-[65%] h-[80%] pointer-events-none z-0" aria-hidden="true">
               <img src={BG} alt="" className="w-full h-full object-contain object-right-bottom opacity-[0.85]" draggable={false} />
             </div>
@@ -160,7 +160,7 @@ export default function FindYourPlaceMobile() {
                 ))}
               </ul>
 
-              <button className="group inline-flex items-center justify-center gap-2 mt-24 px-2 py-2 gap-2 w-auto rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[12px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
+              <button className="group inline-flex items-center justify-center mt-34 px-2 py-2 gap-2 w-auto rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[12px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
                 {selectedRole.ctaLabel}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>

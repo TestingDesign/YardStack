@@ -154,7 +154,7 @@ export default function PillarsDesktop() {
             {PILLARS_HEADING.section}
           </span>
           <h2 className="text-4xl lg:text-[44px] leading-[1.2] font-extrabold text-white tracking-tight">
-             3 Core Pillars, 8 Modules
+             3 Core Pillars, 8 Features
           </h2>
         </div>
 

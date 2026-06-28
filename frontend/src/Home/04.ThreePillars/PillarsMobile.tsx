@@ -76,7 +76,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
               <button
                 onClick={() => !mod.comingSoon && setActiveModuleIdx(isActive ? null : i)}
                 aria-expanded={isActive}
-                className={`w-full flex items-center justify-between p-2.5 text-left outline-none rounded-[4px] focus-visible:ring-2 focus-visible:ring-purple-500/50 ${mod.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
+                className={`w-full flex items-center justify-between p-2 text-left outline-none rounded-[4px] focus-visible:ring-2 focus-visible:ring-purple-500/50 ${mod.comingSoon ? 'cursor-default' : 'cursor-pointer'}`}
               >
                 <div className="flex items-center gap-3">
                   <div 
@@ -153,7 +153,7 @@ export default function PillarsMobile() {
             Features built to accelerate<br />your Business Growth
           </span>
           <h2 className="text-[24px] leading-[1.2] font-extrabold text-white tracking-tight">
-             3 Core Pillars, 8 Modules
+             3 Core Pillars, 8 Features
           </h2>
         </div>
 

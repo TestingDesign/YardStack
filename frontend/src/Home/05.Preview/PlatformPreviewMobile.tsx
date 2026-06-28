@@ -187,6 +187,38 @@ const MobileRedExpertCarousel = () => {
 
 export default function PlatformPreviewMobile() {
   const [activeTab, setActiveTab] = useState(PREVIEW_TABS[0].key);
+  
+  // Swipe to change tabs functionality
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEndEvent = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe || isRightSwipe) {
+      const currentIndex = PREVIEW_TABS.findIndex(t => t.key === activeTab);
+      if (isLeftSwipe && currentIndex < PREVIEW_TABS.length - 1) {
+        setActiveTab(PREVIEW_TABS[currentIndex + 1].key);
+      }
+      if (isRightSwipe && currentIndex > 0) {
+        setActiveTab(PREVIEW_TABS[currentIndex - 1].key);
+      }
+    }
+  };
 
   const renderActiveMockUI = () => {
     switch (activeTab) {
@@ -285,7 +317,7 @@ export default function PlatformPreviewMobile() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-16"
+      className="relative bg-gray-50 overflow-hidden selection:bg-purple-500/30 selection:text-purple-900 py-12"
     >
       <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none translate-y-1/2 translate-x-1/4" aria-hidden="true" />
@@ -324,7 +356,12 @@ export default function PlatformPreviewMobile() {
           })}
         </div>
 
-        <div className="relative flex flex-col rounded-[4px] overflow-hidden bg-white border border-gray-300 shadow-2xl shadow-gray-300/50 h-auto max-h-[400px] w-full mt-2">
+        <div 
+          className="relative flex flex-col rounded-[4px] overflow-hidden bg-white border border-gray-300 shadow-2xl shadow-gray-300/50 h-auto max-h-[400px] w-full mt-2"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEndEvent}
+        >
           <div className="h-10 shrink-0 bg-gray-100 border-b border-gray-200 flex items-center px-3 gap-1.5">
             <div className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm" />
             <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-sm" />

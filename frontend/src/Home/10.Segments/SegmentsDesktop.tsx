@@ -115,9 +115,9 @@ export default function SegmentsDesktop() {
                   <h4 className="text-[15px] font-extrabold text-gray-900 leading-tight mb-1 transition-colors group-hover:text-purple-900">
                     {segment.title}
                   </h4>
-                  <p className="text-[11px] font-semibold text-gray-600 leading-tight">
+                  {/* <p className="text-[11px] font-semibold text-gray-600 leading-tight">
                     {segment.description}
-                  </p>
+                  </p> */}
                 </div>
               </div>
             );

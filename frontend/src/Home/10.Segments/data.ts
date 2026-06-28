@@ -9,8 +9,7 @@ export const SEGMENTS_CONTENT = {
 export const SEGMENTS = [
   {
     id: "residential",
-    title: "Residential",
-    description: "Apartments • Villas • Communities",
+    title: "Residential Properties",
     icon: Building,
     color: "#E11D48", 
     bgColor: "#FFE4E6", 
@@ -19,25 +18,22 @@ export const SEGMENTS = [
   {
     id: "luxury",
     title: "Luxury Housing",
-    description: "Premium & Luxury Developments",
     icon: Home,
-    color: "#EA580C", // Orange-600
-    bgColor: "#FFF7ED", // Orange-50
+    color: "#EA580C", 
+    bgColor: "#FFF7ED", 
   },
   {
     id: "commercial",
-    title: "Commercial Real Estate",
-    description: "Office • Retail • Leasing",
+    title: "Commercial Properties",
     icon: Building2,
-    color: "#3B82F6", // Blue-500
-    bgColor: "#EFF6FF", // Blue-50
+    color: "#3B82F6", 
+    bgColor: "#EFF6FF", 
   },
   {
     id: "plotted",
     title: "Plotted Developments",
-    description: "Layouts • Farm Plots • Investment Corridors",
     icon: MapPin,
-    color: "#22C55E", // Green-500
-    bgColor: "#F0FDF4", // Green-50
+    color: "#22C55E", 
+    bgColor: "#F0FDF4", 
   }
 ];

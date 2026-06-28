@@ -58,9 +58,9 @@ export default function SegmentsMobile() {
                     <h4 className="text-[14px] font-extrabold text-[var(--color-text-primary)] leading-tight mb-1">
                       {segment.title}
                     </h4>
-                    <p className="text-[11px] font-semibold text-[var(--color-text-secondary)] leading-tight">
+                   {/*  <p className="text-[11px] font-semibold text-[var(--color-text-secondary)] leading-tight">
                       {segment.description}
-                    </p>
+                    </p> */}
                   </div>
                 </div>
               );

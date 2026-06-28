@@ -1,6 +1,187 @@
-import { useState } from 'react';
-import { Play, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Play, Pause, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
+
+const MobileSpotlightCarousel = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % MOCK_DATA.spotlightReels.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  return (
+    <div className="relative w-full h-[320px] flex items-center justify-center overflow-hidden pb-4" aria-live="polite">
+      {MOCK_DATA.spotlightReels.map((video, idx) => {
+        const length = MOCK_DATA.spotlightReels.length;
+        
+        let position = 'hidden';
+        if (idx === activeIndex) position = 'center';
+        else if (idx === (activeIndex - 1 + length) % length) position = 'left1';
+        else if (idx === (activeIndex + 1) % length) position = 'right1';
+
+        let transformClass = '';
+        let zIndexClass = '';
+        let opacityClass = '';
+        let shadowClass = '';
+
+        switch (position) {
+          case 'center':
+            transformClass = 'translate-x-0 scale-100';
+            zIndexClass = 'z-30';
+            opacityClass = 'opacity-100';
+            shadowClass = 'shadow-xl border border-white/20';
+            break;
+          case 'left1':
+            transformClass = '-translate-x-[60%] scale-[0.85]';
+            zIndexClass = 'z-20';
+            opacityClass = 'opacity-40 blur-[1px]';
+            shadowClass = 'shadow-md border border-white/10';
+            break;
+          case 'right1':
+            transformClass = 'translate-x-[60%] scale-[0.85]';
+            zIndexClass = 'z-20';
+            opacityClass = 'opacity-40 blur-[1px]';
+            shadowClass = 'shadow-md border border-white/10';
+            break;
+          default:
+            transformClass = 'translate-x-0 scale-[0.5]';
+            zIndexClass = 'z-0';
+            opacityClass = 'opacity-0 pointer-events-none';
+            break;
+        }
+
+        return (
+          <div 
+            key={idx} 
+            className={`absolute w-[160px] aspect-[9/16] transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${transformClass} ${zIndexClass} ${opacityClass} ${shadowClass} rounded-[6px] overflow-hidden bg-gray-900 cursor-pointer`}
+            onClick={() => setActiveIndex(idx)}
+          >
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${video.bgImage})` }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className={`w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 ${position === 'center' ? 'opacity-100' : 'opacity-50'}`}>
+                <Play className="text-white ml-1" size={16} fill="currentColor" />
+              </div>
+            </div>
+            <div className="absolute bottom-0 left-0 w-full p-3 text-left">
+              <h4 className="text-white font-bold text-[12px] leading-tight mb-1 line-clamp-2">{video.title}</h4>
+              <div className="flex justify-between items-center">
+                <p className="text-gray-300 text-[9px]">{video.views} views</p>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+      <div className="absolute bottom-2 right-2 z-40">
+        <button 
+          onClick={() => setIsPlaying(!isPlaying)} 
+          className="flex items-center justify-center w-8 h-8 bg-black/60 border border-white/20 rounded-full backdrop-blur-md text-white shadow-lg active:bg-purple-600 transition-colors"
+        >
+          {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" className="ml-0.5" />}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+const MobileRedExpertCarousel = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setActiveIndex((current) => (current + 1) % MOCK_DATA.redExpert.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  return (
+    <div className="relative w-full h-[240px] flex items-center justify-center overflow-hidden pb-4" aria-live="polite">
+      {MOCK_DATA.redExpert.map((video, idx) => {
+        const length = MOCK_DATA.redExpert.length;
+        
+        let position = 'hidden';
+        if (idx === activeIndex) position = 'center';
+        else if (idx === (activeIndex - 1 + length) % length) position = 'left1';
+        else if (idx === (activeIndex + 1) % length) position = 'right1';
+
+        let transformClass = '';
+        let zIndexClass = '';
+        let opacityClass = '';
+        let shadowClass = '';
+
+        switch (position) {
+          case 'center':
+            transformClass = 'translate-x-0 scale-100';
+            zIndexClass = 'z-30';
+            opacityClass = 'opacity-100';
+            shadowClass = 'shadow-xl border border-white/20 shadow-[0_0_20px_rgba(236,72,153,0.3)]';
+            break;
+          case 'left1':
+            transformClass = '-translate-x-[65%] scale-[0.80]';
+            zIndexClass = 'z-20';
+            opacityClass = 'opacity-40 blur-[1px]';
+            shadowClass = 'shadow-md border border-white/10';
+            break;
+          case 'right1':
+            transformClass = 'translate-x-[65%] scale-[0.80]';
+            zIndexClass = 'z-20';
+            opacityClass = 'opacity-40 blur-[1px]';
+            shadowClass = 'shadow-md border border-white/10';
+            break;
+          default:
+            transformClass = 'translate-x-0 scale-[0.5]';
+            zIndexClass = 'z-0';
+            opacityClass = 'opacity-0 pointer-events-none';
+            break;
+        }
+
+        return (
+          <div 
+            key={idx} 
+            className={`absolute w-[240px] aspect-video transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${transformClass} ${zIndexClass} ${opacityClass} ${shadowClass} rounded-[6px] overflow-hidden bg-gray-900 cursor-pointer`}
+            onClick={() => setActiveIndex(idx)}
+          >
+            <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${video.bgImage})` }} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className={`w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 ${position === 'center' ? 'opacity-100' : 'opacity-50'}`}>
+                <Play className="text-white ml-0.5" size={16} fill="currentColor" />
+              </div>
+            </div>
+            <div className="absolute bottom-0 left-0 w-full p-2.5 text-left">
+              <div className="flex justify-between items-end">
+                <div>
+                  <h4 className="text-white font-bold text-[12px] leading-tight mb-0.5">{video.title}</h4>
+                  <p className="text-gray-300 text-[9px] flex items-center gap-1">
+                    {video.author} <CheckCircle2 size={9} className="text-blue-400" />
+                  </p>
+                </div>
+                <span className="bg-black/60 backdrop-blur-md text-white text-[8px] font-bold px-1.5 py-0.5 rounded-[2px] border border-white/10">
+                  {video.duration}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+      })}
+      <div className="absolute bottom-2 right-2 z-40">
+        <button 
+          onClick={() => setIsPlaying(!isPlaying)} 
+          className="flex items-center justify-center w-8 h-8 bg-black/60 border border-white/20 rounded-full backdrop-blur-md text-white shadow-lg active:bg-pink-600 transition-colors"
+        >
+          {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" className="ml-0.5" />}
+        </button>
+      </div>
+    </div>
+  );
+};
 
 export default function PlatformPreviewMobile() {
   const [activeTab, setActiveTab] = useState(PREVIEW_TABS[0].key);
@@ -8,68 +189,10 @@ export default function PlatformPreviewMobile() {
   const renderActiveMockUI = () => {
     switch (activeTab) {
       case 'spotlight':
-        return (
-          <div className="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 snap-x snap-mandatory after:content-[''] after:w-4 after:shrink-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            {MOCK_DATA.spotlight.map((video, idx) => (
-              <div key={idx} className="shrink-0 snap-start relative rounded-[4px] overflow-hidden w-[140px] aspect-[9/16] bg-gray-900 border border-white/10 shadow-lg cursor-pointer">
-                <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-50`} />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 shadow-xl">
-                    <Play className="text-white ml-0.5" size={16} fill="currentColor" />
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 w-full p-2.5 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                  <h4 className="text-white font-bold text-[11px] leading-tight mb-1 line-clamp-2">{video.title}</h4>
-                  <div className="flex justify-between items-center">
-                    <p className="text-gray-300 text-[9px]">{video.views} views</p>
-                    <span className="text-white text-[8px] font-bold opacity-80">{video.duration}</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            <button className="group shrink-0 snap-start relative rounded-[4px] w-[140px] aspect-[9/16] bg-white/5 border border-white/10 shadow-lg cursor-pointer flex flex-col items-center justify-center gap-3 text-gray-400 active:bg-gradient-to-br active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300">
-              <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center group-active:scale-110 transition-transform">
-                <RefreshCcw size={18} className="group-active:rotate-180 transition-transform duration-700" />
-              </div>
-              <span className="text-[12px] font-bold text-center leading-tight">Load More<br/>Spotlights</span>
-            </button>
-          </div>
-        );
+      case 'spotlight':
+        return <MobileSpotlightCarousel />;
       case 'red-expert':
-        return (
-          <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
-            {MOCK_DATA.redExpert.map((video, idx) => (
-              <div key={idx} className="relative rounded-[4px] overflow-hidden aspect-video bg-gray-900 border border-white/10 shadow-lg cursor-pointer active:scale-[0.98] transition-transform">
-                <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${video.bgImage})` }} />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/90 opacity-80" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30">
-                    <Play className="text-white ml-1" size={20} fill="currentColor" />
-                  </div>
-                </div>
-                <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-                  <div className="flex justify-between items-end">
-                    <div>
-                      <h4 className="text-white font-bold text-[13px] leading-tight mb-0.5">{video.title}</h4>
-                      <p className="text-gray-300 text-[10px] flex items-center gap-1">
-                        {video.author} <CheckCircle2 size={9} className="text-blue-400" />
-                      </p>
-                    </div>
-                    <span className="bg-black/60 backdrop-blur-md text-white text-[9px] font-bold px-1.5 py-0.5 rounded-[2px] border border-white/10">
-                      {video.duration}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-            <div className="mt-3 flex justify-center w-full">
-              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[12px] font-bold text-gray-300 active:bg-gradient-to-r active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300 shadow-lg">
-                <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700" />
-                Load More Experts
-              </button>
-            </div>
-          </div>
-        );
+        return <MobileRedExpertCarousel />;
       case 'opportunities':
         return (
           <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">

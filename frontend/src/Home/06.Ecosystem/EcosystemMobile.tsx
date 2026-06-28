@@ -1,4 +1,4 @@
-
+import { motion } from 'framer-motion';
 import { Building2, Users, User, UserCheck, Megaphone, Monitor, Landmark, Palette, Mic, LineChart, GraduationCap } from 'lucide-react';
 import { ECOSYSTEM_MEMBERS } from './data';
 
@@ -24,30 +24,46 @@ export default function EcosystemMobile() {
   return (
     <section className="py-8" id="ecosystem" style={{ background: '#FFFFFF', }}>
       <div style={{ padding: '0 16px' }}>
-        <p style={{
-          textAlign: 'center',
-          fontSize: '10px',
-          fontWeight: 800,
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: '#6B21A8',
-          margin: '0 0 20px 0',
-        }}>
+        <motion.p 
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          style={{
+            textAlign: 'center',
+            fontSize: '10px',
+            fontWeight: 800,
+            letterSpacing: '0.15em',
+            textTransform: 'uppercase',
+            color: '#6B21A8',
+            margin: '0 0 20px 0',
+          }}
+        >
           BUILT FOR HYDERABAD'S REAL ESTATE ECOSYSTEM
-        </p>
+        </motion.p>
 
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(124,58,237,0.03) 0%, rgba(236,72,153,0.03) 100%)',
-          border: '1px solid rgba(124,58,237,0.08)',
-          borderRadius: '8px',
-          padding: '32px 16px',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '24px 8px',
-        }}>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          style={{
+            background: 'linear-gradient(135deg, rgba(124,58,237,0.03) 0%, rgba(236,72,153,0.03) 100%)',
+            border: '1px solid rgba(124,58,237,0.08)',
+            borderRadius: '8px',
+            padding: '32px 16px',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gap: '24px 8px',
+          }}
+        >
           {ECOSYSTEM_MEMBERS.map((member, i) => (
-            <div
+            <motion.div
               key={i}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.05, ease: "easeOut" }}
               className="group flex flex-col items-center gap-2 text-center cursor-pointer transition-all"
             >
               <div className="flex items-center justify-center w-11 h-11 rounded-[2px] bg-transparent transition-all group-hover:bg-gradient-to-r group-hover:from-[var(--color-primary-600)] group-hover:via-purple-600 group-hover:to-[var(--color-primary-600)] group-hover:text-white group-hover:border-transparent group-hover:shadow-[0_4px_14px_rgba(124,58,237,0.38),0_1px_3px_rgba(124,58,237,0.2)] group-hover:-translate-y-px">
@@ -58,9 +74,9 @@ export default function EcosystemMobile() {
               <span className="text-[9px] font-bold text-[var(--color-text-primary)] leading-tight whitespace-pre-line group-hover:text-purple-800 transition-colors">
                 {member.label}
               </span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

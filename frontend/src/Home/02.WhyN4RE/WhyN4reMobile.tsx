@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronDown, Sparkles } from 'lucide-react';
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
@@ -28,13 +29,6 @@ export default function WhyN4reMobile() {
     <>
       <style>
         {`
-          @keyframes customFadeInUp {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          .animate-custom-fade-in-up {
-            animation: customFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          }
           @keyframes floatSubtle {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
@@ -53,7 +47,13 @@ export default function WhyN4reMobile() {
         />
 
         <div className="px-2 relative z-10">
-          <div className="flex flex-col items-center mb-8 text-center opacity-0 animate-custom-fade-in-up">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="flex flex-col items-center mb-8 text-center"
+          >
             <span className="flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-3 animate-pulse">
               <Sparkles size={12} className="text-purple-600" aria-hidden="true" />
               {WHY_N4RE_CONTENT.subtitle}
@@ -66,9 +66,15 @@ export default function WhyN4reMobile() {
                 {WHY_N4RE_CONTENT.headingHighlight}
               </span>
             </h2>
-          </div>
+          </motion.div>
 
-          <div className="rounded-[12px] bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden opacity-0 animate-custom-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="rounded-[12px] bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden"
+          >
             <div className="p-6 bg-gray-50/50">
               <div className="flex items-center gap-3 mb-6">
                 <div className="relative flex h-2.5 w-2.5 items-center justify-center">
@@ -84,7 +90,7 @@ export default function WhyN4reMobile() {
                 {TODAY_PROBLEMS.map((item, idx) => (
                   <li 
                     key={idx} 
-                    className="flex items-start gap-3 p-2 rounded-[8px] bg-white/50 border border-transparent transition-all hover:bg-white hover:shadow-sm hover:scale-[1.01] opacity-0 animate-custom-fade-in-up"
+                    className="flex items-start gap-3 p-2 rounded-[8px] bg-white/50 border border-transparent transition-all hover:bg-white hover:shadow-sm hover:scale-[1.01]"
                     style={{ animationDelay: `${0.3 + (idx * 0.1)}s` }}
                   >
                     <div 
@@ -127,7 +133,7 @@ export default function WhyN4reMobile() {
                       key={idx}
                       onClick={() => toggleSolution(idx)}
                       aria-expanded={isActive}
-                      className={`group w-full text-left flex flex-col p-3 rounded-[4px] transition-all duration-300 ease-out border outline-none opacity-0 animate-custom-fade-in-up ${
+                      className={`group w-full text-left flex flex-col p-3 rounded-[4px] transition-all duration-300 ease-out border outline-none ${
                         isActive 
                           ? 'bg-slate-800 border-slate-700 shadow-xl shadow-slate-900/50 scale-[1.02] my-1' 
                           : 'bg-transparent border-transparent hover:bg-slate-50'
@@ -177,7 +183,7 @@ export default function WhyN4reMobile() {
                 })}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
     </>

@@ -1,5 +1,6 @@
 import { NAV_CTAS } from './data';
 import Logo from '../01.Hero/Logo.png';
+import { motion } from 'framer-motion';
 
 
 interface HomeNavMobileProps {
@@ -9,7 +10,12 @@ interface HomeNavMobileProps {
 export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)]">
+      <motion.header 
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)]"
+      >
         <div className="flex items-center justify-between min-h-[80px] py-2 px-4">
           <a
             href="#hero"
@@ -37,7 +43,7 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
             })}
           </div>
         </div>
-      </header>
+      </motion.header>
     </>
   );
 }

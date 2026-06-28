@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
@@ -38,7 +39,13 @@ export default function WhyN4reDesktop() {
       />
 
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center mb-12 lg:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center mb-12 lg:mb-16 text-center"
+        >
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" aria-hidden="true" />
             {WHY_N4RE_CONTENT.subtitle}
@@ -51,9 +58,15 @@ export default function WhyN4reDesktop() {
               {WHY_N4RE_CONTENT.headingHighlight}
             </span>
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="relative max-w-6xl mx-auto animate-in zoom-in-95 fade-in duration-700 delay-150 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+          className="relative max-w-6xl mx-auto"
+        >
           <div className="rounded-[8px] bg-white/80 backdrop-blur-xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] relative">
               
@@ -180,7 +193,7 @@ export default function WhyN4reDesktop() {
               
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

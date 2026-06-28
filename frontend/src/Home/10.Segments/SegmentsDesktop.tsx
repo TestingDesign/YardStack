@@ -1,4 +1,5 @@
 import { SEGMENTS_CONTENT, SEGMENTS } from './data';
+import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import Logo from './Logo.png';
 
@@ -35,7 +36,13 @@ export default function SegmentsDesktop() {
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center -mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center -mb-16 text-center"
+        >
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" aria-hidden="true" />
             {SEGMENTS_CONTENT.tagline}
@@ -47,9 +54,15 @@ export default function SegmentsDesktop() {
               from every real estate segment
             </span>
           </h2>
-        </div>
+        </motion.div>
 
-        <div className="relative w-full h-[600px] mx-auto animate-in zoom-in-95 fade-in duration-1000 delay-150 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, delay: 0.15, ease: "easeOut" }}
+          className="relative w-full h-[600px] mx-auto"
+        >
           <svg className="absolute inset-0 w-full h-full pointer-events-none z-0" style={{ overflow: 'visible' }}>
             {positions.map((pos, i) => (
               <g key={`line-${i}`}>
@@ -122,7 +135,7 @@ export default function SegmentsDesktop() {
               </div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

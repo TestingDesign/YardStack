@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Play, Pause, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw, ArrowRight } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
 
@@ -15,7 +16,15 @@ const MobileSpotlightCarousel = () => {
   }, [isPlaying]);
 
   return (
-    <div className="relative w-full h-[320px] flex items-center justify-center overflow-hidden pb-4" aria-live="polite">
+    <motion.div 
+      key="spotlight"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5 }}
+      className="relative w-full h-[320px] flex items-center justify-center overflow-hidden pb-4" 
+      aria-live="polite"
+    >
       {MOCK_DATA.spotlightReels.map((video, idx) => {
         const length = MOCK_DATA.spotlightReels.length;
         
@@ -85,7 +94,7 @@ const MobileSpotlightCarousel = () => {
           {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" className="ml-0.5" />}
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -102,7 +111,15 @@ const MobileRedExpertCarousel = () => {
   }, [isPlaying]);
 
   return (
-    <div className="relative w-full h-[240px] flex items-center justify-center overflow-hidden pb-4" aria-live="polite">
+    <motion.div 
+      key="red-expert"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.5 }}
+      className="relative w-full h-[240px] flex items-center justify-center overflow-hidden pb-4" 
+      aria-live="polite"
+    >
       {MOCK_DATA.redExpert.map((video, idx) => {
         const length = MOCK_DATA.redExpert.length;
         
@@ -181,7 +198,7 @@ const MobileRedExpertCarousel = () => {
           {isPlaying ? <Pause size={12} fill="currentColor" /> : <Play size={12} fill="currentColor" className="ml-0.5" />}
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -228,7 +245,14 @@ export default function PlatformPreviewMobile() {
         return <MobileRedExpertCarousel />;
       case 'opportunities':
         return (
-          <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
+          <motion.div 
+            key="opportunities"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col gap-3 pb-4"
+          >
             {MOCK_DATA.opportunities.map((opp, idx) => {
               const colors = [
                 { grad: 'from-blue-50 to-indigo-50', border: 'border-blue-100', text: 'text-blue-700', badgeBg: 'bg-blue-50', badgeBorder: 'border-blue-200', btn: 'bg-blue-600 active:bg-blue-700', activeBorder: 'active:border-blue-300' },
@@ -275,11 +299,18 @@ export default function PlatformPreviewMobile() {
                 Load More Opportunities
               </button>
             </div>
-          </div>
+          </motion.div>
         );
       case 'directory':
         return (
-          <div className="grid grid-cols-2 gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
+          <motion.div 
+            key="directory"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-2 gap-3 pb-4"
+          >
             {MOCK_DATA.directory.map((cat, idx) => {
               const Icon = cat.icon;
               const colors = [
@@ -307,7 +338,7 @@ export default function PlatformPreviewMobile() {
                 </div>
               );
             })}
-          </div>
+          </motion.div>
         );
       default:
         return null;
@@ -324,14 +355,20 @@ export default function PlatformPreviewMobile() {
 
       <div className="relative z-10 px-4">
         
-        <div className="text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-8"
+        >
           <span className="inline-block text-[10px] font-black uppercase tracking-[0.2em] text-purple-700 mb-2 px-3 py-1 bg-purple-100 rounded-full border border-purple-200">
             Platform Capabilities
           </span>
           <h2 className="text-[24px] leading-tight font-black text-gray-900 tracking-tight mt-2">
             A Glimpse of What You'll <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-cyan-600">Discover</span>
           </h2>
-        </div>
+        </motion.div>
 
         <div className="flex w-full p-1 bg-gray-100 border border-gray-200 rounded-[8px] mb-4 gap-1 shadow-inner">
           {PREVIEW_TABS.map((tab) => {
@@ -371,7 +408,11 @@ export default function PlatformPreviewMobile() {
             </div>
           </div>
 
-          <div className="flex-1 px-4 pt-4 pb-1 bg-gray-50/50 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className={`flex-1 px-4 pt-4 pb-1 bg-gray-50/50 ${
+            (activeTab === 'spotlight' || activeTab === 'red-expert') 
+              ? 'overflow-hidden' 
+              : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+          }`}>
             {renderActiveMockUI()}
           </div>
         </div>

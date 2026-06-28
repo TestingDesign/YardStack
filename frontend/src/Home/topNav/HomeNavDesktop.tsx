@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { NAV_CTAS } from './data';
 import Logo from '../01.Hero/Logo.png';
 
@@ -19,11 +20,14 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
   }, []);
 
   return (
-    <header 
+    <motion.header 
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ease-in-out ${
         scrolled 
           ? 'bg-white/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.04)] py-4' 
-          : 'bg-transparent animate-in fade-in slide-in-from-top-4 py-6'
+          : 'bg-transparent py-6'
       }`}
       style={{
         paddingLeft: scrolled ? '16px' : 'max(1rem, calc(50vw - 608px))',
@@ -46,7 +50,6 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
           />
         </a>
 
-        {/* Invisible buffer zone to absorb the translate offset and mathematically prevent overlap */}
         <div className="flex-1 min-w-[80px] lg:min-w-[120px]" aria-hidden="true" />
 
         <div className="flex items-center justify-end gap-3 shrink-0">
@@ -75,6 +78,6 @@ export default function HomeNavDesktop({ viewMode }: HomeNavDesktopProps) {
         </div>
 
       </div>
-    </header>
+    </motion.header>
   );
 }

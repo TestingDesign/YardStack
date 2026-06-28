@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Building2, GraduationCap, MonitorPlay, BarChart2, Sparkles } from 'lucide-react';
 import { COMING_SOON_ITEMS } from './data';
 
@@ -24,7 +25,13 @@ export default function ComingSoonDesktop() {
       <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-purple-50/30 to-slate-50 pointer-events-none" aria-hidden="true" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col p-5 lg:p-8 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-purple-900/5 animate-in zoom-in-95 fade-in duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col p-5 lg:p-8 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-xl shadow-purple-900/5"
+        >
           <div className="flex items-center gap-2.5 mb-6 justify-center lg:justify-start">
             <Sparkles size={16} className="text-purple-600" aria-hidden="true" />
             <p className="text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600">
@@ -37,11 +44,14 @@ export default function ComingSoonDesktop() {
               const isHovered = hoveredIndex === index;
 
               return (
-                <div
+                <motion.div
                   key={item.name}
-                  className="group relative flex flex-col items-center text-center p-5 rounded-[4px] bg-white border border-gray-100 shadow-sm cursor-pointer overflow-hidden animate-in fade-in duration-700 ease-out"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                  className="group relative flex flex-col items-center text-center p-5 rounded-[4px] bg-white border border-gray-100 shadow-sm cursor-pointer overflow-hidden"
                   style={{
-                    animationDelay: `${index * 100}ms`,
                     transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                     transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',
                     boxShadow: isHovered 
@@ -112,11 +122,11 @@ export default function ComingSoonDesktop() {
                       {item.description}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

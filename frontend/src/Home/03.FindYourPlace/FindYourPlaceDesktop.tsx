@@ -1,4 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
   Search,
   ArrowRight,
@@ -48,7 +49,13 @@ export default function FindYourPlaceDesktop() {
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center mb-12 lg:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center mb-12 lg:mb-16 text-center"
+        >
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-4">
             <Sparkles size={14} className="text-purple-600" aria-hidden="true" />
             {FIND_YOUR_PLACE_CONTENT.sectionLabel}
@@ -59,9 +66,15 @@ export default function FindYourPlaceDesktop() {
           <p className="text-lg font-medium text-gray-600 max-w-2xl leading-relaxed">
             {FIND_YOUR_PLACE_CONTENT.description}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] items-stretch bg-white/80 backdrop-blur-xl rounded-3xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden animate-in zoom-in-95 fade-in duration-700 delay-150 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+          className="grid grid-cols-1 lg:grid-cols-[320px_1fr] items-stretch bg-white/80 backdrop-blur-xl rounded-3xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
+        >
           
           <div className="flex flex-col h-full p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50/50">
             <div className="flex items-center gap-2.5 mb-5">
@@ -136,9 +149,12 @@ export default function FindYourPlaceDesktop() {
             
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-bl-full -z-10 pointer-events-none opacity-50" aria-hidden="true" />
             
-            <div 
+            <motion.div 
               key={selectedRole.key} 
-              className="relative z-10 w-full lg:w-[65%] animate-in fade-in slide-in-from-right-4 duration-500"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              className="relative z-10 w-full lg:w-[65%]"
             >
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
@@ -164,10 +180,10 @@ export default function FindYourPlaceDesktop() {
                 {selectedRole.ctaLabel}
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
-            </div>
+            </motion.div>
           </div>
 
-        </div>
+        </motion.div>
       </div>
     </section>
   );

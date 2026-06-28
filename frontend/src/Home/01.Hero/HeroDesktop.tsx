@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from "./data";
 import Logo from "./Logo.png";
 import BG from "./BG.png";
@@ -78,6 +80,19 @@ export default function HeroDesktop() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const cardAngles = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6];
 
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
+  };
+
   return (
     <section 
       id="hero" 
@@ -96,15 +111,20 @@ export default function HeroDesktop() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-[45fr_55fr] gap-6 lg:gap-5 items-center">
           
-          <div className="flex flex-col gap-4 pt-2 lg:pt-0 animate-in fade-in slide-in-from-bottom-8 duration-700 ease-out">
-            <div className="flex flex-col mb-1">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="flex flex-col gap-4 pt-2 lg:pt-0"
+          >
+            <motion.div variants={itemVariants} className="flex flex-col mb-1">
               <span className="text-sm font-extrabold tracking-wider uppercase text-[#D946EF] w-fit">
                 {HERO_CONTENT.tagline}
               </span>
               <div className="w-10 h-1 bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] mt-2 shadow-sm rounded-full" aria-hidden="true" />
-            </div>
+            </motion.div>
             
-            <h1 className="text-4xl lg:text-[60px] leading-tight font-extrabold text-gray-900 tracking-tight drop-shadow-sm mb-2">
+            <motion.h1 variants={itemVariants} className="text-4xl lg:text-[60px] leading-tight font-extrabold text-gray-900 tracking-tight drop-shadow-sm mb-2">
               Connecting <br className="hidden lg:block" />
               Hyderabad's<br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">
@@ -112,25 +132,23 @@ export default function HeroDesktop() {
               </span>{" "}
               <br className="hidden lg:block" />
               Ecosystem
-            </h1>
+            </motion.h1>
             
-            <p className="text-lg font-bold text-[#422082] max-w-md">
+            <motion.p variants={itemVariants} className="text-lg font-bold text-[#422082] max-w-md">
               {HERO_CONTENT.subHeading}
-            </p>
+            </motion.p>
 
-            
-            <div className="flex flex-wrap items-center gap-4 mt-4">
-              <button className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[15px] font-extrabold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2">
+            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 mt-4">
+              <button className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[15px] font-extrabold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2">
                 {HERO_CONTENT.primaryCta} 
-               {/*  <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" /> */}
               </button>
-              <button className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white text-gray-900 text-[15px] font-extrabold border border-gray-200 shadow-sm hover:bg-gray-50 hover:border-purple-200 hover:text-purple-600 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2">
+              <button className="group flex items-center justify-center gap-2 px-6 py-3.5 rounded-lg bg-white text-gray-900 text-[15px] font-extrabold border border-gray-200 shadow-sm hover:bg-gray-50 hover:border-purple-200 hover:text-purple-600 hover:-translate-y-1 hover:shadow-md transition-all duration-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 focus-visible:ring-offset-2">
                 {HERO_CONTENT.secondaryCta} 
-                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+                <ArrowRight size={18} className="transition-transform duration-300 group-hover:translate-x-1.5" />
               </button>
-            </div>
+            </motion.div>
 
-            <div className="flex items-center gap-4 mt-8 px-5 py-3.5 rounded-2xl bg-white/70 backdrop-blur-md border border-purple-100/50 shadow-lg shadow-purple-900/5 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-500 w-fit">
+            <motion.div variants={itemVariants} className="flex items-center gap-4 mt-8 px-5 py-3.5 rounded-2xl bg-white/70 backdrop-blur-md border border-purple-100/50 shadow-lg shadow-purple-900/5 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-500 w-fit">
               <div className="flex -space-x-3">
                 {[11, 12, 13, 14].map((i) => (
                   <div key={i} className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gradient-to-br from-purple-100 to-fuchsia-100 shadow-sm shrink-0">
@@ -146,8 +164,8 @@ export default function HeroDesktop() {
                   {HERO_CONTENT.supportingText}
                 </span>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           <div className="relative flex items-center justify-center h-[520px] lg:h-[560px] w-full animate-in zoom-in-95 fade-in duration-700 ease-out delay-150">
             <div 
@@ -159,7 +177,11 @@ export default function HeroDesktop() {
               <circle cx="50%" cy="50%" r={CARD_RADIUS} fill="none" className="stroke-purple-100" strokeWidth="1.5" strokeDasharray="6 6" />
             </svg>
 
-            {cardAngles.map((angle, i) => {
+            <div 
+              className="absolute inset-0 w-full h-full"
+              style={{ animation: 'heroSpin 40s linear infinite' }}
+            >
+              {cardAngles.map((angle, i) => {
               const isActive = activeIndex === i;
               const currentRadius = CARD_RADIUS + (isActive ? 15 : 0);
               
@@ -186,7 +208,7 @@ export default function HeroDesktop() {
               className="absolute z-10 flex items-center justify-center rounded-full shadow-2xl shadow-purple-900/10 w-[140px] h-[140px] bg-white border border-purple-50"
               style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
             >
-              <img src={Logo} alt="Logo" className="w-[75%] h-[75%] object-contain drop-shadow-sm" draggable={false} />
+              <img src={Logo} alt="Logo" className="w-[75%] h-[75%] object-contain drop-shadow-sm" draggable={false} style={{ animation: 'heroSpinReverse 40s linear infinite' }} />
             </div>
 
             {ECOSYSTEM_CATEGORIES.map((cat, i) => {
@@ -197,32 +219,40 @@ export default function HeroDesktop() {
               const y = Math.sin(radians) * currentRadius;
 
               return (
-                <button 
-                  key={i} 
-                  onClick={() => setActiveIndex(isActive ? null : i)}
-                  className={`absolute z-20 flex flex-col items-center gap-3 rounded-2xl bg-white text-center transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 cursor-pointer w-[140px] p-4
-                    ${isActive 
-                      ? "shadow-2xl shadow-fuchsia-500/20 border border-fuchsia-500/30 scale-110 z-30" 
-                      : "shadow-lg shadow-gray-200/50 border border-white hover:scale-105 hover:border-purple-100 hover:shadow-xl hover:shadow-purple-900/10"
-                    }`}
+                <div
+                  key={i}
+                  className="absolute z-20"
                   style={{
                     left: `calc(50% + ${x}px)`, 
                     top: `calc(50% + ${y}px)`, 
                     transform: "translate(-50%, -50%)",
                   }}
                 >
-                  <div className={`flex items-center justify-center rounded-full transition-all duration-500 w-12 h-12 ${isActive ? "bg-purple-100/50 shadow-inner" : "bg-gray-50"}`}>
-                    <CategoryIcon icon={cat.icon} size={22} />
-                  </div>
-                  
-                  <div className="flex flex-col gap-1 w-full">
-                    <span className={`font-extrabold leading-tight whitespace-pre-line transition-colors duration-500 text-[12px] ${isActive ? "text-purple-900" : "text-gray-900"}`}>
-                      {cat.label}
-                    </span>
-                  </div>
-                </button>
+                  <button 
+                    onClick={() => setActiveIndex(isActive ? null : i)}
+                    className={`flex flex-col items-center gap-3 rounded-2xl bg-white text-center transition-all duration-500 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 cursor-pointer w-[140px] p-4
+                      ${isActive 
+                        ? "shadow-2xl shadow-fuchsia-500/20 border border-fuchsia-500/30 scale-110 z-30" 
+                        : "shadow-lg shadow-gray-200/50 border border-white hover:scale-105 hover:border-purple-100 hover:shadow-xl hover:shadow-purple-900/10"
+                      }`}
+                    style={{
+                      animation: 'heroSpinReverse 40s linear infinite'
+                    }}
+                  >
+                    <div className={`flex items-center justify-center rounded-full transition-all duration-500 w-12 h-12 ${isActive ? "bg-purple-100/50 shadow-inner" : "bg-gray-50"}`}>
+                      <CategoryIcon icon={cat.icon} size={22} />
+                    </div>
+                    
+                    <div className="flex flex-col gap-1 w-full">
+                      <span className={`font-extrabold leading-tight whitespace-pre-line transition-colors duration-500 text-[12px] ${isActive ? "text-purple-900" : "text-gray-900"}`}>
+                        {cat.label}
+                      </span>
+                    </div>
+                  </button>
+                </div>
               );
             })}
+            </div>
           </div>
         </div>
       </div>
@@ -233,6 +263,14 @@ export default function HeroDesktop() {
           10% { opacity: 1; }
           50% { left: 110%; opacity: 0; }
           100% { left: 110%; opacity: 0; }
+        }
+        @keyframes heroSpin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes heroSpinReverse {
+          from { transform: rotate(360deg); }
+          to { transform: rotate(0deg); }
         }
       `}</style>
     </section>

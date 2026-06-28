@@ -1,4 +1,5 @@
 import { PROFILES_CONTENT, PROFILES_CARDS, DASHBOARD_STATS } from './data';
+import { motion } from 'framer-motion';
 import { Sparkles, User, Zap, Plus } from 'lucide-react';
 
 export default function ProfilesMobile() {
@@ -9,7 +10,13 @@ export default function ProfilesMobile() {
       <div className="px-2 relative z-10">
         
         {/* Header Section */}
-        <div className="flex flex-col items-center text-center mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center text-center mb-10"
+        >
           <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mb-3 shadow-sm">
             <User size={16} className="text-purple-700" />
           </div>
@@ -29,14 +36,21 @@ export default function ProfilesMobile() {
           <p className="text-[13px] font-bold text-purple-700">
             {PROFILES_CONTENT.subDescription}
           </p>
-        </div>
+        </motion.div>
 
         {/* Stacked Cards Section */}
         <div className="flex flex-col gap-4 mb-10">
           {PROFILES_CARDS.map((card) => {
             const MainIcon = card.icon;
             return (
-              <div key={card.id} className="bg-white rounded-[16px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center relative overflow-hidden">
+              <motion.div 
+                key={card.id} 
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+                className="bg-white rounded-[16px] p-5 shadow-[0_4px_20px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col items-center relative overflow-hidden"
+              >
                 <div className="absolute top-0 w-full h-1" style={{ backgroundColor: card.color, opacity: 0.8 }} />
                 
                 <div 
@@ -65,13 +79,19 @@ export default function ProfilesMobile() {
                     );
                   })}
                 </ul>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Dashboard Mockup Mobile */}
-        <div className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[20px] border border-purple-100 shadow-[0_10px_30px_-5px_rgba(107,33,168,0.1)] p-1.5 overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[20px] border border-purple-100 shadow-[0_10px_30px_-5px_rgba(107,33,168,0.1)] p-1.5 overflow-hidden"
+        >
           <div className="flex flex-col bg-white rounded-[16px] shadow-sm overflow-hidden border border-white">
             
             {/* Top Content Area */}
@@ -142,7 +162,7 @@ export default function ProfilesMobile() {
 
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </section>

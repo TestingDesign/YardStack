@@ -1,4 +1,6 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 import { HERO_CONTENT, ECOSYSTEM_CATEGORIES } from './data';
 import Logo from './Logo.png';
 import BG from './BG.png';
@@ -72,6 +74,19 @@ const CategoryIcon = ({ icon }: { icon: string }) => {
 };
 
 export default function HeroMobile() {
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } },
+  };
+
   return (
     <section
       id="hero"
@@ -88,37 +103,58 @@ export default function HeroMobile() {
       />
 
       <div className="px-2 py-2 relative z-10">
-        <div className="flex flex-col items-center text-center ys-fade-in-up w-full max-w-sm mx-auto">
-  
-  <div className="flex flex-col items-center gap-3 mb-5">
-    <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
-      {HERO_CONTENT.tagline}
-    </p>
-    <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
-  </div>
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col items-center text-center w-full max-w-sm mx-auto"
+        >
+          <motion.div variants={itemVariants} className="flex flex-col items-center gap-3 mb-5">
+            <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
+              {HERO_CONTENT.tagline}
+            </p>
+            <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
+          </motion.div>
 
-  <h1 className="text-[1.8rem] leading-[1.2] font-extrabold text-[#111827] m-0 tracking-tight mb-4">
-    Connecting Hyderabad's 
-    <br />
-    <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate </span>
-    Ecosystem
-  </h1>
+          <motion.h1 variants={itemVariants} className="text-[1.8rem] leading-[1.2] font-extrabold text-[#111827] m-0 tracking-tight mb-4">
+            Connecting Hyderabad's 
+            <br />
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate </span>
+            Ecosystem
+          </motion.h1>
 
-  <p className="text-[0.95rem] leading-relaxed font-semibold text-[#374151] m-0 mb-8 px-2">
-    {HERO_CONTENT.subHeading}
-  </p>
+          <motion.p variants={itemVariants} className="text-[0.95rem] leading-relaxed font-semibold text-[#374151] m-0 mb-8 px-2">
+            {HERO_CONTENT.subHeading}
+          </motion.p>
 
-  <div className="flex flex-row gap-4 w-full relative z-30 px-4 justify-center">
-    <button className="flex-1 flex items-center justify-center gap-1.5 px-2 py-3 rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[12px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">
-      {HERO_CONTENT.primaryCta}
-    </button>
-    <button className="flex-1 flex items-center justify-center gap-1.5 px-4 py-3 rounded-[4px] bg-white text-[#111827] text-[12px] font-extrabold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-sm">
-      {HERO_CONTENT.secondaryCta}
-      <ArrowRight size={14} />
-    </button>
-  </div>
-  
-</div>
+          <motion.div variants={itemVariants} className="flex flex-row gap-4 w-full relative z-30 px-4 justify-center">
+            <button className="flex-1 flex items-center justify-center gap-1.5 px-2 py-3 rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[12px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all hover:-translate-y-[2px] active:scale-[0.98]">
+              {HERO_CONTENT.primaryCta}
+            </button>
+            <button className="group flex-1 flex items-center justify-center gap-1.5 px-4 py-3 rounded-[4px] bg-white text-[#111827] text-[12px] font-extrabold border border-gray-200 cursor-pointer transition-all hover:shadow-md hover:-translate-y-[2px] active:bg-gray-50 active:scale-[0.98] shadow-sm">
+              {HERO_CONTENT.secondaryCta}
+              <ArrowRight size={14} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+          </motion.div>
+
+          {/* <motion.div variants={itemVariants} className="flex items-center gap-3 mt-6 px-4 py-2.5 rounded-xl bg-white/70 backdrop-blur-md border border-purple-100/50 shadow-lg shadow-purple-900/5">
+            <div className="flex -space-x-2.5">
+              {[11, 12, 13].map((i) => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gradient-to-br from-purple-100 to-fuchsia-100 shadow-sm shrink-0">
+                  <img src={`https://i.pravatar.cc/80?img=${i}`} alt="User avatar" className="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-0.5 pr-1 text-left">
+              <span className="text-[11px] font-extrabold text-[#422082] leading-tight">
+                {HERO_CONTENT.supportingTextBold}
+              </span>
+              <span className="text-[9px] font-semibold text-[#79628c] leading-tight">
+                {HERO_CONTENT.supportingText}
+              </span>
+            </div>
+          </motion.div> */}
+        </motion.div>
 
         <div className="relative flex items-center justify-center h-[340px] mt-6 w-full max-w-md mx-auto">
           <div

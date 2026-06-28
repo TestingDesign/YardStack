@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { FOOTER_LINKS, SOCIAL_LINKS, FOOTER_COPYRIGHT } from '../08.CTA/data';
 import LogoPng from '../../components/commonfiles/sidebar/Logo.png';
 
@@ -27,7 +28,13 @@ export default function FooterMobile() {
     >
       <div className="px-4 flex flex-col items-center gap-4">
         
-        <div className="flex flex-col items-center gap-1">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center gap-1"
+        >
           <img 
             src={LogoPng} 
             alt="N4RE Logo" 
@@ -36,9 +43,15 @@ export default function FooterMobile() {
           <span className="text-[11px] font-medium text-white/65 text-center">
             {FOOTER_COPYRIGHT}
           </span>
-        </div>
+        </motion.div>
 
-        <nav className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+        <motion.nav 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+          className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3"
+        >
           {FOOTER_LINKS.map((link) => (
             <a
               key={link.label}
@@ -48,9 +61,15 @@ export default function FooterMobile() {
               {link.label}
             </a>
           ))}
-        </nav>
+        </motion.nav>
 
-        <div className="flex items-center gap-4">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+          className="flex items-center gap-4"
+        >
           {SOCIAL_LINKS.map((social) => (
             <a
               key={social.label}
@@ -61,7 +80,7 @@ export default function FooterMobile() {
               <SocialIcon icon={social.icon} size={16} />
             </a>
           ))}
-        </div>
+        </motion.div>
         
       </div>
     </footer>

@@ -1,4 +1,5 @@
 import { FOOTER_LINKS, SOCIAL_LINKS, FOOTER_COPYRIGHT } from '../08.CTA/data';
+import { motion } from 'framer-motion';
 import LogoPng from '../../components/commonfiles/sidebar/Logo.png';
 
 const SocialIcon = ({ icon, size = 18 }: { icon: string; size?: number }) => {
@@ -37,7 +38,13 @@ export default function FooterDesktop() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
-          <div className="flex flex-col lg:flex-row items-center gap-5 lg:gap-6 animate-in fade-in duration-700 ease-out">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="flex flex-col lg:flex-row items-center gap-5 lg:gap-6"
+          >
             <img 
               src={LogoPng} 
               alt="N4RE Logo" 
@@ -47,9 +54,15 @@ export default function FooterDesktop() {
             <span className="text-[13px] font-medium text-white/65">
               {FOOTER_COPYRIGHT}
             </span>
-          </div>
+          </motion.div>
 
-          <nav className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 animate-in fade-in duration-700 ease-out delay-150">
+          <motion.nav 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+            className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4"
+          >
             {FOOTER_LINKS.map((link) => (
               <a
                 key={link.label}
@@ -59,9 +72,15 @@ export default function FooterDesktop() {
                 {link.label}
               </a>
             ))}
-          </nav>
+          </motion.nav>
 
-          <div className="flex items-center gap-3 animate-in fade-in duration-700 ease-out delay-300">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+            className="flex items-center gap-3"
+          >
             {SOCIAL_LINKS.map((social) => (
               <a
                 key={social.label}
@@ -72,7 +91,7 @@ export default function FooterDesktop() {
                 <SocialIcon icon={social.icon} size={18} />
               </a>
             ))}
-          </div>
+          </motion.div>
 
         </div>
       </div>

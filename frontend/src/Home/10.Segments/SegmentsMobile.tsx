@@ -1,4 +1,5 @@
 import { SEGMENTS_CONTENT, SEGMENTS } from './data';
+import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import Logo from './Logo.png';
 
@@ -24,7 +25,13 @@ export default function SegmentsMobile() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="px-2 relative z-10">
-        <div className="flex flex-col items-center text-center mb-10">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center text-center mb-10"
+        >
           <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-3">
             <Sparkles size={12} className="text-purple-600" />
             {SEGMENTS_CONTENT.tagline}
@@ -36,7 +43,7 @@ export default function SegmentsMobile() {
               from every real estate segment
             </span>
           </h2>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col items-center relative">
           <div className="relative w-full max-w-[240px] aspect-square rounded-full border border-purple-200/50 bg-white/40 backdrop-blur-sm flex items-center justify-center mx-auto mb-2">
@@ -61,7 +68,14 @@ export default function SegmentsMobile() {
             {SEGMENTS.map((segment, index) => {
               const Icon = segment.icon;
               return (
-                <div key={segment.id} className="relative w-full pl-[52px]">
+                <motion.div 
+                  key={segment.id} 
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                  className="relative w-full pl-[52px]"
+                >
                   <div className="absolute left-[20px] top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 border-white shadow-sm z-20" style={{ backgroundColor: segment.color }} />
                   
                   <svg className="absolute left-[32px] top-1/2 -translate-y-1/2 w-[20px] h-2 pointer-events-none z-0 overflow-visible">
@@ -86,7 +100,7 @@ export default function SegmentsMobile() {
                       </h4>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>

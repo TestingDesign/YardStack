@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { Building2, GraduationCap, MonitorPlay, BarChart2 } from 'lucide-react';
 import { COMING_SOON_ITEMS } from './data';
 
@@ -17,13 +18,19 @@ export default function ComingSoonMobile() {
     <section className="py-8" id="coming-soon" style={{ background: '#FFFFFF', }}>
       <div style={{ padding: '0 12px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
         
-        <div style={{
-          background: 'rgba(255,255,255,0.9)',
-          borderRadius: '8px',
-          border: '1px solid rgba(124,58,237,0.1)',
-          padding: '20px 14px',
-          boxShadow: '0 8px 32px rgba(124,58,237,0.06)',
-        }}>
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          style={{
+            background: 'rgba(255,255,255,0.9)',
+            borderRadius: '8px',
+            border: '1px solid rgba(124,58,237,0.1)',
+            padding: '20px 14px',
+            boxShadow: '0 8px 32px rgba(124,58,237,0.06)',
+          }}
+        >
           <p style={{
             textAlign: 'center',
             fontSize: '10px',
@@ -39,9 +46,13 @@ export default function ComingSoonMobile() {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
-            {COMING_SOON_ITEMS.map((item) => (
-              <div
+            {COMING_SOON_ITEMS.map((item, index) => (
+              <motion.div
                 key={item.name}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.1, ease: "easeOut" }}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -87,10 +98,10 @@ export default function ComingSoonMobile() {
                   <h3 style={{ fontSize: '11px', fontWeight: 800, color: '#1A1A2E', margin: '0 0 3px' }}>{item.name}</h3>
                   <p style={{ fontSize: '9px', color: '#6B7280', lineHeight: 1.4, margin: 0, fontWeight: 500 }}>{item.description}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

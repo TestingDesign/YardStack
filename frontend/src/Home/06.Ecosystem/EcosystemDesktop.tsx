@@ -12,6 +12,7 @@ import {
   GraduationCap,
   ArrowRight
 } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { ECOSYSTEM_MEMBERS } from './data';
 
 const EcosystemIcon = ({ icon, className, size = 24 }: { icon: string; className?: string; size?: number }) => {
@@ -44,20 +45,29 @@ export default function EcosystemDesktop() {
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="text-center pt-8 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center pt-8 mb-8"
+        >
           <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs font-black uppercase tracking-[0.2em] mb-4">
             <span className="text-purple-800">Built for</span>
             <span className="text-fuchsia-600">Hyderabad's</span>
             <span className="text-purple-800">Real Estate Ecosystem</span>
           </div>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-6">
           {ECOSYSTEM_MEMBERS.map((member, i) => (
-            <button
+            <motion.button
               key={i}
-              className="group flex flex-col items-center p-6 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-lg shadow-purple-900/5 hover:bg-white hover:border-purple-200 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-500 ease-out hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50 animate-in zoom-in-95 fade-in duration-700"
-              style={{ animationDelay: `${i * 75}ms` }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: i * 0.05, ease: "easeOut" }}
+              className="group flex flex-col items-center p-6 rounded-[4px] bg-white/80 backdrop-blur-xl border border-white shadow-lg shadow-purple-900/5 hover:bg-white hover:border-purple-200 hover:shadow-xl hover:shadow-purple-900/10 transition-all duration-500 ease-out hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-500/50"
             >
               <div className="flex items-center justify-center w-16 h-16 rounded-[4px] bg-purple-50 group-hover:bg-gradient-to-br group-hover:from-purple-600 group-hover:to-purple-800 transition-all duration-500 shadow-sm group-hover:shadow-lg group-hover:shadow-purple-900/20 mb-4 group-hover:scale-105 shrink-0">
                 <EcosystemIcon 
@@ -79,7 +89,7 @@ export default function EcosystemDesktop() {
                   </div>
                 </div>
               </div>
-            </button>
+            </motion.button>
           ))}
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Play, Pause, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw, ArrowRight } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
 
@@ -18,7 +19,15 @@ export default function PlatformPreviewDesktop() {
     }, [isPlaying]);
 
     return (
-      <div className="relative w-full h-full min-h-[460px] flex items-center justify-center overflow-hidden pb-6 animate-in fade-in zoom-in-95 duration-700 ease-out mt-4" aria-live="polite">
+      <motion.div 
+        key="spotlight"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.5 }}
+        className="relative w-full h-full min-h-[350px] flex items-center justify-center overflow-hidden pb-6 mt-4" 
+        aria-live="polite"
+      >
         {MOCK_DATA.spotlightReels.map((video, idx) => {
           const length = MOCK_DATA.spotlightReels.length;
           
@@ -116,7 +125,7 @@ export default function PlatformPreviewDesktop() {
             {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-1" />}
           </button>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -133,7 +142,15 @@ export default function PlatformPreviewDesktop() {
     }, [isPlaying]);
 
     return (
-      <div className="relative w-full h-full min-h-[460px] flex items-center justify-center overflow-hidden pb-6 animate-in fade-in zoom-in-95 duration-700 ease-out mt-4" aria-live="polite">
+      <motion.div 
+        key="red-expert"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.5 }}
+        className="relative w-full h-full min-h-[350px] flex items-center justify-center overflow-hidden pb-6 mt-4" 
+        aria-live="polite"
+      >
         {MOCK_DATA.redExpert.map((video, idx) => {
           const length = MOCK_DATA.redExpert.length;
           
@@ -219,7 +236,7 @@ export default function PlatformPreviewDesktop() {
             {isPlaying ? <Pause size={16} fill="currentColor" /> : <Play size={16} fill="currentColor" className="ml-1" />}
           </button>
         </div>
-      </div>
+      </motion.div>
     );
   };
 
@@ -233,7 +250,14 @@ export default function PlatformPreviewDesktop() {
       
       case 'opportunities':
         return (
-          <div className="flex flex-col gap-4 pb-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <motion.div 
+            key="opportunities"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col gap-4 pb-6"
+          >
             <div className="flex flex-col gap-3">
               {MOCK_DATA.opportunities.map((opp, idx) => {
                 const colors = [
@@ -303,12 +327,19 @@ export default function PlatformPreviewDesktop() {
                 Load More Opportunities
               </button>
             </div>
-          </div>
+          </motion.div>
         );
       
       case 'directory':
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pb-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <motion.div 
+            key="directory"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-3 pb-6"
+          >
             {MOCK_DATA.directory.map((cat, idx) => {
               const Icon = cat.icon;
               const colors = [
@@ -343,7 +374,7 @@ export default function PlatformPreviewDesktop() {
                 </button>
               );
             })}
-          </div>
+          </motion.div>
         );
       default:
         return null;
@@ -360,14 +391,20 @@ export default function PlatformPreviewDesktop() {
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[100px] pointer-events-none translate-y-1/2 animate-pulse" style={{ animationDuration: '10s' }} aria-hidden="true" />
 
       <div className="max-w-[1400px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-6 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
           <span className="inline-block text-xs font-black uppercase tracking-[0.2em] text-purple-700 mb-4 px-4 py-1.5 bg-purple-100 rounded-full border border-purple-200">
             Platform Capabilities
           </span>
           <h2 className="text-4xl lg:text-5xl font-black text-gray-900 tracking-tight">
             A Glimpse of What You'll <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-cyan-600 hover:from-cyan-600 hover:to-purple-700 transition-all duration-1000 cursor-default">Discover</span>
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[350px_1fr] gap-8">
           <div 
@@ -412,7 +449,7 @@ export default function PlatformPreviewDesktop() {
             id={`panel-${activeTab}`}
             role="tabpanel"
             aria-labelledby={`tab-${activeTab}`}
-            className="relative rounded-[4px] overflow-hidden bg-white border border-gray-300 shadow-2xl shadow-gray-300/50 h-full min-h-[500px] max-h-[650px] transform transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2"
+            className="relative rounded-[4px] overflow-hidden bg-white border border-gray-300 shadow-2xl shadow-gray-300/50 h-[500px] lg:h-[600px] w-full mt-2 transform transition-all duration-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2 flex flex-col"
             tabIndex={0}
           >
             <div className="h-12 bg-gray-100 border-b border-gray-200 flex items-center px-4 gap-2 sticky top-0 z-50" aria-hidden="true">
@@ -424,7 +461,11 @@ export default function PlatformPreviewDesktop() {
               </div>
             </div>
 
-            <div className="px-6 pt-6 pb-2 h-[calc(100%-3rem)] bg-gray-50/50 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className={`px-6 pt-6 pb-2 flex-1 bg-gray-50/50 ${
+              (activeTab === 'spotlight' || activeTab === 'red-expert') 
+                ? 'overflow-hidden' 
+                : 'overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]'
+            }`}>
               {renderActiveMockUI()}
             </div>
           </div>

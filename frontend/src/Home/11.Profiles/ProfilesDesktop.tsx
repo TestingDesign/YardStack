@@ -1,4 +1,5 @@
 import { PROFILES_CONTENT, PROFILES_CARDS, DASHBOARD_STATS } from './data';
+import { motion } from 'framer-motion';
 import {  Home, User, Target, Briefcase, MessageSquare, BarChart2, Plus, Zap } from 'lucide-react';
 
 export default function ProfilesDesktop() {
@@ -11,7 +12,13 @@ export default function ProfilesDesktop() {
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
         
-        <div className="flex flex-col items-center text-center mb-6 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center text-center mb-6"
+        >
           <div className="w-10 h-10 rounded-[4px] bg-purple-100 flex items-center justify-center mb-5 shadow-sm">
             <User size={20} className="text-purple-700" />
           </div>
@@ -30,7 +37,7 @@ export default function ProfilesDesktop() {
           <p className="text-base font-medium text-purple-700 mt-1">
             {PROFILES_CONTENT.subDescription}
           </p>
-        </div>
+        </motion.div>
 
         <div className="relative pt-12 pb-16">
           <div className="hidden lg:block absolute top-6 left-[16.66%] right-[16.66%] h-px border-t-[2px] border-dashed border-purple-800/20" aria-hidden="true" />
@@ -40,10 +47,13 @@ export default function ProfilesDesktop() {
             {PROFILES_CARDS.map((card, i) => {
               const MainIcon = card.icon;
               return (
-                <div 
+                <motion.div 
                   key={card.id} 
-                  className="relative pt-8 lg:pt-6 animate-in zoom-in-95 fade-in duration-700 ease-out"
-                  style={{ animationDelay: `${i * 150}ms` }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.7, delay: i * 0.15, ease: "easeOut" }}
+                  className="relative pt-8 lg:pt-6"
                 >
                   <div 
                     className="hidden lg:block absolute top-0 left-1/2 w-px h-6 border-l-[2px] border-dashed -translate-x-1/2" 
@@ -90,13 +100,19 @@ export default function ProfilesDesktop() {
                       })}
                     </ul>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
         </div>
 
-        <div className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[4px] border border-purple-100 shadow-2xl shadow-purple-900/10 p-2 lg:p-3 overflow-hidden animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 1, delay: 0.3, ease: "easeOut" }}
+          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[4px] border border-purple-100 shadow-2xl shadow-purple-900/10 p-2 lg:p-3 overflow-hidden"
+        >
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 bg-white rounded-[4px] shadow-sm overflow-hidden h-full border border-white">
             
             <div className="flex-shrink-0 lg:w-[340px] p-8 lg:p-10 flex flex-col justify-center">
@@ -187,7 +203,7 @@ export default function ProfilesDesktop() {
             </div>
 
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

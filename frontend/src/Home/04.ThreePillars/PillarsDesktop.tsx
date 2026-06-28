@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
 import { 
   PlayCircle, 
@@ -40,9 +41,12 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
   const [activeModuleIdx, setActiveModuleIdx] = useState<number | null>(null);
 
   return (
-    <div 
-      className="group relative flex flex-col rounded-[8px] bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden hover:shadow-xl hover:shadow-purple-900/20 transition-all duration-500 p-6 lg:p-8 animate-in zoom-in-95 fade-in duration-700 ease-out"
-      style={{ animationDelay: `${index * 150}ms` }}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      className="group relative flex flex-col rounded-[8px] bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden hover:shadow-xl hover:shadow-purple-900/20 transition-all duration-500 p-6 lg:p-8"
     >
       <div 
         className="absolute top-0 left-0 right-0 h-1.5 opacity-80"
@@ -134,7 +138,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -148,7 +152,13 @@ export default function PillarsDesktop() {
       <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-fuchsia-500/20 rounded-full blur-[100px] pointer-events-none translate-y-1/2" aria-hidden="true" />
 
       <div className="max-w-[1280px] mx-auto px-4 lg:px-8 relative z-10">
-        <div className="flex flex-col items-center mb-12 lg:mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center mb-12 lg:mb-16 text-center"
+        >
           <span className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-fuchsia-400 mb-4">
             <Sparkles size={14} className="text-purple-400" aria-hidden="true" />
             {PILLARS_HEADING.section}
@@ -156,7 +166,7 @@ export default function PillarsDesktop() {
           <h2 className="text-4xl lg:text-[44px] leading-[1.2] font-extrabold text-white tracking-tight">
              3 Core Pillars, 8 Features
           </h2>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {PILLARS.map((pillar, index) => (

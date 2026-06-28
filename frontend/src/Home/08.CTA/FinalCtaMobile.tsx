@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { FINAL_CTA_CONTENT } from './data';
 
 export default function FinalCtaMobile() {
@@ -9,7 +10,13 @@ export default function FinalCtaMobile() {
         aria-hidden="true"
       />
 
-      <div className="px-5 text-center relative z-10 flex flex-col items-center animate-in zoom-in-95 fade-in slide-in-from-bottom-6 duration-700 ease-out">
+      <motion.div 
+        initial={{ opacity: 0, y: 20, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="px-5 text-center relative z-10 flex flex-col items-center"
+      >
         <h2 className="text-[28px] leading-[1.2] font-extrabold text-white tracking-tight mb-4 drop-shadow-sm">
           {FINAL_CTA_CONTENT.heading}
         </h2>
@@ -25,7 +32,7 @@ export default function FinalCtaMobile() {
             {FINAL_CTA_CONTENT.secondaryCta}
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

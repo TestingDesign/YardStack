@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { FINAL_CTA_CONTENT } from './data';
 
 export default function FinalCtaDesktop() {
@@ -12,7 +13,13 @@ export default function FinalCtaDesktop() {
         aria-hidden="true"
       />
 
-      <div className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center animate-in zoom-in-95 fade-in slide-in-from-bottom-8 duration-700 ease-out">
+      <motion.div 
+        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="relative z-10 max-w-4xl mx-auto px-6 text-center flex flex-col items-center"
+      >
         <h2 className="text-4xl lg:text-[52px] leading-[1.2] font-extrabold text-white tracking-tight mb-4 drop-shadow-sm">
           {FINAL_CTA_CONTENT.heading}
         </h2>
@@ -31,7 +38,7 @@ export default function FinalCtaDesktop() {
             {FINAL_CTA_CONTENT.secondaryCta}
           </button>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { PILLARS, type Pillar } from './data';
 import { 
   PlayCircle, 
@@ -39,9 +40,12 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
   const [activeModuleIdx, setActiveModuleIdx] = useState<number | null>(null);
 
   return (
-    <div 
-      className="group relative flex flex-col rounded-[4px] bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden p-5 animate-in zoom-in-95 fade-in duration-700 ease-out"
-      style={{ animationDelay: `${index * 150}ms` }}
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+      className="group relative flex flex-col rounded-[4px] bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden p-5"
     >
       <div 
         className="absolute top-0 left-0 right-0 h-1.5 opacity-80"
@@ -133,7 +137,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
           );
         })}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -147,7 +151,13 @@ export default function PillarsMobile() {
       <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[80px] pointer-events-none translate-y-1/2" aria-hidden="true" />
 
       <div className="px-2 relative z-10">
-        <div className="flex flex-col items-center mb-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="flex flex-col items-center mb-10 text-center"
+        >
           <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-fuchsia-400 mb-3 block text-center leading-relaxed">
             <Sparkles size={12} className="text-purple-400 inline-block align-text-bottom mr-1.5 mb-[2px]" aria-hidden="true" />
             Features built to accelerate<br />your Business Growth
@@ -155,7 +165,7 @@ export default function PillarsMobile() {
           <h2 className="text-[24px] leading-[1.2] font-extrabold text-white tracking-tight">
              3 Core Pillars, 8 Features
           </h2>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col gap-5">
           {PILLARS.map((pillar, index) => (

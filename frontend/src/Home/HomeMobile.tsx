@@ -15,11 +15,11 @@ interface HomeMobileProps {
 
 export default function HomeMobile({ viewMode }: HomeMobileProps) {
   return (
-    <div className="flex flex-col h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar">
+    <div className="h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar [&>*]:shrink-0 flex flex-col">
       <HomeNavMobile viewMode={viewMode} />
       <HeroMobile />
-      <PillarsMobile />
       <WhyN4reMobile />
+      <PillarsMobile />
       <FindYourPlaceMobile />
       <PlatformPreviewMobile />
       {/* <EcosystemMobile /> */}

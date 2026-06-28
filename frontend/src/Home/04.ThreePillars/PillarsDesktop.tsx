@@ -41,7 +41,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
 
   return (
     <div 
-      className="group relative flex flex-col rounded-3xl bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden hover:shadow-xl hover:shadow-purple-900/20 transition-all duration-500 p-6 lg:p-8 animate-in zoom-in-95 fade-in duration-700 ease-out"
+      className="group relative flex flex-col rounded-[8px] bg-slate-800/80 backdrop-blur-xl border border-slate-700 shadow-2xl shadow-purple-900/10 overflow-hidden hover:shadow-xl hover:shadow-purple-900/20 transition-all duration-500 p-6 lg:p-8 animate-in zoom-in-95 fade-in duration-700 ease-out"
       style={{ animationDelay: `${index * 150}ms` }}
     >
       <div 
@@ -97,7 +97,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
                       {mod.name}
                     </h4>
                     {mod.earlyAccess && (
-                      <span className="px-2 py-0.5 rounded-[4px] bg-purple-500/20 text-[10px] font-extrabold text-purple-400 tracking-wider border border-purple-500/30">
+                      <span className="px-2 py-0.5 rounded-[4px] bg-purple-500/20 text-[10px] font-extrabold text-white tracking-wider border border-purple-500/30">
                         Early Access
                       </span>
                     )}

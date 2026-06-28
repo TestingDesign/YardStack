@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Play, Pause, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw } from 'lucide-react';
+import { Play, Pause, Star, Briefcase, MapPin, CheckCircle2, RefreshCcw, ArrowRight } from 'lucide-react';
 import { PREVIEW_TABS, MOCK_DATA } from './data';
 
 const MobileSpotlightCarousel = () => {
@@ -149,12 +149,14 @@ const MobileRedExpertCarousel = () => {
             onClick={() => setActiveIndex(idx)}
           >
             <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url(${video.bgImage})` }} />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+            
             <div className="absolute inset-0 flex items-center justify-center">
               <div className={`w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/30 ${position === 'center' ? 'opacity-100' : 'opacity-50'}`}>
                 <Play className="text-white ml-0.5" size={16} fill="currentColor" />
               </div>
             </div>
+
             <div className="absolute bottom-0 left-0 w-full p-2.5 text-left">
               <div className="flex justify-between items-end">
                 <div>
@@ -189,40 +191,55 @@ export default function PlatformPreviewMobile() {
   const renderActiveMockUI = () => {
     switch (activeTab) {
       case 'spotlight':
-      case 'spotlight':
         return <MobileSpotlightCarousel />;
       case 'red-expert':
         return <MobileRedExpertCarousel />;
       case 'opportunities':
         return (
           <div className="flex flex-col gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
-            {MOCK_DATA.opportunities.map((opp, idx) => (
-              <div key={idx} className="p-3.5 rounded-[4px] bg-white/5 border border-white/10 active:border-purple-500/50 active:bg-white/10 transition-colors flex flex-col justify-between cursor-pointer">
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-[9px] font-bold px-1.5 py-0.5 rounded-[2px] uppercase tracking-wider">
-                      {opp.type}
-                    </span>
+            {MOCK_DATA.opportunities.map((opp, idx) => {
+              const colors = [
+                { grad: 'from-blue-50 to-indigo-50', border: 'border-blue-100', text: 'text-blue-700', badgeBg: 'bg-blue-50', badgeBorder: 'border-blue-200', btn: 'bg-blue-600 active:bg-blue-700', activeBorder: 'active:border-blue-300' },
+                { grad: 'from-rose-50 to-pink-50', border: 'border-rose-100', text: 'text-rose-700', badgeBg: 'bg-rose-50', badgeBorder: 'border-rose-200', btn: 'bg-rose-600 active:bg-rose-700', activeBorder: 'active:border-rose-300' },
+                { grad: 'from-emerald-50 to-teal-50', border: 'border-emerald-100', text: 'text-emerald-700', badgeBg: 'bg-emerald-50', badgeBorder: 'border-emerald-200', btn: 'bg-emerald-600 active:bg-emerald-700', activeBorder: 'active:border-emerald-300' },
+                { grad: 'from-amber-50 to-orange-50', border: 'border-amber-100', text: 'text-amber-700', badgeBg: 'bg-amber-50', badgeBorder: 'border-amber-200', btn: 'bg-amber-600 active:bg-amber-700', activeBorder: 'active:border-amber-300' },
+                { grad: 'from-purple-50 to-fuchsia-50', border: 'border-purple-100', text: 'text-purple-700', badgeBg: 'bg-purple-50', badgeBorder: 'border-purple-200', btn: 'bg-purple-600 active:bg-purple-700', activeBorder: 'active:border-purple-300' },
+              ];
+              const c = colors[idx % colors.length];
+
+              return (
+                <div key={idx} className={`p-3.5 rounded-[4px] bg-white border border-gray-200 shadow-sm ${c.activeBorder} transition-colors flex flex-col justify-between cursor-pointer`}>
+                  <div>
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center gap-2">
+                        <div className={`w-8 h-8 rounded-[4px] bg-gradient-to-br ${c.grad} border ${c.border} flex items-center justify-center ${c.text} font-black text-xs shrink-0`}>
+                          {opp.company.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
+                        </div>
+                        <span className={`${c.badgeBg} ${c.text} border ${c.badgeBorder} text-[9px] font-bold px-1.5 py-0.5 rounded-[2px] uppercase tracking-wider`}>
+                          {opp.type}
+                        </span>
+                      </div>
+                    </div>
+                    <h4 className="text-gray-900 font-bold text-[13px] mb-1">{opp.title}</h4>
+                    <p className="text-gray-600 text-[11px] flex items-center gap-2 mb-3 font-medium">
+                      <span className="flex items-center gap-1"><Briefcase size={10} /> {opp.company}</span>
+                      <span className="flex items-center gap-1"><MapPin size={10} /> {opp.location}</span>
+                    </p>
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="px-2 py-0.5 bg-gray-100 rounded-[2px] text-[10px] font-bold text-gray-700 border border-gray-200">
+                        {opp.budget}
+                      </span>
+                    </div>
                   </div>
-                  <h4 className="text-white font-bold text-[13px] mb-1">{opp.title}</h4>
-                  <p className="text-gray-400 text-[11px] flex items-center gap-2 mb-3">
-                    <span className="flex items-center gap-1"><Briefcase size={10} /> {opp.company}</span>
-                    <span className="flex items-center gap-1"><MapPin size={10} /> {opp.location}</span>
-                  </p>
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="px-2 py-0.5 bg-white/5 rounded-[2px] text-[10px] font-semibold text-emerald-400 border border-emerald-500/20">
-                      {opp.budget}
-                    </span>
-                  </div>
+                  <button className={`self-end px-3 py-1.5 rounded-[4px] ${c.btn} text-white text-[11px] font-bold transition-colors mt-1 shadow-sm`}>
+                    Apply Now
+                  </button>
                 </div>
-                <button className="self-end px-3 py-1.5 rounded-[4px] bg-purple-600 active:bg-purple-500 text-white text-[11px] font-bold transition-colors mt-1">
-                  Apply Now
-                </button>
-              </div>
-            ))}
+              );
+            })}
             <div className="mt-3 flex justify-center w-full">
-              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white/5 border border-white/10 text-[12px] font-bold text-gray-300 active:bg-gradient-to-r active:from-purple-600 active:to-purple-500 active:text-white active:border-transparent transition-all duration-300 shadow-lg">
-                <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700" />
+              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-gray-300 text-[12px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 shadow-sm">
+                <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700 text-gray-500" />
                 Load More Opportunities
               </button>
             </div>
@@ -233,14 +250,27 @@ export default function PlatformPreviewMobile() {
           <div className="grid grid-cols-2 gap-3 pb-4 animate-in fade-in zoom-in-95 duration-500">
             {MOCK_DATA.directory.map((cat, idx) => {
               const Icon = cat.icon;
+              const colors = [
+                { grad: 'from-blue-50 to-indigo-50', border: 'border-blue-100', text: 'text-blue-700', activeBorder: 'active:border-blue-300', arrow: 'text-blue-600' },
+                { grad: 'from-rose-50 to-pink-50', border: 'border-rose-100', text: 'text-rose-700', activeBorder: 'active:border-rose-300', arrow: 'text-rose-600' },
+                { grad: 'from-emerald-50 to-teal-50', border: 'border-emerald-100', text: 'text-emerald-700', activeBorder: 'active:border-emerald-300', arrow: 'text-emerald-600' },
+                { grad: 'from-amber-50 to-orange-50', border: 'border-amber-100', text: 'text-amber-700', activeBorder: 'active:border-amber-300', arrow: 'text-amber-600' },
+                { grad: 'from-purple-50 to-fuchsia-50', border: 'border-purple-100', text: 'text-purple-700', activeBorder: 'active:border-purple-300', arrow: 'text-purple-600' },
+                { grad: 'from-cyan-50 to-sky-50', border: 'border-cyan-100', text: 'text-cyan-700', activeBorder: 'active:border-cyan-300', arrow: 'text-cyan-600' },
+              ];
+              const c = colors[idx % colors.length];
+
               return (
-                <div key={idx} className="flex flex-col gap-2 p-3.5 rounded-[4px] bg-white/5 border border-white/10 active:bg-white/10 transition-colors cursor-pointer">
-                  <div className={`w-10 h-10 rounded-[4px] bg-white/10 flex items-center justify-center ${cat.color}`}>
+                <div key={idx} className={`flex flex-col gap-2 p-3.5 rounded-[4px] bg-white border border-gray-200 shadow-sm ${c.activeBorder} transition-colors cursor-pointer relative overflow-hidden`}>
+                  <div className={`w-10 h-10 rounded-[4px] bg-gradient-to-br ${c.grad} border ${c.border} flex items-center justify-center ${c.text}`}>
                     <Icon size={20} />
                   </div>
                   <div>
-                    <h4 className="text-white font-bold text-[12px]">{cat.title}</h4>
-                    <p className="text-gray-400 text-[10px] font-semibold">{cat.count} Listed</p>
+                    <h4 className="text-gray-900 font-bold text-[12px]">{cat.title}</h4>
+                    <p className="text-gray-600 text-[10px] font-semibold mt-0.5">{cat.count} Listed</p>
+                  </div>
+                  <div className="absolute top-3.5 right-3.5">
+                    <ArrowRight size={14} className={`opacity-50 ${c.arrow}`} />
                   </div>
                 </div>
               );
@@ -255,73 +285,56 @@ export default function PlatformPreviewMobile() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-[#0B0F19] overflow-hidden selection:bg-purple-500/30 selection:text-white py-16"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-16"
     >
-      {/* Background Glows */}
-      <div className="absolute top-0 left-0 w-full h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
+      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] bg-blue-600/10 rounded-full blur-[80px] pointer-events-none translate-y-1/2 translate-x-1/4" aria-hidden="true" />
 
       <div className="relative z-10 px-4">
         
-        {/* Section Header */}
         <div className="text-center mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
-          <span className="inline-block text-[10px] font-black uppercase tracking-[0.2em] text-purple-400 mb-2">
+          <span className="inline-block text-[10px] font-black uppercase tracking-[0.2em] text-purple-700 mb-2 px-3 py-1 bg-purple-100 rounded-full border border-purple-200">
             Platform Capabilities
           </span>
-          <h2 className="text-[28px] leading-tight font-black text-white tracking-tight">
-            A Glimpse of What You'll <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Discover</span>
+          <h2 className="text-[24px] leading-tight font-black text-gray-900 tracking-tight mt-2">
+            A Glimpse of What You'll <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-cyan-600">Discover</span>
           </h2>
         </div>
 
-        {/* Horizontal Scroll Tabs */}
-        <div className="flex overflow-x-auto gap-2 pb-4 mb-2 -mx-4 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="flex w-full p-1 bg-gray-100 border border-gray-200 rounded-[8px] mb-4 gap-1 shadow-inner">
           {PREVIEW_TABS.map((tab) => {
             const isActive = activeTab === tab.key;
             return (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`shrink-0 snap-start text-left p-3.5 rounded-[8px] transition-all duration-300 border outline-none w-[200px] relative overflow-hidden ${
+                className={`flex-1 shrink-0 text-center py-2 px-1 rounded-[6px] transition-all duration-300 outline-none relative ${
                   isActive 
-                    ? 'bg-white/10 border-white/20 shadow-lg shadow-purple-900/20' 
-                    : 'bg-white/5 border-white/5 opacity-60'
+                    ? 'bg-white shadow-sm border border-gray-200/50 ring-1 ring-black/5' 
+                    : 'bg-transparent hover:bg-gray-200/50'
                 }`}
               >
-                {isActive && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-transparent pointer-events-none" />
-                )}
                 <div className="relative z-10">
-                  <span className={`inline-block px-1.5 py-0.5 rounded-[2px] text-[9px] font-bold uppercase tracking-wider mb-2 ${
-                    isActive ? 'bg-purple-500 text-white' : 'bg-white/10 text-gray-400'
-                  }`}>
-                    {tab.badge}
-                  </span>
-                  <h3 className={`text-[13px] font-bold leading-tight mb-1 ${isActive ? 'text-white' : 'text-gray-300'}`}>
+                  <h3 className={`text-[11px] sm:text-[12px] font-bold leading-tight ${isActive ? 'text-purple-700' : 'text-gray-500'}`}>
                     {tab.title}
                   </h3>
-                  <p className={`text-[10px] leading-snug ${isActive ? 'text-gray-300' : 'text-gray-500'}`}>
-                    {tab.description}
-                  </p>
                 </div>
               </button>
             );
           })}
         </div>
 
-        {/* Mock UI Window */}
-        <div className="relative rounded-[8px] overflow-hidden bg-[#111827] border border-white/10 shadow-2xl shadow-black/50 min-h-[400px] max-h-[500px]">
-          {/* Mac-style Window Header */}
-          <div className="h-10 bg-white/5 border-b border-white/10 flex items-center px-3 gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-rose-500/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
-            <div className="mx-auto flex items-center gap-1.5 px-3 py-1 rounded-[4px] bg-black/40 border border-white/5 text-[9px] text-gray-400 font-medium">
-              <Star size={10} className="text-purple-400" /> n4re.com/app/{activeTab}
+        <div className="relative flex flex-col rounded-[4px] overflow-hidden bg-white border border-gray-300 shadow-2xl shadow-gray-300/50 h-auto max-h-[400px] w-full mt-2">
+          <div className="h-10 shrink-0 bg-gray-100 border-b border-gray-200 flex items-center px-3 gap-1.5">
+            <div className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm" />
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500 shadow-sm" />
+            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm" />
+            <div className="mx-auto flex items-center gap-1.5 px-3 py-1 rounded-[4px] bg-white border border-gray-300 text-[9px] text-gray-700 font-medium shadow-sm">
+              <Star size={10} className="text-purple-600" /> n4re.com/app/{activeTab}
             </div>
           </div>
 
-          {/* Dynamic Content Area */}
-          <div className="px-4 pt-4 pb-1 h-[calc(100%-2.5rem)] bg-gradient-to-br from-white/[0.02] to-transparent overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex-1 px-4 pt-4 pb-1 bg-gray-50/50 overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {renderActiveMockUI()}
           </div>
         </div>

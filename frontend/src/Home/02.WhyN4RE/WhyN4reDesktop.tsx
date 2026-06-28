@@ -165,7 +165,7 @@ export default function WhyN4reDesktop() {
                           }`}
                         >
                           <div className="overflow-hidden">
-                            <p className={`text-[14px] leading-relaxed font-medium pl-[64px] pr-2 pb-2 transition-colors duration-300 ${
+                            <p className={`text-[14px] leading-relaxed font-medium  transition-colors duration-300 ${
                               isActive ? 'text-slate-300' : 'text-slate-400'
                             }`}>
                               {sol.description}

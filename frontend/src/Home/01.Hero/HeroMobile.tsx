@@ -75,7 +75,7 @@ export default function HeroMobile() {
   return (
     <section
       id="hero"
-      className="relative overflow-hidden bg-[#F8F7FC] pt-[100px] pb-8"
+      className="relative overflow-hidden bg-[#F8F7FC] pt-2 pb-8"
     >
       <div
         className="absolute bottom-0 left-0 w-full h-[200px] opacity-10 pointer-events-none"
@@ -87,15 +87,17 @@ export default function HeroMobile() {
         }}
       />
 
-      <div className="px-4 py-8 relative z-10">
-        <div className="flex flex-col gap-4 ys-fade-in-up">
+      <div className="px-4 py-4 relative z-10">
+        <div className="flex flex-col gap-4 items-center text-center ys-fade-in-up w-full max-w-sm mx-auto">
           <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
             {HERO_CONTENT.tagline}
           </p>
           <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
 
-          <h1 className="text-[2.2rem] leading-[1.1] font-extrabold text-[#111827] m-0 tracking-tight">
-            Connecting Hyderabad's
+          <h1 className="text-[1.8rem] leading-[1.1] font-extrabold text-[#111827] m-0 tracking-tight">
+            Connecting
+            <br />
+            Hyderabad's
             <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate</span> <br />
             Ecosystem
@@ -105,57 +107,31 @@ export default function HeroMobile() {
             {HERO_CONTENT.subHeading}
           </p>
 
-
-
-          <div className="flex flex-col gap-3 mt-2">
+          <div className="flex flex-col gap-3 mt-2 w-full relative z-30">
             <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[14px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">
-              {HERO_CONTENT.primaryCta} <ArrowRight size={16} />
+              {HERO_CONTENT.primaryCta}
             </button>
             <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-white text-[#111827] text-[14px] font-extrabold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-sm">
               {HERO_CONTENT.secondaryCta}
               <ArrowRight size={16} />
             </button>
           </div>
-
-          <div className="flex items-center gap-3 mt-4 px-4 py-3 rounded-[16px] bg-white/70 backdrop-blur-md border border-purple-100/50 shadow-[0_8px_32px_rgba(107,33,168,0.06)] w-fit">
-            <div className="flex -space-x-2.5">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gradient-to-br from-[#6B21A8]/20 to-[#D946EF]/20 shadow-sm"
-                >
-                  <img
-                    src={`https://i.pravatar.cc/150?img=${i + 10}`}
-                    alt="Community member"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-[11px] font-extrabold text-[#422082] leading-tight">
-                {HERO_CONTENT.supportingTextBold}
-              </span>
-              <span className="text-[10px] font-semibold text-[#79628c] leading-tight">
-                {HERO_CONTENT.supportingText}
-              </span>
-            </div>
-          </div>
         </div>
 
-        <div className="relative flex items-center justify-center h-[340px] mt-10 w-full">
+        <div className="relative flex items-center justify-center h-[340px] mt-6 w-full max-w-md mx-auto">
           <div
-            className="absolute w-[240px] h-[240px] rounded-full left-1/2 top-1/2"
+            className="absolute inset-0 m-auto w-[260px] h-[260px] rounded-full"
             style={{
-              transform: 'translate(-50%, -50%)',
               border: '2px dashed rgba(107, 33, 168, 0.15)',
+              animation: 'spin 40s linear infinite'
             }}
           />
+
           <div
-            className="absolute w-[160px] h-[160px] rounded-full left-1/2 top-1/2"
+            className="absolute inset-0 m-auto w-[170px] h-[170px] rounded-full"
             style={{
-              transform: 'translate(-50%, -50%)',
               border: '1.5px dashed rgba(107, 33, 168, 0.1)',
+              animation: 'spin 25s linear infinite reverse'
             }}
           />
 
@@ -176,33 +152,44 @@ export default function HeroMobile() {
             <img src={Logo} alt="Logo" className="w-[70%] h-[70%] object-contain" draggable={false} />
           </div>
 
-          {ECOSYSTEM_CATEGORIES.map((cat, i) => {
-            const angle = [0, 51.4, 102.9, 154.3, 205.7, 257.1, 308.6][i] || 0;
-            const radians = (angle - 90) * (Math.PI / 180);
-            const radius = 135;
-            const x = Math.cos(radians) * radius;
-            const y = Math.sin(radians) * radius;
+          <div
+            className="absolute inset-0 m-auto w-[280px] h-[280px]"
+            style={{ animation: 'spin 40s linear infinite' }}
+          >
+            {ECOSYSTEM_CATEGORIES.map((cat, i) => {
+              const angle = (360 / ECOSYSTEM_CATEGORIES.length) * i;
+              const radians = (angle - 90) * (Math.PI / 180);
+              const radius = 135; 
+              const x = Math.cos(radians) * radius;
+              const y = Math.sin(radians) * radius;
 
-            return (
-              <div
-                key={i}
-                className="absolute z-20 flex flex-col items-center justify-center gap-1 rounded-[10px] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.06)] px-2 py-1.5 min-w-[75px] max-w-[85px] text-center border border-white/80 ys-fade-in"
-                style={{
-                  top: `calc(50% + ${y}px)`,
-                  left: `calc(50% + ${x}px)`,
-                  transform: 'translate(-50%, -50%)',
-                  animationDelay: `${i * 100}ms`,
-                }}
-              >
-                <div className="w-6 h-6 rounded-full bg-[#f8f5fc] flex items-center justify-center border border-[#6B21A8]/5">
-                  <CategoryIcon icon={cat.icon} />
+              return (
+                <div
+                  key={i}
+                  className="absolute z-20"
+                  style={{
+                    top: `calc(50% + ${y}px)`,
+                    left: `calc(50% + ${x}px)`,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  <div
+                    className="flex flex-col items-center justify-center gap-1 rounded-[10px] bg-white shadow-[0_4px_12px_rgba(0,0,0,0.06)] px-1 py-1.5 w-[75px] h-[75px] text-center border border-white/80"
+                    style={{
+                      animation: 'spin 40s linear infinite reverse'
+                    }}
+                  >
+                    <div className="w-6 h-6 rounded-full bg-[#f8f5fc] flex items-center justify-center border border-[#6B21A8]/5 shrink-0">
+                      <CategoryIcon icon={cat.icon} />
+                    </div>
+                    <span className="text-[7.5px] font-extrabold text-[#111827] leading-[1.2] whitespace-pre-line">
+                      {cat.label}
+                    </span>
+                  </div>
                 </div>
-                <span className="text-[8px] font-extrabold text-[#111827] leading-tight whitespace-pre-line">
-                  {cat.label}
-                </span>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>

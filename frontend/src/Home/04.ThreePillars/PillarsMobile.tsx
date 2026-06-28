@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { PILLARS_HEADING, PILLARS, type Pillar } from './data';
+import { PILLARS, type Pillar } from './data';
 import { 
   PlayCircle, 
   Mic, 

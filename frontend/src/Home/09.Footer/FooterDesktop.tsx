@@ -32,7 +32,7 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-6 lg:py-8 border-t border-white/10 selection:bg-fuchsia-500/30 selection:text-white"
+      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-4 lg:py-4 border-t border-white/10 selection:bg-fuchsia-500/30 selection:text-white"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -54,7 +54,7 @@ export default function FooterDesktop() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[13px] font-bold text-white/65 hover:text-white transition-colors duration-300 outline-none focus-visible:text-fuchsia-400 focus-visible:underline underline-offset-4"
+                className="text-[13px] font-bold text-white/65 underline decoration-dotted hover:text-white transition-colors duration-300 outline-none focus-visible:text-fuchsia-400 focus-visible:underline underline-offset-4"
               >
                 {link.label}
               </a>

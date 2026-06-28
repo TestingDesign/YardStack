@@ -87,36 +87,38 @@ export default function HeroMobile() {
         }}
       />
 
-      <div className="px-4 py-4 relative z-10">
-        <div className="flex flex-col gap-4 items-center text-center ys-fade-in-up w-full max-w-sm mx-auto">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
-            {HERO_CONTENT.tagline}
-          </p>
-          <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
+      <div className="px-2 py-2 relative z-10">
+        <div className="flex flex-col items-center text-center ys-fade-in-up w-full max-w-sm mx-auto">
+  
+  <div className="flex flex-col items-center gap-3 mb-5">
+    <p className="text-[10px] font-extrabold uppercase tracking-[0.15em] text-[#D946EF] m-0">
+      {HERO_CONTENT.tagline}
+    </p>
+    <div className="w-8 h-[3px] bg-gradient-to-r from-[#D946EF] to-[#6a5fc1] rounded-full" aria-hidden="true" />
+  </div>
 
-          <h1 className="text-[1.8rem] leading-[1.1] font-extrabold text-[#111827] m-0 tracking-tight">
-            Connecting
-            <br />
-            Hyderabad's
-            <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate</span> <br />
-            Ecosystem
-          </h1>
+  <h1 className="text-[1.8rem] leading-[1.2] font-extrabold text-[#111827] m-0 tracking-tight mb-4">
+    Connecting Hyderabad's 
+    <br />
+    <span className="bg-clip-text text-transparent bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)]">Real Estate </span>
+    Ecosystem
+  </h1>
 
-          <p className="text-[0.95rem] leading-relaxed font-semibold text-[#374151] m-0">
-            {HERO_CONTENT.subHeading}
-          </p>
+  <p className="text-[0.95rem] leading-relaxed font-semibold text-[#374151] m-0 mb-8 px-2">
+    {HERO_CONTENT.subHeading}
+  </p>
 
-          <div className="flex flex-col gap-3 mt-2 w-full relative z-30">
-            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[14px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">
-              {HERO_CONTENT.primaryCta}
-            </button>
-            <button className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-[8px] bg-white text-[#111827] text-[14px] font-extrabold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-sm">
-              {HERO_CONTENT.secondaryCta}
-              <ArrowRight size={16} />
-            </button>
-          </div>
-        </div>
+  <div className="flex flex-row gap-4 w-full relative z-30 px-4 justify-center">
+    <button className="flex-1 flex items-center justify-center gap-1.5 px-2 py-3 rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] text-white text-[12px] font-extrabold border-none cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.25)] transition-all active:scale-[0.98]">
+      {HERO_CONTENT.primaryCta}
+    </button>
+    <button className="flex-1 flex items-center justify-center gap-1.5 px-4 py-3 rounded-[4px] bg-white text-[#111827] text-[12px] font-extrabold border border-gray-200 cursor-pointer transition-all active:bg-gray-50 shadow-sm">
+      {HERO_CONTENT.secondaryCta}
+      <ArrowRight size={14} />
+    </button>
+  </div>
+  
+</div>
 
         <div className="relative flex items-center justify-center h-[340px] mt-6 w-full max-w-md mx-auto">
           <div

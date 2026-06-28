@@ -160,7 +160,7 @@ export default function FindYourPlaceMobile() {
                 ))}
               </ul>
 
-              <button className="group inline-flex items-center justify-center gap-2 mt-8 px-6 py-3 w-full rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[13px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
+              <button className="group inline-flex items-center justify-center gap-2 mt-24 px-2 py-2 gap-2 w-auto rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[12px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
                 {selectedRole.ctaLabel}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>

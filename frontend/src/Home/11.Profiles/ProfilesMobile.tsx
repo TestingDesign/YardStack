@@ -6,7 +6,7 @@ export default function ProfilesMobile() {
     <section id="profiles" className="relative bg-white overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-50/50 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="px-4 relative z-10">
+      <div className="px-2 relative z-10">
         
         {/* Header Section */}
         <div className="flex flex-col items-center text-center mb-10">

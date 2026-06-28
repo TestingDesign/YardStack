@@ -146,7 +146,7 @@ export default function PillarsMobile() {
       <div className="absolute top-0 left-1/4 w-[300px] h-[300px] bg-purple-500/20 rounded-full blur-[80px] pointer-events-none -translate-y-1/2" aria-hidden="true" />
       <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-fuchsia-500/20 rounded-full blur-[80px] pointer-events-none translate-y-1/2" aria-hidden="true" />
 
-      <div className="px-4 relative z-10">
+      <div className="px-2 relative z-10">
         <div className="flex flex-col items-center mb-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-700 ease-out">
           <span className="text-[10px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-fuchsia-400 mb-3 block text-center leading-relaxed">
             <Sparkles size={12} className="text-purple-400 inline-block align-text-bottom mr-1.5 mb-[2px]" aria-hidden="true" />

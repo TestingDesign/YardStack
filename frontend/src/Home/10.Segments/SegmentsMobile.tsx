@@ -23,7 +23,7 @@ export default function SegmentsMobile() {
 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-purple-400/10 rounded-full blur-[80px] pointer-events-none" />
 
-      <div className="px-4 relative z-10">
+      <div className="px-2 relative z-10">
         <div className="flex flex-col items-center text-center mb-10">
           <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 to-fuchsia-600 mb-3">
             <Sparkles size={12} className="text-purple-600" />

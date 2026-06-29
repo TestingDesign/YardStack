@@ -73,7 +73,7 @@ export default function FindYourPlaceMobile() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="flex flex-col bg-white/80 backdrop-blur-xl rounded-2xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
+          className="flex flex-col bg-white/80 backdrop-blur-xl rounded-[8px] border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
         >
           
           <div className="flex flex-col p-5 border-b border-gray-100 bg-gray-50/50">
@@ -142,11 +142,7 @@ export default function FindYourPlaceMobile() {
             </div>
           </div>
 
-          <div className="flex flex-col h-full p-2 relative overflow-hidden bg-white">
-            <div className="absolute bottom-0 right-0 w-[65%] h-[80%] pointer-events-none z-0" aria-hidden="true">
-              <img src={BG} alt="" className="w-full h-full object-contain object-right-bottom opacity-[0.85]" draggable={false} />
-            </div>
-            
+          <div className="flex flex-col h-full p-5 relative overflow-hidden bg-white">
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-bl-full -z-10 pointer-events-none opacity-50" aria-hidden="true" />
             
             <motion.div 
@@ -154,7 +150,7 @@ export default function FindYourPlaceMobile() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
-              className="relative z-10 w-full"
+              className="relative z-10 w-full flex flex-col"
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
@@ -176,7 +172,7 @@ export default function FindYourPlaceMobile() {
                 ))}
               </ul>
 
-              <button className="group inline-flex items-center justify-center mt-34 px-2 py-2 gap-2 w-auto rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[12px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
+              <button className="group inline-flex items-center justify-center mt-8 px-5 py-2.5 gap-2 w-fit rounded-[4px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[12px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none">
                 {selectedRole.ctaLabel}
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>

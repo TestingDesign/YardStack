@@ -43,13 +43,13 @@ export default function FindYourPlaceDesktop() {
       id="find-your-place"
       className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-8 lg:py-12"
     >
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-300/10 rounded-full blur-[120px] pointer-events-none" 
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-300/10 rounded-full blur-[120px] pointer-events-none"
         aria-hidden="true"
       />
 
       <div className="max-w-[1200px] mx-auto px-4 lg:px-8 relative z-10">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
@@ -68,14 +68,14 @@ export default function FindYourPlaceDesktop() {
           </p>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
           className="grid grid-cols-1 lg:grid-cols-[320px_1fr] items-stretch bg-white/80 backdrop-blur-xl rounded-3xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
         >
-          
+
           <div className="flex flex-col h-full p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50/50">
             <div className="flex items-center gap-2.5 mb-5">
               <Target size={18} className="text-purple-600" />
@@ -128,11 +128,10 @@ export default function FindYourPlaceDesktop() {
                       key={role.key}
                       type="button"
                       onClick={() => handleRoleSelect(role)}
-                    className={`px-3.5 py-2 rounded-[4px] text-xs font-bold border transition-all duration-300 ${
-  isSelected
-    ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white border-transparent shadow-[0_2px_12px_rgba(124,58,237,0.3)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.45)] scale-[1.02] hover:scale-[1.03] active:scale-[0.97]'
-    : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-[var(--color-primary-600)] hover:bg-purple-50/50 hover:shadow-sm'
-}`}
+                      className={`px-3.5 py-2 rounded-[4px] text-xs font-bold border transition-all duration-300 ${isSelected
+                          ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white border-transparent shadow-[0_2px_12px_rgba(124,58,237,0.3)] hover:shadow-[0_6px_24px_rgba(124,58,237,0.45)] scale-[1.02] hover:scale-[1.03] active:scale-[0.97]'
+                          : 'bg-white text-gray-600 border-gray-200 hover:border-purple-300 hover:text-[var(--color-primary-600)] hover:bg-purple-50/50 hover:shadow-sm'
+                        }`}
                     >
                       {role.label}
                     </button>
@@ -146,11 +145,11 @@ export default function FindYourPlaceDesktop() {
             <div className="absolute bottom-0 right-0 w-[55%] h-[90%] pointer-events-none z-0" aria-hidden="true">
               <img src={BG} alt="" className="w-full h-full object-contain object-right-bottom opacity-90" draggable={false} />
             </div>
-            
+
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-bl-full -z-10 pointer-events-none opacity-50" aria-hidden="true" />
-            
-            <motion.div 
-              key={selectedRole.key} 
+
+            <motion.div
+              key={selectedRole.key}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}

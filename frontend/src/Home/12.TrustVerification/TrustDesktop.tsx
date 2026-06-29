@@ -83,17 +83,21 @@ export default function TrustDesktop() {
             </span>
           </motion.div>
 
-          <motion.h2 variants={fadeUp} className="relative text-[42px] lg:text-[54px] leading-[1.1] font-extrabold text-slate-900 tracking-[-0.02em] mb-6 pb-3 inline-block">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
-              Real People
-            </span>{' '}
-            & Real Businesses
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-44 h-1.5 pointer-events-none">
-              <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
-                <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-            </div>
-          </motion.h2>
+        <motion.h2 variants={fadeUp} className="relative text-[42px] lg:text-[54px] leading-[1.1] font-extrabold text-slate-900 tracking-[-0.02em] mb-6 pb-3 inline-block">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+    Real
+  </span>
+  {' '}People &{' '}
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+    Real
+  </span>
+  {' '}Businesses
+  <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-44 h-1.5 pointer-events-none">
+    <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
+      <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  </div>
+</motion.h2>
 
           <motion.p variants={fadeUp} className="text-lg text-slate-600 leading-relaxed max-w-[620px] font-medium">
             {TRUST_CONTENT.description}
@@ -102,6 +106,15 @@ export default function TrustDesktop() {
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full">
           <div className="flex-1 max-w-[480px]">
+            <motion.p
+              variants={fadeUp}
+              className="text-lg lg:text-xl font-bold text-slate-800 tracking-tight leading-snug mb-6 text-left"
+            >
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
+                {TRUST_CONTENT.bottomTagline}
+              </span>
+            </motion.p>
+
             <motion.div
               variants={fadeUp}
               className="flex items-start gap-5 bg-white/70 backdrop-blur-xl rounded-[4px] p-6 border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(147,51,234,0.08)] transition-shadow duration-500"
@@ -305,19 +318,7 @@ export default function TrustDesktop() {
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4, ease: 'easeOut' }}
-          className="mt-20 lg:mt-24 text-center"
-        >
-          <p className="text-xl lg:text-2xl font-extrabold text-slate-900 tracking-[-0.01em]">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
-              {TRUST_CONTENT.bottomTagline}
-            </span>
-          </p>
-        </motion.div>
+
       </motion.div>
     </section>
   );

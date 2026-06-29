@@ -83,22 +83,35 @@ export default function TrustMobile() {
             </span>
           </motion.div>
 
-          <motion.h2 variants={fadeUp} className="relative text-[32px] leading-[1.15] font-extrabold text-slate-900 tracking-[-0.02em] mb-4 pb-3 inline-block">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
-              Real People
-            </span>{' '}
-            & Real Businesses
-            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-36 h-1.5 pointer-events-none">
-              <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
-                <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-              </svg>
-            </div>
-          </motion.h2>
+       <motion.h2 variants={fadeUp} className="relative text-[32px] leading-[1.15] font-extrabold text-slate-900 tracking-[-0.02em] mb-4 pb-3 inline-block">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+    Real
+  </span>
+  {' '}People &{' '}
+  <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+    Real
+  </span>
+  {' '}Businesses
+  <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-36 h-1.5 pointer-events-none">
+    <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
+      <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+    </svg>
+  </div>
+</motion.h2>
 
           <motion.p variants={fadeUp} className="text-[15px] font-medium text-slate-600 leading-relaxed max-w-[360px] mx-auto mt-2">
             {TRUST_CONTENT.description}
           </motion.p>
         </div>
+
+        <motion.p
+          variants={fadeUp}
+          className="text-base font-bold text-slate-800 tracking-tight leading-snug mb-5 text-center px-4"
+        >
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
+            {TRUST_CONTENT.bottomTagline}
+          </span>
+        </motion.p>
 
         <motion.div
           variants={fadeUp}
@@ -310,19 +323,7 @@ export default function TrustMobile() {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-20px' }}
-          transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
-          className="text-center"
-        >
-          <p className="text-[16px] font-extrabold text-slate-900 tracking-[-0.01em] leading-snug">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
-              {TRUST_CONTENT.bottomTagline}
-            </span>
-          </p>
-        </motion.div>
+
       </motion.div>
     </section>
   );

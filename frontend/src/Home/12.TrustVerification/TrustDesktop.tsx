@@ -45,7 +45,7 @@ const fadeUp = {
     opacity: 1, 
     y: 0, 
     filter: 'blur(0px)',
-    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as any } 
   },
 };
 
@@ -55,7 +55,7 @@ export default function TrustDesktop() {
   return (
     <section
       id="trust-verification"
-      className="relative bg-[#fafafa] overflow-hidden selection:bg-purple-300 selection:text-purple-950 py-24 lg:py-32"
+      className="relative bg-[#fafafa] overflow-hidden selection:bg-purple-300 selection:text-purple-950 py-16 lg:py-16"
     >
       <style>{keyframeStyles}</style>
 
@@ -71,46 +71,45 @@ export default function TrustDesktop() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-100px' }}
-        className="max-w-[1280px] mx-auto px-6 lg:px-8 relative z-10"
+        className="max-w-[1280px] mx-auto px-6 lg:px-4 relative z-10"
       >
-        <div className="flex flex-col lg:flex-row items-center gap-20 lg:gap-24">
-          <div className="flex-1 max-w-[560px]">
-            <motion.div variants={fadeUp} className="flex items-center gap-3 mb-8">
-              <div className="w-10 h-10 rounded-[2px] bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.3)] ring-1 ring-purple-500/30">
-                <ShieldCheck size={20} className="text-white" strokeWidth={2.5} />
-              </div>
-              <span className="text-[13px] font-black uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-fuchsia-600 to-indigo-600">
-                {TRUST_CONTENT.tagline}
-              </span>
-            </motion.div>
+        <div className="flex flex-col items-center text-center max-w-[800px] mx-auto mb-16">
+          <motion.div variants={fadeUp} className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-[2px] bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 flex items-center justify-center shadow-[0_0_20px_rgba(147,51,234,0.3)] ring-1 ring-purple-500/30">
+              <ShieldCheck size={20} className="text-white" strokeWidth={2.5} />
+            </div>
+            <span className="text-[13px] font-black uppercase tracking-[0.25em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-fuchsia-600 to-indigo-600">
+              {TRUST_CONTENT.tagline}
+            </span>
+          </motion.div>
 
-            <motion.h2 variants={fadeUp} className="text-[42px] lg:text-[54px] leading-[1.1] font-extrabold text-slate-900 tracking-[-0.02em] mb-6">
-              {TRUST_CONTENT.headingPart1}{' '}
-              <br className="hidden sm:block" />
-              <span className="relative whitespace-nowrap">
-                <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
-                  {TRUST_CONTENT.headingHighlight1}
-                </span>
-              </span>{' '}
-              {TRUST_CONTENT.headingConnector}{' '}
-              <br className="hidden sm:block" />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-700">
-                {TRUST_CONTENT.headingHighlight2}
-              </span>
-            </motion.h2>
+          <motion.h2 variants={fadeUp} className="relative text-[42px] lg:text-[54px] leading-[1.1] font-extrabold text-slate-900 tracking-[-0.02em] mb-6 pb-3 inline-block">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+              Real People
+            </span>{' '}
+            & Real Businesses
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-44 h-1.5 pointer-events-none">
+              <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
+                <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </div>
+          </motion.h2>
 
-            <motion.p variants={fadeUp} className="text-lg text-slate-600 leading-relaxed mb-10 max-w-[480px] font-medium">
-              {TRUST_CONTENT.description}
-            </motion.p>
+          <motion.p variants={fadeUp} className="text-lg text-slate-600 leading-relaxed max-w-[620px] font-medium">
+            {TRUST_CONTENT.description}
+          </motion.p>
+        </div>
 
+        <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full">
+          <div className="flex-1 max-w-[480px]">
             <motion.div
               variants={fadeUp}
-              className="flex items-start gap-5 bg-white/70 backdrop-blur-xl rounded-[4px] p-6 border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-w-[480px] hover:shadow-[0_8px_30px_rgb(147,51,234,0.08)] transition-shadow duration-500"
+              className="flex items-start gap-5 bg-white/70 backdrop-blur-xl rounded-[4px] p-6 border border-white/80 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(147,51,234,0.08)] transition-shadow duration-500"
             >
               <div className="w-12 h-12 rounded-[2px] bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20" style={{ animation: 'beaconPulse 2.5s infinite' }}>
                 <CheckCircle2 size={22} className="text-white" strokeWidth={2.5} />
               </div>
-              <div>
+              <div className="text-left">
                 <h4 className="text-base font-bold text-slate-900 mb-1.5">{TRUST_CONTENT.calloutTitle}</h4>
                 <p className="text-sm font-medium text-slate-500 leading-relaxed">{TRUST_CONTENT.calloutDescription}</p>
               </div>

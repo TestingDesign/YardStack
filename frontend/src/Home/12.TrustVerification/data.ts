@@ -21,10 +21,10 @@ export interface VerificationMethod {
 
 export const TRUST_CONTENT = {
   tagline: "TRUST IS OUR FOUNDATION",
-  headingPart1: "Do business with",
-  headingHighlight1: "real people",
-  headingConnector: "and",
-  headingHighlight2: "real business.",
+  headingPart1: "Real People",
+  headingHighlight1: "",
+  headingConnector: "&",
+  headingHighlight2: "Real Businesses",
   description: "N4RE is a verified network of professionals and businesses across the real estate ecosystem.",
   calloutTitle: "Multi-layered. Optional Verification.",
   calloutDescription: "You choose how you verify. Every verified layer helps you build trust and unlock more opportunities.",
@@ -48,7 +48,7 @@ export const VERIFICATION_METHODS: VerificationMethod[] = [
   {
     id: 'aadhaar',
     icon: ShieldCheck,
-    label: 'Aadhaar',
+    label: 'Aadhaar (Optional)',
     description: 'Verify with Aadhaar',
     color: '#0369A1',
     bgFrom: '#E0F2FE',
@@ -60,7 +60,7 @@ export const VERIFICATION_METHODS: VerificationMethod[] = [
   {
     id: 'pan',
     icon: CreditCard,
-    label: 'PAN',
+    label: 'PAN (Optional)',
     description: 'Verify your identity',
     color: '#059669',
     bgFrom: '#D1FAE5',

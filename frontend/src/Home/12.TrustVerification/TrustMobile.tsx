@@ -45,7 +45,7 @@ const fadeUp = {
     opacity: 1, 
     y: 0, 
     filter: 'blur(0px)',
-    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } 
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as any } 
   },
 };
 
@@ -73,31 +73,32 @@ export default function TrustMobile() {
         viewport={{ once: true, margin: '-50px' }}
         className="px-5 relative z-10 max-w-[400px] mx-auto"
       >
-        <motion.div variants={fadeUp} className="flex items-center gap-2 mb-6">
-          <div className="w-8 h-8 rounded-[2px] bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 flex items-center justify-center shadow-[0_0_15px_rgba(147,51,234,0.3)] ring-1 ring-purple-500/30">
-            <ShieldCheck size={16} className="text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-[11px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-fuchsia-600 to-indigo-600">
-            {TRUST_CONTENT.tagline}
-          </span>
-        </motion.div>
-
-        <motion.h2 variants={fadeUp} className="text-[32px] leading-[1.15] font-extrabold text-slate-900 tracking-[-0.02em] mb-4">
-          {TRUST_CONTENT.headingPart1}{' '}
-          <span className="relative whitespace-nowrap">
-            <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
-              {TRUST_CONTENT.headingHighlight1}
+        <div className="flex flex-col items-center text-center w-full mb-8">
+          <motion.div variants={fadeUp} className="flex items-center gap-2 mb-5">
+            <div className="w-8 h-8 rounded-[2px] bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 flex items-center justify-center shadow-[0_0_15px_rgba(147,51,234,0.3)] ring-1 ring-purple-500/30">
+              <ShieldCheck size={16} className="text-white" strokeWidth={2.5} />
+            </div>
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-fuchsia-600 to-indigo-600">
+              {TRUST_CONTENT.tagline}
             </span>
-          </span>{' '}
-          {TRUST_CONTENT.headingConnector}{' '}
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-700">
-            {TRUST_CONTENT.headingHighlight2}
-          </span>
-        </motion.h2>
+          </motion.div>
 
-        <motion.p variants={fadeUp} className="text-[15px] font-medium text-slate-600 leading-relaxed mb-6">
-          {TRUST_CONTENT.description}
-        </motion.p>
+          <motion.h2 variants={fadeUp} className="relative text-[32px] leading-[1.15] font-extrabold text-slate-900 tracking-[-0.02em] mb-4 pb-3 inline-block">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600">
+              Real People
+            </span>{' '}
+            & Real Businesses
+            <div className="absolute left-1/2 -translate-x-1/2 bottom-0 w-36 h-1.5 pointer-events-none">
+              <svg viewBox="0 0 200 12" fill="none" className="w-full h-full text-purple-500/70">
+                <path d="M2 8 C 50 2, 150 2, 198 8" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+            </div>
+          </motion.h2>
+
+          <motion.p variants={fadeUp} className="text-[15px] font-medium text-slate-600 leading-relaxed max-w-[360px] mx-auto mt-2">
+            {TRUST_CONTENT.description}
+          </motion.p>
+        </div>
 
         <motion.div
           variants={fadeUp}

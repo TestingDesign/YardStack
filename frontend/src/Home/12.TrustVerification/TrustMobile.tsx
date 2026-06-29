@@ -104,14 +104,16 @@ export default function TrustMobile() {
           </motion.p>
         </div>
 
-        <motion.p
+        <motion.h3
           variants={fadeUp}
-          className="text-base font-bold text-slate-800 tracking-tight leading-snug mb-5 text-center px-4"
+          className="text-xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4 text-center px-4"
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
-            {TRUST_CONTENT.bottomTagline}
+            Your verification. Your choice.
+            <br />
+            More confidence in every connection.
           </span>
-        </motion.p>
+        </motion.h3>
 
         <motion.div
           variants={fadeUp}

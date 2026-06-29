@@ -29,7 +29,6 @@ export const TRUST_CONTENT = {
   calloutTitle: "Multi-layered. Optional Verification.",
   calloutDescription: "You choose how you verify. Every verified layer helps you build trust and unlock more opportunities.",
   shieldText: "N4RE VERIFIED",
-  bottomTagline: "Your verification. Your choice. More confidence in every connection.",
 };
 
 export const VERIFICATION_METHODS: VerificationMethod[] = [

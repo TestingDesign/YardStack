@@ -106,14 +106,16 @@ export default function TrustDesktop() {
 
         <div className="flex flex-col lg:flex-row items-center justify-center gap-16 lg:gap-24 w-full">
           <div className="flex-1 max-w-[480px]">
-            <motion.p
+            <motion.h3
               variants={fadeUp}
-              className="text-lg lg:text-xl font-bold text-slate-800 tracking-tight leading-snug mb-6 text-left"
+              className="text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight leading-tight mb-5 text-left"
             >
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-800 via-indigo-600 to-amber-600">
-                {TRUST_CONTENT.bottomTagline}
+                Your verification. Your choice.
+                <br />
+                More confidence in every connection.
               </span>
-            </motion.p>
+            </motion.h3>
 
             <motion.div
               variants={fadeUp}

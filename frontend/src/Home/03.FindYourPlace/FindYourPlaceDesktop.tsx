@@ -73,7 +73,7 @@ export default function FindYourPlaceDesktop() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="grid grid-cols-1 lg:grid-cols-[320px_1fr] items-stretch bg-white/80 backdrop-blur-xl rounded-3xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
+          className="grid grid-cols-1 lg:grid-cols-[320px_1fr] items-stretch bg-white/80 backdrop-blur-xl rounded-[4px] border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
         >
 
           <div className="flex flex-col h-full p-6 lg:p-8 border-b lg:border-b-0 lg:border-r border-gray-100 bg-gray-50/50">

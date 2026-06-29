@@ -15,14 +15,13 @@ import FooterMobile from './09.Footer/FooterMobile';
 interface HomeMobileProps {
   viewMode: 'desktop' | 'mobile';
 }
-
 const MobileScrollReveal = ({ children }: { children: React.ReactNode }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }} 
-      transition={{ duration: 0.6, ease: [0.25, 0.25, 0, 1] }} 
+      initial={{ opacity: 0.2 }} 
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "0px" }} 
+      transition={{ duration: 0.8, ease: "easeInOut" }} 
     >
       {children}
     </motion.div>
@@ -31,7 +30,8 @@ const MobileScrollReveal = ({ children }: { children: React.ReactNode }) => {
 
 export default function HomeMobile({ viewMode }: HomeMobileProps) {
   return (
-    <div className="h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar [&>*]:shrink-0 flex flex-col">
+    <div className="h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar [&>*]:shrink-0 flex flex-col gap-8 pb-10">
+      
       <motion.div 
         initial={{ y: -60, opacity: 0 }} 
         animate={{ y: 0, opacity: 1 }} 

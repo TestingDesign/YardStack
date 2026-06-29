@@ -55,7 +55,7 @@ export default function TrustMobile() {
   return (
     <section
       id="trust-verification"
-      className="relative bg-[#fafafa] overflow-hidden selection:bg-purple-300 selection:text-purple-950 py-16"
+      className="relative bg-[#fafafa] overflow-hidden selection:bg-purple-300 selection:text-purple-950 py-8"
     >
       <style>{keyframeStyles}</style>
 

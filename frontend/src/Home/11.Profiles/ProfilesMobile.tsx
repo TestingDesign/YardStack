@@ -110,7 +110,7 @@ export default function ProfilesMobile() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[4px] sm:rounded-[4px] border border-purple-100 shadow-[0_10px_30px_-5px_rgba(107,33,168,0.1)] p-4 sm:p-5 overflow-hidden w-full flex flex-col items-center"
+          className="bg-gradient-to-br from-purple-50 via-white to-purple-50/30 rounded-[4px] sm:rounded-[4px] p-4 sm:p-5 overflow-hidden w-full flex flex-col items-center"
         >
           <div className="flex flex-col items-center text-center mb-6 max-w-[340px]">
             <h3 className="text-[22px] font-extrabold text-[var(--color-text-primary)] leading-[1.2] mb-3 whitespace-pre-line">

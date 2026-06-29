@@ -9,7 +9,6 @@ import {
   Target
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
-import BG from './BG.png';
 
 export default function FindYourPlaceMobile() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -41,7 +40,7 @@ export default function FindYourPlaceMobile() {
   return (
     <section
       id="find-your-place"
-      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-12"
+      className="relative bg-slate-50 overflow-hidden selection:bg-purple-200 selection:text-purple-900 py-4"
     >
       <div 
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-purple-300/10 rounded-full blur-[80px] pointer-events-none" 
@@ -73,7 +72,7 @@ export default function FindYourPlaceMobile() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="flex flex-col bg-white/80 backdrop-blur-xl rounded-[8px] border border-white shadow-2xl shadow-purple-900/5 overflow-hidden"
+          className="flex flex-col "
         >
           
           <div className="flex flex-col p-5 border-b border-gray-100 bg-gray-50/50">
@@ -142,7 +141,7 @@ export default function FindYourPlaceMobile() {
             </div>
           </div>
 
-          <div className="flex flex-col h-full p-5 relative overflow-hidden bg-white">
+          <div className="flex flex-col h-full p-5 relative overflow-hidden ">
             <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-gradient-to-br from-purple-100/40 to-transparent rounded-bl-full -z-10 pointer-events-none opacity-50" aria-hidden="true" />
             
             <motion.div 

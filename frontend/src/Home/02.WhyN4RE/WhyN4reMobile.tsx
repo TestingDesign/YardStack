@@ -73,9 +73,9 @@ export default function WhyN4reMobile() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
-            className="rounded-[12px] bg-white border border-gray-100 shadow-[0_8px_30px_rgba(0,0,0,0.04)] overflow-hidden"
+            className=" overflow-hidden"
           >
-            <div className="p-5 bg-gray-50/50">
+            <div className="p-4">
               <div className="flex items-center gap-3 mb-5">
                 <div className="relative flex h-2.5 w-2.5 items-center justify-center">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
@@ -107,9 +107,9 @@ export default function WhyN4reMobile() {
               </ul>
             </div>
 
-            <div className="relative h-12 flex items-center justify-center bg-gray-50/50 border-t border-b border-gray-100">
-              <div className="absolute left-6 right-6 top-1/2 h-px border-t border-dashed border-gray-200 -translate-y-1/2" />
-              <div className="relative z-10 w-10 h-10 rounded-full bg-white border border-gray-100 shadow-sm text-purple-700 flex items-center justify-center animate-bounce">
+            <div className="relative h-12 flex items-center justify-center ">
+              <div className="absolute left-6 right-6 top-1/2 h-px  -translate-y-1/2" />
+              <div className="relative z-10 w-10 h-10 rounded-full shadow-sm text-purple-700 flex items-center justify-center animate-bounce">
                 <ChevronDown size={20} strokeWidth={2.5} />
               </div>
             </div>

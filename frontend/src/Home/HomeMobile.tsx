@@ -7,6 +7,7 @@ import PillarsMobile from './04.ThreePillars/PillarsMobile';
 import PlatformPreviewMobile from './05.Preview/PlatformPreviewMobile';
 import SegmentsMobile from './10.Segments/SegmentsMobile';
 import ProfilesMobile from './11.Profiles/ProfilesMobile'
+import TrustMobile from './12.TrustVerification/TrustMobile';
 /* import ComingSoonMobile from './07.ComingSoon/ComingSoonMobile'; */
 import FinalCtaMobile from './08.CTA/FinalCtaMobile';
 import FooterMobile from './09.Footer/FooterMobile';
@@ -68,6 +69,11 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       </MobileScrollReveal>
 
       <ProfilesMobile />
+
+      <MobileScrollReveal>
+        <TrustMobile />
+      </MobileScrollReveal>
+
       {/* <ComingSoonMobile /> */}
 
       <MobileScrollReveal>

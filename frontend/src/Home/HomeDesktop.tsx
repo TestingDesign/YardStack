@@ -8,6 +8,7 @@ import PillarsDesktop from './04.ThreePillars/PillarsDesktop';
 import PlatformPreviewDesktop from './05.Preview/PlatformPreviewDesktop';
 import SegmentsDesktop from './10.Segments/SegmentsDesktop';
 import ProfilesDesktop from './11.Profiles/ProfilesDesktop';
+import TrustDesktop from './12.TrustVerification/TrustDesktop';
 /* import ComingSoonDesktop from './07.ComingSoon/ComingSoonDesktop'; */
 import FinalCtaDesktop from './08.CTA/FinalCtaDesktop';
 import FooterDesktop from './09.Footer/FooterDesktop';
@@ -73,6 +74,11 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
       </ScrollReveal>
 
       <ProfilesDesktop />
+
+      <ScrollReveal>
+        <TrustDesktop />
+      </ScrollReveal>
+
       {/* <ComingSoonDesktop /> */}
 
       <ScrollReveal>

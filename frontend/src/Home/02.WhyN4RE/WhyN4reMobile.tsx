@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronDown, Sparkles } from 'lucide-react';
+import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ChevronDown, Sparkles, Globe, Briefcase, Megaphone } from 'lucide-react';
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
 const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string; size?: number }) => {
@@ -12,6 +12,9 @@ const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string;
     case 'book': return <BookOpen {...props} />;
     case 'message': return <MessageSquare {...props} />;
     case 'file-text': return <FileText {...props} />;
+    case 'globe': return <Globe {...props} />;
+    case 'briefcase': return <Briefcase {...props} />;
+    case 'megaphone': return <Megaphone {...props} />;
     default: return null;
   }
 };

@@ -32,24 +32,24 @@ export interface N4reSolution {
 
 export const N4RE_SOLUTIONS: N4reSolution[] = [
   {
-    pillar: 'CONTENT',
-    icon: 'file-text',
+    pillar: 'One Connected Ecosystem',
+    icon: 'globe',
     color: '#4C1D95',
     bgColor: '#EDE9FE',
-    description: 'Learn from experts, practitioners and industry leaders.',
+    description: 'Connect, collaborate, learn and grow through a single professional ecosystem.',
   },
   {
-    pillar: 'CONNECTIONS',
-    icon: 'users',
+    pillar: 'Discover & Create Opportunities',
+    icon: 'briefcase',
     color: '#15803D',
     bgColor: '#DCFCE7',
-    description: 'Discover professionals, businesses and opportunities.',
+    description: 'Find or publish jobs, business requirements, vendor requirements, partnerships and collaboration opportunities.',
   },
   {
-    pillar: 'CONVERSATIONS',
-    icon: 'message',
+    pillar: 'Build Your Presence',
+    icon: 'megaphone',
     color: '#C2410C',
     bgColor: '#FFEDD5',
-    description: 'Engage, collaborate and grow through meaningful interactions.',
+    description: 'Publish content, build your professional brand and learn from industry experts through engaging video-first experiences.',
   },
 ]

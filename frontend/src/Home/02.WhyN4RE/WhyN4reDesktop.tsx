@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ArrowRight, Sparkles } from 'lucide-react';
+import { PlaySquare, MessageCircle, BookOpen, MessageSquare, FileText, Users, ArrowRight, Sparkles, Globe, Briefcase, Megaphone } from 'lucide-react';
 import { WHY_N4RE_CONTENT, TODAY_PROBLEMS, N4RE_SOLUTIONS } from './data';
 
 const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string; size?: number }) => {
@@ -13,6 +13,9 @@ const IconRenderer = ({ icon, color, size = 18 }: { icon: string; color: string;
     case 'book': return <BookOpen {...props} />;
     case 'message': return <MessageSquare {...props} />;
     case 'file-text': return <FileText {...props} />;
+    case 'globe': return <Globe {...props} />;
+    case 'briefcase': return <Briefcase {...props} />;
+    case 'megaphone': return <Megaphone {...props} />;
     default: return null;
   }
 };
@@ -70,7 +73,7 @@ export default function WhyN4reDesktop() {
           <div className="rounded-[8px] bg-white/80 backdrop-blur-xl border border-white shadow-2xl shadow-purple-900/5 overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] relative">
               
-              <div className="p-6 lg:p-12 bg-gray-50/50">
+              <div className="p-4 lg:p-8 bg-gray-50/50">
                 <div className="flex items-center gap-3 mb-8">
                   <div className="relative flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>

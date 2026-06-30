@@ -80,7 +80,7 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
   }, [onNext, onPrev])
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-neutral-950 animate-in fade-in duration-500 overflow-hidden relative font-sans">
+    <div className="w-full h-full flex items-center justify-center bg-neutral-950 animate-in fade-in duration-500 overflow-hidden relative">
       
       <button 
         onClick={onClose}

@@ -6,6 +6,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Outfit'],
+        serif: ['Outfit'],
+        mono: ['Outfit'],
+      },
       colors: {
         brand: {
           purple:           "#6B21A8",

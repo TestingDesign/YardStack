@@ -442,7 +442,7 @@ export default function PlatformPreviewDesktop() {
                         {tab.badge}
                       </span>
                     )}
-                    <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-gray-800' : 'text-gray-600'}`}>
+                    <p className={`text-[12px] leading-relaxed transition-colors duration-300 ${isActive ? 'text-gray-800' : 'text-gray-600'}`}>
                       {tab.description}
                     </p>
                   </div>

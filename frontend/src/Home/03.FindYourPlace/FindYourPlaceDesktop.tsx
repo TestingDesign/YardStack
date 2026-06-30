@@ -8,10 +8,9 @@ import {
   Building, MonitorPlay, Handshake, UserPlus, Network, Layout, Inbox, Award, Clock,
   BarChart, PieChart, Shield, Repeat, Laptop, Bell, Code, Zap, Workflow, Settings,
   Wrench, PlayCircle, MessageCircle, Image, Share2, CreditCard, DollarSign, Mic, ThumbsUp,
-  Calendar, Send
+  Calendar, Send, Plus, Minus
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
-import BG from './BG.png';
 
 const ICONS: Record<string, any> = {
   Building2, Users, BarChart3, Megaphone, Monitor, Palette,
@@ -55,6 +54,7 @@ export default function FindYourPlaceDesktop() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<'offer' | 'get'>('offer');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const filteredRoles = useMemo(() => {
@@ -66,6 +66,7 @@ export default function FindYourPlaceDesktop() {
     setSelectedRole(role);
     setSearchQuery('');
     setIsDropdownOpen(false);
+    setActiveAccordion('offer');
   }, []);
 
   useEffect(() => {
@@ -211,16 +212,6 @@ export default function FindYourPlaceDesktop() {
                 className="flex flex-col h-full"
               >
                 <div className="relative px-8 pt-4 pb-3 ">
-                  <motion.div 
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 0.8, scale: 1 }}
-                    transition={{ duration: 0.8 }}
-                    className="absolute top-0 right-0 w-[220px] h-[140px] pointer-events-none z-0" 
-                    aria-hidden="true"
-                  >
-                    <img src={BG} alt="" className="w-[800px] h-auto object-contain object-right-top mix-blend-multiply" draggable={false} />
-                  </motion.div>
-
                   <div className="relative z-10 max-w-[65%]">
                     <div className="flex items-center gap-3 mb-2">
                       <motion.div 
@@ -236,83 +227,126 @@ export default function FindYourPlaceDesktop() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-0 flex-1">
-                  <div className="p-4 group">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-9 h-9 rounded-[4px] bg-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/30 transition-transform duration-300 group-hover:scale-110">
-                        <Send size={18} className="text-white" strokeWidth={2.5} />
-                      </div>
-                      <h4 className="text-[17px] font-extrabold text-emerald-600 tracking-tight">
-                        What You Can Offer
-                      </h4>
-                    </div>
-
-                    <motion.ul 
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="flex flex-col gap-5"
+                <div className="flex flex-col flex-1 p-4 gap-4">
+                  <div className={`rounded-[4px] border transition-colors duration-300 ${activeAccordion === 'offer' ? 'bg-emerald-50/40 border-emerald-200' : 'bg-white border-gray-200 hover:border-emerald-200'}`}>
+                    <button
+                      onClick={() => setActiveAccordion(activeAccordion === 'offer' ? 'get' : 'offer')}
+                      className="w-full flex items-center justify-between p-4 outline-none focus-visible:bg-emerald-50/50 rounded-[8px]"
                     >
-                      {selectedRole.offerPoints.map((point, i) => (
-                        <motion.li 
-                          key={i} 
-                          variants={itemVariants} 
-                          whileHover={{ x: 4 }}
-                          className="flex items-start gap-3 p-2 -ml-2 rounded-[4px] hover:bg-emerald-50/50 transition-colors duration-200"
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-[4px] bg-emerald-500 flex items-center justify-center shadow-md shadow-emerald-500/20">
+                          <Send size={18} className="text-white" strokeWidth={2.5} />
+                        </div>
+                        <h4 className="text-[17px] font-extrabold text-emerald-600 tracking-tight">
+                          What You Can Offer
+                        </h4>
+                      </div>
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors border ${activeAccordion === 'offer' ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-transparent border-gray-300 text-gray-400'}`}>
+                        {activeAccordion === 'offer' ? <Minus size={14} strokeWidth={3} /> : <Plus size={14} strokeWidth={3} />}
+                      </div>
+                    </button>
+                    
+                    <AnimatePresence>
+                      {activeAccordion === 'offer' && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
                         >
-                          <div className="w-10 h-10 rounded-[4px] bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-200/60 shadow-sm">
-                            <Icon name={point.icon} size={18} className="text-emerald-600" strokeWidth={1.5} />
+                          <div className="p-4 pt-0 pl-16">
+                            <motion.ul 
+                              variants={containerVariants}
+                              initial="hidden"
+                              animate="visible"
+                              className="flex flex-col gap-5"
+                            >
+                              {selectedRole.offerPoints.map((point, i) => (
+                                <motion.li 
+                                  key={i} 
+                                  variants={itemVariants} 
+                                  className="flex items-start gap-3 p-2 -ml-2 rounded-[4px] hover:bg-emerald-50/80 transition-colors duration-200"
+                                >
+                                  <div className="w-10 h-10 rounded-[4px] bg-white flex items-center justify-center shrink-0 border border-emerald-200/60 shadow-sm">
+                                    <Icon name={point.icon} size={18} className="text-emerald-600" strokeWidth={1.5} />
+                                  </div>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-[14px] font-bold text-gray-900 leading-snug">
+                                      {point.title}
+                                    </span>
+                                    <span className="text-[12.5px] font-medium text-gray-500 leading-relaxed mt-0.5">
+                                      {point.description}
+                                    </span>
+                                  </div>
+                                </motion.li>
+                              ))}
+                            </motion.ul>
                           </div>
-                          <div className="flex flex-col min-w-0">
-                            <span className="text-[14px] font-bold text-gray-900 leading-snug">
-                              {point.title}
-                            </span>
-                            <span className="text-[12.5px] font-medium text-gray-500 leading-relaxed mt-0.5">
-                              {point.description}
-                            </span>
-                          </div>
-                        </motion.li>
-                      ))}
-                    </motion.ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
 
-                  <div className="p-8 group">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-9 h-9 rounded-[4px] bg-purple-600 flex items-center justify-center shadow-lg shadow-purple-600/30 transition-transform duration-300 group-hover:scale-110">
-                        <Inbox size={18} className="text-white" strokeWidth={2.5} />
-                      </div>
-                      <h4 className="text-[17px] font-extrabold text-purple-600 tracking-tight">
-                        What You Can Get
-                      </h4>
-                    </div>
-
-                    <motion.ul 
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                      className="flex flex-col gap-5"
+                  {/* Get Accordion */}
+                  <div className={`rounded-[8px] border transition-colors duration-300 ${activeAccordion === 'get' ? 'bg-purple-50/50 border-purple-200' : 'bg-white border-gray-200 hover:border-purple-200'}`}>
+                    <button
+                      onClick={() => setActiveAccordion(activeAccordion === 'get' ? 'offer' : 'get')}
+                      className="w-full flex items-center justify-between p-4 outline-none focus-visible:bg-purple-50/50 rounded-[8px]"
                     >
-                      {selectedRole.getPoints.map((point, i) => (
-                        <motion.li 
-                          key={i} 
-                          variants={itemVariants} 
-                          whileHover={{ x: 4 }}
-                          className="flex items-start gap-3 p-2 -ml-2 rounded-[4px] hover:bg-purple-50/50 transition-colors duration-200"
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-[4px] bg-purple-600 flex items-center justify-center shadow-md shadow-purple-600/20">
+                          <Inbox size={18} className="text-white" strokeWidth={2.5} />
+                        </div>
+                        <h4 className="text-[17px] font-extrabold text-purple-600 tracking-tight">
+                          What You Can Get
+                        </h4>
+                      </div>
+                      <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors border ${activeAccordion === 'get' ? 'bg-purple-600 border-purple-600 text-white' : 'bg-transparent border-gray-300 text-gray-400'}`}>
+                        {activeAccordion === 'get' ? <Minus size={14} strokeWidth={3} /> : <Plus size={14} strokeWidth={3} />}
+                      </div>
+                    </button>
+                    
+                    <AnimatePresence>
+                      {activeAccordion === 'get' && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="overflow-hidden"
                         >
-                          <div className="w-10 h-10 rounded-[4px] bg-purple-50 flex items-center justify-center shrink-0 border border-purple-200/60 shadow-sm">
-                            <Icon name={point.icon} size={18} className="text-purple-600" strokeWidth={1.5} />
+                          <div className="p-4 pt-0 pl-16">
+                            <motion.ul 
+                              variants={containerVariants}
+                              initial="hidden"
+                              animate="visible"
+                              className="flex flex-col gap-5"
+                            >
+                              {selectedRole.getPoints.map((point, i) => (
+                                <motion.li 
+                                  key={i} 
+                                  variants={itemVariants} 
+                                  className="flex items-start gap-3 p-2 -ml-2 rounded-[4px] hover:bg-purple-50/80 transition-colors duration-200"
+                                >
+                                  <div className="w-10 h-10 rounded-[4px] bg-white flex items-center justify-center shrink-0 border border-purple-200/60 shadow-sm">
+                                    <Icon name={point.icon} size={18} className="text-purple-600" strokeWidth={1.5} />
+                                  </div>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-[14px] font-bold text-gray-900 leading-snug">
+                                      {point.title}
+                                    </span>
+                                    <span className="text-[12.5px] font-medium text-gray-500 leading-relaxed mt-0.5">
+                                      {point.description}
+                                    </span>
+                                  </div>
+                                </motion.li>
+                              ))}
+                            </motion.ul>
                           </div>
-                          <div className="flex flex-col min-w-0">
-                            <span className="text-[14px] font-bold text-gray-900 leading-snug">
-                              {point.title}
-                            </span>
-                            <span className="text-[12.5px] font-medium text-gray-500 leading-relaxed mt-0.5">
-                              {point.description}
-                            </span>
-                          </div>
-                        </motion.li>
-                      ))}
-                    </motion.ul>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </div>
 

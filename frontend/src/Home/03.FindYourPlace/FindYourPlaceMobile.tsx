@@ -8,7 +8,7 @@ import {
   Building, MonitorPlay, Handshake, UserPlus, Network, Layout, Inbox, Award, Clock,
   BarChart, PieChart, Shield, Repeat, Laptop, Bell, Code, Zap, Workflow, Settings,
   Wrench, PlayCircle, MessageCircle, Image, Share2, CreditCard, DollarSign, Mic, ThumbsUp,
-  Calendar, Send
+  Calendar, Send, Plus, Minus
 } from 'lucide-react';
 import { FIND_YOUR_PLACE_CONTENT, ROLES, POPULAR_ROLES, type RoleInfo } from './data';
 
@@ -52,6 +52,7 @@ export default function FindYourPlaceMobile() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState<RoleInfo>(ROLES[0]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<'offer' | 'get'>('offer');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const filteredRoles = useMemo(() => {
@@ -63,6 +64,7 @@ export default function FindYourPlaceMobile() {
     setSelectedRole(role);
     setSearchQuery('');
     setIsDropdownOpen(false);
+    setActiveAccordion('offer');
   }, []);
 
   useEffect(() => {
@@ -206,72 +208,120 @@ export default function FindYourPlaceMobile() {
                 </div>
               </div>
 
-              <div className="px-4 pt-5 pb-4 border-b border-gray-100">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-7 h-7 rounded-full bg-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/20">
-                    <Send size={14} className="text-white" strokeWidth={2.5} />
-                  </div>
-                  <h4 className="text-[14px] font-extrabold text-emerald-600 tracking-tight">
-                    What You Can Offer
-                  </h4>
+              <div className="flex flex-col gap-3 px-4 pt-5 pb-4 border-b border-gray-100">
+                {/* Offer Accordion */}
+                <div className={`rounded-[8px] border transition-colors duration-300 ${activeAccordion === 'offer' ? 'bg-emerald-50/40 border-emerald-200' : 'bg-white border-gray-200 hover:border-emerald-200'}`}>
+                  <button
+                    onClick={() => setActiveAccordion(activeAccordion === 'offer' ? 'get' : 'offer')}
+                    className="w-full flex items-center justify-between p-3.5 outline-none rounded-[8px]"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-[4px] bg-emerald-500 flex items-center justify-center shadow-sm shadow-emerald-500/20">
+                        <Send size={15} className="text-white" strokeWidth={2.5} />
+                      </div>
+                      <h4 className="text-[15px] font-extrabold text-emerald-600 tracking-tight">
+                        What You Can Offer
+                      </h4>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors border ${activeAccordion === 'offer' ? 'bg-emerald-500 border-emerald-500 text-white' : 'bg-transparent border-gray-300 text-gray-400'}`}>
+                      {activeAccordion === 'offer' ? <Minus size={12} strokeWidth={3} /> : <Plus size={12} strokeWidth={3} />}
+                    </div>
+                  </button>
+                  
+                  <AnimatePresence>
+                    {activeAccordion === 'offer' && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="p-3 pt-0 pl-14">
+                          <motion.ul 
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            className="flex flex-col gap-4"
+                          >
+                            {selectedRole.offerPoints.map((point, i) => (
+                              <motion.li key={i} variants={itemVariants} className="flex items-start gap-2.5 p-1 -ml-1 rounded-[4px] hover:bg-emerald-50/50">
+                                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-emerald-100/60 shadow-sm">
+                                  <Icon name={point.icon} size={15} className="text-emerald-600" strokeWidth={1.5} />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-[12px] font-bold text-gray-900 leading-snug">
+                                    {point.title}
+                                  </span>
+                                  <span className="text-[11px] font-medium text-gray-500 leading-relaxed mt-0.5">
+                                    {point.description}
+                                  </span>
+                                </div>
+                              </motion.li>
+                            ))}
+                          </motion.ul>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                <motion.ul 
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="flex flex-col gap-4"
-                >
-                  {selectedRole.offerPoints.map((point, i) => (
-                    <motion.li key={i} variants={itemVariants} className="flex items-start gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-emerald-50 flex items-center justify-center shrink-0 border border-emerald-100/60">
-                        <Icon name={point.icon} size={15} className="text-emerald-600" strokeWidth={1.5} />
+                {/* Get Accordion */}
+                <div className={`rounded-[8px] border transition-colors duration-300 ${activeAccordion === 'get' ? 'bg-purple-50/50 border-purple-200' : 'bg-white border-gray-200 hover:border-purple-200'}`}>
+                  <button
+                    onClick={() => setActiveAccordion(activeAccordion === 'get' ? 'offer' : 'get')}
+                    className="w-full flex items-center justify-between p-3.5 outline-none rounded-[8px]"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-[4px] bg-purple-600 flex items-center justify-center shadow-sm shadow-purple-600/20">
+                        <Inbox size={15} className="text-white" strokeWidth={2.5} />
                       </div>
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[12px] font-bold text-gray-900 leading-snug">
-                          {point.title}
-                        </span>
-                        <span className="text-[11px] font-medium text-gray-500 leading-relaxed mt-0.5">
-                          {point.description}
-                        </span>
-                      </div>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </div>
-
-              <div className="px-4 pt-5 pb-4 border-b border-gray-100">
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div className="w-7 h-7 rounded-full bg-purple-600 flex items-center justify-center shadow-sm shadow-purple-600/20">
-                    <Inbox size={14} className="text-white" strokeWidth={2.5} />
-                  </div>
-                  <h4 className="text-[14px] font-extrabold text-purple-600 tracking-tight">
-                    What You Can Get
-                  </h4>
+                      <h4 className="text-[15px] font-extrabold text-purple-600 tracking-tight">
+                        What You Can Get
+                      </h4>
+                    </div>
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-colors border ${activeAccordion === 'get' ? 'bg-purple-600 border-purple-600 text-white' : 'bg-transparent border-gray-300 text-gray-400'}`}>
+                      {activeAccordion === 'get' ? <Minus size={12} strokeWidth={3} /> : <Plus size={12} strokeWidth={3} />}
+                    </div>
+                  </button>
+                  
+                  <AnimatePresence>
+                    {activeAccordion === 'get' && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="p-3 pt-0 pl-14">
+                          <motion.ul 
+                            variants={containerVariants}
+                            initial="hidden"
+                            animate="visible"
+                            className="flex flex-col gap-4"
+                          >
+                            {selectedRole.getPoints.map((point, i) => (
+                              <motion.li key={i} variants={itemVariants} className="flex items-start gap-2.5 p-1 -ml-1 rounded-[4px] hover:bg-purple-50/50">
+                                <div className="w-8 h-8 rounded-md bg-white flex items-center justify-center shrink-0 border border-purple-100/60 shadow-sm">
+                                  <Icon name={point.icon} size={15} className="text-purple-600" strokeWidth={1.5} />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-[12px] font-bold text-gray-900 leading-snug">
+                                    {point.title}
+                                  </span>
+                                  <span className="text-[11px] font-medium text-gray-500 leading-relaxed mt-0.5">
+                                    {point.description}
+                                  </span>
+                                </div>
+                              </motion.li>
+                            ))}
+                          </motion.ul>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-
-                <motion.ul 
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="visible"
-                  className="flex flex-col gap-4"
-                >
-                  {selectedRole.getPoints.map((point, i) => (
-                    <motion.li key={i} variants={itemVariants} className="flex items-start gap-2.5">
-                      <div className="w-8 h-8 rounded-md bg-purple-50 flex items-center justify-center shrink-0 border border-purple-100/60">
-                        <Icon name={point.icon} size={15} className="text-purple-600" strokeWidth={1.5} />
-                      </div>
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-[12px] font-bold text-gray-900 leading-snug">
-                          {point.title}
-                        </span>
-                        <span className="text-[11px] font-medium text-gray-500 leading-relaxed mt-0.5">
-                          {point.description}
-                        </span>
-                      </div>
-                    </motion.li>
-                  ))}
-                </motion.ul>
               </div>
 
               <div className="px-10 py-5 flex justify-center">

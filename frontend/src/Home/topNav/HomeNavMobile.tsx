@@ -13,8 +13,8 @@ export default function HomeNavMobile({ viewMode }: HomeNavMobileProps) {
       <motion.header 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)]"
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="sticky top-0 z-50 bg-white/95 backdrop-blur-xl border-b border-purple-900/5 shadow-[0_4px_30px_rgba(0,0,0,0.04)]"
       >
         <div className="flex items-center justify-between min-h-[80px] py-2 px-4">
           <a

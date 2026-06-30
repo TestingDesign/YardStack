@@ -60,11 +60,11 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
       </ScrollReveal>
 
       <ScrollReveal>
-        <PillarsDesktop />
+        <PlatformPreviewDesktop />
       </ScrollReveal>
 
       <ScrollReveal>
-        <PlatformPreviewDesktop />
+        <PillarsDesktop />
       </ScrollReveal>
 
       {/* <EcosystemDesktop /> */}

@@ -55,11 +55,11 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       </MobileScrollReveal>
 
       <MobileScrollReveal>
-        <PillarsMobile />
-      </MobileScrollReveal>
-
-      <MobileScrollReveal>
         <PlatformPreviewMobile />
+      </MobileScrollReveal>
+      
+      <MobileScrollReveal>
+        <PillarsMobile />
       </MobileScrollReveal>
 
       {/* <EcosystemMobile /> */}

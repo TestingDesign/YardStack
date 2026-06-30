@@ -384,7 +384,7 @@ export default function PlatformPreviewDesktop() {
   return (
     <section 
       id="platform-preview" 
-      className="relative bg-gray-50 overflow-hidden selection:bg-purple-500/30 selection:text-purple-900 py-16 lg:py-24"
+      className="relative bg-gray-50 overflow-hidden selection:bg-purple-500/30 selection:text-purple-900 py-16 lg:py-16"
       aria-label="Platform capabilities preview"
     >
       <div className="absolute top-0 left-1/4 w-[800px] h-[800px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 animate-pulse" style={{ animationDuration: '8s' }} aria-hidden="true" />

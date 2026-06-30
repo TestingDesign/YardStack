@@ -55,12 +55,12 @@ export default function HomeDesktop({ viewMode }: HomeDesktopProps) {
         <WhyN4reDesktop />
       </ScrollReveal>
 
-      <ScrollReveal>
-        <PillarsDesktop />
+     <ScrollReveal>
+        <FindYourPlaceDesktop />
       </ScrollReveal>
 
       <ScrollReveal>
-        <FindYourPlaceDesktop />
+        <PillarsDesktop />
       </ScrollReveal>
 
       <ScrollReveal>

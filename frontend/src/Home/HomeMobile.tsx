@@ -51,11 +51,11 @@ export default function HomeMobile({ viewMode }: HomeMobileProps) {
       </MobileScrollReveal>
 
       <MobileScrollReveal>
-        <PillarsMobile />
+        <FindYourPlaceMobile />
       </MobileScrollReveal>
 
       <MobileScrollReveal>
-        <FindYourPlaceMobile />
+        <PillarsMobile />
       </MobileScrollReveal>
 
       <MobileScrollReveal>

@@ -30,7 +30,7 @@ const MobileScrollReveal = ({ children }: { children: React.ReactNode }) => {
 
 export default function HomeMobile({ viewMode }: HomeMobileProps) {
   return (
-    <div className="h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar [&>*]:shrink-0 flex flex-col gap-8 pb-10">
+    <div className="h-full w-full overflow-y-auto overflow-x-hidden bg-[#F8F7FC] hide-scrollbar [&>*]:shrink-0 flex flex-col ">
       
       <motion.div 
         initial={{ y: -60, opacity: 0 }} 

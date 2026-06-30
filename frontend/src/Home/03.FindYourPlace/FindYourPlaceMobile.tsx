@@ -109,9 +109,9 @@ export default function FindYourPlaceMobile() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
-          className="bg-white/80 backdrop-blur-xl rounded-[4px] border border-white shadow-xl shadow-purple-900/5 overflow-hidden"
+          className="bg-white/80 backdrop-blur-xl rounded-[4px] shadow-purple-900/5 overflow-hidden"
         >
-          <div className="p-4 border-b border-gray-100 bg-gray-50/50">
+          <div className="p-4 ">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-6 h-6 rounded-full bg-gradient-to-br from-purple-600 to-fuchsia-500 flex items-center justify-center">
                 <Target size={12} className="text-white" strokeWidth={2.5} />
@@ -197,7 +197,7 @@ export default function FindYourPlaceMobile() {
               transition={{ duration: 0.35, ease: 'easeOut' }}
               className="flex flex-col"
             >
-              <div className="px-4 pt-5 pb-4 border-b border-gray-100">
+              <div className="px-4 pt-5 pb-4 ">
                 <div className="flex items-center gap-2.5">
                   <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
                     <Icon name={selectedRole.roleIcon} size={18} className="text-purple-700" strokeWidth={1.5} />
@@ -208,7 +208,7 @@ export default function FindYourPlaceMobile() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 px-4 pt-5 pb-4 border-b border-gray-100">
+              <div className="flex flex-col gap-3 px-2 pt-5 pb-4 ">
                 {/* Offer Accordion */}
                 <div className={`rounded-[8px] border transition-colors duration-300 ${activeAccordion === 'offer' ? 'bg-emerald-50/40 border-emerald-200' : 'bg-white border-gray-200 hover:border-emerald-200'}`}>
                   <button

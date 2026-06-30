@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { PROFILES_CONTENT, PROFILES_CARDS, DASHBOARD_STATS } from './data';
 import { motion } from 'framer-motion';
 import { User, Zap, Home, Target, Briefcase, MessageSquare, BarChart2 } from 'lucide-react';
-
+import NLogo from '../10.Segments/Logo.png';
 export default function ProfilesMobile() {
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -119,7 +119,7 @@ export default function ProfilesMobile() {
             <p className="text-[13px] font-medium text-[var(--color-text-secondary)] leading-relaxed mb-5">
               {PROFILES_CONTENT.dashboardDesc}
             </p>
-            <div className="flex items-center gap-3 bg-white rounded-xl p-3 border border-purple-100/50 shadow-sm w-fit max-w-full">
+            <div className="flex items-center gap-3 bg-white rounded-[8px] p-3 border border-purple-100/50 shadow-sm w-fit max-w-full">
               <div className="w-9 h-9 rounded-lg bg-purple-50 flex items-center justify-center shrink-0 text-purple-600">
                 <Zap size={18} className="fill-purple-100" />
               </div>
@@ -137,7 +137,7 @@ export default function ProfilesMobile() {
             >
               
               <div className="flex flex-col w-[160px] bg-gradient-to-b from-[#1A1A2E] to-[#2A1550] p-4 text-purple-200 shrink-0">
-                <h4 className="text-white font-black text-[16px] tracking-wider mb-6 px-2">N4RE</h4>
+                <img src={NLogo} alt="N4RE Logo" className="w-[100px] h-auto object-contain mb-8 px-2" draggable={false} />
                 <nav className="flex flex-col gap-1">
                   {[
                     { icon: Home, label: "Dashboard", active: true },

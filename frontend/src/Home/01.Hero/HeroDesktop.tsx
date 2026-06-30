@@ -114,7 +114,8 @@ export default function HeroDesktop() {
           <motion.div 
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.4 }}
             className="flex flex-col gap-4 pt-2 lg:pt-0"
           >
             <motion.div variants={itemVariants} className="flex flex-col mb-1">

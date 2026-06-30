@@ -1,6 +1,7 @@
 import { PROFILES_CONTENT, PROFILES_CARDS, DASHBOARD_STATS } from './data';
 import { motion } from 'framer-motion';
 import {  Home, User, Target, Briefcase, MessageSquare, BarChart2, Plus, Zap } from 'lucide-react';
+import NLogo from '../10.Segments/Logo.png';
 
 export default function ProfilesDesktop() {
   return (
@@ -135,7 +136,8 @@ export default function ProfilesDesktop() {
             <div className="flex-1 flex bg-slate-50 rounded-[4px] m-4 lg:m-6 lg:ml-0 overflow-hidden shadow-inner border border-gray-200/60">
               
               <div className="hidden sm:flex flex-col w-[180px] bg-gradient-to-b from-[#1A1A2E] to-[#2A1550] p-4 text-purple-200">
-                <h4 className="text-white font-black text-lg tracking-wider mb-8 px-2">N4RE</h4>
+                <img src={NLogo} alt="N4RE Logo" className="w-[100px] h-auto object-contain mb-8 px-2" draggable={false} />
+                
                 <nav className="flex flex-col gap-1">
                   {[
                     { icon: Home, label: "Dashboard", active: true },

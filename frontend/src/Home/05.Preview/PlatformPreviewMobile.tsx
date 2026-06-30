@@ -383,14 +383,26 @@ export default function PlatformPreviewMobile() {
                     : 'bg-transparent hover:bg-gray-200/50'
                 }`}
               >
-                <div className="relative z-10">
-                  <h3 className={`text-[11px] sm:text-[12px] font-bold leading-tight ${isActive ? 'text-purple-700' : 'text-gray-500'}`}>
+                <div className="relative z-10 flex flex-col items-center justify-center gap-1">
+                  {tab.icon && <tab.icon size={16} className={isActive ? 'text-purple-600' : 'text-gray-400'} />}
+                  <h3 className={`text-[10px] sm:text-[11px] font-bold leading-tight ${isActive ? 'text-purple-700' : 'text-gray-500'}`}>
                     {tab.title}
                   </h3>
                 </div>
               </button>
             );
           })}
+        </div>
+
+        <div className="mb-4 px-2 flex flex-col items-center justify-center text-center">
+          {PREVIEW_TABS.find(t => t.key === activeTab)?.badge && (
+            <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-100 border border-purple-200 px-2 py-0.5 rounded-[4px] mb-2">
+              {PREVIEW_TABS.find(t => t.key === activeTab)?.badge}
+            </span>
+          )}
+          <p className="text-xs text-gray-600 font-medium leading-relaxed max-w-[90%]">
+            {PREVIEW_TABS.find(t => t.key === activeTab)?.description}
+          </p>
         </div>
 
         <div 

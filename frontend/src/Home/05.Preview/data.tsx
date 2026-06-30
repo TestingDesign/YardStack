@@ -1,36 +1,41 @@
-import { Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette } from 'lucide-react';
+import { Briefcase, Users, Handshake, Megaphone, Building2, Landmark, Monitor, Palette, Video, Mic, type LucideIcon } from 'lucide-react';
 
 export interface PreviewSection {
   key: string;
   title: string;
   description: string;
   badge: string;
+  icon?: LucideIcon;
 }
 
 export const PREVIEW_TABS: PreviewSection[] = [
   {
     key: 'spotlight',
-    title: 'Spotlight',
-    description: 'Bite-sized, high-impact video content driving market trends.',
-    badge: 'Video Feed',
+    title: 'Short Videos',
+    description: 'Bite-sized, high-impact videos to engage, learn, build credibility and stay updated with the real estate ecosystem.',
+    badge: 'Powered by Spotlight',
+    icon: Video,
   },
   {
     key: 'red-expert',
-    title: 'RED Expert',
-    description: 'Connect with verified industry leaders and seasoned professionals.',
-    badge: 'Network',
+    title: 'Podcasts',
+    description: 'In-depth conversations with real estate domain experts, practitioners and industry leaders sharing practical insights and experiences.',
+    badge: 'Powered by RED Expert',
+    icon: Mic,
   },
   {
     key: 'opportunities',
     title: 'Opportunities',
-    description: 'Live requirements, vendor matching, and B2B lead generation.',
+    description: 'Discover jobs, vendor requirements, agent hiring, partnerships, collaborations and other B2B opportunities across the ecosystem.',
     badge: 'Marketplace',
+    icon: Briefcase,
   },
   {
     key: 'directory',
     title: 'Directory',
-    description: 'A comprehensive database of all real estate stakeholders.',
+    description: 'Explore a comprehensive directory of verified professionals, businesses and service providers across the real estate ecosystem.',
     badge: 'Database',
+    icon: Users,
   },
 ];
 

@@ -433,9 +433,15 @@ export default function PlatformPreviewDesktop() {
                     <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-transparent pointer-events-none" aria-hidden="true" />
                   )}
                   <div className="relative z-10 transform transition-transform duration-300 group-hover:translate-x-1">
-                    <h3 className={`text-xl font-bold mb-2 transition-colors duration-300 ${isActive ? 'text-gray-900' : 'text-gray-700 group-hover:text-purple-800'}`}>
+                    <h3 className={`flex items-center gap-2 text-xl font-bold mb-1 transition-colors duration-300 ${isActive ? 'text-gray-900' : 'text-gray-700 group-hover:text-purple-800'}`}>
+                      {tab.icon && <tab.icon size={20} className={isActive ? 'text-purple-600' : 'text-gray-400 group-hover:text-purple-500'} />}
                       {tab.title}
                     </h3>
+                    {tab.badge && (
+                      <span className={`inline-block text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[4px] mb-2 ${isActive ? 'text-purple-700 bg-purple-100' : 'text-gray-500 bg-gray-100 group-hover:bg-purple-50 group-hover:text-purple-600 transition-colors'}`}>
+                        {tab.badge}
+                      </span>
+                    )}
                     <p className={`text-sm leading-relaxed transition-colors duration-300 ${isActive ? 'text-gray-800' : 'text-gray-600'}`}>
                       {tab.description}
                     </p>

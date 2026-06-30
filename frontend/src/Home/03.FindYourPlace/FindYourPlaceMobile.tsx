@@ -274,8 +274,8 @@ export default function FindYourPlaceMobile() {
                 </motion.ul>
               </div>
 
-              <div className="px-4 py-5 flex justify-center">
-                <button className="group inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[13px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none w-full max-w-sm">
+              <div className="px-10 py-5 flex justify-center">
+                <button className="group inline-flex items-center justify-center gap-2 px-3 py-3 rounded-[8px] bg-gradient-to-r from-[#7C3AED] to-[#EC4899] hover:from-[#8B5CF6] hover:to-[#F472B6] text-white text-[13px] font-bold shadow-lg shadow-[#7C3AED]/25 transition-all duration-300 active:scale-95 focus-visible:outline-none w-full max-w-sm">
                   {selectedRole.ctaLabel}
                   <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </button>

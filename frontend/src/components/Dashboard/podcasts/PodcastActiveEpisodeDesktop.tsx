@@ -49,15 +49,11 @@ export default function PodcastActiveEpisodeDesktop({
               hasNext={activeIdx < PODCAST_EPISODES.length - 1}
               hasPrev={activeIdx > 0}
               inline
-              hideTopOverlay
             />
           </div>
           
           <div className="mt-1 flex flex-col gap-4">
             <div className="flex flex-col gap-2">
-              <h1 className="text-[24px] lg:text-[24px] font-black text-gray-900 leading-tight tracking-tight">
-                {activeEpisode.title}
-              </h1>
             </div>
             
             <div className="flex flex-wrap items-center justify-between gap-6 pb-4">
@@ -107,7 +103,7 @@ export default function PodcastActiveEpisodeDesktop({
               </div>
               
               {viewMode === 'grid' ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 pt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  gap-4 pt-1">
                   {displayedVideos.map((ep, idx) => (
                     <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                   ))}

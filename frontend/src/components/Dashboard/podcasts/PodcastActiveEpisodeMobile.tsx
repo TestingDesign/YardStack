@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LayoutGrid, List, ChevronDown } from 'lucide-react'
+import { LayoutGrid, List } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -39,13 +39,7 @@ export default function PodcastActiveEpisodeMobile({
     <div className="relative w-full flex-1 bg-white animate-in fade-in duration-300 flex flex-col">
 
       <div className="relative w-full bg-black shrink-0 aspect-[16/9] lg:aspect-[2.2/1]">
-        <button
-          onClick={() => setActiveEpisode(null)}
-          className="absolute top-3 left-3 z-10 p-1.5 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-sm transition-all"
-          aria-label="Close episode"
-        >
-          <ChevronDown size={22} />
-        </button>
+
         <PodcastVideoPlayerMobile
           episode={activeEpisode}
           onClose={() => setActiveEpisode(null)}
@@ -53,7 +47,6 @@ export default function PodcastActiveEpisodeMobile({
           onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
           hasNext={activeIdx < PODCAST_EPISODES.length - 1}
           hasPrev={activeIdx > 0}
-          hideTopOverlay
         />
       </div>
       

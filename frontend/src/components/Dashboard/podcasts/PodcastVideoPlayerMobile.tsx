@@ -5,10 +5,10 @@ import PauseIcon from '@mui/icons-material/Pause'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
-import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
-import CloseIcon from '@mui/icons-material/Close'
-import Replay10Icon from '@mui/icons-material/Replay10'
 import Forward10Icon from '@mui/icons-material/Forward10'
+import Replay10Icon from '@mui/icons-material/Replay10'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
 
 import {
   type PodcastVideoPlayerProps,
@@ -241,34 +241,31 @@ export default function PodcastVideoPlayerMobile({
           }`} 
         />
 
-        {/* Always-visible close button unless hidden */}
-        {!hideTopOverlay && (
-          <div className="absolute top-2 right-2 z-40">
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); handleClose() }}
-              className="w-8 h-8 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
-              aria-label="Close player"
-            >
-              <CloseIcon sx={{ fontSize: 16 }} />
-            </button>
-          </div>
-        )}
 
         {/* Fading top overlay – title only */}
-        <div 
-          className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
-            !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
-          }`}
-        >
-          <div className="flex flex-col gap-1.5 items-start pointer-events-auto max-w-[calc(100%-2.5rem)]">
-            <div className="flex flex-col gap-1 px-1.5 drop-shadow-lg">
-              <h2 className="text-[11px] sm:text-[13px] font-bold text-white leading-tight line-clamp-2">
-                {episode.title}
-              </h2>
+        {!hideTopOverlay && (
+          <div 
+            className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
+              !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
+            }`}
+          >
+            <div className="flex items-start gap-1.5 pointer-events-auto max-w-full">
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); handleClose() }}
+                className="mt-[-2px] p-1 text-white/80 hover:text-white transition-colors outline-none cursor-pointer"
+                aria-label="Close player"
+              >
+                <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />
+              </button>
+              <div className="flex flex-col gap-1 drop-shadow-lg pt-0.5">
+                <h2 className="text-[12px] sm:text-[14px] font-bold text-white leading-tight line-clamp-2">
+                  {episode.title}
+                </h2>
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div 
           className={`absolute inset-0 flex items-center justify-center gap-2 sm:gap-4 z-30 transition-opacity duration-300 ${

@@ -1,12 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import CloseIcon from '@mui/icons-material/Close'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PauseIcon from '@mui/icons-material/Pause'
 import FullscreenIcon from '@mui/icons-material/Fullscreen'
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit'
 import SkipNextIcon from '@mui/icons-material/SkipNext'
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious'
-import VerifiedIcon from '@mui/icons-material/Verified'
+import Replay10Icon from '@mui/icons-material/Replay10'
+import Forward10Icon from '@mui/icons-material/Forward10'
 
 import {
   type PodcastVideoPlayerProps,
@@ -136,43 +137,27 @@ export default function PodcastVideoPlayerDesktop({
 
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
-  const closeButton = (
-    <div
-      className={`absolute top-4 right-4 sm:top-6 sm:right-6 z-30 transition-all duration-500 ease-out ${
-        controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
-      }`}
-    >
-      <button
-        type="button"
-        onClick={onClose}
-        className="w-10 h-10 rounded-full bg-black/50 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:bg-[#422082] hover:text-white transition-all duration-300 hover:scale-110 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-white/50 shadow-lg"
-        aria-label="Close player"
-      >
-        <CloseIcon sx={{ fontSize: 20 }} />
-      </button>
-    </div>
-  )
+
 
   const topControls = (
     <div
-      className={`absolute top-0 left-0 w-full z-30 flex items-start justify-between px-4 sm:px-8 pt-4 sm:pt-6 pb-24 bg-gradient-to-b from-black/80 via-black/40 to-transparent transition-all duration-500 ease-out pointer-events-none ${
+      className={`absolute top-0 left-0 w-full z-30 flex items-start justify-between px-1 py-1 bg-gradient-to-b from-black/80 via-black/40 to-transparent transition-all duration-500 ease-out pointer-events-none ${
         controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
       }`}
     >
-      <div className="flex items-center gap-4 flex-1 min-w-0 pr-16 pointer-events-auto">
-        <div className="w-12 h-12 border border-white/20 rounded-full shrink-0 bg-gradient-to-br from-[#422082] to-[#6a5fc1] flex items-center justify-center shadow-lg">
-          <span className="text-[16px] font-bold text-white select-none">
-            {episode.speaker?.charAt(0).toUpperCase() ?? '?'}
-          </span>
-        </div>
+      <div className="flex items-center gap-2 flex-1 min-w-0 pr-2 pointer-events-auto">
+        <button
+          type="button"
+          onClick={onClose}
+          className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-white/80 hover:text-white transition-all duration-300 cursor-pointer"
+          aria-label="Close player"
+        >
+          <KeyboardArrowDownIcon sx={{ fontSize: 32 }} />
+        </button>
         <div className="min-w-0 drop-shadow-lg">
           <h2 className="text-[18px] font-bold text-white leading-tight mb-1 truncate">
             {episode.title}
           </h2>
-          <div className="flex flex-wrap items-center gap-2 text-[13px]">
-            <span className="text-[#c2ef4e] font-semibold">{episode.speaker}</span>
-            {episode.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1] shrink-0" />}
-          </div>
         </div>
       </div>
     </div>
@@ -287,18 +272,40 @@ export default function PodcastVideoPlayerDesktop({
             }`}
           />
 
-          {/* Center Play Icon (YouTube style pulse) */}
+          {/* Center Controls */}
           <div
-            className={`absolute inset-0 flex items-center justify-center z-20 pointer-events-none transition-all duration-300 ${
-              !isPlaying ? 'opacity-100 scale-100' : 'opacity-0 scale-110'
+            className={`absolute inset-0 flex items-center justify-center gap-6 z-30 transition-all duration-300 ${
+              !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
             }`}
           >
-            <div className="w-20 h-20 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white border border-white/10 shadow-2xl">
-              <PlayArrowIcon sx={{ fontSize: 48 }} className="ml-1" />
-            </div>
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.max(0, p - 10 / totalDuration)); resetHideTimer(); }}
+              className="w-14 h-14 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white border border-white/10 hover:text-[#c2ef4e] hover:bg-black/60 hover:scale-110 active:scale-95 transition-all outline-none shadow-xl pointer-events-auto"
+              aria-label="Rewind 10 seconds"
+            >
+              <Replay10Icon sx={{ fontSize: 28 }} />
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setIsPlaying((v) => !v); resetHideTimer(); }}
+              className="w-20 h-20 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center text-white border border-white/10 shadow-2xl hover:text-[#c2ef4e] hover:bg-black/80 hover:scale-105 active:scale-95 transition-all outline-none pointer-events-auto"
+              aria-label={isPlaying ? 'Pause' : 'Play'}
+            >
+              {isPlaying ? <PauseIcon sx={{ fontSize: 40 }} /> : <PlayArrowIcon sx={{ fontSize: 48 }} className="ml-1" />}
+            </button>
+
+            <button
+              type="button"
+              onClick={(e) => { e.stopPropagation(); setProgress((p) => Math.min(1, p + 10 / totalDuration)); resetHideTimer(); }}
+              className="w-14 h-14 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white border border-white/10 hover:text-[#c2ef4e] hover:bg-black/60 hover:scale-110 active:scale-95 transition-all outline-none shadow-xl pointer-events-auto"
+              aria-label="Fast forward 10 seconds"
+            >
+              <Forward10Icon sx={{ fontSize: 28 }} />
+            </button>
           </div>
 
-          {!hideTopOverlay && closeButton}
           {!hideTopOverlay && topControls}
           {bottomControls}
 

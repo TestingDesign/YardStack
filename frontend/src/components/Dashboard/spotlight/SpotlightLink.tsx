@@ -1,3 +1,4 @@
+import React, { useState } from 'react'
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined'
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined'
@@ -5,6 +6,7 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined'
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined'
 import BrushOutlinedIcon from '@mui/icons-material/BrushOutlined'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import CloseIcon from '@mui/icons-material/Close'
 import type { SpotlightLinkData } from './SpotlightLinkData'
 
 interface SpotlightLinkProps {
@@ -12,6 +14,8 @@ interface SpotlightLinkProps {
 }
 
 export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
+  const [isMinimized, setIsMinimized] = useState(false)
+
   const getIcon = () => {
     switch (linkData.iconType) {
       case 'job':
@@ -42,8 +46,36 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
     }
   }
 
+  if (isMinimized) {
+    return (
+      <div 
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsMinimized(false)
+        }}
+        className="group flex items-center justify-center bg-black/60 hover:bg-black/80 backdrop-blur-md border border-white/20 hover:border-white/40 rounded-full w-12 h-12 transition-all duration-300 cursor-pointer shadow-lg mb-3 self-end ml-auto mr-4 animate-in fade-in zoom-in-75"
+        title={`View ${linkData.title}`}
+      >
+        <div className={`w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-colors ${getHoverBg()}`}>
+          {getIcon()}
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div className="group flex items-center justify-between bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 hover:border-white/40 rounded-xl p-3 w-full transition-all duration-300 cursor-pointer shadow-lg mb-3">
+    <div className="relative group flex items-center justify-between bg-black/40 hover:bg-black/60 backdrop-blur-md border border-white/20 hover:border-white/40 rounded-xl p-3 w-full transition-all duration-300 cursor-pointer shadow-lg mb-3 animate-in fade-in zoom-in-95">
+      <button 
+        onClick={(e) => {
+          e.stopPropagation()
+          setIsMinimized(true)
+        }}
+        className="absolute -top-2 -right-2 bg-[#262626]/90 hover:bg-[#363636] border border-white/20 text-white/70 hover:text-white rounded-full w-[22px] h-[22px] flex items-center justify-center transition-all hover:scale-110 active:scale-95 shadow-md z-10"
+        aria-label="Minimize link widget"
+      >
+        <CloseIcon sx={{ fontSize: 13 }} />
+      </button>
+
       <div className="flex items-center gap-3 min-w-0">
         <div className={`w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center shrink-0 border border-white/10 transition-colors ${getHoverBg()}`}>
           {getIcon()}

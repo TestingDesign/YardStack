@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { ChevronLeft } from 'lucide-react'
+import { LayoutGrid, List, ChevronDown } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -25,18 +25,27 @@ export default function PodcastActiveEpisodeMobile({
   EpisodeGridCard: React.FC<any>
 }) {
   const [autoplay, setAutoplay] = useState(true)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [page, setPage] = useState(1)
+  const perPage = 6
+  
+  const displayedCount = page * perPage
+  const displayedForGrid = displayedEpisodes.slice(0, displayedCount)
+  const hasMore = displayedForGrid.length < displayedEpisodes.length
+  
+  const handleLoadMore = () => setPage(p => p + 1)
 
   return (
-    <div className="absolute inset-0 z-[100] bg-white animate-in slide-in-from-bottom-full duration-300 flex flex-col overflow-y-auto scrollbar-none">
-      <button 
-        onClick={() => setActiveEpisode(null)}
-        className="absolute top-4 left-4 z-[110] w-10 h-10 rounded-full bg-white/80 backdrop-blur-md shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-gray-100 flex items-center justify-center text-gray-700 hover:text-purple-600 hover:bg-white transition-all cursor-pointer"
-        aria-label="Close"
-      >
-        <ChevronLeft size={22} />
-      </button>
+    <div className="relative w-full flex-1 bg-white animate-in fade-in duration-300 flex flex-col">
 
-      <div className="w-full bg-black shrink-0 aspect-[16/9] lg:aspect-[2.2/1]">
+      <div className="relative w-full bg-black shrink-0 aspect-[16/9] lg:aspect-[2.2/1]">
+        <button
+          onClick={() => setActiveEpisode(null)}
+          className="absolute top-3 left-3 z-10 p-1.5 bg-black/40 hover:bg-black/60 rounded-full text-white backdrop-blur-sm transition-all"
+          aria-label="Close episode"
+        >
+          <ChevronDown size={22} />
+        </button>
         <PodcastVideoPlayerMobile
           episode={activeEpisode}
           onClose={() => setActiveEpisode(null)}
@@ -48,42 +57,35 @@ export default function PodcastActiveEpisodeMobile({
         />
       </div>
       
-      <div className="px-5 pt-6 pb-8 flex flex-col gap-4 border-b border-gray-100/80">
-        <div className="flex flex-col gap-3">
-          <span className="inline-block w-fit px-3 py-1 bg-purple-100 text-[10px] font-black text-purple-700 tracking-widest rounded-full uppercase">
-            Podcast
-          </span>
-          <h1 className="text-[22px] font-black text-gray-900 leading-tight tracking-tight">{activeEpisode.title}</h1>
-        </div>
-        
-        <div className="flex items-center justify-between mt-3">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-fuchsia-500 text-white font-bold flex items-center justify-center text-[18px] shadow-sm shrink-0 border-2 border-white">
+      <div className="px-3 py-3 border-b border-gray-100/80">
+        <div className="flex items-center justify-between w-full">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-fuchsia-500 text-white font-bold flex items-center justify-center text-[14px] shadow-sm shrink-0 border border-white">
               {activeEpisode.speaker?.charAt(0)}
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1.5 mb-0.5">
-                <h3 className="text-[15px] font-bold text-gray-900 leading-none tracking-tight">{activeEpisode.speaker}</h3>
-                {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-500" />}
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-1 mb-0.5">
+                <h3 className="text-[14px] font-bold text-gray-900 leading-none tracking-tight truncate">{activeEpisode.speaker}</h3>
+                {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
               </div>
-              <p className="text-[12px] text-gray-500 font-medium leading-none">{activeEpisode.role}</p>
+              <p className="text-[11px] text-gray-500 font-medium leading-none truncate">{activeEpisode.role}</p>
             </div>
           </div>
-        </div>
 
-        <div className="flex gap-3 mt-4">
-          <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-50/80 hover:bg-purple-50 hover:text-purple-700 text-gray-700 rounded-xl text-[13px] font-bold border border-gray-200 transition-colors">
-            <BookmarkBorderIcon sx={{ fontSize: 18 }} /> Save
-          </button>
-          <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gray-50/80 hover:bg-purple-50 hover:text-purple-700 text-gray-700 rounded-xl text-[13px] font-bold border border-gray-200 transition-colors">
-            <ShareIcon sx={{ fontSize: 18 }} /> Share
-          </button>
+          <div className="flex items-center gap-2 shrink-0 ml-2">
+            <button className="flex items-center justify-center gap-1 px-2.5 py-1.5 bg-gray-50/80 hover:bg-purple-50 hover:text-purple-700 text-gray-700 rounded-md text-[11px] font-bold border border-gray-200 transition-colors">
+              <BookmarkBorderIcon sx={{ fontSize: 14 }} /> Save
+            </button>
+            <button className="flex items-center justify-center gap-1 px-2.5 py-1.5 bg-gray-50/80 hover:bg-purple-50 hover:text-purple-700 text-gray-700 rounded-md text-[11px] font-bold border border-gray-200 transition-colors">
+              <ShareIcon sx={{ fontSize: 14 }} /> Share
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="px-5 py-8 flex flex-col gap-5 border-b border-gray-100/80">
-        <div className="flex items-center justify-between mb-1">
-          <h3 className="text-[18px] font-black text-gray-900">Up Next</h3>
+      <div className="px-2  pt-2 flex flex-col gap-2 border-b border-gray-100/80">
+        <div className="flex items-center justify-between mb-1 px-1">
+          <h3 className="text-[14px] font-black text-gray-900">Up Next</h3>
           <div className="flex items-center gap-2">
             <span className="text-[12px] font-medium text-gray-500">Autoplay</span>
             <button 
@@ -109,18 +111,57 @@ export default function PodcastActiveEpisodeMobile({
         </div>
       </div>
 
-      <div className="px-5 py-8 flex flex-col gap-5 pb-16">
-        <div className="flex items-center justify-between">
+      <div className="px-2 py-2 flex flex-col gap-4 pb-2 pt-3">
+        <div className="flex items-center justify-between px-1">
           <h3 className="text-[18px] font-black text-gray-900">All Real Estate Episodes</h3>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'}`}
+                aria-label="Grid view"
+              >
+                <LayoutGrid size={13} />
+              </button>
+              <button
+                onClick={() => setViewMode('list')}
+                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'}`}
+                aria-label="List view"
+              >
+                <List size={13} />
+              </button>
+            </div>
+          </div>
         </div>
         
-        <div className="flex gap-3 overflow-x-auto pb-4 -mx-5 px-5 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
-          {displayedEpisodes.slice(0, 10).map((ep, idx) => (
-            <div key={ep.id} className="min-w-[240px] w-[240px] snap-start">
-              <EpisodeGridCard episode={ep} onPlay={setActiveEpisode} index={idx} />
-            </div>
-          ))}
-        </div>
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-2 gap-3 pb-4 pt-1">
+            {displayedForGrid.map((ep, idx) => (
+              <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 pb-2">
+            {displayedForGrid.map((ep, idx) => (
+              <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+            ))}
+          </div>
+        )}
+        
+        {hasMore && (
+          <div className="mt-2 flex items-center justify-center">
+            <button
+              type="button"
+              onClick={handleLoadMore}
+              className="group flex items-center gap-2 px-7 py-2.5 rounded-lg bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+            >
+              <svg className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Load More Episodes
+            </button>
+          </div>
+        )}
       </div>
 
     </div>

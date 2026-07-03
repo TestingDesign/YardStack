@@ -199,7 +199,7 @@ const EpisodeListCard = memo(function EpisodeListCard({
 
   return (
     <div
-      className="m-card-shimmer group relative flex items-start gap-3.5 py-3 cursor-pointer animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-all duration-300"
+      className="m-card-shimmer group relative flex items-start gap-2 py-2 cursor-pointer animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-all duration-300"
       style={{ animationDelay: `${index * 45}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
@@ -366,6 +366,7 @@ export default function PodcastMobile() {
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
     setPage(1)
+    setActiveEpisode(null)
   }, [])
 
   useEffect(() => {
@@ -416,7 +417,7 @@ export default function PodcastMobile() {
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        {activeEpisode && (
+        {activeEpisode ? (
           <PodcastActiveEpisodeMobile
             activeEpisode={activeEpisode}
             setActiveEpisode={setActiveEpisode}
@@ -426,13 +427,12 @@ export default function PodcastMobile() {
             EpisodeListCard={EpisodeListCard}
             EpisodeGridCard={EpisodeGridCard}
           />
-        )}
-
-        <div className="flex-1 flex flex-col">
+        ) : (
+          <div className="flex-1 flex flex-col">
 
           {!activeEpisode && filtered[0] && (
             <div
-              className="mx-2 mt-2 rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
+              className="mx-4 mt-4 rounded-[8px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
               onClick={() => setActiveEpisode(filtered[0])}
             >
               <div className="flex gap-0">
@@ -493,11 +493,11 @@ export default function PodcastMobile() {
             </div>
           )}
 
-          <div className="mt-4 px-2">
-            <div className="flex items-center justify-between mb-1 px-1">
+          <div className="mt-6 px-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <Flame className="text-orange-500 drop-shadow-[0_2px_4px_rgba(249,115,22,0.5)]" size={18} />
-                <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">Trending This Week</h3>
+                <Flame className="text-orange-500 drop-shadow-sm" size={18} />
+                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending This Week</h3>
               </div>
             </div>
 
@@ -517,7 +517,7 @@ export default function PodcastMobile() {
               <div
                 ref={trendingRef}
                 onScroll={handleTrendingScroll}
-                className="flex gap-2 overflow-x-auto pb-2 pt-1 px-1 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
+                className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
               >
                 {filteredWithoutTop.slice(0, 8).map((ep, mapIdx) => {
                   const actualIdx = filtered.findIndex((e) => e.id === ep.id)
@@ -543,12 +543,12 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-6 mx-3">
+          <div className="mt-6 mx-4">
             <AdvertisementBlock />
           </div>
 
-          <div className="mt-8 mx-3">
-            <div className="p-2 rounded-[4px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="mt-8 mx-4">
+            <div className="p-2 rounded-[8px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex items-center gap-1.5 mb-3">
                 <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
               </div>
@@ -577,17 +577,17 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-4 px-2">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
-              <button className="flex items-center gap-1 text-[11px] font-semibold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
+          <div className="mt-6">
+            <div className="flex items-center justify-between mb-3 px-4">
+              <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
+              <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
                 View all <ChevronRight size={13} />
               </button>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 w-full">
+            <div className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 w-full snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
               {EXPERTS.map((expert, idx) => (
-                <div key={idx} className="flex flex-col items-center gap-1 animate-in fade-in slide-in-from-bottom-4 fill-mode-both min-w-0" style={{ animationDelay: `${idx * 70}ms` }}>
+                <div key={idx} className="flex flex-col items-center gap-1 animate-in fade-in slide-in-from-bottom-4 fill-mode-both min-w-[72px]" style={{ animationDelay: `${idx * 70}ms` }}>
                   <div className="relative">
                     <div className="m-expert-avatar w-12 h-12 rounded-full overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-white">
                       <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
@@ -603,13 +603,11 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-4 px-2 pb-8">
+          <div className="mt-6 px-4 pb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <div className="p-1 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-md text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]">
-                  <LayoutGrid size={12} />
-                </div>
-                <h3 className="text-[16px] font-semibold text-gray-900 tracking-tight">All Real Estate Episodes</h3>
+                <List className="text-green-500 drop-shadow-sm" size={18} />
+                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">All Real Estate Episodes</h3>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-gray-100 rounded-md p-0.5">
@@ -673,6 +671,7 @@ export default function PodcastMobile() {
             )}
           </div>
         </div>
+        )}
       </div>
       {showPlaylistModal && (
         <CreatePlaylistModal onClose={() => setShowPlaylistModal(false)} />

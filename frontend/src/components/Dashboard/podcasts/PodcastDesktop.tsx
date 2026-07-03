@@ -321,15 +321,15 @@ function StatCard({
 }) {
   return (
     <div
-      className={`stat-card p-2.5 rounded-[6px] ${bg} border ${border} flex items-center gap-2 animate-in fade-in slide-in-from-bottom-4 fill-mode-both`}
+      className={`stat-card p-3 rounded-[6px] ${bg} border ${border} flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-4 fill-mode-both`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className={`w-6 h-6 rounded-md ${color} flex items-center justify-center shadow-sm shrink-0`}>
+      <div className={`w-7 h-7 rounded-lg ${color} flex items-center justify-center shadow-sm shrink-0`}>
         {icon}
       </div>
       <div className="flex flex-col min-w-0">
-        <span className="text-[14px] font-black text-[var(--color-text-primary)] leading-none tracking-tight">{value}</span>
-        <span className="text-[10px] font-medium text-[var(--color-text-secondary)] truncate mt-0.5">{label}</span>
+        <span className="text-[16px] font-black text-[var(--color-text-primary)] leading-none tracking-tight">{value}</span>
+        <span className="text-[11px] font-medium text-[var(--color-text-secondary)] truncate mt-0.5">{label}</span>
       </div>
     </div>
   )
@@ -337,13 +337,13 @@ function StatCard({
 
 function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2 animate-in fade-in slide-in-from-left-4 duration-500">
+    <div className="flex items-center gap-2.5 animate-in fade-in slide-in-from-left-4 duration-500">
       <div className="relative flex items-center justify-center">
         {icon}
       </div>
-      <h3 className="text-[15px] font-black text-[var(--color-text-primary)] tracking-tight">{title}</h3>
+      <h3 className="text-[16px] font-black text-[var(--color-text-primary)] tracking-tight">{title}</h3>
       {badge && (
-        <span className="ml-1 px-1.5 py-0.5 rounded-full bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[9px] font-bold uppercase tracking-wider animate-in zoom-in-75 duration-500 delay-200">
+        <span className="ml-1 px-2 py-0.5 rounded-full bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-bold uppercase tracking-wider animate-in zoom-in-75 duration-500 delay-200">
           {badge}
         </span>
       )}
@@ -471,17 +471,17 @@ export default function PodcastDesktop() {
       <style>{STYLES}</style>
 
       <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-8">
-        <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-2 py-1 border-b border-gray-100">
+        <div className="sticky top-0 z-40 shrink-0 bg-white backdrop-blur-sm px-2 py-1 ">
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-5 px-3 md:px-5 py-3 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex-1 min-w-0 flex flex-col gap-5">
+        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
+          <div className="flex-1 min-w-0 flex flex-col gap-7">
               <div
-                className="w-full bg-white rounded-[10px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.06),0_1px_3px_rgba(0,0,0,0.03)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_40px_rgba(124,58,237,0.12),0_4px_12px_rgba(0,0,0,0.06)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
+                className="w-full bg-white rounded-[8px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.07),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_16px_48px_rgba(124,58,237,0.14),0_4px_16px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
                 onClick={() => setActiveEpisode(filtered[0])}
               >
-                <div className="relative w-full lg:w-[58%] aspect-video bg-black shrink-0 overflow-hidden">
+                <div className="relative w-full lg:w-[58%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-l-none lg:rounded-r-[8px]">
                   <img
                     src={filtered[0]?.thumbnail || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80'}
                     alt="Featured"
@@ -503,50 +503,50 @@ export default function PodcastDesktop() {
                   </div>
                 </div>
 
-                <div className="p-4 lg:p-6 flex flex-col justify-center flex-1">
-                  <div className="flex items-center gap-2 mb-2.5">
-                    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[9px] font-black uppercase tracking-widest rounded-full">
-                      <TrendingUp size={9} />
+                <div className="p-5 lg:p-7 flex flex-col justify-center flex-1">
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-black uppercase tracking-widest rounded-full">
+                      <TrendingUp size={10} />
                       Trending #1
                     </span>
                   </div>
-                  <h2 className="text-[18px] lg:text-[20px] font-black text-[var(--color-text-primary)] leading-tight mb-2.5 group-hover:text-[var(--color-primary-600)] transition-colors duration-300 line-clamp-2">
+                  <h2 className="text-[20px] lg:text-[26px] font-black text-[var(--color-text-primary)] leading-tight mb-3 group-hover:text-[var(--color-primary-600)] transition-colors duration-300 line-clamp-2">
                     {filtered[0]?.title || 'The Future of Real Estate: What to Expect in 2027'}
                   </h2>
-                  <p className="text-[12px] text-[var(--color-text-secondary)] leading-relaxed mb-3 line-clamp-2">
+                  <p className="text-[14px] text-[var(--color-text-secondary)] leading-relaxed mb-6 line-clamp-2 max-w-[500px]">
                     Ritika Sharma shares insights on real estate market trends, investment opportunities, and strategies for long-term growth.
                   </p>
 
-                  <div className="flex items-center gap-3 text-[10.5px] text-[var(--color-text-muted)] font-semibold mb-5">
-                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full">
-                      <Eye size={11} className="text-purple-500" /> 28K Views
+                  <div className="flex items-center gap-4 text-[12.5px] text-[var(--color-text-muted)] font-semibold mb-8">
+                    <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
+                      <Eye size={14} className="text-purple-500" /> 28K Views
                     </span>
                     <span className="w-1 h-1 rounded-full bg-gray-300" />
-                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-full">
-                      <GraphicEqIcon sx={{ fontSize: 11 }} className="text-fuchsia-500" />
+                    <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full text-gray-700">
+                      <GraphicEqIcon sx={{ fontSize: 14 }} className="text-fuchsia-500" />
                       {filtered[0]?.duration || '28:10'}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-2.5 mt-auto">
-                    <button className="hero-gradient-btn flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[12px] font-bold rounded-md hover:shadow-[0_6px_20px_rgba(124,58,237,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-[0_2px_10px_rgba(124,58,237,0.25)] cursor-pointer border-none">
-                      <PlayArrowIcon sx={{ fontSize: 16 }} />
+                  <div className="flex items-center gap-3 mt-auto">
+                    <button className="hero-gradient-btn flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[14px] font-bold rounded-[8px] hover:shadow-[0_6px_24px_rgba(124,58,237,0.45)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] shadow-[0_2px_12px_rgba(124,58,237,0.3)] cursor-pointer border-none">
+                      <PlayArrowIcon sx={{ fontSize: 20 }} />
                       Watch Now
                     </button>
                     <button
-                      className="flex items-center gap-1.5 px-3 py-2 bg-white border border-gray-200 text-[var(--color-text-primary)] text-[12px] font-semibold rounded-md hover:bg-gray-50 hover:border-purple-200 hover:text-purple-700 hover:shadow-[0_4px_12px_rgba(124,58,237,0.1)] transition-all duration-300 cursor-pointer"
+                      className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-200 text-[var(--color-text-primary)] text-[14px] font-semibold rounded-[8px] hover:bg-gray-50 hover:border-purple-200 hover:text-purple-700 hover:shadow-[0_4px_16px_rgba(124,58,237,0.12)] transition-all duration-300 cursor-pointer"
                       onClick={(e) => { e.stopPropagation(); }}
                     >
-                      <BookmarkBorderIcon sx={{ fontSize: 15 }} />
+                      <BookmarkBorderIcon sx={{ fontSize: 19 }} />
                       Save
                     </button>
                   </div>
                 </div>
               </div>
 
-            <div className="w-full flex flex-col gap-2.5">
+            <div className="w-full flex flex-col gap-3">
               <SectionHeader
-                icon={<Flame className="text-orange-500 drop-shadow-[0_2px_4px_rgba(249,115,22,0.4)]" size={18} />}
+                icon={<Flame className="text-orange-500 drop-shadow-[0_2px_6px_rgba(249,115,22,0.5)]" size={20} />}
                 title="Trending This Week"
               />
 
@@ -606,11 +606,11 @@ export default function PodcastDesktop() {
               </div>
             </div>
 
-            <div className="w-full flex flex-col gap-3 pb-3">
+            <div className="w-full flex flex-col gap-4 pb-4">
               <SectionHeader
                 icon={
-                  <div className="p-1 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-md text-white shadow-[0_2px_8px_rgba(124,58,237,0.3)]">
-                    <LayoutGrid size={12} />
+                  <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-lg text-white shadow-[0_3px_10px_rgba(124,58,237,0.4)]">
+                    <LayoutGrid size={14} />
                   </div>
                 }
                 title="All Real Estate Episodes"
@@ -625,25 +625,25 @@ export default function PodcastDesktop() {
                   </div>
 
                   {hasMore && (
-                    <div className="mt-3 flex items-center justify-center">
+                    <div className="mt-4 flex items-center justify-center">
                       <button
                         type="button"
                         onClick={handleLoadMore}
-                        className="group flex items-center gap-1.5 px-6 py-2 rounded-md bg-white border border-purple-200 text-[12px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_8px_rgba(124,58,237,0.08)] hover:shadow-[0_6px_20px_rgba(124,58,237,0.25)] hover:scale-[1.02] active:scale-[0.98]"
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                       >
-                        <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
-                        Load More
+                        <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                        Load More Episodes
                       </button>
                     </div>
                   )}
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center py-12 text-center animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="w-14 h-14 mb-3 rounded-xl bg-purple-50 flex items-center justify-center shadow-[0_4px_12px_rgba(124,58,237,0.08)] border border-purple-100">
-                    <LayoutGrid size={24} className="text-purple-300" />
+              <div className="flex flex-col items-center justify-center py-16 text-center animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
+                  <div className="w-16 h-16 mb-4 rounded-2xl bg-purple-50 flex items-center justify-center shadow-[0_4px_16px_rgba(124,58,237,0.1)] border border-purple-100">
+                    <LayoutGrid size={26} className="text-purple-300" />
                   </div>
-                  <p className="text-[15px] font-bold text-[var(--color-text-primary)] tracking-tight">No episodes found</p>
-                  <p className="text-[12px] font-medium text-[var(--color-text-muted)] mt-1 max-w-[220px] leading-relaxed">
+                  <p className="text-[16px] font-bold text-[var(--color-text-primary)] tracking-tight">No episodes found</p>
+                  <p className="text-[13px] font-medium text-[var(--color-text-muted)] mt-1 max-w-[240px] leading-relaxed">
                     Try selecting a different category or clearing your filters
                   </p>
                 </div>
@@ -651,17 +651,18 @@ export default function PodcastDesktop() {
             </div>
           </div>
 
-          <div className="w-full xl:w-[280px] shrink-0 flex flex-col gap-4 h-fit animate-in fade-in slide-in-from-right-6 duration-600 delay-150">
-            <div className="flex flex-col gap-2.5 p-1">
-              <div className="flex items-center gap-2 mb-0.5">
-                <h3 className="text-[13px] font-black text-[var(--color-text-primary)] tracking-tight">Platform Highlights</h3>
+          <div className="w-full xl:w-[310px] shrink-0 flex flex-col gap-6 h-fit animate-in fade-in slide-in-from-right-6 duration-600 delay-150">
+            <div className="flex flex-col gap-3.5 p-4">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+              <div className="flex items-center gap-2 mb-0.5 relative z-10">
+                <h3 className="text-[14px] font-black text-[var(--color-text-primary)] tracking-tight">Platform Highlights</h3>
                 <div className="flex-1 h-px bg-gradient-to-r from-purple-100 to-transparent" />
               </div>
-              <div className="grid grid-cols-2 gap-2">
-                <StatCard icon={<Mic size={14} />} value="12K+" label="Episodes" color=" text-purple-600" bg="bg-purple-50/60" border="border-purple-100" delay={0} />
-                <StatCard icon={<Users size={14} />} value="500+" label="Experts" color=" text-orange-500" bg="bg-orange-50/60" border="border-orange-100" delay={60} />
-                <StatCard icon={<Building2 size={14} />} value="35" label="Cities" color=" text-blue-500" bg="bg-blue-50/60" border="border-blue-100" delay={120} />
-                <StatCard icon={<Eye size={14} />} value="20M+" label="Views" color=" text-green-600" bg="bg-green-50/60" border="border-green-100" delay={180} />
+              <div className="grid grid-cols-2 gap-2.5 relative z-10">
+                <StatCard icon={<Mic size={15} />} value="12K+" label="Episodes" color="text-purple-600" bg="bg-white" border="border-purple-100" delay={0} />
+                <StatCard icon={<Users size={15} />} value="500+" label="Experts" color="text-orange-500" bg="bg-white" border="border-orange-100" delay={60} />
+                <StatCard icon={<Building2 size={15} />} value="35" label="Cities" color="text-blue-500" bg="bg-white" border="border-blue-100" delay={120} />
+                <StatCard icon={<Eye size={15} />} value="20M+" label="Views" color="text-green-600" bg="bg-white" border="border-green-100" delay={180} />
               </div>
             </div>
 
@@ -671,10 +672,12 @@ export default function PodcastDesktop() {
 
             <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
-            <div className="flex flex-col gap-2.5 p-1">
-              <div className="flex items-center justify-between mb-0.5">
-                <h3 className="text-[13px] font-black text-[var(--color-text-primary)] tracking-tight">Top Experts</h3>
-                <button className="text-purple-600 text-[10px] font-bold hover:text-purple-700 hover:underline cursor-pointer bg-transparent border-none transition-colors">
+            <div className="flex flex-col rounded-lg p-4">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Top Experts</h3>
+                </div>
+                <button className="text-purple-600 text-[12px] font-bold hover:text-purple-700 hover:underline cursor-pointer bg-transparent border-none transition-colors">
                   View all
                 </button>
               </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import BusinessCenterOutlinedIcon from '@mui/icons-material/BusinessCenterOutlined'
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined'
 import LightbulbOutlinedIcon from '@mui/icons-material/LightbulbOutlined'

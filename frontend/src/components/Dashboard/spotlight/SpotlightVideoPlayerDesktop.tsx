@@ -115,7 +115,9 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
           <div className="absolute bottom-0 left-0 right-0 p-6 z-20 flex flex-col justify-end">
             
             {video.link && (
-              <SpotlightLink linkData={video.link} />
+              <div className="w-full max-w-[400px]">
+                <SpotlightLink linkData={video.link} />
+              </div>
             )}
 
             <div className="flex items-center gap-3 mb-4">

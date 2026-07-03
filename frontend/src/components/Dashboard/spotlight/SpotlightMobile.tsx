@@ -230,12 +230,12 @@ export default function SpotlightMobile() {
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        <div className="flex-1 flex flex-col pb-10">
-            <div className="mt-4 mx-4">
+        <div className="flex-1 flex flex-col pb-2">
+            <div className="mt-2 mx-2">
               <AdvertisementBlock />
             </div>
 
-            <div className="mt-6">
+            <div className="mt-2">
               <div className="flex items-center gap-2 mb-3 px-4">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
                 <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending Shorts</h3>
@@ -255,7 +255,7 @@ export default function SpotlightMobile() {
               </div>
             </div>
 
-            <div className="mt-5 mx-3 rounded-[6px] overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] bg-[#1a0533] aspect-[4/5] cursor-pointer">
+           {/*  <div className="mt-5 mx-3 rounded-[6px] overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] bg-[#1a0533] aspect-[4/5] cursor-pointer">
               <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center mix-blend-overlay" />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-purple-900/70 to-transparent" />
@@ -275,9 +275,9 @@ export default function SpotlightMobile() {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="mt-5 mx-3">
+            <div className="mt-2 mx-2">
               <div className="flex flex-col gap-3 p-4 rounded-lg">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3" />
                 <div className="flex items-center gap-2 mb-1 relative z-10">
@@ -300,7 +300,7 @@ export default function SpotlightMobile() {
               </div>
             </div>
 
-            <div className="mt-5 mx-3">
+            <div className="mt-2 mx-2">
               <div className="flex flex-col gap-3 p-4 rounded-lg">
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">

@@ -48,10 +48,6 @@ const SpotlightVideoPlayerMobile = memo(function SpotlightVideoPlayerMobile({
         >
           <ArrowBackIosNewIcon sx={{ fontSize: 18 }} />
         </button>
-        <div className="flex items-center gap-2 bg-black/40 backdrop-blur-md rounded-full px-3 py-1.5 text-white">
-          <PlayArrowOutlinedIcon sx={{ fontSize: 16 }} />
-          <span className="text-[12px] font-semibold">{video.views} views</span>
-        </div>
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
@@ -119,11 +115,13 @@ const SpotlightVideoPlayerMobile = memo(function SpotlightVideoPlayerMobile({
         )}
       </div>
 
-      <div className="absolute bottom-6 left-4 right-20 flex flex-col gap-3 z-30">
-        {video.link && (
+      {video.link && (
+        <div className="absolute bottom-[120px] left-4 right-4 z-30 flex flex-col">
           <SpotlightLink linkData={video.link} />
-        )}
-        
+        </div>
+      )}
+
+      <div className="absolute bottom-6 left-4 right-20 flex flex-col gap-3 z-30">
         <h2 className="text-white text-[16px] font-extrabold leading-snug drop-shadow-xl line-clamp-3">
           {video.title}
         </h2>

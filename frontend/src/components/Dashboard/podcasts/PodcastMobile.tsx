@@ -8,13 +8,12 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd'
 import CloseIcon from '@mui/icons-material/Close'
 import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 
 import PodcastTabs from './PodcastTabs'
+import PodcastActiveEpisodeMobile from './PodcastActiveEpisodeMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
-import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
 const MOBILE_STYLES = `
@@ -418,69 +417,15 @@ export default function PodcastMobile() {
         </div>
 
         {activeEpisode && (
-          <div className="flex flex-col bg-white border-b border-gray-100 pb-4 animate-in slide-in-from-top-4 duration-300 relative z-50">
-            <div className="sticky top-0 z-[60] bg-white/95 backdrop-blur-sm px-3 py-2 flex items-center shadow-sm">
-              <button 
-                onClick={() => setActiveEpisode(null)}
-                className="w-8 h-8 rounded-full flex items-center justify-center bg-gray-100 text-gray-700 border-none cursor-pointer"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <span className="ml-2 text-[13px] font-bold text-gray-900">Now Playing</span>
-            </div>
-
-            <PodcastVideoPlayerMobile
-              episode={activeEpisode}
-              onClose={() => setActiveEpisode(null)}
-              onNext={() => setActiveEpisode(activeIdx < PODCAST_EPISODES.length - 1 ? PODCAST_EPISODES[activeIdx + 1] : null)}
-              onPrev={() => setActiveEpisode(activeIdx > 0 ? PODCAST_EPISODES[activeIdx - 1] : null)}
-              hasNext={activeIdx < PODCAST_EPISODES.length - 1}
-              hasPrev={activeIdx > 0}
-              hideTopOverlay
-            />
-            
-            <div className="px-3 pt-3 flex flex-col gap-2.5">
-              <h1 className="text-[16px] font-black text-gray-900 leading-tight">{activeEpisode.title}</h1>
-              <div className="flex items-center gap-2 text-[11px] text-gray-500 font-medium">
-                <span className="flex items-center gap-1"><Eye size={12} className="text-purple-500" /> 28K Views</span>
-                <span className="w-1 h-1 rounded-full bg-gray-300" />
-                <span>1 day ago</span>
-              </div>
-              
-              <div className="flex items-center justify-between mt-1">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-purple-600 to-pink-500 text-white font-bold flex items-center justify-center text-[14px]">
-                    {activeEpisode.speaker?.charAt(0)}
-                  </div>
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-1">
-                      <h3 className="text-[13px] font-bold text-gray-900">{activeEpisode.speaker}</h3>
-                      {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />}
-                    </div>
-                    <p className="text-[10px] text-gray-500 font-medium">{activeEpisode.role}</p>
-                  </div>
-                </div>
-                <button className="px-3.5 py-1.5 bg-gray-900 text-white rounded-full text-[11px] font-bold border-none">
-                  Follow
-                </button>
-              </div>
-
-              <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory pt-2 pb-1 [&::-webkit-scrollbar]:hidden">
-                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[11px] font-bold shrink-0 border-none">
-                  <BookmarkBorderIcon sx={{ fontSize: 16 }} /> Save
-                </button>
-                <button className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-900 rounded-full text-[11px] font-bold shrink-0 border-none">
-                  <ShareIcon sx={{ fontSize: 16 }} /> Share
-                </button>
-                <button 
-                  onClick={() => setShowPlaylistModal(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-full text-[11px] font-bold shrink-0 border border-purple-200"
-                >
-                  <PlaylistAddIcon sx={{ fontSize: 16 }} /> Create Playlist
-                </button>
-              </div>
-            </div>
-          </div>
+          <PodcastActiveEpisodeMobile
+            activeEpisode={activeEpisode}
+            setActiveEpisode={setActiveEpisode}
+            activeIdx={activeIdx}
+            filteredWithoutTop={filteredWithoutTop}
+            displayedEpisodes={displayedEpisodes}
+            EpisodeListCard={EpisodeListCard}
+            EpisodeGridCard={EpisodeGridCard}
+          />
         )}
 
         <div className="flex-1 flex flex-col">

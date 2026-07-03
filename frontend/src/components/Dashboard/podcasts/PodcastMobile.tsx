@@ -579,7 +579,7 @@ export default function PodcastMobile() {
 
           <div className="mt-6">
             <div className="flex items-center justify-between mb-1 px-4">
-              <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
+              <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Top Experts </h3>
               <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
                 View all <ChevronRight size={13} />
               </button>
@@ -592,10 +592,10 @@ export default function PodcastMobile() {
                     <div className="m-expert-avatar w-12 h-12 rounded-full overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-white">
                       <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
                     </div>
-                    <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-400 border border-white shadow-sm" />
                   </div>
-                  <div className="flex items-center justify-center gap-0.5 w-full">
-                    <span className="text-[10px] font-semibold text-gray-900 text-center truncate w-full">{expert.name}</span>
+                  <div className="flex items-center justify-center gap-0.5 w-full min-w-0">
+                    <span className="text-[10px] font-semibold text-gray-900 text-center truncate max-w-full">{expert.name}</span>
+                    <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
                   </div>
                   <span className="text-[8.5px] font-medium text-gray-500 text-center leading-tight line-clamp-2 h-6 w-full">{expert.role}</span>
                 </div>

@@ -151,7 +151,7 @@ export default function DashboardHeader({
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-[var(--color-border-default)]">
-      <div className="flex items-center h-16 md:h-20 px-4 sm:px-6 w-full gap-4">
+      <div className="flex items-center h-16 px-2 sm:px-2 w-full gap-4">
 
         {navItems.length > 0 && (
           <div className="flex-1 min-w-0 relative group/navslider h-full flex items-center">

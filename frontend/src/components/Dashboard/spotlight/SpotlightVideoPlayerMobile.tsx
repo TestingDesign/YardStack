@@ -10,6 +10,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import type { SpotlightVideo } from './data'
+import SpotlightLink from './SpotlightLink'
 
 const SpotlightVideoPlayerMobile = memo(function SpotlightVideoPlayerMobile({ 
   video, 
@@ -119,6 +120,10 @@ const SpotlightVideoPlayerMobile = memo(function SpotlightVideoPlayerMobile({
       </div>
 
       <div className="absolute bottom-6 left-4 right-20 flex flex-col gap-3 z-30">
+        {video.link && (
+          <SpotlightLink linkData={video.link} />
+        )}
+        
         <h2 className="text-white text-[16px] font-extrabold leading-snug drop-shadow-xl line-clamp-3">
           {video.title}
         </h2>

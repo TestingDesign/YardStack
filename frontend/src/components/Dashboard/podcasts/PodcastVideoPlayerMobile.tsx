@@ -230,7 +230,7 @@ export default function PodcastVideoPlayerMobile({
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className={`relative z-10 w-full h-full object-contain transition-transform duration-[2000ms] ease-out ${
+          className={`relative z-10 w-full h-full object-cover object-center transition-transform duration-[2000ms] ease-out ${
             isPlaying ? 'scale-[1.02]' : 'scale-100'
           }`}
         />

@@ -3,16 +3,51 @@ import { LayoutGrid, List } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
+import { CircularProgress } from '@mui/material'
 
 import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
+
+type EpisodeCardProps = {
+  episode: PodcastEpisode
+  onPlay: (ep: PodcastEpisode) => void
+  index?: number
+}
+
+const MobileEpisodeGridSkeleton = () => (
+  <div className="flex flex-col group rounded-[4px] animate-pulse bg-white p-1 shadow-[0_3px_12px_rgba(0,0,0,0.05)] border border-gray-100/50">
+    <div className="relative w-full aspect-video rounded-[4px] mb-2 bg-gray-200/80" />
+    <div className="px-0.5 pt-1">
+      <div className="h-3 bg-gray-200/80 rounded-[4px] w-full mb-1.5" />
+      <div className="h-3 bg-gray-200/80 rounded-[4px] w-3/4 mb-1.5" />
+      <div className="flex items-center gap-1.5 mt-1">
+        <div className="w-3.5 h-3.5 rounded-full bg-gray-200/80 shrink-0" />
+        <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/2" />
+      </div>
+    </div>
+  </div>
+)
+
+const MobileEpisodeListSkeleton = () => (
+  <div className="flex items-start gap-2 py-2 px-2 -mx-2 rounded-[4px] animate-pulse">
+    <div className="w-[155px] aspect-[16/10] rounded-[4px] bg-gray-200/80 shrink-0" />
+    <div className="flex-1 min-w-0 pr-1 py-1 flex flex-col gap-1.5">
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-full" />
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-2/3" />
+      <div className="flex items-center gap-1.5 mt-1">
+        <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
+        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
+      </div>
+    </div>
+  </div>
+  
+)
 
 export default function PodcastActiveEpisodeMobile({
   activeEpisode,
   setActiveEpisode,
   activeIdx,
   filteredWithoutTop,
-  displayedEpisodes,
   EpisodeListCard,
   EpisodeGridCard
 }: {
@@ -20,20 +55,26 @@ export default function PodcastActiveEpisodeMobile({
   setActiveEpisode: (ep: PodcastEpisode | null) => void
   activeIdx: number
   filteredWithoutTop: PodcastEpisode[]
-  displayedEpisodes: PodcastEpisode[]
-  EpisodeListCard: React.FC<any>
-  EpisodeGridCard: React.FC<any>
+  EpisodeListCard: React.ComponentType<EpisodeCardProps>
+  EpisodeGridCard: React.ComponentType<EpisodeCardProps>
 }) {
   const [autoplay, setAutoplay] = useState(true)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
   const [page, setPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
   const perPage = 6
   
   const displayedCount = page * perPage
-  const displayedForGrid = displayedEpisodes.slice(0, displayedCount)
-  const hasMore = displayedForGrid.length < displayedEpisodes.length
+  const displayedForGrid = filteredWithoutTop.slice(0, displayedCount)
+  const hasMore = displayedForGrid.length < filteredWithoutTop.length
   
-  const handleLoadMore = () => setPage(p => p + 1)
+  const handleLoadMore = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setPage(p => p + 1)
+      setIsLoading(false)
+    }, 800)
+  }
 
   return (
     <div className="relative w-full flex-1 bg-white animate-in fade-in duration-300 flex flex-col">
@@ -132,12 +173,27 @@ export default function PodcastActiveEpisodeMobile({
             {displayedForGrid.map((ep, idx) => (
               <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
             ))}
+            {isLoading && (
+              <>
+                <MobileEpisodeGridSkeleton />
+                <MobileEpisodeGridSkeleton />
+                <MobileEpisodeGridSkeleton />
+                <MobileEpisodeGridSkeleton />
+              </>
+            )}
           </div>
         ) : (
           <div className="flex flex-col gap-2 pb-2">
             {displayedForGrid.map((ep, idx) => (
               <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
             ))}
+            {isLoading && (
+              <>
+                <MobileEpisodeListSkeleton />
+                <MobileEpisodeListSkeleton />
+                <MobileEpisodeListSkeleton />
+              </>
+            )}
           </div>
         )}
         
@@ -146,12 +202,22 @@ export default function PodcastActiveEpisodeMobile({
             <button
               type="button"
               onClick={handleLoadMore}
-              className="group flex items-center gap-2 px-7 py-2.5 rounded-lg bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+              disabled={isLoading}
+              className="group flex items-center gap-2 px-7 py-2.5 rounded-lg bg-white border border-gray-300 text-[13px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
             >
-              <svg className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-              Load More Episodes
+              {isLoading ? (
+                <>
+                  <CircularProgress size={16} sx={{ color: '#7C3AED' }} />
+                  <span>Loading...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  Load More Episodes
+                </>
+              )}
             </button>
           </div>
         )}

@@ -10,6 +10,7 @@ import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
+import { CircularProgress } from '@mui/material'
 
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 import PodcastTabs from './PodcastTabs'
@@ -136,6 +137,21 @@ const MoreMenu = memo(function MoreMenu({
   )
 })
 
+const DesktopEpisodeSkeleton = () => (
+  <div className="flex flex-col rounded-2xl animate-pulse bg-white p-1 pb-2 shadow-sm border border-gray-100/50">
+    <div className="w-full aspect-video rounded-[8px] mb-2.5 bg-gray-200/80" />
+    <div className="flex flex-col gap-1.5 px-1.5">
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-5/6" />
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-2/3" />
+      <div className="flex items-center gap-2 mt-1.5">
+        <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
+        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
+      </div>
+      <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/3 ml-7 mt-0.5" />
+    </div>
+  </div>
+)
+
 const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   episode, onPlay, index = 0,
 }: {
@@ -205,14 +221,14 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
             <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
               <span className="text-[9px] font-bold text-white select-none">{speakerInitial}</span>
             </div>
-            <span className="text-[11.5px] font-semibold text-gray-700 truncate group-hover:text-purple-600 transition-colors duration-200">
+            <span className="text-[11.5px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
               {episode.speaker}
             </span>
             {episode.verified && (
               <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />
             )}
           </div>
-          <p className="text-[10px] text-gray-400 mt-0.5 truncate font-medium ml-7">
+          <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-7">
             {episode.role}
           </p>
         </div>
@@ -284,14 +300,14 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
           {episode.title}
         </h3>
         <div className="flex items-center gap-1 mb-0.5">
-          <span className="text-[10.5px] font-semibold text-gray-700 truncate group-hover:text-purple-600 transition-colors duration-200">
+          <span className="text-[10.5px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
             {episode.speaker}
           </span>
           {episode.verified && (
             <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500 shrink-0" />
           )}
         </div>
-        <p className="text-[9.5px] text-gray-400 truncate font-medium">
+        <p className="text-[9.5px] text-gray-500 truncate font-normal">
           {episode.role}
         </p>
       </div>
@@ -413,6 +429,7 @@ export default function PodcastDesktop() {
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
   const [showPlaylistModal, setShowPlaylistModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const perPage = 10
 
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -442,7 +459,13 @@ export default function PodcastDesktop() {
   const displayedEpisodes = filteredWithoutTop.slice(0, displayedCount)
   const hasMore = displayedEpisodes.length < filteredWithoutTop.length
 
-  const handleLoadMore = () => setPage((prev) => prev + 1)
+  const handleLoadMore = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setPage((prev) => prev + 1)
+      setIsLoading(false)
+    }, 800)
+  }
 
   const handleScroll = useCallback(() => {
     if (sliderRef.current) {
@@ -568,7 +591,7 @@ export default function PodcastDesktop() {
                 <div
                   ref={sliderRef}
                   onScroll={handleScroll}
-                  className="flex gap-2.5 overflow-x-auto pb-4 pt-2 px-1 scroll-px-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+                  className="flex gap-2.5 overflow-x-auto pb-4 pt-2 px-2 scroll-px-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
                 >
                   {filteredWithoutTop.slice(0, 10).map((ep, mapIdx) => {
                     const actualIdx = filtered.findIndex((e) => e.id === ep.id);
@@ -622,6 +645,13 @@ export default function PodcastDesktop() {
                     {displayedEpisodes.map((ep, idx) => (
                       <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
+                    {isLoading && (
+                      <>
+                        <DesktopEpisodeSkeleton />
+                        <DesktopEpisodeSkeleton />
+                        <DesktopEpisodeSkeleton />
+                      </>
+                    )}
                   </div>
 
                   {hasMore && (
@@ -629,10 +659,20 @@ export default function PodcastDesktop() {
                       <button
                         type="button"
                         onClick={handleLoadMore}
-                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                        disabled={isLoading}
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-gray-300 text-[13px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
                       >
-                        <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
-                        Load More Episodes
+                        {isLoading ? (
+                          <>
+                            <CircularProgress size={16} sx={{ color: '#7C3AED' }} />
+                            <span>Loading...</span>
+                          </>
+                        ) : (
+                          <>
+                            <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                            Load More Episodes
+                          </>
+                        )}
                       </button>
                     </div>
                   )}

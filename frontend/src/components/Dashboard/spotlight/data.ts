@@ -18,6 +18,8 @@ export const FILTER_TABS: FilterTab[] = [
   { key: 'design', label: 'Design', color: TAB_COLOR },
 ];
 
+import { SpotlightLinkData SPOTLIGHT_LINKS } from './SpotlightLinkData';
+
 export interface SpotlightVideo {
   id: string
   title: string
@@ -34,6 +36,7 @@ export interface SpotlightVideo {
   logoText?: string
   logoBg?: string
   logoColor?: string
+  link?: SpotlightLinkData
 }
 
 export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
@@ -53,6 +56,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'ABC\nREALTY',
     logoBg: '#000000',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS.seniorAgent
   },
   {
     id: 'sv-2',
@@ -70,6 +74,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'PRIME\nINFRA',
     logoBg: '#ffffff',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS.luxuryVilla
   },
   {
     id: 'sv-3',
@@ -87,6 +92,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'CITY\nSPACES',
     logoBg: '#3b0764',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS.commercialOffice
   },
   {
     id: 'sv-4',
@@ -152,9 +158,10 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     tagBg: '#d1fae5',
     tagColor: '#059669',
     timeAgo: '5d ago',
-    logoText: 'ARCH\nHUB',
-    logoBg: '#ffffff',
+    logoText: 'STUDIO\nV',
+    logoBg: '#fcd34d',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS.minimalistInteriors
   },
   {
     id: 'sv-8',

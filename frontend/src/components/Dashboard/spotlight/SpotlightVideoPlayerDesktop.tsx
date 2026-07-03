@@ -10,6 +10,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import type { SpotlightVideo } from './data'
+import SpotlightLink from './SpotlightLink'
 
 const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({ 
   video, 
@@ -90,39 +91,10 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
         <ArrowBackIosNewIcon sx={{ fontSize: 20 }} className="ml-1" />
       </button>
 
-      <div className="flex flex-row items-end justify-start px-50 gap-1 h-[90vh] max-h-[950px] w-full">
+      <div className="flex flex-row items-center justify-center px-10 gap-6 h-[92vh] max-h-[950px] w-full">
         
-        <div className="flex flex-col gap-4 w-[280px] h-full justify-end pb-8">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[2px] shadow-lg flex-shrink-0">
-              <div className="w-full h-full rounded-full bg-neutral-900 border-2 border-transparent flex items-center justify-center overflow-hidden">
-                 <span className="text-white text-[15px] font-bold tracking-wider">{video.authorInitial}</span>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center">
-              <div className="flex items-center gap-1.5">
-                <span className="text-white font-bold text-[16px] hover:underline cursor-pointer">{video.author}</span>
-                {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-400" />}
-              </div>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-white/60 text-[13px] flex items-center gap-1">
-                  <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} /> {video.views}
-                </span>
-                <span className="text-white/40 text-xs">•</span>
-                <button className="text-blue-400 font-bold text-[13px] hover:text-blue-300 transition-colors cursor-pointer border-none bg-transparent p-0">
-                  Follow
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-white/95 text-[16px] leading-relaxed mt-2">
-            {video.title}
-          </div>
-        </div>
-        
-        <div className="h-full aspect-[9/16] relative overflow-hidden rounded-2xl bg-black shadow-[0_0_40px_rgba(0,0,0,0.5)] border border-white/10 group shrink-0">
-          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 transition-opacity duration-500 group-hover:opacity-100`} />
+        <div className="relative h-full aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group shrink-0">
+          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 transition-opacity duration-700 group-hover:opacity-100`} />
           
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/40 backdrop-blur-sm">
@@ -130,11 +102,49 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
             </div>
           ) : (
             <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-              <div className="w-20 h-20 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-2xl transition-transform duration-300 group-hover:scale-110">
-                <PlayArrowOutlinedIcon sx={{ fontSize: 52 }} className="drop-shadow-lg" />
+              <div className="w-24 h-24 bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:bg-black/30">
+                <PlayArrowOutlinedIcon sx={{ fontSize: 60 }} className="drop-shadow-lg" />
               </div>
             </div>
           )}
+
+          {/* Bottom Gradient for Text Legibility */}
+          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
+
+          {/* Content Overlay */}
+          <div className="absolute bottom-0 left-0 right-0 p-6 z-20 flex flex-col justify-end">
+            
+            {video.link && (
+              <SpotlightLink linkData={video.link} />
+            )}
+
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[2px] shadow-lg flex-shrink-0 cursor-pointer hover:scale-105 transition-transform">
+                <div className="w-full h-full rounded-full bg-neutral-900 border-2 border-transparent flex items-center justify-center overflow-hidden">
+                   <span className="text-white text-[15px] font-bold tracking-wider">{video.authorInitial}</span>
+                </div>
+              </div>
+              <div className="flex flex-col justify-center">
+                <div className="flex items-center gap-1.5">
+                  <span className="text-white font-bold text-[16px] hover:underline cursor-pointer drop-shadow-md">{video.author}</span>
+                  {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-400 drop-shadow-md" />}
+                </div>
+                <div className="flex items-center gap-2 mt-0.5">
+                  <span className="text-white/80 text-[13px] flex items-center gap-1 drop-shadow-md">
+                    <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} /> {video.views}
+                  </span>
+                  <span className="text-white/40 text-xs">•</span>
+                  <button className="text-white/90 font-bold text-[13px] hover:text-white transition-colors cursor-pointer border-none bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full backdrop-blur-md">
+                    Follow
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-white/95 text-[16px] leading-relaxed drop-shadow-md pr-12 line-clamp-3">
+              {video.title}
+            </div>
+          </div>
 
           <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/20 z-50">
             <div className={`h-full bg-white rounded-r-full shadow-[0_0_10px_rgba(255,255,255,0.8)] relative transition-all duration-1000 ${isLoading ? 'w-0' : 'w-1/3'}`}>
@@ -143,17 +153,17 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 h-full justify-end pb-8">
-          <ActionIcon icon={<FavoriteBorderIcon sx={{ fontSize: 26 }} />} label="12.4K" />
-          <ActionIcon icon={<ShareOutlinedIcon sx={{ fontSize: 26 }} />} label="Share" />
-          <ActionIcon icon={<BookmarkBorderIcon sx={{ fontSize: 26 }} />} label="Save" />
+        <div className="flex flex-col gap-4 h-full justify-end pb-12 shrink-0">
+          <ActionIcon icon={<FavoriteBorderIcon sx={{ fontSize: 28 }} />} label="12.4K" />
+          <ActionIcon icon={<ShareOutlinedIcon sx={{ fontSize: 28 }} />} label="Share" />
+          <ActionIcon icon={<BookmarkBorderIcon sx={{ fontSize: 28 }} />} label="Save" />
           
-          <div className="relative flex flex-col items-center gap-1.5" ref={menuRef}>
+          <div className="relative flex flex-col items-center gap-1.5 mt-2" ref={menuRef}>
             <button 
               onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(!isMenuOpen) }}
-              className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer border-none shadow-lg ${isMenuOpen ? 'bg-white text-black' : 'bg-[#262626] hover:bg-[#363636] text-white'}`}
+              className={`w-[52px] h-[52px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer border-none shadow-lg ${isMenuOpen ? 'bg-white text-black' : 'bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white'}`}
             >
-              <MoreVertIcon sx={{ fontSize: 26 }} />
+              <MoreVertIcon sx={{ fontSize: 28 }} />
             </button>
             
             {isMenuOpen && (
@@ -181,10 +191,10 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
 function ActionIcon({ icon, label }: { icon: React.ReactNode, label: string }) {
   return (
     <button className="flex flex-col items-center gap-1.5 group cursor-pointer border-none bg-transparent p-0">
-      <div className="w-12 h-12 rounded-full bg-[#262626] hover:bg-[#363636] flex items-center justify-center transition-all duration-300 group-hover:scale-110 active:scale-95 text-white shadow-lg border border-transparent group-hover:border-white/10">
+      <div className="w-[52px] h-[52px] rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 active:scale-95 text-white shadow-lg border border-white/10 group-hover:border-white/30">
         {icon}
       </div>
-      <span className="text-white/90 text-[12px] font-semibold drop-shadow-md group-hover:text-white transition-colors">{label}</span>
+      <span className="text-white/90 text-[13px] font-semibold drop-shadow-md group-hover:text-white transition-colors">{label}</span>
     </button>
   )
 }

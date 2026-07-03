@@ -10,52 +10,13 @@ import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
+import { CircularProgress } from '@mui/material'
 
 import PodcastTabs from './PodcastTabs'
 import PodcastActiveEpisodeMobile from './PodcastActiveEpisodeMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
-const MOBILE_STYLES = `
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position:  200% center; }
-  }
-  @keyframes pulseRing {
-    0%   { transform: scale(1);   opacity: .6; }
-    100% { transform: scale(1.9); opacity: 0; }
-  }
-  @keyframes gradShift {
-    0%,100% { background-position: 0% 50%; }
-    50%     { background-position: 100% 50%; }
-  }
-  .m-card-shimmer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.18) 50%, transparent 60%);
-    background-size: 200% 100%;
-    opacity: 0;
-    transition: opacity .3s;
-    pointer-events: none;
-    border-radius: inherit;
-  }
-  .m-card-shimmer:hover::after {
-    opacity: 1;
-    animation: shimmer .7s ease forwards;
-  }
-  .m-expert-avatar {
-    transition: transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s ease;
-  }
-  .m-expert-avatar:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 10px 28px rgba(124,58,237,0.28);
-  }
-  .m-hero-btn {
-    background-size: 200% 200%;
-    animation: gradShift 4s ease infinite;
-  }
-`
 
 const EXPERTS = [
   { name: 'Ritika Sharma', role: 'Real Estate Analyst',      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80' },
@@ -88,7 +49,6 @@ function MobileMoreMenu({
       {open && (
         <div
           className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
-          role="menu"
         >
           {[
             { Icon: ShareIcon,        label: 'Share episode'   },
@@ -169,13 +129,42 @@ const TrendingCard = memo(function TrendingCard({
           <div className="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_1px_4px_rgba(124,58,237,0.4)]">
             <span className="text-[7px] font-semibold text-white select-none">{speakerInitial}</span>
           </div>
-          <span className="text-[10px] font-semibold text-gray-600 truncate">{episode.speaker}</span>
+          <span className="text-[10px] font-medium text-gray-600 truncate">{episode.speaker}</span>
           {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
         </div>
       </div>
     </div>
   )
 })
+
+const MobileEpisodeGridSkeleton = () => (
+  <div className="flex flex-col group rounded-[4px] animate-pulse bg-white p-1 shadow-[0_3px_12px_rgba(0,0,0,0.05)] border border-gray-100/50">
+    <div className="relative w-full aspect-video rounded-[4px] mb-2 bg-gray-200/80" />
+    <div className="px-0.5 pt-1">
+      <div className="h-3 bg-gray-200/80 rounded-[4px] w-full mb-1.5" />
+      <div className="h-3 bg-gray-200/80 rounded-[4px] w-3/4 mb-1.5" />
+      <div className="flex items-center gap-1.5 mt-1">
+        <div className="w-3.5 h-3.5 rounded-full bg-gray-200/80 shrink-0" />
+        <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/2" />
+      </div>
+    </div>
+  </div>
+)
+
+const MobileEpisodeListSkeleton = () => (
+  <div className="flex items-start gap-2 py-2 px-2 -mx-2 rounded-[4px] animate-pulse">
+    <div className="w-[155px] aspect-[16/10] rounded-[4px] bg-gray-200/80 shrink-0" />
+    <div className="flex-1 min-w-0 pr-1 py-1 flex flex-col gap-1.5">
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-full" />
+      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-2/3" />
+      <div className="flex items-center gap-1.5 mt-1">
+        <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
+        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
+      </div>
+      <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/3 ml-6.5 mt-0.5" />
+    </div>
+  </div>
+)
 
 const EpisodeListCard = memo(function EpisodeListCard({
   episode, onPlay, index = 0,
@@ -228,10 +217,10 @@ const EpisodeListCard = memo(function EpisodeListCard({
           <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
             <span className="text-[9px] font-semibold text-white select-none">{speakerInitial}</span>
           </div>
-          <span className="text-[12px] font-semibold text-gray-700 truncate">{episode.speaker}</span>
+          <span className="text-[12px] font-medium text-gray-600 truncate">{episode.speaker}</span>
           {episode.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />}
         </div>
-        <p className="text-[11px] text-gray-400 truncate font-medium ml-6.5">{episode.role}</p>
+        <p className="text-[11px] text-gray-500 truncate font-normal ml-6.5">{episode.role}</p>
       </div>
 
       <div className="flex flex-col items-center gap-1 shrink-0 py-1">
@@ -285,10 +274,10 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
         <div className="w-3.5 h-3.5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
           <span className="text-[7px] font-semibold text-white select-none">{speakerInitial}</span>
         </div>
-        <span className="text-[10px] font-semibold text-gray-600 truncate">{episode.speaker}</span>
+        <span className="text-[10px] font-medium text-gray-600 truncate">{episode.speaker}</span>
         {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
       </div>
-      <p className="text-[9.5px] text-gray-400 mt-0.5 truncate font-medium ml-5 px-0.5">{episode.role}</p>
+      <p className="text-[9.5px] text-gray-500 mt-0.5 truncate font-normal ml-5 px-0.5">{episode.role}</p>
     </div>
   )
 })
@@ -355,6 +344,7 @@ export default function PodcastMobile() {
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
   const [showPlaylistModal, setShowPlaylistModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const perPage = 10
 
@@ -382,8 +372,17 @@ export default function PodcastMobile() {
   const topEpisodeId = activeEpisode ? activeEpisode.id : filtered[0]?.id
   const filteredWithoutTop = filtered.filter((ep) => ep.id !== topEpisodeId)
 
-  const displayedEpisodes = filteredWithoutTop.slice(0, page * perPage)
+  const displayedCount = page * perPage
+  const displayedEpisodes = filteredWithoutTop.slice(0, displayedCount)
   const hasMore = displayedEpisodes.length < filteredWithoutTop.length
+
+  const handleLoadMore = () => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setPage(p => p + 1)
+      setIsLoading(false)
+    }, 800)
+  }
 
   const activeIdx = activeEpisode
     ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
@@ -409,7 +408,6 @@ export default function PodcastMobile() {
 
   return (
     <>
-      <style>{MOBILE_STYLES}</style>
 
       <div ref={scrollContainerRef} className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] animate-in fade-in duration-500 flex flex-col">
 
@@ -423,7 +421,6 @@ export default function PodcastMobile() {
             setActiveEpisode={setActiveEpisode}
             activeIdx={activeIdx}
             filteredWithoutTop={filteredWithoutTop}
-            displayedEpisodes={displayedEpisodes}
             EpisodeListCard={EpisodeListCard}
             EpisodeGridCard={EpisodeGridCard}
           />
@@ -636,12 +633,27 @@ export default function PodcastMobile() {
                     {displayedEpisodes.map((ep, idx) => (
                       <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
+                    {isLoading && (
+                      <>
+                        <MobileEpisodeGridSkeleton />
+                        <MobileEpisodeGridSkeleton />
+                        <MobileEpisodeGridSkeleton />
+                        <MobileEpisodeGridSkeleton />
+                      </>
+                    )}
                   </div>
                 ) : (
                   <div className="flex flex-col gap-3">
                     {displayedEpisodes.map((ep, idx) => (
                       <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
+                    {isLoading && (
+                      <>
+                        <MobileEpisodeListSkeleton />
+                        <MobileEpisodeListSkeleton />
+                        <MobileEpisodeListSkeleton />
+                      </>
+                    )}
                   </div>
                 )}
 
@@ -649,11 +661,21 @@ export default function PodcastMobile() {
                   <div className="mt-6 flex items-center justify-center">
                     <button
                       type="button"
-                      onClick={() => setPage(p => p + 1)}
-                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[12px] font-semibold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97]"
+                      onClick={handleLoadMore}
+                      disabled={isLoading}
+                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-gray-300 text-[12px] font-semibold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
                     >
-                      <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
-                      Load More Episodes
+                      {isLoading ? (
+                        <>
+                          <CircularProgress size={14} sx={{ color: '#7C3AED' }} />
+                          <span>Loading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                          Load More Episodes
+                        </>
+                      )}
                     </button>
                   </div>
                 )}

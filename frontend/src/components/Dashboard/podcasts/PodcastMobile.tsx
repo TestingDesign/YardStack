@@ -432,7 +432,7 @@ export default function PodcastMobile() {
 
           {!activeEpisode && filtered[0] && (
             <div
-              className="mx-4 mt-4 rounded-[8px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
+              className="mx-2 rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
               onClick={() => setActiveEpisode(filtered[0])}
             >
               <div className="flex gap-0">
@@ -493,8 +493,8 @@ export default function PodcastMobile() {
             </div>
           )}
 
-          <div className="mt-6 px-4">
-            <div className="flex items-center justify-between mb-3">
+          <div className="mt-4 px-2">
+            <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
                 <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending This Week</h3>
@@ -543,11 +543,11 @@ export default function PodcastMobile() {
             </div>
           </div>
 
-          <div className="mt-6 mx-4">
+          <div className="mt-2 mx-2">
             <AdvertisementBlock />
           </div>
 
-          <div className="mt-8 mx-4">
+          <div className="mt-4 mx-2">
             <div className="p-2 rounded-[8px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex items-center gap-1.5 mb-3">
                 <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
@@ -578,7 +578,7 @@ export default function PodcastMobile() {
           </div>
 
           <div className="mt-6">
-            <div className="flex items-center justify-between mb-3 px-4">
+            <div className="flex items-center justify-between mb-1 px-4">
               <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Top Experts in Real Estate</h3>
               <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
                 View all <ChevronRight size={13} />
@@ -650,7 +650,7 @@ export default function PodcastMobile() {
                     <button
                       type="button"
                       onClick={() => setPage(p => p + 1)}
-                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[8px] bg-white border border-purple-200 text-[12px] font-semibold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97]"
+                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[12px] font-semibold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_10px_rgba(124,58,237,0.1)] hover:shadow-[0_6px_22px_rgba(124,58,237,0.28)] hover:scale-[1.03] active:scale-[0.97]"
                     >
                       <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
                       Load More Episodes

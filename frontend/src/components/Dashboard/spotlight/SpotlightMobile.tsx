@@ -211,10 +211,13 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   videos: SpotlightVideo[]
   onPlay: (v: SpotlightVideo) => void
 }) {
-  const [currentIndex, setCurrentIndex] = useState(2)
+  const [rotation, setRotation] = useState(0)
 
-  const handleNext = () => setCurrentIndex((prev) => Math.min(prev + 1, Math.min(videos.length - 1, 4)))
-  const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
+  const handleNext = () => setRotation(r => r - 72)
+  const handlePrev = () => setRotation(r => r + 72)
+
+  const items = videos.slice(0, 5)
+  const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
     <div className="w-full h-[260px] overflow-hidden relative flex items-center justify-center" style={{ perspective: '800px' }}>
@@ -223,41 +226,40 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
       
       <button 
         onClick={handlePrev} 
-        disabled={currentIndex === 0}
-        className="absolute left-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 shadow-sm active:scale-95"
+        className="absolute left-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm active:scale-95"
       >
         <ChevronLeft size={16} />
       </button>
 
-      <div className="relative w-full max-w-[340px] h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-        {videos.slice(0, 5).map((video, idx) => {
-          const isActive = idx === currentIndex
-          const offset = idx - currentIndex
-          const absOffset = Math.abs(offset)
+      <div 
+        className="relative w-full max-w-[340px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+        style={{ transformStyle: 'preserve-3d', transform: `translateZ(-160px) rotateY(${rotation}deg)` }}
+      >
+        {items.map((video, idx) => {
+          const isActive = idx === activeIndex
+          const cardAngle = idx * 72
           
-          let transform = ''
-          let zIndex = 10 - absOffset
-          let opacity = 1
-          
-          if (offset === 0) {
-            transform = 'translateX(0) scale(1) translateZ(0px)'
-          } else if (offset === -1) {
-            transform = 'translateX(-45%) scale(0.88) translateZ(-20px) rotateY(10deg)'
-            opacity = 0.8
-          } else if (offset === 1) {
-            transform = 'translateX(45%) scale(0.88) translateZ(-20px) rotateY(-10deg)'
-            opacity = 0.8
-          } else {
-             opacity = 0
-             transform = 'translateX(0) scale(0.5)'
-          }
+          let diff = idx - activeIndex
+          if (diff > 2) diff -= 5
+          if (diff < -2) diff += 5
+          const absDiff = Math.abs(diff)
+          const opacity = absDiff === 0 ? 1 : absDiff === 1 ? 0.8 : 0.4
 
           return (
             <div 
               key={video.id} 
               className={`absolute w-[140px] aspect-[9/16] rounded-[4px] overflow-hidden shadow-lg cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-1 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
-              style={{ transform, zIndex, opacity }}
-              onClick={() => isActive ? onPlay(video) : setCurrentIndex(idx)}
+              style={{ 
+                transform: `rotateY(${cardAngle}deg) translateZ(160px)`, 
+                opacity 
+              }}
+              onClick={() => {
+                if (isActive) {
+                  onPlay(video)
+                } else {
+                  setRotation(r => r - (diff * 72))
+                }
+              }}
             >
               <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -298,8 +300,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
 
       <button 
         onClick={handleNext} 
-        disabled={currentIndex >= Math.min(videos.length - 1, 4)}
-        className="absolute right-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 shadow-sm active:scale-95"
+        className="absolute right-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm active:scale-95"
       >
         <ChevronRight size={16} />
       </button>

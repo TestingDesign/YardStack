@@ -246,58 +246,54 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
   videos: SpotlightVideo[]
   onPlay: (v: SpotlightVideo) => void
 }) {
-  const [currentIndex, setCurrentIndex] = useState(2)
+  const [rotation, setRotation] = useState(0)
 
-  const handleNext = () => setCurrentIndex((prev) => Math.min(prev + 1, Math.min(videos.length - 1, 4)))
-  const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
+  const handleNext = () => setRotation(r => r - 72)
+  const handlePrev = () => setRotation(r => r + 72)
+
+  const items = videos.slice(0, 5)
+  const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
-    <div className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg opacity-0 animate-swipe-up" style={{ perspective: '1000px' }}>
+    <div className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg opacity-0 animate-swipe-up" style={{ perspective: '1200px' }}>
       <button 
         onClick={handlePrev} 
-        disabled={currentIndex === 0}
-        className="absolute left-3 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+        className="absolute left-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
       >
         <ChevronLeft size={16} />
       </button>
       
-      <div className="relative w-full max-w-[800px] h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
-        {videos.slice(0, 5).map((video, idx) => {
-          const isActive = idx === currentIndex
-          const offset = idx - currentIndex
-          const absOffset = Math.abs(offset)
+      <div 
+        className="relative w-full max-w-[800px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+        style={{ transformStyle: 'preserve-3d', transform: `translateZ(-280px) rotateY(${rotation}deg)` }}
+      >
+        {items.map((video, idx) => {
+          const isActive = idx === activeIndex
+          const cardAngle = idx * 72
           
-          let transform = ''
-          let zIndex = 10 - absOffset
-          let opacity = 1
-          
-          if (offset === 0) {
-            transform = 'translateX(0) scale(1) translateZ(0px)'
-          } else if (offset === -1) {
-            transform = 'translateX(-45%) scale(0.9) translateZ(-60px) rotateY(15deg)'
-            opacity = 0.9
-          } else if (offset === 1) {
-            transform = 'translateX(45%) scale(0.9) translateZ(-60px) rotateY(-15deg)'
-            opacity = 0.9
-          } else if (offset === -2) {
-            transform = 'translateX(-80%) scale(0.75) translateZ(-120px) rotateY(25deg)'
-            opacity = 0.6
-          } else if (offset === 2) {
-            transform = 'translateX(80%) scale(0.75) translateZ(-120px) rotateY(-25deg)'
-            opacity = 0.6
-          } else {
-             opacity = 0
-             transform = 'translateX(0) scale(0)'
-          }
+          let diff = idx - activeIndex
+          if (diff > 2) diff -= 5
+          if (diff < -2) diff += 5
+          const absDiff = Math.abs(diff)
+          const opacity = absDiff === 0 ? 1 : absDiff === 1 ? 0.7 : 0.2
           
           return (
             <div 
               key={video.id}
               className={`absolute w-[160px] sm:w-[200px] aspect-[9/16] rounded-lg overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1' : 'border border-black/10'}`}
-              style={{ transform, zIndex, opacity }}
-              onClick={() => isActive ? onPlay(video) : setCurrentIndex(idx)}
+              style={{ 
+                transform: `rotateY(${cardAngle}deg) translateZ(280px)`,
+                opacity 
+              }}
+              onClick={() => {
+                if (isActive) {
+                  onPlay(video)
+                } else {
+                  setRotation(r => r - (diff * 72))
+                }
+              }}
             >
-              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               
               {isActive && (
@@ -309,7 +305,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
               )}
               
               <div className="absolute bottom-3 left-3 right-3 z-20">
-                <span className="inline-block px-1.5 py-0.5 mb-1.5 rounded-[3px] text-[9px] font-medium bg-white/20 backdrop-blur-md text-white uppercase tracking-wider border border-white/10">
+                <span className="inline-block px-1.5 py-0.5 mb-1.5 rounded-[3px] text-[9px] font-medium bg-black/60 backdrop-blur-md text-white uppercase tracking-wider border border-white/20">
                   {video.tag || 'Insight'}
                 </span>
                 <h3 className="text-white text-[14px] font-medium leading-tight line-clamp-2 mb-1">{video.title}</h3>
@@ -322,11 +318,10 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
           )
         })}
       </div>
-      
+
       <button 
-        onClick={handleNext}
-        disabled={currentIndex >= Math.min(videos.length - 1, 4)}
-        className="absolute right-3 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200"
+        onClick={handleNext} 
+        className="absolute right-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
       >
         <ChevronRight size={16} />
       </button>

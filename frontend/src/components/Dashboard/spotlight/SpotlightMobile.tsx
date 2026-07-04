@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -13,7 +13,6 @@ import { Flame, Eye, LayoutGrid, TrendingUp } from 'lucide-react'
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, TOP_CREATORS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
 import ActiveSpotlightMobile from './ActiveSpotlightMobile'
-import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
 const MOBILE_STYLES = `
   @keyframes shimmer {
@@ -194,7 +193,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
     <div className="w-full pt-4 pb-6 px-4 overflow-hidden relative">
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
       <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
-        {videos.slice(0, 5).map((video, idx) => (
+        {videos.slice(0, 5).map((video) => (
           <div 
             key={video.id} 
             className="min-w-[85%] sm:min-w-[70%] aspect-[4/5] rounded-[16px] snap-center shrink-0 relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.12)] cursor-pointer"
@@ -211,7 +210,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
 
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
-                <PlayArrowIcon sx={{ fontSize: 26 }} className="ml-0.5" />
+                <PlayArrowOutlinedIcon sx={{ fontSize: 26 }} className="ml-0.5" />
               </div>
             </div>
             
@@ -224,7 +223,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
               
               <div className="flex items-center gap-3 mt-3">
                 <div className="flex items-center gap-1 text-white/90 text-[11px] font-bold">
-                  <PlayArrowIcon sx={{ fontSize: 14 }} className="text-[var(--color-primary-400)]" /> {video.views} views
+                  <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} className="text-[var(--color-primary-400)]" /> {video.views} views
                 </div>
               </div>
             </div>
@@ -376,7 +375,7 @@ export default function SpotlightMobile() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-lg">
-                      <PlayArrowIcon sx={{ fontSize: 22 }} className="text-white ml-0.5" />
+                      <PlayArrowOutlinedIcon sx={{ fontSize: 22 }} className="text-white ml-0.5" />
                     </div>
                   </div>
                 </div>
@@ -425,8 +424,6 @@ export default function SpotlightMobile() {
           <ActiveSpotlightMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}
-            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
           />
         </motion.div>
       )}

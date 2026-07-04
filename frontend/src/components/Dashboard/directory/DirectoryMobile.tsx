@@ -249,15 +249,7 @@ export default function DirectoryMobile() {
                   <button
                     onClick={handleLoadMore}
                     disabled={isLoading}
-                    className="
-                      group flex items-center justify-center gap-2 px-6 py-2.5 min-w-[140px] 
-                      rounded-[6px] bg-white border border-purple-200 text-[12px] font-bold text-purple-600 
-                      shadow-[0_2px_8px_rgba(124,58,237,0.1)]
-                      hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white 
-                      hover:border-transparent transition-all duration-350 cursor-pointer
-                      hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]
-                      disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:transform-none 
-                    "
+                    className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                   >
                     {isLoading ? (
                       <>

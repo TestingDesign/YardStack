@@ -294,7 +294,7 @@ export default function PlatformPreviewMobile() {
               );
             })}
             <div className="mt-3 flex justify-center w-full">
-              <button className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-gray-300 text-[12px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 shadow-sm">
+              <button className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]">
                 <RefreshCcw size={14} className="group-active:rotate-180 transition-transform duration-700 text-gray-500" />
                 Load More Opportunities
               </button>

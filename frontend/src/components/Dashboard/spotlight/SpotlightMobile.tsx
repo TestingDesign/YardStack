@@ -137,7 +137,7 @@ const SpotlightCard = memo(function SpotlightCard({
       onClick={() => onPlay(video)}
     >
       <div className="relative w-full aspect-[9/16] rounded-[6px] overflow-hidden mb-2 shadow-[0_4px_14px_rgba(0,0,0,0.08)]">
-        <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
+        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
         
         <div className="absolute inset-0 flex items-center justify-center opacity-100">
@@ -200,7 +200,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
             className="min-w-[85%] sm:min-w-[70%] aspect-[4/5] rounded-[16px] snap-center shrink-0 relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.12)] cursor-pointer"
             onClick={() => onPlay(video)}
           >
-            <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
+            <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
             
             <div className="absolute top-4 left-4">
@@ -219,7 +219,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
               <h3 className="text-white text-[18px] font-black leading-tight line-clamp-2 mb-1.5 drop-shadow-md">{video.title}</h3>
               <p className="text-white/80 text-[12px] font-medium flex items-center gap-1.5 drop-shadow-md">
                 <span className="truncate">{video.author}</span>
-                {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-400" />}
+                {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />}
               </p>
               
               <div className="flex items-center gap-3 mt-3">
@@ -409,7 +409,7 @@ export default function SpotlightMobile() {
                   <button
                     type="button"
                     onClick={() => setPage(p => p + 1)}
-                    className="group flex items-center gap-2 px-6 py-2.5 rounded-[6px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 shadow-sm border-none cursor-pointer w-fit justify-center shadow-[0_2px_8px_rgba(124,58,237,0.1)] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                    className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                   >
                     <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
                     Load More Spotlights

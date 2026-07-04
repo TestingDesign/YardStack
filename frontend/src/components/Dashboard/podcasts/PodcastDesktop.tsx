@@ -321,7 +321,7 @@ function StatCard({
       className={`p-2.5 rounded-md ${bg} flex items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 opacity-0 animate-swipe-up`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className={`w-6 h-6 rounded-md ${color} flex items-center justify-center shrink-0`}>
+      <div className={`w-6 h-6 ${color} flex items-center justify-center shrink-0`}>
         {icon}
       </div>
       <div className="flex flex-col min-w-0">
@@ -533,7 +533,7 @@ export default function PodcastDesktop() {
                   </div>
 
                   <div className="flex items-center gap-2 mt-auto">
-                    <button className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 text-white text-[12px] font-medium rounded-md hover:bg-purple-700 transition-colors cursor-pointer border-none shadow-sm">
+                    <button className="m-hero-btn flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[12px] font-semibold rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
                       <PlayArrowIcon sx={{ fontSize: 16 }} />
                       Watch Now
                     </button>
@@ -641,7 +641,7 @@ export default function PodcastDesktop() {
                         type="button"
                         onClick={handleLoadMore}
                         disabled={isLoading}
-                        className="group flex items-center justify-center gap-1.5 px-6 py-2 rounded-md bg-purple-50 text-[12px] font-medium text-purple-700 hover:bg-purple-600 hover:text-white transition-all duration-300 cursor-pointer active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed border-none"
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                       >
                         {isLoading ? (
                           <>

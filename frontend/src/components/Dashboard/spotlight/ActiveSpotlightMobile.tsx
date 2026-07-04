@@ -40,7 +40,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
 
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#f4eee8] text-white @container/player">
-      <div className={`absolute inset-0 bg-gradient-to-br ${video.gradient} opacity-30`} />
+      <div className="absolute inset-0 opacity-30 overflow-hidden"><img src={video.image} alt="" className="w-full h-full object-cover blur-2xl scale-125" /></div>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.95)_0%,_rgba(248,245,240,0.94)_30%,_rgba(234,227,219,0.88)_68%,_rgba(226,220,214,0.96)_100%)]" />
       <div className="absolute -top-24 -left-16 h-64 w-64 rounded-full bg-fuchsia-400/18 blur-3xl" />
       <div className="absolute -top-12 right-[-3rem] h-72 w-72 rounded-full bg-amber-300/18 blur-3xl" />
@@ -73,7 +73,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
             <div className="absolute right-[-10%] top-[10%] h-[80%] w-[62%] rotate-[9deg] rounded-[28px] border border-white/45 bg-white/30 shadow-[0_16px_44px_rgba(15,23,42,0.10)] blur-[0.2px] opacity-60" />
 
             <div className="relative overflow-hidden rounded-[30px] border border-white/60 bg-neutral-950 shadow-[0_28px_90px_rgba(17,24,39,0.38)] aspect-[9/16]">
-              <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-95`} />
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-95" />
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_16%,rgba(255,255,255,0.24),transparent_36%),linear-gradient(to_bottom,rgba(15,23,42,0.08),rgba(0,0,0,0.74))]" />
               <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08)_0%,transparent_32%,transparent_68%,rgba(255,255,255,0.06)_100%)] opacity-70" />
 
@@ -135,7 +135,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
                           <span className="truncate text-[13px] font-black text-white drop-shadow-md">
                             {video.author}
                           </span>
-                          {video.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="shrink-0 text-[#93c5fd] drop-shadow-md" />}
+                          {video.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="shrink-0 text-blue-500 drop-shadow-md" />}
                         </div>
                         <p className="mt-0.5 truncate text-[11px] font-medium text-white/68">
                           {video.link?.subtitle ?? 'Spotlight feature'}

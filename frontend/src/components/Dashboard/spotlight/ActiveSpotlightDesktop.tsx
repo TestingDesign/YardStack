@@ -86,7 +86,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] animate-in fade-in duration-500 overflow-hidden relative">
-      <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-[0.15] blur-3xl scale-150 transition-all duration-1000`} />
+      <div className="absolute inset-0 opacity-[0.15] overflow-hidden"><img src={video.image} alt="" className="w-full h-full object-cover blur-3xl scale-150 transition-all duration-1000" /></div>
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#0a0a0a_70%)]" />
       
       <button 
@@ -103,7 +103,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
           onMouseEnter={() => setShowPlayButton(true)}
           onMouseLeave={() => setShowPlayButton(true)}
         >
-          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 transition-opacity duration-700`} />
+          <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity duration-700" />
           
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/30 backdrop-blur-sm">
@@ -139,7 +139,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
               <div className="flex flex-col justify-center min-w-0">
                 <div className="flex items-center gap-1">
                   <span className="text-white font-medium text-[14px] hover:underline cursor-pointer drop-shadow-md truncate">{video.author}</span>
-                  {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-400 drop-shadow-md shrink-0" />}
+                  {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-500 drop-shadow-md shrink-0" />}
                 </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="text-white/60 text-[12px] font-medium drop-shadow-md">

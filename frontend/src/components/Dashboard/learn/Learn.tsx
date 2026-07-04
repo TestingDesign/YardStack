@@ -181,16 +181,7 @@ export default function Learn() {
           <div className="flex justify-center mt-5 @md:mt-6 mb-4">
             <button 
               onClick={handleLoadMore}
-              className="
-                group flex items-center justify-center gap-2 px-6 py-2.5 min-w-35 
-                text-xs font-bold text-white rounded-md
-                bg-linear-to-r from-[#6a5fc1] via-[#8b5cf6] to-[#6a5fc1] bg-size-[200%_auto]
-                shadow-[0_4px_12px_rgba(106,95,193,0.25)]
-                hover:bg-position-[100%_center] hover:shadow-[0_6px_16px_rgba(106,95,193,0.4)] 
-                hover:-translate-y-px hover:scale-[1.02]
-                transition-all duration-500 ease-out active:scale-95 
-                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/70
-              "
+              className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
             >
               Load More 
             </button>

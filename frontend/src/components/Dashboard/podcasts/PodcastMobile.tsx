@@ -551,17 +551,17 @@ export default function PodcastMobile() {
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'bg-purple-100 text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
-                  { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'bg-orange-100 text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
-                  { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'bg-blue-100 text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
-                  { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'bg-green-100 text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
+                  { icon: <Mic size={14} />, value: '12,000+', label: 'Episodes', color: 'text-purple-600', bg: 'bg-purple-50/60', border: 'border-purple-100', delay: 0 },
+                  { icon: <Users size={14} />, value: '500+', label: 'Experts', color: 'text-orange-500', bg: 'bg-orange-50/60', border: 'border-orange-100', delay: 60 },
+                  { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
+                  { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
                 ].map((s) => (
                   <div 
                     key={s.label} 
                     className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
                     style={{ animationDelay: `${s.delay}ms` }}
                   >
-                    <div className={`w-8 h-8 rounded-lg ${s.color} flex items-center justify-center shrink-0`}>
+                    <div className={`w-8 h-8 ${s.color} flex items-center justify-center shrink-0`}>
                       {s.icon}
                     </div>
                     <div>
@@ -663,7 +663,7 @@ export default function PodcastMobile() {
                       type="button"
                       onClick={handleLoadMore}
                       disabled={isLoading}
-                      className="group flex items-center gap-2 px-6 py-2.5 rounded-[4px] bg-white border border-gray-300 text-[12px] font-semibold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
+                      className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                     >
                       {isLoading ? (
                         <>

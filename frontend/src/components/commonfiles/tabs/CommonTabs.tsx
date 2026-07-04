@@ -36,7 +36,7 @@ const TabButton = memo(function TabButton({
       onClick={() => onClick(tab.key)}
       className={`group relative shrink-0 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-[4px] text-[12px] font-medium transition-all duration-200 ease-out active:scale-95 border outline-none cursor-pointer overflow-hidden ${
         isActive
-          ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
+          ? 'bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white shadow-[0_2px_10px_rgba(124,58,237,0.35)] border-transparent hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)]'
           : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:text-gray-900 hover:border-gray-300'
       }`}
       style={{

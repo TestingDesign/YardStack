@@ -152,7 +152,7 @@ export default function PodcastActiveEpisodeDesktop({
                     type="button"
                     onClick={handleLoadMore}
                     disabled={isLoading}
-                    className="group flex items-center gap-2 px-7 py-2.5 rounded-lg bg-white border border-gray-300 text-[13px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
+                    className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                   >
                     {isLoading ? (
                       <>

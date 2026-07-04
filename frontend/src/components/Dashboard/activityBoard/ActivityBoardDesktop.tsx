@@ -468,7 +468,7 @@ export default function ActivityBoardDesktop() {
                     <button
                       onClick={handleLoadMore}
                       disabled={isLoading}
-                      className="group flex items-center justify-center gap-2 px-8 py-3 rounded-[8px] bg-white/80 backdrop-blur-md border border-purple-200/50 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[#7C3AED] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-500 cursor-pointer shadow-[0_4px_16px_rgba(124,58,237,0.1)] hover:shadow-[0_12px_32px_rgba(124,58,237,0.25)] hover:-translate-y-1 active:translate-y-0 active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                      className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                     >
                       {isLoading ? (
                         <>

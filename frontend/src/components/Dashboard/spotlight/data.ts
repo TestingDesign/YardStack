@@ -1,3 +1,8 @@
+import realEstateLiving from './assets/real_estate_living.png';
+import interiorDesign from './assets/interior_design.png';
+import constructionSite from './assets/construction_site.png';
+import businessSales from './assets/business_sales.png';
+
 export interface FilterTab {
   key: string;
   label: string;
@@ -30,6 +35,7 @@ export interface SpotlightVideo {
   authorInitial: string
   verified: boolean
   gradient: string
+  image?: string
   tag?: string
   tagBg?: string
   tagColor?: string
@@ -49,6 +55,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'ABC Realty',
     authorInitial: 'A',
     verified: true,
+    image: businessSales,
     gradient: 'from-[#0f172a] to-[#1e3a8a]',
     tag: 'SALES',
     tagBg: '#4c0519',
@@ -67,6 +74,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Prime Infra',
     authorInitial: 'P',
     verified: true,
+    image: interiorDesign,
     gradient: 'from-[#451a03] to-[#78350f]',
     tag: 'MARKETING',
     tagBg: '#1e1b4b',
@@ -85,6 +93,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'City Spaces',
     authorInitial: 'C',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#2e1065] to-[#4c1d95]',
     tag: 'REAL ESTATE',
     tagBg: '#e9d5ff',
@@ -103,6 +112,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Future Homes',
     authorInitial: 'F',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#0c4a6e] to-[#0369a1]',
     tag: 'INSIGHTS',
     tagBg: '#60a5fa',
@@ -120,6 +130,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'RED Experts',
     authorInitial: 'R',
     verified: true,
+    image: interiorDesign,
     gradient: 'from-[#4c0519] to-[#831843]',
     tag: 'MARKETING',
     tagBg: '#1e1b4b',
@@ -137,6 +148,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'BuildSmart',
     authorInitial: 'B',
     verified: true,
+    image: constructionSite,
     gradient: 'from-[#78350f] to-[#b45309]',
     tag: 'CONSTRUCTION',
     tagBg: '#fef3c7',
@@ -154,6 +166,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Architects Hub',
     authorInitial: 'A',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#022c22] to-[#065f46]',
     tag: 'DESIGN',
     tagBg: '#d1fae5',
@@ -172,6 +185,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Market Pulse',
     authorInitial: 'M',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#111827] to-[#374151]',
     tag: 'FINANCE',
     tagBg: '#f3f4f6',
@@ -189,6 +203,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Sales Leaders',
     authorInitial: 'S',
     verified: true,
+    image: businessSales,
     gradient: 'from-[#172554] to-[#1e40af]',
     tag: 'SALES',
     tagBg: '#4c0519',
@@ -206,6 +221,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'TechEstate',
     authorInitial: 'T',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#0f766e] to-[#042f2e]',
     tag: 'TECHNOLOGY',
     tagBg: '#ccfbf1',
@@ -223,6 +239,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'FinAdvisors',
     authorInitial: 'F',
     verified: false,
+    image: realEstateLiving,
     gradient: 'from-[#3f6212] to-[#14532d]',
     tag: 'FINANCE',
     tagBg: '#dcfce7',
@@ -240,6 +257,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'ArchDaily India',
     authorInitial: 'A',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#52525b] to-[#18181b]',
     tag: 'DESIGN',
     tagBg: '#e4e4e7',
@@ -257,6 +275,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Corporate Spaces',
     authorInitial: 'C',
     verified: false,
+    image: realEstateLiving,
     gradient: 'from-[#1e40af] to-[#172554]',
     tag: 'BUSINESS',
     tagBg: '#dbeafe',
@@ -274,6 +293,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'SmartLiving',
     authorInitial: 'S',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#6b21a8] to-[#3b0764]',
     tag: 'TECHNOLOGY',
     tagBg: '#f3e8ff',
@@ -291,6 +311,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Realtor Coach',
     authorInitial: 'R',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#b91c1c] to-[#7f1d1d]',
     tag: 'BUSINESS',
     tagBg: '#fee2e2',
@@ -308,6 +329,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'EcoConstruct',
     authorInitial: 'E',
     verified: false,
+    image: constructionSite,
     gradient: 'from-[#166534] to-[#064e3b]',
     tag: 'CONSTRUCTION',
     tagBg: '#d1fae5',
@@ -325,6 +347,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Elite Estates',
     authorInitial: 'E',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#86198f] to-[#4a044e]',
     tag: 'REAL ESTATE',
     tagBg: '#fae8ff',
@@ -342,6 +365,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Marketing Pro',
     authorInitial: 'M',
     verified: true,
+    image: interiorDesign,
     gradient: 'from-[#0369a1] to-[#082f49]',
     tag: 'MARKETING',
     tagBg: '#e0f2fe',
@@ -359,6 +383,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Wealth Builders',
     authorInitial: 'W',
     verified: false,
+    image: realEstateLiving,
     gradient: 'from-[#854d0e] to-[#422006]',
     tag: 'FINANCE',
     tagBg: '#fef08a',
@@ -376,6 +401,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     author: 'Property Guru',
     authorInitial: 'P',
     verified: true,
+    image: realEstateLiving,
     gradient: 'from-[#be123c] to-[#881337]',
     tag: 'INSIGHTS',
     tagBg: '#ffe4e6',

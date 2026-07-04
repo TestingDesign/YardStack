@@ -322,7 +322,7 @@ export default function PlatformPreviewDesktop() {
             </div>
 
             <div className="mt-4 flex items-center justify-center">
-              <button className="group flex items-center gap-2 px-6 py-3 rounded-[4px] bg-white border border-gray-300 text-sm font-bold text-gray-700 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-md active:scale-95 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2">
+              <button className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]">
                 <RefreshCcw size={16} className="group-hover:rotate-180 transition-transform duration-700 ease-in-out text-gray-500 group-hover:text-purple-600" aria-hidden="true" />
                 Load More Opportunities
               </button>

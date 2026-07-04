@@ -125,11 +125,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
         
         <div className="flex-1 flex justify-end h-full min-w-0">
           <div className="flex flex-col justify-end gap-6 h-full w-[300px] shrink-0 pb-10 z-10 mr-10 animate-in slide-in-from-left-8 fade-in duration-700 delay-100 fill-mode-both">
-            {video.link && (
-              <div className="w-full hover:scale-[1.02] transition-transform duration-300 cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                <SpotlightLink linkData={video.link} />
-              </div>
-            )}
+
 
             <div className="flex items-center gap-4 group">
               <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[2px] shadow-[0_0_20px_rgba(236,72,153,0.3)] flex-shrink-0 cursor-pointer transition-all duration-300 group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(236,72,153,0.5)]">
@@ -194,8 +190,16 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
             </div>
           )}
 
-          <div className="absolute top-4 right-4 z-20 bg-black/60 backdrop-blur-lg rounded-lg px-2.5 py-1 border border-white/10 shadow-lg">
-            <span className="text-white text-[12px] font-semibold tracking-wider">{video.duration}</span>
+          <div className="absolute top-4 right-4 z-20">
+            {video.link ? (
+              <div className="pointer-events-auto origin-top-right transition-transform duration-300 hover:scale-[1.02]" onClick={(e) => e.stopPropagation()}>
+                <SpotlightLink linkData={video.link} />
+              </div>
+            ) : (
+              <div className="bg-black/60 backdrop-blur-lg rounded-lg px-2.5 py-1 border border-white/10 shadow-lg pointer-events-none">
+                <span className="text-white text-[12px] font-semibold tracking-wider">{video.duration}</span>
+              </div>
+            )}
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-50 overflow-hidden">

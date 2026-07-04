@@ -28,8 +28,7 @@ export const FILTER_TABS: FilterTab[] = [
   { key: 'design', label: 'Design', color: TAB_COLOR },
 ];
 
-// Assuming SpotlightLinkData is imported from elsewhere in your project
-import { SPOTLIGHT_LINKS, type SpotlightLinkData } from './SpotlightLinkData';
+import { type SpotlightLinkData, SPOTLIGHT_LINKS } from './SpotlightLink';
 
 export interface SpotlightVideo {
   id: string
@@ -180,7 +179,6 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'STUDIO\nV',
     logoBg: '#fcd34d',
     logoColor: '#000000',
-    link: SPOTLIGHT_LINKS?.minimalistInteriors
   },
   {
     id: 'sv-8',

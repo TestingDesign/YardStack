@@ -27,6 +27,8 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
   const [isDistractionFree, setIsDistractionFree] = useState(false)
   const [isImageLoaded, setIsImageLoaded] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [clickAnim, setClickAnim] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const touchStartY = useRef<number | null>(null)
 
@@ -41,11 +43,12 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
   }, [])
 
   useEffect(() => {
+    if (!isPlaying) return
     const interval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 0 : prev + 0.1))
-    }, 50)
+      setProgress((prev) => (prev >= 100 ? 0 : prev + 0.15))
+    }, 16)
     return () => clearInterval(interval)
-  }, [])
+  }, [isPlaying])
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY
@@ -64,9 +67,14 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
     }
     touchStartY.current = null
   }
+
   const handleScreenTap = () => {
     if (isDistractionFree) {
       setIsDistractionFree(false)
+    } else {
+      setIsPlaying((prev) => !prev)
+      setClickAnim(true)
+      setTimeout(() => setClickAnim(false), 400)
     }
   }
 
@@ -97,61 +105,77 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
             e.stopPropagation()
             onClose()
           }}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-black/20 text-white drop-shadow-md backdrop-blur-md transition-all duration-300 hover:bg-black/40 hover:scale-110 active:scale-90"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-black/20 text-white drop-shadow-md backdrop-blur-md transition-all duration-300 hover:bg-black/40 hover:scale-110 active:scale-90 border border-white/10"
           aria-label="Close video"
         >
           <ArrowBackIosNewIcon sx={{ fontSize: 16 }} className="ml-1" />
         </button>
       </div>
 
-      <div className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none gap-4 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 scale-100'}`}>
-        <div className="relative flex items-center justify-center opacity-60 transition-opacity duration-300 hover:opacity-100">
-          <div className="absolute h-14 w-14 rounded-full border border-white/30 bg-white/10 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite]" />
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-md transition-transform duration-300 hover:scale-110">
-            <PlayArrowRoundedIcon sx={{ fontSize: 24 }} className="ml-0.5" />
+      <div className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 scale-100'}`}>
+        <div className={`transition-all duration-300 ${!isPlaying ? 'opacity-100 backdrop-blur-sm bg-black/20 rounded-full p-2' : 'opacity-0'}`}>
+          <div className="relative flex items-center justify-center">
+            <div className="absolute w-16 h-16 bg-white/10 rounded-full animate-ping" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-xl border border-white/20 shadow-[0_0_30px_rgba(0,0,0,0.5)] transition-transform duration-300">
+              <PlayArrowRoundedIcon sx={{ fontSize: 32 }} className="ml-0.5 drop-shadow-xl" />
+            </div>
           </div>
         </div>
+
+        {clickAnim && isPlaying && (
+          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
+            <div className="w-16 h-16 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20 animate-in zoom-in-50 fade-out duration-300 fill-mode-forwards">
+              <PlayArrowRoundedIcon sx={{ fontSize: 36 }} className="drop-shadow-2xl ml-1" />
+            </div>
+          </div>
+        )}
+
         {video.link && (
-          <div className="pointer-events-auto max-w-[75%] mx-auto w-fit scale-90 origin-center transition-transform duration-300 hover:scale-95">
+          <div className="pointer-events-auto max-w-[75%] mx-auto w-fit scale-90 origin-center transition-transform duration-300 hover:scale-95 mt-4">
             <SpotlightLink linkData={video.link} />
           </div>
         )}
       </div>
 
-      <div className="relative z-20 flex items-end justify-between px-4 pb-3 gap-3">
+      <div className="relative z-20 flex items-end justify-between px-4 pb-4 gap-3">
         
-        <div className={`flex-1 min-w-0 flex flex-col gap-2.5 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100 translate-y-0'}`}>
-          <div className="flex items-center gap-2 group cursor-pointer w-fit">
-            <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[1.5px] shrink-0 transition-transform duration-300 group-hover:scale-110">
+        <div className={`flex-1 min-w-0 flex flex-col gap-3 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100 translate-y-0'}`}>
+          <div className="flex items-center gap-3 group cursor-pointer w-fit">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[1.5px] shrink-0 transition-transform duration-300 group-hover:scale-110 shadow-[0_0_15px_rgba(236,72,153,0.4)]">
               <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
-                <span className="text-[9px] font-bold text-white">{video.authorInitial}</span>
+                <span className="text-[11px] font-bold text-white tracking-wider">{video.authorInitial}</span>
               </div>
             </div>
-            <div className="flex items-center gap-1 min-w-0">
-              <span className="truncate text-[13px] font-semibold text-white drop-shadow-lg transition-colors group-hover:text-white/90">
-                {video.author}
+            <div className="flex flex-col justify-center min-w-0">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <span className="truncate text-[14px] font-semibold text-white drop-shadow-lg transition-colors group-hover:text-pink-100">
+                  {video.author}
+                </span>
+                {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="shrink-0 text-blue-400 drop-shadow-md" />}
+              </div>
+              <span className="text-white/70 text-[11px] font-medium drop-shadow-md mt-0.5">
+                {video.views} views
               </span>
-              {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="shrink-0 text-blue-400 drop-shadow-md" />}
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <h2 className="text-[12px] font-normal leading-[1.4] text-white/95 drop-shadow-lg line-clamp-2">
+            <h2 className="text-[13px] font-medium leading-[1.4] text-white/95 drop-shadow-lg line-clamp-2">
               {video.title}
             </h2>
           </div>
         </div>
 
         <div className="flex shrink-0 flex-col items-center gap-2 pb-1">
-          <div className={`flex flex-col items-center gap-3 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100 translate-y-0'}`}>
+          <div className={`flex flex-col items-center gap-3.5 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100 translate-y-0'}`}>
             <div className="flex flex-col items-center gap-1">
               <button
                 onClick={(e) => e.stopPropagation()}
-                className="group flex h-9 w-9 items-center justify-center rounded-full bg-black/30 backdrop-blur-md transition-all duration-300 hover:bg-black/50 active:scale-75"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-all duration-300 hover:bg-black/60 active:scale-90 border border-white/10"
                 aria-label="Share video"
               >
-                <ShareOutlinedIcon sx={{ fontSize: 18 }} className="text-white transition-transform group-hover:scale-110" />
+                <ShareOutlinedIcon sx={{ fontSize: 20 }} className="text-white transition-transform group-hover:scale-110" />
               </button>
-              <span className="text-[10px] font-medium text-white/90 drop-shadow-md">Share</span>
+              <span className="text-[11px] font-semibold text-white/90 drop-shadow-md">Share</span>
             </div>
             <div className="flex flex-col items-center gap-1">
               <button
@@ -159,15 +183,15 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
                   e.stopPropagation()
                   setIsSaved((value) => !value)
                 }}
-                className="group flex h-9 w-9 items-center justify-center rounded-full bg-black/30 backdrop-blur-md transition-all duration-300 hover:bg-black/50 active:scale-75"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-all duration-300 hover:bg-black/60 active:scale-90 border border-white/10"
                 aria-label="Save video"
               >
                 <BookmarkBorderIcon
-                  sx={{ fontSize: 20 }}
-                  className={`transition-all duration-300 ${isSaved ? 'text-white fill-white drop-shadow-[0_0_8px_rgba(255,255,255,0.6)] scale-110' : 'text-white group-hover:scale-110'}`}
+                  sx={{ fontSize: 22 }}
+                  className={`transition-all duration-300 ${isSaved ? 'text-white fill-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] scale-110' : 'text-white group-hover:scale-110'}`}
                 />
               </button>
-              <span className="text-[10px] font-medium text-white/90 drop-shadow-md">Save</span>
+              <span className="text-[11px] font-semibold text-white/90 drop-shadow-md">Save</span>
             </div>
             <div className="flex flex-col items-center gap-1">
               <button
@@ -175,10 +199,10 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
                   e.stopPropagation()
                   setIsMenuOpen((value) => !value)
                 }}
-                className="group flex h-9 w-9 items-center justify-center rounded-full bg-black/30 backdrop-blur-md transition-all duration-300 hover:bg-black/50 active:scale-75"
+                className="group flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md transition-all duration-300 hover:bg-black/60 active:scale-90 border border-white/10"
                 aria-label="More options"
               >
-                <MoreVertIcon sx={{ fontSize: 20 }} className="text-white transition-transform group-hover:scale-110" />
+                <MoreVertIcon sx={{ fontSize: 22 }} className="text-white transition-transform group-hover:scale-110" />
               </button>
             </div>
           </div>
@@ -188,7 +212,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
               e.stopPropagation()
               setIsDistractionFree((prev) => !prev)
             }}
-            className={`flex h-8 w-8 mt-2 shrink-0 items-center justify-center rounded-full border border-white/20 bg-black/30 text-white drop-shadow-md backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-75 ${isDistractionFree ? 'opacity-40 hover:opacity-100' : 'opacity-100'}`}
+            className={`flex h-8 w-8 mt-2 shrink-0 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white drop-shadow-md backdrop-blur-md transition-all duration-300 hover:bg-white/20 active:scale-90 ${isDistractionFree ? 'opacity-40 hover:opacity-100' : 'opacity-100'}`}
             aria-label="Toggle distraction free mode"
           >
             {isDistractionFree ? <FullscreenExitIcon sx={{ fontSize: 16 }} /> : <FullscreenIcon sx={{ fontSize: 16 }} />}
@@ -199,37 +223,39 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
       {isMenuOpen && (
         <div
           ref={menuRef}
-          className="absolute bottom-[6.5rem] right-14 w-[140px] overflow-hidden rounded-xl border border-white/10 bg-neutral-900/95 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-xl animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200 origin-bottom-right z-30"
+          className="absolute bottom-[7rem] right-14 w-[150px] overflow-hidden rounded-xl border border-white/10 bg-neutral-900/95 py-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200 origin-bottom-right z-30"
         >
           <button
             onClick={(e) => {
               e.stopPropagation()
               setIsMenuOpen(false)
             }}
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[12px] font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
           >
-            <BookmarkBorderIcon sx={{ fontSize: 16 }} />
+            <BookmarkBorderIcon sx={{ fontSize: 18 }} />
             Save Video
           </button>
-          <div className="mx-2 my-0.5 h-[1px] bg-white/10" />
+          <div className="mx-3 my-0.5 h-[1px] bg-white/10" />
           <button
             onClick={(e) => {
               e.stopPropagation()
               setIsMenuOpen(false)
             }}
-            className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left text-[12px] font-medium text-red-400/90 transition-colors hover:bg-red-500/10 hover:text-red-400"
+            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-red-400/90 transition-colors hover:bg-red-500/10 hover:text-red-400"
           >
-            <ReportProblemOutlinedIcon sx={{ fontSize: 16 }} />
+            <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} />
             Report
           </button>
         </div>
       )}
 
-      <div className={`absolute bottom-0 left-0 right-0 h-[2px] bg-white/10 z-20 transition-opacity duration-500 ${isDistractionFree ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20 overflow-hidden transition-opacity duration-500 ${isDistractionFree ? 'opacity-0' : 'opacity-100'}`}>
         <div 
-          className="h-full bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.8)] rounded-r-full transition-all duration-75 ease-linear"
-          style={{ width: `${progress}%` }} 
-        />
+          className="h-full bg-gradient-to-r from-pink-500 via-purple-500 to-orange-400 relative transition-all ease-linear"
+          style={{ width: `${progress}%`, transitionDuration: isPlaying ? '16ms' : '0ms' }}
+        >
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,1)] translate-x-1/2" />
+        </div>
       </div>
     </div>
   )

@@ -11,7 +11,7 @@ import { Flame, Eye, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
-import SpotlightVideoPlayerMobile from './SpotlightVideoPlayerMobile'
+import ActiveSpotlightMobile from './ActiveSpotlightMobile'
 import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
 const MOBILE_STYLES = `
@@ -187,6 +187,58 @@ const SpotlightCard = memo(function SpotlightCard({
   )
 })
 
+
+const MobileHeroCarousel = memo(function MobileHeroCarousel({
+  videos, onPlay
+}: {
+  videos: SpotlightVideo[]
+  onPlay: (v: SpotlightVideo) => void
+}) {
+  return (
+    <div className="w-full pt-4 pb-6 px-4 overflow-hidden relative">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
+        {videos.slice(0, 5).map((video, idx) => (
+          <div 
+            key={video.id} 
+            className="min-w-[85%] sm:min-w-[70%] aspect-[4/5] rounded-[16px] snap-center shrink-0 relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.12)] cursor-pointer"
+            onClick={() => onPlay(video)}
+          >
+            <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90`} />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            
+            <div className="absolute top-4 left-4">
+              <span className="px-2.5 py-1 rounded-[6px] text-[10px] font-black bg-[var(--color-primary-500)] text-white uppercase tracking-wider shadow-sm">
+                {video.tag || 'Insight'}
+              </span>
+            </div>
+
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
+                <PlayArrowIcon sx={{ fontSize: 26 }} className="ml-0.5" />
+              </div>
+            </div>
+            
+            <div className="absolute bottom-4 left-4 right-4 z-20">
+              <h3 className="text-white text-[18px] font-black leading-tight line-clamp-2 mb-1.5 drop-shadow-md">{video.title}</h3>
+              <p className="text-white/80 text-[12px] font-medium flex items-center gap-1.5 drop-shadow-md">
+                <span className="truncate">{video.author}</span>
+                {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-400" />}
+              </p>
+              
+              <div className="flex items-center gap-3 mt-3">
+                <div className="flex items-center gap-1 text-white/90 text-[11px] font-bold">
+                  <PlayArrowIcon sx={{ fontSize: 14 }} className="text-[var(--color-primary-400)]" /> {video.views} views
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+})
+
 export default function SpotlightMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
@@ -214,10 +266,6 @@ export default function SpotlightMobile() {
   const displayedVideos = filtered.slice(0, page * perPage)
   const hasMore = displayedVideos.length < filtered.length
 
-  const activeIdx = activeVideo
-    ? SPOTLIGHT_VIDEOS.findIndex((v) => v.id === activeVideo.id)
-    : -1
-
   return (
     <div className="relative w-full h-full flex flex-col bg-[#f8f9fa] overflow-hidden">
       <style>{MOBILE_STYLES}</style>
@@ -232,7 +280,7 @@ export default function SpotlightMobile() {
 
         <div className="flex-1 flex flex-col pb-2">
             <div className="mt-2 mx-2">
-              <AdvertisementBlock />
+              <MobileHeroCarousel videos={filtered} onPlay={setActiveVideo} />
             </div>
 
             <div className="mt-2">
@@ -255,27 +303,6 @@ export default function SpotlightMobile() {
               </div>
             </div>
 
-           {/*  <div className="mt-5 mx-3 rounded-[6px] overflow-hidden relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] bg-[#1a0533] aspect-[4/5] cursor-pointer">
-              <div className="absolute inset-0 opacity-40 bg-[url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center mix-blend-overlay" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-              <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-purple-900/70 to-transparent" />
-              <div className="relative z-10 p-5 flex flex-col h-full justify-between">
-                <span className="text-[9px] font-black text-white uppercase tracking-[0.2em] border border-white/30 rounded-full px-2.5 py-1 bg-black/40 backdrop-blur-md w-fit">
-                  Sponsored
-                </span>
-                <div>
-                  <h3 className="text-[24px] font-black leading-tight mb-2 text-white drop-shadow-lg">
-                    Elevate Your<br />Portfolio
-                  </h3>
-                  <p className="text-[12px] text-white/80 leading-relaxed mb-4 font-medium max-w-[200px]">
-                    Join the elite network of property investors today.
-                  </p>
-                  <button className="w-full py-3.5 bg-white text-gray-900 text-[13px] font-black rounded-[6px] shadow-lg border-none">
-                    Explore Now
-                  </button>
-                </div>
-              </div>
-            </div> */}
 
             <div className="mt-2 mx-2">
               <div className="flex flex-col gap-3 p-4 rounded-lg">
@@ -335,7 +362,31 @@ export default function SpotlightMobile() {
               </div>
             </div>
 
-            <div className="mt-6 px-3">
+            
+            <div className="mt-4 mx-4">
+              <div className="relative w-full rounded-[16px] overflow-hidden bg-gradient-to-br from-[#4c1d95] via-[#7c3aed] to-[#c026d3] p-6 text-center shadow-[0_8px_24px_rgba(124,58,237,0.25)] flex flex-col items-center justify-center min-h-[280px]">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+                
+                <div className="relative w-[120px] h-[180px] mx-auto -mt-6 mb-4 rounded-[10px] overflow-hidden shadow-2xl rotate-[-2deg]">
+                  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="App preview" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-lg">
+                      <PlayArrowIcon sx={{ fontSize: 22 }} className="text-white ml-0.5" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="relative z-10 w-full mt-auto">
+                  <h3 className="text-white text-[20px] font-black mb-1.5 drop-shadow-md leading-tight">Create. Share. Inspire.</h3>
+                  <button className="bg-white text-[var(--color-primary-600)] text-[13px] font-bold px-5 py-2.5 rounded-full shadow-lg transition-all w-full border-none">
+                    Start Creating
+                  </button>
+                </div>
+              </div>
+            </div>
+
+<div className="mt-6 px-3">
               <div className="flex items-center gap-2 mb-4 px-1">
                 <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-[4px] text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]">
                   <LayoutGrid size={14} />
@@ -367,9 +418,11 @@ export default function SpotlightMobile() {
 
       {activeVideo && (
         <div className="absolute inset-0 z-[100] animate-in fade-in slide-in-from-bottom-8 duration-300">
-          <SpotlightVideoPlayerMobile
+          <ActiveSpotlightMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}
+            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
           />
         </div>
       )}

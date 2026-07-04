@@ -13,7 +13,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import type { SpotlightVideo } from './data'
 import SpotlightLink from './SpotlightLink'
 
-const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({ 
+const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({ 
   video, 
   onClose,
   onNext,
@@ -264,4 +264,4 @@ function NavButton({ onClick, disabled, icon, ariaLabel }: { onClick?: () => voi
   )
 }
 
-export default SpotlightVideoPlayerDesktop;
+export default ActiveSpotlightDesktop;

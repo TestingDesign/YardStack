@@ -9,7 +9,7 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import { Eye, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Eye, LayoutGrid, ChevronLeft, ChevronRight, Flame, Users, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
 import { SPOTLIGHT_VIDEOS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
@@ -28,6 +28,14 @@ const MOBILE_STYLES = `
     0%,100% { background-position: 0% 50%; }
     50%     { background-position: 100% 50%; }
   }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(-2deg); }
+    50%      { transform: translateY(-8px) rotate(1deg); }
+  }
+  @keyframes shine {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
   .m-card-shimmer::after {
     content: '';
     position: absolute;
@@ -45,8 +53,6 @@ const MOBILE_STYLES = `
   }
 `
 
-
-
 function MobileMoreMenu({
   open, menuRef, onToggle, onAction,
 }: {
@@ -60,16 +66,16 @@ function MobileMoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none ${
-          open ? 'bg-purple-100 text-purple-700 scale-105' : 'bg-transparent text-gray-400 hover:bg-purple-50 hover:text-purple-600'
+        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 border-none cursor-pointer outline-none ${
+          open ? 'bg-purple-100 text-purple-700 scale-105 shadow-inner' : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
         }`}
         aria-label="More options"
       >
-        <MoreVertIcon sx={{ fontSize: 18 }} />
+        <MoreVertIcon sx={{ fontSize: 16 }} />
       </button>
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
+          className="absolute right-0 top-[110%] w-40 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
         >
           {[
             { Icon: ShareOutlinedIcon, label: 'Share spotlight' },
@@ -79,27 +85,27 @@ function MobileMoreMenu({
               key={label} 
               type="button" 
               onClick={onAction}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left"
+              className="w-full flex items-center gap-2 px-2 py-1.5 text-[11px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left"
             >
-              <Icon sx={{ fontSize: 15 }} />
+              <Icon sx={{ fontSize: 14 }} />
               {label}
             </button>
           ))}
-          <div className="h-px bg-purple-50 my-1 mx-3" />
+          <div className="h-px bg-purple-50 my-0.5 mx-2" />
           <button 
             type="button" 
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-gray-500 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2 px-2 py-1.5 text-[11px] font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
           >
-            <VisibilityOffIcon sx={{ fontSize: 15 }} />
+            <VisibilityOffIcon sx={{ fontSize: 14 }} />
             Not interested
           </button>
           <button 
             type="button" 
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[12px] font-medium text-red-500 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2 px-2 py-1.5 text-[11px] font-medium text-red-600 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
           >
-            <FlagOutlinedIcon sx={{ fontSize: 15 }} />
+            <FlagOutlinedIcon sx={{ fontSize: 14 }} />
             Report spotlight
           </button>
         </div>
@@ -108,7 +114,20 @@ function MobileMoreMenu({
   )
 }
 
-
+const MobileStatCard = ({ icon, value, label, color, bg }: any) => (
+  <div className="p-2.5 rounded-[4px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-md transition-all group overflow-hidden relative bg-white cursor-pointer">
+    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${bg}`}></div>
+    <div className="relative z-10 flex flex-col gap-1.5">
+      <div className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${color.replace('text-', 'bg-').replace('600', '50').replace('500', '50')} ${color}`}>
+        {icon}
+      </div>
+      <div>
+        <span className={`block text-[15px] font-bold text-gray-900 group-hover:${color} transition-colors leading-tight mb-0.5`}>{value}</span>
+        <span className="block text-[10px] font-medium text-gray-500">{label}</span>
+      </div>
+    </div>
+  </div>
+)
 
 const SpotlightCard = memo(function SpotlightCard({
   video, onPlay, rank, isTrending, index = 0,
@@ -132,29 +151,29 @@ const SpotlightCard = memo(function SpotlightCard({
 
   return (
     <div
-      className={`m-card-shimmer group relative flex flex-col cursor-pointer animate-in fade-in fill-mode-both ${isTrending ? 'w-[140px] shrink-0 slide-in-from-right-4' : 'w-full slide-in-from-bottom-6'}`}
+      className={`m-card-shimmer group relative flex flex-col cursor-pointer animate-in fade-in fill-mode-both ${isTrending ? 'w-[130px] shrink-0 slide-in-from-right-4' : 'w-full slide-in-from-bottom-6'}`}
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => onPlay(video)}
     >
-      <div className="relative w-full aspect-[9/16] rounded-[4px] overflow-hidden mb-2 bg-gray-100 border border-black/5 shadow-sm">
-        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
+      <div className="relative w-full aspect-[9/16] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
+        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
         
-        <div className="absolute inset-0 flex items-center justify-center z-10">
-          <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl">
+        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-95 group-hover:scale-100">
+          <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shadow-xl">
             <PlayArrowOutlinedIcon sx={{ fontSize: 18 }} />
           </div>
         </div>
 
-        <div className="absolute bottom-2 left-2 flex items-center z-20">
-          <div className="flex items-center gap-0.5 text-white text-[11px] font-medium drop-shadow-md">
-            <PlayArrowIcon sx={{ fontSize: 14 }} className="text-white/90" />
+        <div className="absolute bottom-1.5 left-1.5 flex items-center z-20">
+          <div className="flex items-center gap-0.5 text-white text-[10px] font-medium drop-shadow-md">
+            <PlayArrowIcon sx={{ fontSize: 12 }} className="text-white/90" />
             {video.views}
           </div>
         </div>
 
         {rank && (
-          <div className={`absolute -top-1 -left-1 w-6 h-6 rounded-[4px] flex items-center justify-center text-[10px] font-black border-2 border-white shadow-md ${
+          <div className={`absolute -top-1 -left-1 w-5 h-5 rounded-[2px] flex items-center justify-center text-[9px] font-medium border border-white shadow-md ${
             rank === 1 ? 'bg-amber-400 text-amber-900' :
             rank === 2 ? 'bg-gray-300 text-gray-700'   :
             rank === 3 ? 'bg-amber-600 text-amber-100' :
@@ -163,14 +182,14 @@ const SpotlightCard = memo(function SpotlightCard({
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-1 px-0.5 mt-0.5">
+      <div className="flex items-start justify-between gap-0.5 px-0 mt-0.5">
         <div className="flex-1 min-w-0">
-          <h4 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2">
+          <h4 className="text-[12px] font-medium text-gray-900 leading-snug line-clamp-2 group-hover:text-purple-700 transition-colors">
             {video.title}
           </h4>
-          <div className="flex items-center gap-1 text-[11px] text-gray-500 font-medium mt-0.5">
+          <div className="flex items-center gap-0.5 text-[10px] text-gray-500 font-medium">
             <span className="truncate">{video.author}</span>
-            {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
+            {video.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
           </div>
         </div>
         {!isTrending && (
@@ -186,7 +205,6 @@ const SpotlightCard = memo(function SpotlightCard({
   )
 })
 
-
 const MobileHeroCarousel = memo(function MobileHeroCarousel({
   videos, onPlay
 }: {
@@ -199,18 +217,19 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
 
   return (
-    <div className="w-full h-[320px] overflow-hidden relative flex items-center justify-center" style={{ perspective: '1000px' }}>
+    <div className="w-full h-[260px] overflow-hidden relative flex items-center justify-center" style={{ perspective: '800px' }}>
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/5 blur-2xl rounded-full -translate-x-1/2 translate-y-1/2" />
       
       <button 
         onClick={handlePrev} 
         disabled={currentIndex === 0}
-        className="absolute left-1 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200 shadow-sm"
+        className="absolute left-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 shadow-sm active:scale-95"
       >
         <ChevronLeft size={16} />
       </button>
 
-      <div className="relative w-full max-w-[400px] h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+      <div className="relative w-full max-w-[340px] h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
         {videos.slice(0, 5).map((video, idx) => {
           const isActive = idx === currentIndex
           const offset = idx - currentIndex
@@ -223,51 +242,51 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
           if (offset === 0) {
             transform = 'translateX(0) scale(1) translateZ(0px)'
           } else if (offset === -1) {
-            transform = 'translateX(-42%) scale(0.86) translateZ(-28px) rotateY(10deg)'
+            transform = 'translateX(-45%) scale(0.88) translateZ(-20px) rotateY(10deg)'
             opacity = 0.8
           } else if (offset === 1) {
-            transform = 'translateX(42%) scale(0.86) translateZ(-28px) rotateY(-10deg)'
+            transform = 'translateX(45%) scale(0.88) translateZ(-20px) rotateY(-10deg)'
             opacity = 0.8
           } else {
              opacity = 0
-             transform = 'translateX(0) scale(0)'
+             transform = 'translateX(0) scale(0.5)'
           }
 
           return (
             <div 
               key={video.id} 
-              className={`absolute w-[170px] aspect-[9/16] rounded-[8px] overflow-hidden shadow-md cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
+              className={`absolute w-[140px] aspect-[9/16] rounded-[4px] overflow-hidden shadow-lg cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-1 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
               style={{ transform, zIndex, opacity }}
               onClick={() => isActive ? onPlay(video) : setCurrentIndex(idx)}
             >
-              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               
-              <div className="absolute top-3 left-3">
-                <span className="px-2 py-0.5 rounded-[4px] text-[9px] font-semibold bg-purple-500 text-white uppercase tracking-wider shadow-sm">
+              <div className="absolute top-2 left-2">
+                <span className="px-1.5 py-0.5 rounded text-[8px] font-medium bg-black/60 backdrop-blur-md text-white border border-white/20 uppercase tracking-wider shadow-sm">
                   {video.tag || 'Insight'}
                 </span>
               </div>
 
               {isActive && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
+                  <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-md transform transition-transform hover:scale-110">
                     <PlayArrowOutlinedIcon sx={{ fontSize: 24 }} />
                   </div>
                 </div>
               )}
               
-              <div className="absolute bottom-3 left-3 right-3 z-20">
-                <h3 className="text-white text-[15px] font-semibold leading-tight line-clamp-2 mb-1 drop-shadow-md">{video.title}</h3>
-                <p className="text-white/90 text-[11px] font-medium flex items-center gap-1 drop-shadow-md">
+              <div className="absolute bottom-2 left-2 right-2 z-20">
+                <h3 className="text-white text-[13px] font-medium leading-tight line-clamp-2 mb-0.5 drop-shadow-md">{video.title}</h3>
+                <p className="text-white/90 text-[10px] font-medium flex items-center gap-0.5 drop-shadow-md">
                   <span className="truncate">{video.author}</span>
-                  {video.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500" />}
+                  {video.verified && <VerifiedIcon sx={{ fontSize: 8 }} className="text-blue-400" />}
                 </p>
                 
                 {isActive && (
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="flex items-center gap-1 text-white text-[10px] font-medium drop-shadow-md">
-                      <PlayArrowOutlinedIcon sx={{ fontSize: 12 }} className="text-white/90" /> {video.views} views
+                  <div className="flex items-center gap-1 mt-1">
+                    <div className="flex items-center gap-0.5 text-white text-[9px] font-medium drop-shadow-md">
+                      <PlayArrowOutlinedIcon sx={{ fontSize: 10 }} className="text-white/90" /> {video.views} views
                     </div>
                   </div>
                 )}
@@ -280,7 +299,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
       <button 
         onClick={handleNext} 
         disabled={currentIndex >= Math.min(videos.length - 1, 4)}
-        className="absolute right-1 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200 shadow-sm"
+        className="absolute right-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-300 shadow-sm active:scale-95"
       >
         <ChevronRight size={16} />
       </button>
@@ -288,14 +307,13 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   )
 })
 
-
 const MobileScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "0px" }}
-      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      initial={{ opacity: 0, y: 15, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-5%" }}
+      transition={{ duration: 0.5, delay, ease: [0.25, 1, 0.5, 1] }}
       className={className}
     >
       {children}
@@ -330,87 +348,87 @@ export default function SpotlightMobile() {
   const hasMore = displayedVideos.length < filtered.length
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="relative h-full w-full bg-gray-50 flex flex-col overflow-y-auto overflow-x-hidden hide-scrollbar pb-12">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="relative h-full w-full bg-[#fcfcfc] flex flex-col overflow-y-auto overflow-x-hidden hide-scrollbar pb-6">
       <style>{MOBILE_STYLES}</style>
 
       <div 
         ref={scrollContainerRef}
         className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] flex flex-col"
       >
-        <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md">
+        <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-xl border-b border-gray-100/50">
           <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        <div className="flex-1 flex flex-col pb-2">
-            <MobileScrollReveal className="">
+        <div className="flex-1 flex flex-col pb-1">
+            <MobileScrollReveal className="mt-1">
               <MobileHeroCarousel videos={filtered} onPlay={setActiveVideo} />
             </MobileScrollReveal>
 
             <MobileScrollReveal className="mt-2 mx-2">
-              <div className="flex flex-col gap-3 p-4 rounded-lg">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3" />
-                <div className="flex items-center gap-2 mb-1 relative z-10">
-                  <Eye size={16} className="text-purple-600" />
-                  <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Spotlight Impact</h3>
+              <div className="bg-white rounded-[8px] p-4 overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+                
+                <div className="flex items-center gap-1.5 mb-3 relative z-10">
+                  <Flame size={16} className="text-orange-500" />
+                  <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Spotlight Impact</h3>
                 </div>
+                
                 <div className="grid grid-cols-2 gap-2 relative z-10">
-                  {SPOTLIGHT_IMPACT_STATS.map((s, i) => (
-                    <div key={i} className={`p-3 rounded-[6px] bg-white/80 backdrop-blur-sm border ${s.borderMobile} shadow-sm`}>
-                      <span className={`block text-[16px] font-black ${s.colorMobile} leading-none mb-1`}>{s.value}</span>
-                      <span className="block text-[11px] font-bold text-gray-500">{s.labelMobile}</span>
-                    </div>
-                  ))}
+                  <MobileStatCard icon={<Eye size={14} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelMobile} color={SPOTLIGHT_IMPACT_STATS[0].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
+                  <MobileStatCard icon={<Flame size={14} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelMobile} color={SPOTLIGHT_IMPACT_STATS[1].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
+                  <MobileStatCard icon={<Users size={14} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelMobile} color={SPOTLIGHT_IMPACT_STATS[2].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
+                  <MobileStatCard icon={<TrendingUp size={14} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelMobile} color={SPOTLIGHT_IMPACT_STATS[3].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
                 </div>
               </div>
             </MobileScrollReveal>
 
-
-
-            <MobileScrollReveal className="mt-4 mx-4">
-              <div className="relative w-full rounded-[4px] overflow-hidden bg-gradient-to-br from-[#4c1d95] via-[#7c3aed] to-[#c026d3] p-6 text-center shadow-[0_8px_24px_rgba(124,58,237,0.25)] flex flex-col items-center justify-center min-h-[280px]">
-                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
+            <MobileScrollReveal className="mt-2 mx-2">
+              <div className="relative w-full rounded-[4px] overflow-hidden bg-gradient-to-br from-white via-purple-50 to-white border border-purple-100/60 p-4 text-center shadow-[0_4px_20px_rgba(124,58,237,0.06)] flex flex-col items-center justify-center min-h-[220px]">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-400/10 blur-2xl rounded-full" />
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-400/10 blur-2xl rounded-full" />
                 
-                <div className="relative w-[120px] h-[180px] mx-auto -mt-6 mb-4 rounded-[10px] overflow-hidden shadow-2xl rotate-[-2deg]">
+                <div className="relative w-[90px] h-[140px] mx-auto -mt-2 mb-3 rounded-[4px] overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.1)] border-2 border-white animate-[float_5s_ease-in-out_infinite]">
                   <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="App preview" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 shadow-lg">
-                      <PlayArrowOutlinedIcon sx={{ fontSize: 22 }} className="text-white ml-0.5" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors duration-300 hover:bg-black/20">
+                    <div className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md transform transition-transform hover:scale-110 cursor-pointer">
+                      <PlayArrowIcon sx={{ fontSize: 18 }} className="text-purple-600 ml-0.5" />
                     </div>
                   </div>
                 </div>
                 
                 <div className="relative z-10 w-full mt-auto">
-                  <h3 className="text-white text-[20px] font-black mb-1.5 drop-shadow-md leading-tight">Create. Share. Inspire.</h3>
-                  <button className="bg-white text-[var(--color-primary-600)] text-[13px] font-bold px-5 py-2.5 rounded-[4px] shadow-lg transition-all w-full border-none">
-                    Start Creating
+                  <h3 className="text-gray-900 text-[16px] font-medium mb-1.5 tracking-tight">Create. Share. Inspire.</h3>
+                  <button className="relative overflow-hidden group bg-gray-900 text-white text-[12px] font-medium px-4 py-2 rounded-[4px] shadow-[0_2px_10px_0_rgba(0,0,0,0.15)] transition-all duration-300 hover:bg-purple-600 hover:shadow-[0_4px_16px_rgba(124,58,237,0.25)] active:scale-95 w-[75%] mx-auto block border-none cursor-pointer">
+                    <span className="relative z-10">Start Creating</span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shine_1.5s_infinite]" />
                   </button>
                 </div>
               </div>
             </MobileScrollReveal>
 
-            <MobileScrollReveal className="mt-6 px-3">
-              <div className="flex items-center gap-2 mb-4 px-1">
-                <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-[4px] text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]">
-                  <LayoutGrid size={14} />
+            <MobileScrollReveal className="mt-3 px-1.5">
+              <div className="flex items-center gap-1.5 mb-2 px-1">
+                <div className="p-1 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-[2px] text-white shadow-[0_2px_6px_rgba(124,58,237,0.3)]">
+                  <LayoutGrid size={12} />
                 </div>
-                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">All Spotlights</h3>
+                <h3 className="text-[15px] font-medium text-gray-900 tracking-tight">All Spotlights</h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 w-full">
+              <div className="grid grid-cols-2 gap-1.5 w-full">
                 {displayedVideos.map((v, idx) => (
                   <SpotlightCard key={v.id} video={v} onPlay={setActiveVideo} index={idx} />
                 ))}
               </div>
 
               {hasMore && (
-                <div className="mt-6 flex items-center justify-center">
+                <div className="mt-4 mb-2 flex items-center justify-center">
                   <button
                     type="button"
                     onClick={() => setPage(p => p + 1)}
-                    className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                    className="group flex items-center gap-1.5 px-5 py-2 rounded-[4px] bg-white border border-purple-200 text-[12px] font-medium text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(124,58,237,0.05)] hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                    <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
                     Load More Spotlights
                   </button>
                 </div>
@@ -420,7 +438,7 @@ export default function SpotlightMobile() {
       </div>
 
       {activeVideo && (
-        <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="absolute inset-0 z-[100]">
+        <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-0 z-[100]">
           <ActiveSpotlightMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}

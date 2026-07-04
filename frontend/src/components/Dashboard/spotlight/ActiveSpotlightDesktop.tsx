@@ -118,7 +118,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
           )}
 
           <div className="absolute top-3 right-3 z-20 bg-black/50 backdrop-blur-md rounded-md px-2 py-0.5 border border-white/10">
-            <span className="text-white/90 text-[11px] font-semibold tracking-wide">{video.duration}</span>
+            <span className="text-white/90 text-[11px] font-medium tracking-wide">{video.duration}</span>
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none z-10" />
@@ -133,12 +133,12 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
             <div className="flex items-center gap-2.5">
               <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[1.5px] shadow-lg flex-shrink-0 cursor-pointer hover:scale-105 transition-transform">
                 <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
-                   <span className="text-white text-[13px] font-bold tracking-wider">{video.authorInitial}</span>
+                   <span className="text-white text-[13px] font-medium tracking-wider">{video.authorInitial}</span>
                 </div>
               </div>
               <div className="flex flex-col justify-center min-w-0">
                 <div className="flex items-center gap-1">
-                  <span className="text-white font-bold text-[14px] hover:underline cursor-pointer drop-shadow-md truncate">{video.author}</span>
+                  <span className="text-white font-medium text-[14px] hover:underline cursor-pointer drop-shadow-md truncate">{video.author}</span>
                   {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-400 drop-shadow-md shrink-0" />}
                 </div>
                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -146,7 +146,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                     {video.views} views
                   </span>
                   <span className="text-white/30 text-[10px]">•</span>
-                  <button className="text-white/80 font-bold text-[12px] hover:text-white transition-colors cursor-pointer border-none bg-transparent p-0">
+                  <button className="text-white/80 font-medium text-[12px] hover:text-white transition-colors cursor-pointer border-none bg-transparent p-0">
                     Follow
                   </button>
                 </div>

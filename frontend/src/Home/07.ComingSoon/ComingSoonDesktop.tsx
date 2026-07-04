@@ -50,7 +50,7 @@ export default function ComingSoonDesktop() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-                  className="group relative flex flex-col items-center text-center p-5 rounded-[4px] bg-white border border-gray-100 shadow-sm cursor-pointer overflow-hidden"
+                  className="group relative flex flex-col items-center text-center p-5 rounded-[4px] bg-white cursor-pointer overflow-hidden"
                   style={{
                     transition: 'all 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
                     transform: isHovered ? 'translateY(-6px)' : 'translateY(0)',

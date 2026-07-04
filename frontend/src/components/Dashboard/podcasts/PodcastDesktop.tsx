@@ -22,17 +22,12 @@ const STYLES = `
     0%   { background-position: -200% center; }
     100% { background-position:  200% center; }
   }
-  @keyframes floatUp {
-    0%,100% { transform: translateY(0px); }
-    50%      { transform: translateY(-4px); }
+  @keyframes swipeUpFade {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
   }
-  @keyframes pulseRing {
-    0%   { transform: scale(1);   opacity: .6; }
-    100% { transform: scale(1.9); opacity: 0; }
-  }
-  @keyframes gradShift {
-    0%,100% { background-position: 0% 50%; }
-    50%     { background-position: 100% 50%; }
+  .animate-swipe-up {
+    animation: swipeUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .card-shimmer::after {
     content: '';
@@ -48,22 +43,12 @@ const STYLES = `
     opacity: 1;
     animation: shimmer .7s ease forwards;
   }
-  .stat-card {
-    transition: transform .35s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease;
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
   }
-  .stat-card:hover {
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 8px 24px rgba(0,0,0,.10);
-  }
-  .expert-row {
-    transition: background .2s ease, transform .25s cubic-bezier(.34,1.56,.64,1);
-  }
-  .expert-row:hover {
-    transform: translateX(4px);
-  }
-  .hero-gradient-btn {
-    background-size: 200% 200%;
-    animation: gradShift 4s ease infinite;
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 `
 
@@ -82,19 +67,19 @@ const MoreMenu = memo(function MoreMenu({
         onClick={onToggle}
         className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
           open
-            ? 'bg-purple-100 text-purple-700 scale-105 shadow-sm'
-            : 'bg-transparent text-gray-400 opacity-0 group-hover:opacity-100 hover:bg-purple-50 hover:text-purple-600'
+            ? 'bg-purple-100 text-purple-700 shadow-inner'
+            : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
         }`}
         aria-label="More options"
         aria-expanded={open}
         aria-haspopup="menu"
       >
-        <MoreVertIcon sx={{ fontSize: 18 }} />
+        <MoreVertIcon sx={{ fontSize: 16 }} />
       </button>
 
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-48 bg-white rounded-2xl shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
+          className="absolute right-0 top-[110%] w-44 bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-150"
           role="menu"
         >
           {[
@@ -105,30 +90,30 @@ const MoreMenu = memo(function MoreMenu({
               key={label}
               type="button"
               onClick={onAction}
-              className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left rounded-lg mx-1 w-[calc(100%-8px)]"
+              className="w-full flex items-center gap-2 px-3 py-1.5 text-[12px] font-medium text-gray-700 hover:bg-purple-50 hover:text-purple-700 transition-colors border-none bg-transparent cursor-pointer text-left"
               role="menuitem"
             >
-              <Icon sx={{ fontSize: 16 }} />
+              <Icon sx={{ fontSize: 14 }} />
               {label}
             </button>
           ))}
-          <div className="h-px bg-purple-50 my-1.5 mx-3" />
+          <div className="h-px bg-gray-100 my-1 mx-2" />
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-gray-500 hover:bg-gray-50 hover:text-gray-800 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2 px-3 py-1.5 text-[12px] font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
-            <VisibilityOffIcon sx={{ fontSize: 16 }} />
+            <VisibilityOffIcon sx={{ fontSize: 14 }} />
             Remove from feed
           </button>
           <button
             type="button"
             onClick={onAction}
-            className="w-full flex items-center gap-2.5 px-3.5 py-2 text-[13px] font-medium text-red-500 hover:bg-red-50 hover:text-red-600 transition-colors border-none bg-transparent cursor-pointer text-left"
+            className="w-full flex items-center gap-2 px-3 py-1.5 text-[12px] font-medium text-red-600 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer text-left"
             role="menuitem"
           >
-            <FlagOutlinedIcon sx={{ fontSize: 16 }} />
+            <FlagOutlinedIcon sx={{ fontSize: 14 }} />
             Report episode
           </button>
         </div>
@@ -138,16 +123,16 @@ const MoreMenu = memo(function MoreMenu({
 })
 
 const DesktopEpisodeSkeleton = () => (
-  <div className="flex flex-col rounded-2xl animate-pulse bg-white p-1 pb-2 shadow-sm border border-gray-100/50">
-    <div className="w-full aspect-video rounded-[8px] mb-2.5 bg-gray-200/80" />
+  <div className="flex flex-col rounded-lg animate-pulse bg-white p-1 pb-2">
+    <div className="w-full aspect-video rounded-md mb-2.5 bg-gray-200/80" />
     <div className="flex flex-col gap-1.5 px-1.5">
-      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-5/6" />
-      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-2/3" />
+      <div className="h-3.5 bg-gray-200/80 rounded-sm w-5/6" />
+      <div className="h-3.5 bg-gray-200/80 rounded-sm w-2/3" />
       <div className="flex items-center gap-2 mt-1.5">
         <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
-        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
+        <div className="h-3 bg-gray-200/80 rounded-sm w-1/2" />
       </div>
-      <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/3 ml-7 mt-0.5" />
+      <div className="h-2.5 bg-gray-200/80 rounded-sm w-1/3 ml-7 mt-0.5" />
     </div>
   </div>
 )
@@ -176,12 +161,10 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <article
-      className={`card-shimmer group flex flex-col rounded-2xl overflow-visible cursor-pointer transition-all duration-500 ease-out animate-in slide-in-from-bottom-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-4 ${
+      className={`card-shimmer group flex flex-col rounded-lg overflow-visible cursor-pointer transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 opacity-0 animate-swipe-up ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{
-        animationDelay: `${index * 55}ms`,
-      }}
+      style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
@@ -189,46 +172,45 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative w-full aspect-video rounded-[8px] overflow-hidden mb-2.5 flex-shrink-0 bg-gray-100 shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.18),0_8px_24px_rgba(0,0,0,0.12)] group-hover:-translate-y-1">
+      <div className="relative w-full aspect-video rounded-md overflow-hidden mb-2.5 flex-shrink-0 bg-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 border border-black/5">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-400" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-300" />
 
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
-          <div className="relative w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.35),0_0_20px_rgba(217,70,239,0.4)] flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-white/30 hover:shadow-[0_0_30px_rgba(217,70,239,0.7)]">
-            <div className="absolute inset-0 rounded-full border border-white/30 animate-[spin_5s_linear_infinite] opacity-60 pointer-events-none" />
-            <PlayArrowIcon sx={{ fontSize: 26 }} className="drop-shadow-lg ml-0.5" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-white/30">
+            <PlayArrowIcon sx={{ fontSize: 22 }} className="ml-0.5" />
           </div>
         </div>
 
-        <div className="absolute bottom-2 left-2.5 z-10 flex items-center gap-1.5 bg-black/65 backdrop-blur-md border border-white/10 text-white text-[10px] font-semibold px-2 py-0.5 rounded-lg pointer-events-none group-hover:opacity-0 transition-opacity duration-300 shadow-sm">
-          <GraphicEqIcon sx={{ fontSize: 11 }} className="text-fuchsia-400" />
+        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-medium px-1.5 py-0.5 rounded pointer-events-none group-hover:opacity-0 transition-opacity duration-200">
+          <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
           {episode.duration}
         </div>
       </div>
 
       <div className="flex items-start justify-between gap-2 px-0.5">
         <div className="min-w-0 flex-1">
-          <h3 className="text-[13px] font-bold text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-250">
+          <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
             {episode.title}
           </h3>
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-[0_2px_8px_rgba(124,58,237,0.4)]">
-              <span className="text-[9px] font-bold text-white select-none">{speakerInitial}</span>
+          <div className="flex items-center gap-1.5">
+            <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
+              <span className="text-[8px] font-medium text-white select-none">{speakerInitial}</span>
             </div>
-            <span className="text-[11.5px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
+            <span className="text-[11px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
               {episode.speaker}
             </span>
             {episode.verified && (
-              <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />
+              <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
             )}
           </div>
-          <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-7">
+          <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-5.5">
             {episode.role}
           </p>
         </div>
@@ -266,10 +248,10 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
 
   return (
     <article
-      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-all duration-300 ease-out animate-in slide-in-from-right-8 fade-in fill-mode-both outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-xl hover:bg-gray-50 ${
+      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 opacity-0 animate-swipe-up ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{ animationDelay: `${index * 55}ms` }}
+      style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
@@ -277,37 +259,37 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative shrink-0 w-[128px] aspect-video rounded-[4px] overflow-hidden bg-gray-100 shadow-sm transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.15)]">
+      <div className="relative shrink-0 w-[120px] aspect-video rounded-md overflow-hidden bg-gray-100 shadow-sm border border-black/5">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-300 shadow-lg hover:bg-white/30">
-            <PlayArrowIcon sx={{ fontSize: 16 }} className="drop-shadow-lg ml-0.5" />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-200 hover:scale-110 shadow-sm">
+            <PlayArrowIcon sx={{ fontSize: 16 }} className="ml-0.5" />
           </div>
         </div>
-        <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-semibold px-1 py-0.5 rounded group-hover:opacity-0 transition-opacity duration-300">
+        <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-medium px-1 py-0.5 rounded group-hover:opacity-0 transition-opacity duration-200">
           <GraphicEqIcon sx={{ fontSize: 9 }} className="text-fuchsia-400" />
           {episode.duration}
         </div>
       </div>
 
       <div className="flex-1 min-w-0 pt-0.5">
-        <h3 className="text-[12.5px] font-bold text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-250">
+        <h3 className="text-[12px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
           {episode.title}
         </h3>
         <div className="flex items-center gap-1 mb-0.5">
-          <span className="text-[10.5px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
+          <span className="text-[10px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
             {episode.speaker}
           </span>
           {episode.verified && (
-            <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500 shrink-0" />
+            <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
           )}
         </div>
-        <p className="text-[9.5px] text-gray-500 truncate font-normal">
+        <p className="text-[9px] text-gray-500 truncate font-normal">
           {episode.role}
         </p>
       </div>
@@ -325,27 +307,26 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
 })
 
 function StatCard({
-  icon, value, label, color, bg, border, delay = 0,
+  icon, value, label, color, bg, delay = 0,
 }: {
   icon: React.ReactNode
   value: string
   label: string
   color: string
   bg: string
-  border: string
   delay?: number
 }) {
   return (
     <div
-      className={`stat-card p-3 rounded-[6px] ${bg} border ${border} flex items-center gap-2.5 animate-in fade-in slide-in-from-bottom-4 fill-mode-both`}
+      className={`p-2.5 rounded-md ${bg} flex items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 opacity-0 animate-swipe-up`}
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className={`w-7 h-7 rounded-lg ${color} flex items-center justify-center shadow-sm shrink-0`}>
+      <div className={`w-6 h-6 rounded-md ${color} flex items-center justify-center shrink-0`}>
         {icon}
       </div>
       <div className="flex flex-col min-w-0">
-        <span className="text-[16px] font-black text-[var(--color-text-primary)] leading-none tracking-tight">{value}</span>
-        <span className="text-[11px] font-medium text-[var(--color-text-secondary)] truncate mt-0.5">{label}</span>
+        <span className="text-[14px] font-medium text-gray-900 leading-none tracking-tight">{value}</span>
+        <span className="text-[10px] font-medium text-gray-500 truncate mt-0.5">{label}</span>
       </div>
     </div>
   )
@@ -353,13 +334,13 @@ function StatCard({
 
 function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2.5 animate-in fade-in slide-in-from-left-4 duration-500">
-      <div className="relative flex items-center justify-center">
+    <div className="flex items-center gap-2 mb-2 opacity-0 animate-swipe-up">
+      <div className="flex items-center justify-center">
         {icon}
       </div>
-      <h3 className="text-[16px] font-black text-[var(--color-text-primary)] tracking-tight">{title}</h3>
+      <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">{title}</h3>
       {badge && (
-        <span className="ml-1 px-2 py-0.5 rounded-full bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-bold uppercase tracking-wider animate-in zoom-in-75 duration-500 delay-200">
+        <span className="ml-1 px-1.5 py-0.5 rounded-[3px] bg-purple-100 text-purple-700 text-[9px] font-medium uppercase tracking-wider">
           {badge}
         </span>
       )}
@@ -371,33 +352,33 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-2xl w-[90%] max-w-[400px] p-5 shadow-2xl animate-in zoom-in-95 duration-200"
+        className="bg-white rounded-xl w-[90%] max-w-[400px] p-5 shadow-xl animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-[18px] font-black text-gray-900">Create new playlist</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-[16px] font-medium text-gray-900">Create new playlist</h2>
           <button 
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-800 transition-colors border-none cursor-pointer"
+            className="w-7 h-7 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors border-none cursor-pointer"
           >
             <CloseIcon sx={{ fontSize: 16 }} />
           </button>
         </div>
         
-        <div className="flex flex-col gap-3.5">
+        <div className="flex flex-col gap-3">
           <div className="flex flex-col gap-1">
-            <label className="text-[12px] font-bold text-gray-700">Name</label>
+            <label className="text-[11px] font-medium text-gray-700">Name</label>
             <input 
               type="text" 
               placeholder="E.g. Real Estate Tips" 
-              className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[13px]"
+              className="w-full px-3 py-2 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px]"
               autoFocus
             />
           </div>
           
           <div className="flex flex-col gap-1">
-            <label className="text-[12px] font-bold text-gray-700">Privacy</label>
-            <select className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:border-purple-500 focus:ring-2 focus:ring-purple-200 outline-none transition-all text-[13px] bg-white">
+            <label className="text-[11px] font-medium text-gray-700">Privacy</label>
+            <select className="w-full px-3 py-2 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px] bg-white">
               <option value="private">Private (Only you can view)</option>
               <option value="public">Public (Anyone can view)</option>
               <option value="unlisted">Unlisted (Anyone with link)</option>
@@ -405,16 +386,16 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         
-        <div className="flex items-center justify-end gap-2.5 mt-6">
+        <div className="flex items-center justify-end gap-2 mt-5">
           <button 
             onClick={onClose}
-            className="px-4 py-1.5 rounded-full text-[13px] font-bold text-gray-600 hover:bg-gray-100 transition-colors border-none bg-transparent cursor-pointer"
+            className="px-4 py-1.5 rounded-md text-[12px] font-medium text-gray-600 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer"
           >
             Cancel
           </button>
           <button 
             onClick={onClose}
-            className="px-5 py-1.5 rounded-full text-[13px] font-bold text-white bg-purple-600 hover:bg-purple-700 shadow-md hover:shadow-lg transition-all border-none cursor-pointer"
+            className="px-4 py-1.5 rounded-md text-[12px] font-medium text-white bg-purple-600 hover:bg-purple-700 transition-all border-none cursor-pointer"
           >
             Create
           </button>
@@ -464,7 +445,7 @@ export default function PodcastDesktop() {
     setTimeout(() => {
       setPage((prev) => prev + 1)
       setIsLoading(false)
-    }, 800)
+    }, 600)
   }
 
   const handleScroll = useCallback(() => {
@@ -490,96 +471,96 @@ export default function PodcastDesktop() {
     : -1
 
   return (
-    <div className="relative flex-1 w-full h-full flex flex-col bg-[var(--color-bg-muted)] overflow-hidden">
+    <div className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
       <style>{STYLES}</style>
 
-      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-500 overflow-y-auto scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-8">
-        <div className="sticky top-0 z-40 shrink-0 bg-white backdrop-blur-sm px-2 py-1 ">
-          <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-300 overflow-y-auto scroll-smooth hide-scrollbar pb-6">
+        <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1.5 opacity-0 animate-swipe-up" style={{ animationDelay: '0ms' }}>
+          <div className="max-w-[1400px] mx-auto">
+            <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
+          </div>
         </div>
 
-        <div className="flex-1 bg-white flex flex-col xl:flex-row gap-6 px-4 md:px-6 py-2 max-w-[1600px] w-full mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <div className="flex-1 min-w-0 flex flex-col gap-7">
+        <div className="flex-1 flex flex-col xl:flex-row gap-4 px-2 py-4 max-w-[1400px] w-full mx-auto">
+          <main className="flex-1 min-w-0 flex flex-col gap-2">
               <div
-                className="w-full bg-white rounded-[8px] overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.07),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 flex flex-col lg:flex-row group cursor-pointer transition-all duration-500 hover:shadow-[0_16px_48px_rgba(124,58,237,0.14),0_4px_16px_rgba(0,0,0,0.08)] hover:-translate-y-0.5 animate-in fade-in slide-in-from-bottom-6 duration-600"
+                className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 opacity-0 animate-swipe-up border border-gray-100 shadow-sm"
+                style={{ animationDelay: '50ms' }}
                 onClick={() => setActiveEpisode(filtered[0])}
               >
-                <div className="relative w-full lg:w-[58%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-l-none lg:rounded-r-[8px]">
+                <div className="relative w-full lg:w-[50%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg">
                   <img
                     src={filtered[0]?.thumbnail || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80'}
                     alt="Featured"
-                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
+                  
                   <div className="absolute bottom-3 right-3 z-20">
-                    <div className="relative w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:shadow-[0_8px_40px_rgba(217,70,239,0.6)] hover:bg-white/35">
-                      <div className="absolute inset-0 rounded-full bg-white/10 scale-0 group-hover:scale-100 transition-transform duration-500 ease-out" />
-                      <PlayArrowIcon sx={{ fontSize: 32 }} className="drop-shadow-lg ml-1 relative z-10" />
+                    <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                      <PlayArrowIcon sx={{ fontSize: 24 }} className="ml-0.5 relative z-10" />
                     </div>
                   </div>
 
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] px-2 py-1 rounded-md font-semibold">
-                    <GraphicEqIcon sx={{ fontSize: 11 }} className="text-fuchsia-400" />
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] px-2 py-1 rounded font-medium">
+                    <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
                     {filtered[0]?.duration || '28:10'}
                   </div>
                 </div>
 
-                <div className="p-5 lg:p-7 flex flex-col justify-center flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[var(--color-secondary-500)]/10 text-[var(--color-secondary-500)] text-[10px] font-black uppercase tracking-widest rounded-full">
+                <div className="p-4 lg:p-5 flex flex-col justify-center flex-1">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-50 text-purple-600 text-[9px] font-medium uppercase tracking-wider rounded">
                       <TrendingUp size={10} />
                       Trending #1
                     </span>
                   </div>
-                  <h2 className="text-[20px] lg:text-[26px] font-black text-[var(--color-text-primary)] leading-tight mb-3 group-hover:text-[var(--color-primary-600)] transition-colors duration-300 line-clamp-2">
+                  <h2 className="text-[18px] lg:text-[22px] font-medium text-gray-900 leading-tight mb-2 group-hover:text-purple-600 transition-colors duration-200 line-clamp-2">
                     {filtered[0]?.title || 'The Future of Real Estate: What to Expect in 2027'}
                   </h2>
-                  <p className="text-[14px] text-[var(--color-text-secondary)] leading-relaxed mb-6 line-clamp-2 max-w-[500px]">
+                  <p className="text-[13px] text-gray-500 font-medium leading-relaxed mb-4 line-clamp-2 max-w-[450px]">
                     Ritika Sharma shares insights on real estate market trends, investment opportunities, and strategies for long-term growth.
                   </p>
 
-                  <div className="flex items-center gap-4 text-[12.5px] text-[var(--color-text-muted)] font-semibold mb-8">
-                    <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full">
-                      <Eye size={14} className="text-purple-500" /> 28K Views
+                  <div className="flex items-center gap-3 text-[11px] text-gray-500 font-medium mb-5">
+                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded">
+                      <Eye size={12} className="text-purple-500" /> 28K Views
                     </span>
-                    <span className="w-1 h-1 rounded-full bg-gray-300" />
-                    <span className="flex items-center gap-1.5 bg-gray-50 px-3 py-1.5 rounded-full text-gray-700">
-                      <GraphicEqIcon sx={{ fontSize: 14 }} className="text-fuchsia-500" />
+                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded">
+                      <GraphicEqIcon sx={{ fontSize: 12 }} className="text-fuchsia-500" />
                       {filtered[0]?.duration || '28:10'}
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 mt-auto">
-                    <button className="hero-gradient-btn flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[14px] font-bold rounded-[8px] hover:shadow-[0_6px_24px_rgba(124,58,237,0.45)] transition-all duration-300 hover:scale-[1.03] active:scale-[0.97] shadow-[0_2px_12px_rgba(124,58,237,0.3)] cursor-pointer border-none">
-                      <PlayArrowIcon sx={{ fontSize: 20 }} />
+                  <div className="flex items-center gap-2 mt-auto">
+                    <button className="flex items-center gap-1.5 px-4 py-2 bg-purple-600 text-white text-[12px] font-medium rounded-md hover:bg-purple-700 transition-colors cursor-pointer border-none shadow-sm">
+                      <PlayArrowIcon sx={{ fontSize: 16 }} />
                       Watch Now
                     </button>
                     <button
-                      className="flex items-center gap-2 px-5 py-3 bg-white border border-gray-200 text-[var(--color-text-primary)] text-[14px] font-semibold rounded-[8px] hover:bg-gray-50 hover:border-purple-200 hover:text-purple-700 hover:shadow-[0_4px_16px_rgba(124,58,237,0.12)] transition-all duration-300 cursor-pointer"
+                      className="flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-[12px] font-medium rounded-md hover:bg-gray-50 transition-colors cursor-pointer"
                       onClick={(e) => { e.stopPropagation(); }}
                     >
-                      <BookmarkBorderIcon sx={{ fontSize: 19 }} />
+                      <BookmarkBorderIcon sx={{ fontSize: 16 }} />
                       Save
                     </button>
                   </div>
                 </div>
               </div>
 
-            <div className="w-full flex flex-col gap-3">
+            <section className="w-full flex flex-col gap-2 bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '100ms' }}>
               <SectionHeader
-                icon={<Flame className="text-orange-500 drop-shadow-[0_2px_6px_rgba(249,115,22,0.5)]" size={20} />}
+                icon={<Flame className="text-orange-500" size={16} />}
                 title="Trending This Week"
               />
 
-              <div className="relative group/slider w-full">
+              <div className="relative group/slider w-full mt-1">
                 {canScrollLeft && (
-                  <div className="absolute left-0 top-0 bottom-0 w-12 z-30 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent">
+                  <div className="absolute left-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent">
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto">
                       <button
                         onClick={scrollLeft}
-                        className="w-8 h-8 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 hover:scale-110 transition-all duration-300 cursor-pointer"
+                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
                         aria-label="Scroll left"
                       >
                         <ChevronLeft size={16} />
@@ -591,19 +572,19 @@ export default function PodcastDesktop() {
                 <div
                   ref={sliderRef}
                   onScroll={handleScroll}
-                  className="flex gap-2.5 overflow-x-auto pb-4 pt-2 px-2 scroll-px-2 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+                  className="flex gap-3 overflow-x-auto pb-2 scroll-px-0 snap-x snap-mandatory hide-scrollbar"
                 >
                   {filteredWithoutTop.slice(0, 10).map((ep, mapIdx) => {
                     const actualIdx = filtered.findIndex((e) => e.id === ep.id);
                     const rank = actualIdx + 1;
                     
                     return (
-                      <div key={ep.id} className="min-w-[220px] w-[220px] snap-start relative">
-                        <div className={`absolute -top-2 -left-2 w-[20px] h-[20px] rounded-md z-20 flex items-center justify-center text-[9px] font-black border-2 border-white shadow-[0_2px_8px_rgba(0,0,0,0.1)] ${
-                          rank === 1 ? 'bg-amber-400 text-amber-900' :
-                          rank === 2 ? 'bg-gray-300 text-gray-700' :
-                          rank === 3 ? 'bg-amber-600 text-amber-100' :
-                          'bg-[var(--color-secondary-500)] text-white'
+                      <div key={ep.id} className="min-w-[180px] w-[180px] snap-start relative pt-2 pl-2">
+                        <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
+                          rank === 1 ? 'bg-amber-100 text-amber-700' :
+                          rank === 2 ? 'bg-gray-100 text-gray-700' :
+                          rank === 3 ? 'bg-orange-100 text-orange-700' :
+                          'bg-purple-100 text-purple-700'
                         }`}>
                           {rank}
                         </div>
@@ -614,11 +595,11 @@ export default function PodcastDesktop() {
                 </div>
 
                 {canScrollRight && (
-                  <div className="absolute right-0 top-0 bottom-0 w-12 z-30 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent">
+                  <div className="absolute right-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent">
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-auto">
                       <button
                         onClick={scrollRight}
-                        className="w-8 h-8 rounded-full bg-white shadow-[0_4px_16px_rgba(0,0,0,0.12)] border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 hover:scale-110 transition-all duration-300 cursor-pointer"
+                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
                         aria-label="Scroll right"
                       >
                         <ChevronRight size={16} />
@@ -627,21 +608,21 @@ export default function PodcastDesktop() {
                   </div>
                 )}
               </div>
-            </div>
+            </section>
 
-            <div className="w-full flex flex-col gap-4 pb-4">
+            <section className="w-full flex flex-col bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '150ms' }}>
               <SectionHeader
                 icon={
-                  <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-lg text-white shadow-[0_3px_10px_rgba(124,58,237,0.4)]">
-                    <LayoutGrid size={14} />
+                  <div className="p-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[4px] text-white">
+                    <LayoutGrid size={12} />
                   </div>
                 }
-                title="All Real Estate Episodes"
+                title="All Episodes"
               />
 
               {displayedEpisodes.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6 pt-1">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-2">
                     {displayedEpisodes.map((ep, idx) => (
                       <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
@@ -655,21 +636,21 @@ export default function PodcastDesktop() {
                   </div>
 
                   {hasMore && (
-                    <div className="mt-4 flex items-center justify-center">
+                    <div className="mt-6 flex items-center justify-center opacity-0 animate-swipe-up" style={{ animationDelay: '300ms' }}>
                       <button
                         type="button"
                         onClick={handleLoadMore}
                         disabled={isLoading}
-                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[8px] bg-white border border-gray-300 text-[13px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
+                        className="group flex items-center justify-center gap-1.5 px-6 py-2 rounded-md bg-purple-50 text-[12px] font-medium text-purple-700 hover:bg-purple-600 hover:text-white transition-all duration-300 cursor-pointer active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed border-none"
                       >
                         {isLoading ? (
                           <>
-                            <CircularProgress size={16} sx={{ color: '#7C3AED' }} />
+                            <CircularProgress size={14} sx={{ color: 'inherit' }} />
                             <span>Loading...</span>
                           </>
                         ) : (
                           <>
-                            <AutorenewIcon sx={{ fontSize: 17 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                            <AutorenewIcon sx={{ fontSize: 14 }} className="group-hover:rotate-180 transition-transform duration-500" />
                             Load More Episodes
                           </>
                         )}
@@ -678,51 +659,46 @@ export default function PodcastDesktop() {
                   )}
                 </>
               ) : (
-              <div className="flex flex-col items-center justify-center py-16 text-center animate-in zoom-in-95 fade-in slide-in-from-bottom-4 duration-500">
-                  <div className="w-16 h-16 mb-4 rounded-2xl bg-purple-50 flex items-center justify-center shadow-[0_4px_16px_rgba(124,58,237,0.1)] border border-purple-100">
-                    <LayoutGrid size={26} className="text-purple-300" />
+                <div className="flex flex-col items-center justify-center py-10 text-center bg-gray-50/50 rounded-lg border border-dashed border-gray-200">
+                  <div className="w-10 h-10 mb-2 rounded-full bg-white flex items-center justify-center border border-gray-100">
+                    <LayoutGrid size={16} className="text-gray-400" />
                   </div>
-                  <p className="text-[16px] font-bold text-[var(--color-text-primary)] tracking-tight">No episodes found</p>
-                  <p className="text-[13px] font-medium text-[var(--color-text-muted)] mt-1 max-w-[240px] leading-relaxed">
+                  <p className="text-[14px] font-medium text-gray-900">No episodes found</p>
+                  <p className="text-[12px] text-gray-500 mt-0.5 max-w-xs">
                     Try selecting a different category or clearing your filters
                   </p>
                 </div>
               )}
-            </div>
-          </div>
+            </section>
+          </main>
 
-          <div className="w-full xl:w-[310px] shrink-0 flex flex-col gap-6 h-fit animate-in fade-in slide-in-from-right-6 duration-600 delay-150">
-            <div className="flex flex-col gap-3.5 p-4">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
-              <div className="flex items-center gap-2 mb-0.5 relative z-10">
-                <h3 className="text-[14px] font-black text-[var(--color-text-primary)] tracking-tight">Platform Highlights</h3>
-                <div className="flex-1 h-px bg-gradient-to-r from-purple-100 to-transparent" />
+          <aside className="w-full xl:w-[280px] shrink-0 flex flex-col gap-5 h-fit">
+            <div className="bg-white rounded-lg p-4 relative overflow-hidden opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '200ms' }}>
+              <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+              <div className="flex items-center gap-2 mb-3 relative z-10">
+                <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Platform Highlights</h3>
               </div>
-              <div className="grid grid-cols-2 gap-2.5 relative z-10">
-                <StatCard icon={<Mic size={15} />} value="12K+" label="Episodes" color="text-purple-600" bg="bg-white" border="border-purple-100" delay={0} />
-                <StatCard icon={<Users size={15} />} value="500+" label="Experts" color="text-orange-500" bg="bg-white" border="border-orange-100" delay={60} />
-                <StatCard icon={<Building2 size={15} />} value="35" label="Cities" color="text-blue-500" bg="bg-white" border="border-blue-100" delay={120} />
-                <StatCard icon={<Eye size={15} />} value="20M+" label="Views" color="text-green-600" bg="bg-white" border="border-green-100" delay={180} />
+              <div className="grid grid-cols-2 gap-2 relative z-10">
+                <StatCard icon={<Mic size={14} />} value="12K+" label="Episodes" color="text-purple-600" bg="bg-purple-50" delay={0} />
+                <StatCard icon={<Users size={14} />} value="500+" label="Experts" color="text-orange-500" bg="bg-orange-50" delay={50} />
+                <StatCard icon={<Building2 size={14} />} value="35" label="Cities" color="text-blue-500" bg="bg-blue-50" delay={100} />
+                <StatCard icon={<Eye size={14} />} value="20M+" label="Views" color="text-green-600" bg="bg-emerald-50" delay={150} />
               </div>
             </div>
-
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
 
             <AdvertisementPlaceholder />
 
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-
-            <div className="flex flex-col rounded-lg p-4">
-              <div className="flex items-center justify-between mb-4">
+            <div className="bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '250ms' }}>
+              <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Top Experts</h3>
+                  <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Top Experts</h3>
                 </div>
-                <button className="text-purple-600 text-[12px] font-bold hover:text-purple-700 hover:underline cursor-pointer bg-transparent border-none transition-colors">
+                <button className="text-purple-600 text-[11px] font-medium hover:text-purple-700 hover:underline cursor-pointer bg-transparent border-none transition-colors">
                   View all
                 </button>
               </div>
 
-              <div className="flex flex-col gap-0.5">
+              <div className="flex flex-col gap-1">
                 {[
                   { name: 'Ritika Sharma', role: 'Real Estate Analyst', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80' },
                   { name: 'Amit Verma', role: 'Real Estate Consultant', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80' },
@@ -731,30 +707,28 @@ export default function PodcastDesktop() {
                 ].map((expert, idx) => (
                   <div
                     key={idx}
-                    className="expert-row flex items-center justify-between group cursor-pointer hover:bg-purple-50/70 p-1.5 rounded-lg animate-in fade-in slide-in-from-right-3 fill-mode-both"
-                    style={{ animationDelay: `${200 + idx * 60}ms` }}
+                    className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-1.5 rounded-md transition-colors"
                   >
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.1)] shrink-0 transition-shadow duration-300 group-hover:shadow-[0_3px_12px_rgba(124,58,237,0.25)]">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-7 h-7 rounded-full overflow-hidden shrink-0">
                         <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
                       </div>
                       <div className="flex flex-col">
                         <div className="flex items-center gap-1">
-                          <span className="text-[12px] font-bold text-[var(--color-text-primary)] group-hover:text-purple-700 transition-colors leading-tight">{expert.name}</span>
+                          <span className="text-[12px] font-medium text-gray-900 group-hover:text-purple-700 transition-colors leading-tight">{expert.name}</span>
                           <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500" />
                         </div>
-                        <span className="text-[10px] font-medium text-[var(--color-text-secondary)] leading-tight">{expert.role}</span>
+                        <span className="text-[10px] font-medium text-gray-500 leading-tight">{expert.role}</span>
                       </div>
                     </div>
-                    <div className="w-5 h-5 rounded-full bg-transparent group-hover:bg-purple-100 flex items-center justify-center transition-all duration-300">
+                    <div className="w-5 h-5 rounded-full flex items-center justify-center">
                       <ChevronRight size={12} className="text-gray-300 group-hover:text-purple-500 transition-colors" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-
-          </div>
+          </aside>
         </div>
       </div>
 

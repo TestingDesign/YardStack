@@ -551,7 +551,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
       </div>
       
       {activeVideo && (
-        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-sm animate-in fade-in duration-200">
           <ActiveSpotlightDesktop
             video={activeVideo}
             onClose={() => setActiveVideo(null)}

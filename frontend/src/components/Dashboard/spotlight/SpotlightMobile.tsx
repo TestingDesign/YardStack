@@ -363,7 +363,7 @@ export default function SpotlightMobile() {
   const hasMore = displayedVideos.length < filtered.length
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="relative h-full w-full bg-[#fcfcfc] flex flex-col overflow-y-auto overflow-x-hidden hide-scrollbar pb-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="relative h-full w-full bg-[#fcfcfc] flex flex-col overflow-hidden pb-6">
       <style>{MOBILE_STYLES}</style>
 
       <div 

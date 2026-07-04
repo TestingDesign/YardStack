@@ -140,7 +140,7 @@ export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
   return (
     <nav
       aria-label="Bottom Navigation"
-      className="shrink-0 relative z-40 bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] shadow-[0_-4px_32px_rgba(0,0,0,0.5)] border-t border-white/10"
+      className="shrink-0 relative z-9999 bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] shadow-[0_-4px_32px_rgba(0,0,0,0.5)] border-t border-white/10"
     >
       <ul className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0">
         {FOOTER_NAV_ITEMS.map((item) => {

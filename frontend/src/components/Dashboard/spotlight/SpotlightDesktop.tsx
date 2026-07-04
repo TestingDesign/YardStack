@@ -11,7 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 import { Users, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
-import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
+import { SPOTLIGHT_VIDEOS, TOP_CREATORS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
 import ActiveSpotlightDesktop from './ActiveSpotlightDesktop'
 
 const STYLES = `
@@ -435,10 +435,10 @@ export default function SpotlightDesktop() {
               </div>
               
               <div className="grid grid-cols-2 gap-2 relative z-10">
-                <StatCard icon={<Eye size={14} />} value="12M+" label="Total Views" color="text-purple-600" bg="bg-purple-50" border="border-purple-100/50" delay={0} />
-                <StatCard icon={<Flame size={14} />} value="#1" label="Trending" color="text-orange-600" bg="bg-orange-50" border="border-orange-100/50" delay={40} />
-                <StatCard icon={<Users size={14} />} value="850+" label="Creators" color="text-blue-600" bg="bg-blue-50" border="border-blue-100/50" delay={80} />
-                <StatCard icon={<TrendingUp size={14} />} value="45K" label="Shares" color="text-emerald-600" bg="bg-emerald-50" border="border-emerald-100/50" delay={120} />
+                <StatCard icon={<Eye size={14} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[0].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} border={SPOTLIGHT_IMPACT_STATS[0].borderDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay} />
+                <StatCard icon={<Flame size={14} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[1].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} border={SPOTLIGHT_IMPACT_STATS[1].borderDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay} />
+                <StatCard icon={<Users size={14} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[2].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} border={SPOTLIGHT_IMPACT_STATS[2].borderDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay} />
+                <StatCard icon={<TrendingUp size={14} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[3].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} border={SPOTLIGHT_IMPACT_STATS[3].borderDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay} />
               </div>
             </div>
 
@@ -479,12 +479,7 @@ export default function SpotlightDesktop() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                {[
-                  { name: 'Ritika Sharma', views: '2.4M views', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80', rank: 1 },
-                  { name: 'Amit Verma', views: '1.8M views', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80', rank: 2 },
-                  { name: 'Rahul Prasad', views: '1.2M views', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80', rank: 3 },
-                  { name: 'Neha Iyer', views: '950K views', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80', rank: 4 },
-                ].map((expert) => (
+                {TOP_CREATORS.map((expert) => (
                   <div
                     key={expert.rank}
                     className="flex items-center group cursor-pointer hover:bg-gray-50 p-2 -mx-2 rounded-[4px] transition-all duration-200"

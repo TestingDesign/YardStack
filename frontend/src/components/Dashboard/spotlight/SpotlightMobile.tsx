@@ -10,7 +10,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 import { Flame, Eye, LayoutGrid, TrendingUp } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
-import { SPOTLIGHT_VIDEOS, type SpotlightVideo } from './data'
+import { SPOTLIGHT_VIDEOS, TOP_CREATORS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
 import ActiveSpotlightMobile from './ActiveSpotlightMobile'
 import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
 
@@ -44,12 +44,7 @@ const MOBILE_STYLES = `
   }
 `
 
-const EXPERTS = [
-  { name: 'Ritika Sharma', views: '2.4M views', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80', rank: 1 },
-  { name: 'Amit Verma', views: '1.8M views', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80', rank: 2 },
-  { name: 'Rahul Prasad', views: '1.2M views', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80', rank: 3 },
-  { name: 'Neha Iyer', views: '950K views', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80', rank: 4 },
-]
+
 
 function MobileMoreMenu({
   open, menuRef, onToggle, onAction,
@@ -312,15 +307,10 @@ export default function SpotlightMobile() {
                   <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Spotlight Impact</h3>
                 </div>
                 <div className="grid grid-cols-2 gap-2 relative z-10">
-                  {[
-                    { val: '12M+', lbl: 'Shorts Views', col: 'text-purple-600', border: 'border-purple-100' },
-                    { val: '#1', lbl: 'Trending', col: 'text-orange-500', border: 'border-orange-100' },
-                    { val: '850+', lbl: 'Creators', col: 'text-blue-500', border: 'border-blue-100' },
-                    { val: '45K', lbl: 'Shares Today', col: 'text-green-600', border: 'border-green-100' },
-                  ].map((s, i) => (
-                    <div key={i} className={`p-3 rounded-[6px] bg-white/80 backdrop-blur-sm border ${s.border} shadow-sm`}>
-                      <span className={`block text-[16px] font-black ${s.col} leading-none mb-1`}>{s.val}</span>
-                      <span className="block text-[11px] font-bold text-gray-500">{s.lbl}</span>
+                  {SPOTLIGHT_IMPACT_STATS.map((s, i) => (
+                    <div key={i} className={`p-3 rounded-[6px] bg-white/80 backdrop-blur-sm border ${s.borderMobile} shadow-sm`}>
+                      <span className={`block text-[16px] font-black ${s.colorMobile} leading-none mb-1`}>{s.value}</span>
+                      <span className="block text-[11px] font-bold text-gray-500">{s.labelMobile}</span>
                     </div>
                   ))}
                 </div>
@@ -336,7 +326,7 @@ export default function SpotlightMobile() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  {EXPERTS.map((expert) => (
+                  {TOP_CREATORS.map((expert) => (
                     <div key={expert.rank} className="flex items-center justify-between group">
                       <div className="flex items-center gap-3">
                         <span className={`text-[12px] font-black w-3 text-center ${expert.rank <= 3 ? 'text-gray-900' : 'text-gray-400'}`}>#{expert.rank}</span>

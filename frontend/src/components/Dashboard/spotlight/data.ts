@@ -198,3 +198,38 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoColor: '#000000',
   },
 ]
+
+
+export interface ExpertData {
+  name: string
+  views: string
+  image: string
+  rank: number
+}
+
+export const TOP_CREATORS: ExpertData[] = [
+  { name: 'Ritika Sharma', views: '2.4M views', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&q=80', rank: 1 },
+  { name: 'Amit Verma', views: '1.8M views', image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&q=80', rank: 2 },
+  { name: 'Rahul Prasad', views: '1.2M views', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80', rank: 3 },
+  { name: 'Neha Iyer', views: '950K views', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80', rank: 4 },
+]
+
+export interface SpotlightImpactStat {
+  id: string
+  value: string
+  labelDesktop: string
+  labelMobile: string
+  colorDesktop: string
+  colorMobile: string
+  bgDesktop: string
+  borderDesktop: string
+  borderMobile: string
+  delay: number
+}
+
+export const SPOTLIGHT_IMPACT_STATS: SpotlightImpactStat[] = [
+  { id: 'views', value: '12M+', labelDesktop: 'Total Views', labelMobile: 'Shorts Views', colorDesktop: 'text-purple-600', colorMobile: 'text-purple-600', bgDesktop: 'bg-purple-50', borderDesktop: 'border-purple-100/50', borderMobile: 'border-purple-100', delay: 0 },
+  { id: 'trending', value: '#1', labelDesktop: 'Trending', labelMobile: 'Trending', colorDesktop: 'text-orange-600', colorMobile: 'text-orange-500', bgDesktop: 'bg-orange-50', borderDesktop: 'border-orange-100/50', borderMobile: 'border-orange-100', delay: 40 },
+  { id: 'creators', value: '850+', labelDesktop: 'Creators', labelMobile: 'Creators', colorDesktop: 'text-blue-600', colorMobile: 'text-blue-500', bgDesktop: 'bg-blue-50', borderDesktop: 'border-blue-100/50', borderMobile: 'border-blue-100', delay: 80 },
+  { id: 'shares', value: '45K', labelDesktop: 'Shares', labelMobile: 'Shares Today', colorDesktop: 'text-emerald-600', colorMobile: 'text-green-600', bgDesktop: 'bg-emerald-50', borderDesktop: 'border-emerald-100/50', borderMobile: 'border-green-100', delay: 120 },
+]

@@ -99,7 +99,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
       />
       <div className={`absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.3)_0%,transparent_15%,transparent_70%,rgba(0,0,0,0.8)_100%)] pointer-events-none transition-opacity duration-500 ${isDistractionFree ? 'opacity-0' : 'opacity-100'}`} />
       
-      <div className={`relative z-20 flex justify-between items-center px-4 pt-[max(12px,env(safe-area-inset-top))] transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none -translate-y-4' : 'opacity-100 translate-y-0'}`}>
+      <div className={`relative z-20 flex justify-between items-center px-2 pt-[max(8px,env(safe-area-inset-top))] transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none -translate-y-4' : 'opacity-100 translate-y-0'}`}>
         <button
           onClick={(e) => {
             e.stopPropagation()
@@ -135,7 +135,7 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
 
       </div>
 
-      <div className="relative z-20 flex items-end justify-between px-4 pb-4 gap-3">
+      <div className="relative z-20 flex items-end justify-between px-2 pb-2 gap-3">
         
         <div className={`flex-1 min-w-0 flex flex-col gap-3 transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none translate-y-8' : 'opacity-100 translate-y-0'}`}>
           <div className="flex items-center gap-3 group cursor-pointer w-fit">

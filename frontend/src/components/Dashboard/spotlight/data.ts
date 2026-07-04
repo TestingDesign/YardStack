@@ -125,6 +125,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'FUTURE\nHOMES',
     logoBg: '#1e3a8a',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.enquiry
   },
   {
     id: 'sv-5',
@@ -143,6 +144,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'RED\nEXPERTS',
     logoBg: '#ffffff',
     logoColor: '#e11d48',
+    link: SPOTLIGHT_LINKS?.agentNetwork
   },
   {
     id: 'sv-6',
@@ -161,6 +163,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'BUILD\nSMART',
     logoBg: '#ffffff',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS?.propertyTour
   },
   {
     id: 'sv-7',
@@ -179,6 +182,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'STUDIO\nV',
     logoBg: '#fcd34d',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS?.seniorAgent
   },
   {
     id: 'sv-8',
@@ -197,6 +201,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'MARKET\nPULSE',
     logoBg: '#ffffff',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS?.capitalFund
   },
   {
     id: 'sv-9',
@@ -215,6 +220,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'SALES\nLEADERS',
     logoBg: '#ffffff',
     logoColor: '#000000',
+    link: SPOTLIGHT_LINKS?.agentNetwork
   },
   {
     id: 'sv-10',
@@ -233,6 +239,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'TECH\nESTATE',
     logoBg: '#0f766e',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.registration
   },
   {
     id: 'sv-11',
@@ -251,6 +258,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'FIN\nADV',
     logoBg: '#ffffff',
     logoColor: '#14532d',
+    link: SPOTLIGHT_LINKS?.capitalFund
   },
   {
     id: 'sv-12',
@@ -269,6 +277,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'ARCH\nDAILY',
     logoBg: '#000000',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.propertyTour
   },
   {
     id: 'sv-13',
@@ -287,6 +296,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'CORP\nSPACE',
     logoBg: '#1e40af',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.commercialOffice
   },
   {
     id: 'sv-14',
@@ -305,6 +315,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'SMART\nLIVING',
     logoBg: '#ffffff',
     logoColor: '#6b21a8',
+    link: SPOTLIGHT_LINKS?.luxuryVilla
   },
   {
     id: 'sv-15',
@@ -323,6 +334,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'REALTOR\nCOACH',
     logoBg: '#b91c1c',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.agentNetwork
   },
   {
     id: 'sv-16',
@@ -341,6 +353,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'ECO\nCONSTRUCT',
     logoBg: '#ffffff',
     logoColor: '#064e3b',
+    link: SPOTLIGHT_LINKS?.enquiry
   },
   {
     id: 'sv-17',
@@ -359,6 +372,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'ELITE\nESTATES',
     logoBg: '#000000',
     logoColor: '#e879f9',
+    link: SPOTLIGHT_LINKS?.luxuryVilla
   },
   {
     id: 'sv-18',
@@ -377,6 +391,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'MKTG\nPRO',
     logoBg: '#ffffff',
     logoColor: '#0369a1',
+    link: SPOTLIGHT_LINKS?.registration
   },
   {
     id: 'sv-19',
@@ -395,6 +410,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'WEALTH\nBUILDERS',
     logoBg: '#854d0e',
     logoColor: '#ffffff',
+    link: SPOTLIGHT_LINKS?.capitalFund
   },
   {
     id: 'sv-20',
@@ -413,6 +429,7 @@ export const SPOTLIGHT_VIDEOS: SpotlightVideo[] = [
     logoText: 'PROP\nGURU',
     logoBg: '#ffffff',
     logoColor: '#be123c',
+    link: SPOTLIGHT_LINKS?.enquiry
   }
 ]
 

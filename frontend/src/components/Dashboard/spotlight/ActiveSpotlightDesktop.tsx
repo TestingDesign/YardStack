@@ -124,7 +124,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
       <div className="flex flex-row items-center justify-center w-full h-[90vh] max-h-[920px] px-8">
         
         <div className="flex-1 flex justify-end h-full min-w-0">
-          <div className="flex flex-col justify-end gap-6 h-full w-[300px] shrink-0 pb-10 z-10 mr-10 animate-in slide-in-from-left-8 fade-in duration-700 delay-100 fill-mode-both">
+          <div className="flex flex-col justify-end gap-2 h-full w-[300px] shrink-0 pb-10 z-10 -mr-16 animate-in slide-in-from-left-8 fade-in duration-700 delay-100 fill-mode-both">
 
 
             <div className="flex items-center gap-4 group">
@@ -139,9 +139,9 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                   {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-500 drop-shadow-md shrink-0" />}
                 </div>
                 <div className="flex items-center gap-1.5 mt-1">
-                  <span className="text-white/70 text-[13px] font-medium drop-shadow-md">
+                  {/* <span className="text-white/70 text-[13px] font-medium drop-shadow-md">
                     {video.views} views
-                  </span>
+                  </span> */}
                 </div>
               </div>
             </div>

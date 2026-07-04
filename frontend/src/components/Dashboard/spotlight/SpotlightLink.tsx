@@ -31,76 +31,67 @@ export const SPOTLIGHT_LINKS: Record<string, SpotlightLinkData> = {
 
 interface ActionTheme {
   gradient: string
-  hoverGradient: string
   shadow: string
-  hoverShadow: string
   ring: string
+  glow: string
   icon: LucideIcon
 }
 
 const ACTION_THEMES: Record<ActionType, ActionTheme> = {
   apply: {
-    gradient: 'from-[#7C3AED] to-[#EC4899]',
-    hoverGradient: 'hover:from-[#8B5CF6] hover:to-[#F472B6]',
-    shadow: 'shadow-[0_4px_16px_rgba(124,58,237,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(124,58,237,0.4)]',
-    ring: 'ring-purple-400/60',
+    gradient: 'from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500',
+    shadow: 'shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50',
+    ring: 'ring-blue-400/60',
+    glow: 'bg-blue-400',
     icon: Building2,
   },
   connect: {
-    gradient: 'from-[#2563EB] to-[#7C3AED]',
-    hoverGradient: 'hover:from-[#3B82F6] hover:to-[#8B5CF6]',
-    shadow: 'shadow-[0_4px_16px_rgba(37,99,235,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(37,99,235,0.4)]',
-    ring: 'ring-blue-400/60',
+    gradient: 'from-violet-500 to-purple-600 hover:from-violet-400 hover:to-purple-500',
+    shadow: 'shadow-lg shadow-violet-500/30 hover:shadow-violet-500/50',
+    ring: 'ring-violet-400/60',
+    glow: 'bg-violet-400',
     icon: Users,
   },
   buy: {
-    gradient: 'from-[#059669] to-[#0D9488]',
-    hoverGradient: 'hover:from-[#10B981] hover:to-[#14B8A6]',
-    shadow: 'shadow-[0_4px_16px_rgba(5,150,105,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(5,150,105,0.4)]',
+    gradient: 'from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500',
+    shadow: 'shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50',
     ring: 'ring-emerald-400/60',
+    glow: 'bg-emerald-400',
     icon: Home,
   },
   lease: {
-    gradient: 'from-[#0891B2] to-[#2563EB]',
-    hoverGradient: 'hover:from-[#06B6D4] hover:to-[#3B82F6]',
-    shadow: 'shadow-[0_4px_16px_rgba(8,145,178,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(8,145,178,0.4)]',
+    gradient: 'from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500',
+    shadow: 'shadow-lg shadow-cyan-500/30 hover:shadow-cyan-500/50',
     ring: 'ring-cyan-400/60',
+    glow: 'bg-cyan-400',
     icon: Handshake,
   },
   schedule: {
-    gradient: 'from-[#D97706] to-[#EA580C]',
-    hoverGradient: 'hover:from-[#F59E0B] hover:to-[#F97316]',
-    shadow: 'shadow-[0_4px_16px_rgba(217,119,6,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(217,119,6,0.4)]',
-    ring: 'ring-amber-400/60',
+    gradient: 'from-orange-500 to-red-500 hover:from-orange-400 hover:to-red-400',
+    shadow: 'shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50',
+    ring: 'ring-orange-400/60',
+    glow: 'bg-orange-400',
     icon: CalendarCheck,
   },
   invest: {
-    gradient: 'from-[#E11D48] to-[#BE123C]',
-    hoverGradient: 'hover:from-[#F43F5E] hover:to-[#E11D48]',
-    shadow: 'shadow-[0_4px_16px_rgba(225,29,72,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(225,29,72,0.4)]',
-    ring: 'ring-rose-400/60',
+    gradient: 'from-green-500 to-emerald-600 hover:from-green-400 hover:to-emerald-500',
+    shadow: 'shadow-lg shadow-green-500/30 hover:shadow-green-500/50',
+    ring: 'ring-green-400/60',
+    glow: 'bg-green-400',
     icon: TrendingUp,
   },
   enquire: {
-    gradient: 'from-[#4F46E5] to-[#7C3AED]',
-    hoverGradient: 'hover:from-[#6366F1] hover:to-[#8B5CF6]',
-    shadow: 'shadow-[0_4px_16px_rgba(79,70,229,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(79,70,229,0.4)]',
+    gradient: 'from-indigo-500 to-violet-600 hover:from-indigo-400 hover:to-violet-500',
+    shadow: 'shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50',
     ring: 'ring-indigo-400/60',
+    glow: 'bg-indigo-400',
     icon: Building2,
   },
   register: {
-    gradient: 'from-[#A21CAF] to-[#7C3AED]',
-    hoverGradient: 'hover:from-[#C026D3] hover:to-[#8B5CF6]',
-    shadow: 'shadow-[0_4px_16px_rgba(162,28,175,0.25)]',
-    hoverShadow: 'hover:shadow-[0_8px_28px_rgba(162,28,175,0.4)]',
+    gradient: 'from-fuchsia-500 to-purple-600 hover:from-fuchsia-400 hover:to-purple-500',
+    shadow: 'shadow-lg shadow-fuchsia-500/30 hover:shadow-fuchsia-500/50',
     ring: 'ring-fuchsia-400/60',
+    glow: 'bg-fuchsia-400',
     icon: FileText,
   },
 }
@@ -115,8 +106,8 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsAnimating(true)
-      setTimeout(() => setIsAnimating(false), 1200)
-    }, 5000)
+      setTimeout(() => setIsAnimating(false), 1500)
+    }, 6000)
     return () => clearInterval(interval)
   }, [])
 
@@ -125,48 +116,59 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
   const IconComponent = theme.icon
 
   return (
-    <button
-      className={`
-        group relative flex items-center justify-center gap-1.5 overflow-hidden
-        px-3.5 py-1.5 sm:px-5 sm:py-2
-        rounded-[4px] border border-white/15
-        text-white font-extrabold text-[11px] sm:text-[13px] tracking-wide
-        transition-all duration-300 ease-out active:scale-95
-        bg-gradient-to-r ${theme.gradient} ${theme.hoverGradient}
-        ${theme.shadow} ${theme.hoverShadow}
-        ${isAnimating ? `ring-2 ring-offset-1 ring-offset-transparent ${theme.ring} -translate-y-[2px]` : 'ring-0 ring-offset-0 hover:-translate-y-[1px]'}
-      `}
-    >
-      <IconComponent
-        size={14}
-        strokeWidth={2.5}
-        className={`relative z-10 transition-transform duration-300 ${isAnimating ? 'scale-110' : 'group-hover:scale-110'}`}
-      />
-      <span className="relative z-10 drop-shadow-sm">
-        {data.actionText || 'Apply Now'}
-      </span>
-      <ArrowRight
-        size={12}
-        strokeWidth={2.5}
-        className={`relative z-10 transition-transform duration-300 ${isAnimating ? 'translate-x-0.5' : 'group-hover:translate-x-0.5'}`}
+    <div className="relative group/wrapper inline-block">
+      <div 
+        className={`absolute -inset-0.5 rounded-[4px] blur-md opacity-0 transition-opacity duration-700 
+          ${theme.glow} 
+          ${isAnimating ? 'opacity-40' : 'group-hover/wrapper:opacity-30'}`}
       />
 
-      {/* Top glass highlight */}
-      <div className="absolute inset-0 rounded-[4px] bg-gradient-to-b from-white/15 via-white/5 to-transparent pointer-events-none" />
+      <button
+        className={`
+          group relative flex items-center justify-center gap-1.5 overflow-hidden
+          px-3.5 py-1.5 sm:px-5 sm:py-2
+          rounded-[4px] border border-white/10
+          text-white font-extrabold text-[11px] sm:text-[13px] tracking-wide
+          transition-all duration-300 ease-out active:scale-95
+          bg-gradient-to-r ${theme.gradient}
+          ${theme.shadow} hover:shadow-xl hover:-translate-y-0.5
+          ${isAnimating ? `ring-2 ring-offset-1 ring-offset-transparent ${theme.ring} -translate-y-0.5` : 'ring-0 ring-offset-0'}
+          shadow-[inset_0_1px_1px_rgba(255,255,255,0.3)]
+        `}
+      >
+        <IconComponent
+          strokeWidth={2.5}
+          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 transition-transform duration-500 ease-out 
+            ${isAnimating ? 'scale-110 -rotate-3' : 'group-hover:scale-110 group-hover:-rotate-3'}`}
+        />
+        
+        <span className="relative z-10 drop-shadow-[0_1px_1px_rgba(0,0,0,0.5)]">
+          {data.actionText || 'Apply Now'}
+        </span>
+        
+        <ArrowRight
+          strokeWidth={2.5}
+          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 relative z-10 transition-transform duration-500 ease-out
+            ${isAnimating ? 'translate-x-1' : 'group-hover:translate-x-1'}`}
+        />
 
-      {/* Shimmer sweep on interval */}
-      {isAnimating && (
-        <div className="absolute inset-0 animate-[spotlightShimmer_0.8s_ease-in-out_forwards] pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12" />
-        </div>
-      )}
+        <div className="absolute inset-0 rounded-[4px] bg-gradient-to-b from-white/20 via-white/5 to-transparent opacity-50 pointer-events-none" />
+
+        {isAnimating && (
+          <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[4px]">
+            <div className="absolute inset-0 animate-[spotlightShimmer_1.2s_cubic-bezier(0.4,0,0.2,1)_forwards]">
+              <div className="w-[150%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12" />
+            </div>
+          </div>
+        )}
+      </button>
 
       <style>{`
         @keyframes spotlightShimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
+          0% { transform: translateX(-150%); }
+          100% { transform: translateX(150%); }
         }
       `}</style>
-    </button>
+    </div>
   )
 }

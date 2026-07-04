@@ -269,16 +269,6 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-gray-100/80">
             <div className="flex items-center gap-3 w-full overflow-x-auto scrollbar-none">
-              <div className="flex items-center -space-x-2 shrink-0">
-                {Array.from({ length: Math.min(item.applicants || 3, 3) }).map((_, i) => (
-                  <img
-                    key={i}
-                    src={`https://i.pravatar.cc/32?u=${item.id}-${i}`}
-                    alt="Applicant"
-                    className="w-6 h-6 rounded-full border-2 border-white object-cover shadow-sm"
-                  />
-                ))}
-              </div>
               <div className="flex items-center gap-2 text-[10px] font-medium text-gray-500 whitespace-nowrap">
                 <span className="flex items-center gap-1">
                   <GroupIcon sx={{ fontSize: 14 }} className="text-blue-500" />

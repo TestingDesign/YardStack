@@ -191,15 +191,9 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
           )}
 
           <div className="absolute top-4 right-4 z-20">
-            {video.link ? (
-              <div className="pointer-events-auto origin-top-right transition-transform duration-300 hover:scale-[1.02]" onClick={(e) => e.stopPropagation()}>
-                <SpotlightLink linkData={video.link} />
-              </div>
-            ) : (
-              <div className="bg-black/60 backdrop-blur-lg rounded-lg px-2.5 py-1 border border-white/10 shadow-lg pointer-events-none">
-                <span className="text-white text-[12px] font-semibold tracking-wider">{video.duration}</span>
-              </div>
-            )}
+            <div className="pointer-events-auto origin-top-right transition-transform duration-300 hover:scale-[1.02]" onClick={(e) => e.stopPropagation()}>
+              <SpotlightLink linkData={video.link} />
+            </div>
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-50 overflow-hidden">

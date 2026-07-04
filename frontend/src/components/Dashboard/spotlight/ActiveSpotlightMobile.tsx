@@ -110,11 +110,9 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
         >
           <ArrowBackIosNewIcon sx={{ fontSize: 16 }} className="ml-1" />
         </button>
-        {video.link && (
-          <div className="pointer-events-auto scale-90 origin-right transition-transform duration-300 hover:scale-95">
-            <SpotlightLink linkData={video.link} />
-          </div>
-        )}
+        <div className="pointer-events-auto scale-90 origin-right transition-transform duration-300 hover:scale-95">
+          <SpotlightLink linkData={video.link} />
+        </div>
       </div>
 
       <div className={`absolute inset-0 flex flex-col items-center justify-center z-10 pointer-events-none transition-all duration-500 ${isDistractionFree ? 'opacity-0 pointer-events-none scale-95' : 'opacity-100 scale-100'}`}>

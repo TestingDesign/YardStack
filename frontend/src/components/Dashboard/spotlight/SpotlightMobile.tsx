@@ -155,7 +155,7 @@ const SpotlightCard = memo(function SpotlightCard({
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => onPlay(video)}
     >
-      <div className="relative w-full aspect-[9/16] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
+      <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
         <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
         

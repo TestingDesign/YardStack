@@ -212,15 +212,29 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   onPlay: (v: SpotlightVideo) => void
 }) {
   const [rotation, setRotation] = useState(0)
+  const [isInteracting, setIsInteracting] = useState(false)
 
-  const handleNext = () => setRotation(r => r - 72)
-  const handlePrev = () => setRotation(r => r + 72)
+  const handleNext = useCallback(() => setRotation(r => r - 72), [])
+  const handlePrev = useCallback(() => setRotation(r => r + 72), [])
+
+  useEffect(() => {
+    if (isInteracting) return
+    const timer = setInterval(() => {
+      handleNext()
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [isInteracting, handleNext])
 
   const items = videos.slice(0, 5)
   const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
-    <div className="w-full h-[260px] overflow-hidden relative flex items-center justify-center" style={{ perspective: '800px' }}>
+    <div 
+      className="w-full h-[260px] overflow-hidden relative flex items-center justify-center" 
+      style={{ perspective: '800px' }}
+      onTouchStart={() => setIsInteracting(true)}
+      onTouchEnd={() => setTimeout(() => setIsInteracting(false), 2000)}
+    >
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
       <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/5 blur-2xl rounded-full -translate-x-1/2 translate-y-1/2" />
       

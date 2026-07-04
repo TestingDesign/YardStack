@@ -247,15 +247,29 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
   onPlay: (v: SpotlightVideo) => void
 }) {
   const [rotation, setRotation] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
 
-  const handleNext = () => setRotation(r => r - 72)
-  const handlePrev = () => setRotation(r => r + 72)
+  const handleNext = useCallback(() => setRotation(r => r - 72), [])
+  const handlePrev = useCallback(() => setRotation(r => r + 72), [])
+
+  useEffect(() => {
+    if (isHovered) return
+    const timer = setInterval(() => {
+      handleNext()
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [isHovered, handleNext])
 
   const items = videos.slice(0, 5)
   const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
-    <div className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg opacity-0 animate-swipe-up" style={{ perspective: '1200px' }}>
+    <div 
+      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg opacity-0 animate-swipe-up" 
+      style={{ perspective: '1200px' }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <button 
         onClick={handlePrev} 
         className="absolute left-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import VerifiedIcon from '@mui/icons-material/Verified'
@@ -8,10 +9,10 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
-import { Flame, Eye, LayoutGrid, TrendingUp } from 'lucide-react'
+import { Eye, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import SpotlightTabs from './SpotlightTabs'
-import { SPOTLIGHT_VIDEOS, TOP_CREATORS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
+import { SPOTLIGHT_VIDEOS, SPOTLIGHT_IMPACT_STATS, type SpotlightVideo } from './data'
 import ActiveSpotlightMobile from './ActiveSpotlightMobile'
 
 const MOBILE_STYLES = `
@@ -68,7 +69,7 @@ function MobileMoreMenu({
       </button>
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-44 bg-white rounded-[6px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
+          className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1.5 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
         >
           {[
             { Icon: ShareOutlinedIcon, label: 'Share spotlight' },
@@ -135,18 +136,21 @@ const SpotlightCard = memo(function SpotlightCard({
       style={{ animationDelay: `${index * 50}ms` }}
       onClick={() => onPlay(video)}
     >
-      <div className="relative w-full aspect-[9/16] rounded-[6px] overflow-hidden mb-2 shadow-[0_4px_14px_rgba(0,0,0,0.08)]">
+      <div className="relative w-full aspect-[9/16] rounded-[4px] overflow-hidden mb-2 bg-gray-100 border border-black/5 shadow-sm">
         <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
         
-        <div className="absolute inset-0 flex items-center justify-center opacity-100">
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           <div className="w-8 h-8 rounded-full bg-black/40 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-xl">
             <PlayArrowOutlinedIcon sx={{ fontSize: 18 }} />
           </div>
         </div>
 
-        <div className="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[10px] font-bold drop-shadow-md">
-          {video.views} views
+        <div className="absolute bottom-2 left-2 flex items-center z-20">
+          <div className="flex items-center gap-0.5 text-white text-[11px] font-medium drop-shadow-md">
+            <PlayArrowIcon sx={{ fontSize: 14 }} className="text-white/90" />
+            {video.views}
+          </div>
         </div>
 
         {rank && (
@@ -159,14 +163,14 @@ const SpotlightCard = memo(function SpotlightCard({
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-1 px-1">
+      <div className="flex items-start justify-between gap-1 px-0.5 mt-0.5">
         <div className="flex-1 min-w-0">
-          <h4 className="text-[12px] font-bold text-gray-900 leading-snug line-clamp-2 mb-1">
+          <h4 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2">
             {video.title}
           </h4>
-          <div className="flex items-center gap-1">
-            <span className="text-[10px] font-semibold text-gray-600 truncate">{video.author}</span>
-            {video.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
+          <div className="flex items-center gap-1 text-[11px] text-gray-500 font-medium mt-0.5">
+            <span className="truncate">{video.author}</span>
+            {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
           </div>
         </div>
         {!isTrending && (
@@ -189,47 +193,97 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   videos: SpotlightVideo[]
   onPlay: (v: SpotlightVideo) => void
 }) {
-  return (
-    <div className="w-full pt-4 pb-6 px-4 overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
-      <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
-        {videos.slice(0, 5).map((video) => (
-          <div 
-            key={video.id} 
-            className="min-w-[85%] sm:min-w-[70%] aspect-[4/5] rounded-[16px] snap-center shrink-0 relative overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.12)] cursor-pointer"
-            onClick={() => onPlay(video)}
-          >
-            <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-            
-            <div className="absolute top-4 left-4">
-              <span className="px-2.5 py-1 rounded-[6px] text-[10px] font-black bg-[var(--color-primary-500)] text-white uppercase tracking-wider shadow-sm">
-                {video.tag || 'Insight'}
-              </span>
-            </div>
+  const [currentIndex, setCurrentIndex] = useState(2)
 
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
-                <PlayArrowOutlinedIcon sx={{ fontSize: 26 }} className="ml-0.5" />
-              </div>
-            </div>
-            
-            <div className="absolute bottom-4 left-4 right-4 z-20">
-              <h3 className="text-white text-[18px] font-black leading-tight line-clamp-2 mb-1.5 drop-shadow-md">{video.title}</h3>
-              <p className="text-white/80 text-[12px] font-medium flex items-center gap-1.5 drop-shadow-md">
-                <span className="truncate">{video.author}</span>
-                {video.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />}
-              </p>
+  const handleNext = () => setCurrentIndex((prev) => Math.min(prev + 1, Math.min(videos.length - 1, 4)))
+  const handlePrev = () => setCurrentIndex((prev) => Math.max(prev - 1, 0))
+
+  return (
+    <div className="w-full h-[320px] overflow-hidden relative flex items-center justify-center" style={{ perspective: '1000px' }}>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
+      
+      <button 
+        onClick={handlePrev} 
+        disabled={currentIndex === 0}
+        className="absolute left-1 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200 shadow-sm"
+      >
+        <ChevronLeft size={16} />
+      </button>
+
+      <div className="relative w-full max-w-[400px] h-full flex items-center justify-center" style={{ transformStyle: 'preserve-3d' }}>
+        {videos.slice(0, 5).map((video, idx) => {
+          const isActive = idx === currentIndex
+          const offset = idx - currentIndex
+          const absOffset = Math.abs(offset)
+          
+          let transform = ''
+          let zIndex = 10 - absOffset
+          let opacity = 1
+          
+          if (offset === 0) {
+            transform = 'translateX(0) scale(1) translateZ(0px)'
+          } else if (offset === -1) {
+            transform = 'translateX(-42%) scale(0.86) translateZ(-28px) rotateY(10deg)'
+            opacity = 0.8
+          } else if (offset === 1) {
+            transform = 'translateX(42%) scale(0.86) translateZ(-28px) rotateY(-10deg)'
+            opacity = 0.8
+          } else {
+             opacity = 0
+             transform = 'translateX(0) scale(0)'
+          }
+
+          return (
+            <div 
+              key={video.id} 
+              className={`absolute w-[170px] aspect-[9/16] rounded-[8px] overflow-hidden shadow-md cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
+              style={{ transform, zIndex, opacity }}
+              onClick={() => isActive ? onPlay(video) : setCurrentIndex(idx)}
+            >
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               
-              <div className="flex items-center gap-3 mt-3">
-                <div className="flex items-center gap-1 text-white/90 text-[11px] font-bold">
-                  <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} className="text-[var(--color-primary-400)]" /> {video.views} views
+              <div className="absolute top-3 left-3">
+                <span className="px-2 py-0.5 rounded-[4px] text-[9px] font-semibold bg-purple-500 text-white uppercase tracking-wider shadow-sm">
+                  {video.tag || 'Insight'}
+                </span>
+              </div>
+
+              {isActive && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-lg">
+                    <PlayArrowOutlinedIcon sx={{ fontSize: 24 }} />
+                  </div>
                 </div>
+              )}
+              
+              <div className="absolute bottom-3 left-3 right-3 z-20">
+                <h3 className="text-white text-[15px] font-semibold leading-tight line-clamp-2 mb-1 drop-shadow-md">{video.title}</h3>
+                <p className="text-white/90 text-[11px] font-medium flex items-center gap-1 drop-shadow-md">
+                  <span className="truncate">{video.author}</span>
+                  {video.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500" />}
+                </p>
+                
+                {isActive && (
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="flex items-center gap-1 text-white text-[10px] font-medium drop-shadow-md">
+                      <PlayArrowOutlinedIcon sx={{ fontSize: 12 }} className="text-white/90" /> {video.views} views
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
+
+      <button 
+        onClick={handleNext} 
+        disabled={currentIndex >= Math.min(videos.length - 1, 4)}
+        className="absolute right-1 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent disabled:opacity-0 disabled:pointer-events-none transition-all duration-200 shadow-sm"
+      >
+        <ChevronRight size={16} />
+      </button>
     </div>
   )
 })
@@ -255,7 +309,6 @@ export default function SpotlightMobile() {
   const [page, setPage] = useState(1)
   const perPage = 6
 
-  const trendingRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
   const handleFilterChange = useCallback((key: string) => {
@@ -289,28 +342,8 @@ export default function SpotlightMobile() {
         </div>
 
         <div className="flex-1 flex flex-col pb-2">
-            <MobileScrollReveal className="mt-2 mx-2">
+            <MobileScrollReveal className="">
               <MobileHeroCarousel videos={filtered} onPlay={setActiveVideo} />
-            </MobileScrollReveal>
-
-            <MobileScrollReveal className="mt-2">
-              <div className="flex items-center gap-2 mb-3 px-4">
-                <Flame className="text-orange-500 drop-shadow-sm" size={18} />
-                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending Shorts</h3>
-              </div>
-              <div className="relative w-full">
-                <div
-                  ref={trendingRef}
-                  className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
-                >
-                  {filtered.slice(0, 8).map((v, mapIdx) => {
-                    const rank = mapIdx + 1
-                    return (
-                      <SpotlightCard key={v.id} video={v} onPlay={setActiveVideo} rank={rank} isTrending index={mapIdx} />
-                    )
-                  })}
-                </div>
-              </div>
             </MobileScrollReveal>
 
             <MobileScrollReveal className="mt-2 mx-2">
@@ -331,43 +364,10 @@ export default function SpotlightMobile() {
               </div>
             </MobileScrollReveal>
 
-            <MobileScrollReveal className="mt-2 mx-2">
-              <div className="flex flex-col gap-3 p-4 rounded-lg">
-                <div className="flex items-center justify-between mb-1">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp size={16} className="text-purple-600" />
-                    <h3 className="text-[15px] font-black text-gray-900 tracking-tight">Trending Creators</h3>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-3">
-                  {TOP_CREATORS.map((expert) => (
-                    <div key={expert.rank} className="flex items-center justify-between group">
-                      <div className="flex items-center gap-3">
-                        <span className={`text-[12px] font-black w-3 text-center ${expert.rank <= 3 ? 'text-gray-900' : 'text-gray-400'}`}>#{expert.rank}</span>
-                        <div className="relative w-10 h-10 rounded-full p-[2px] bg-gradient-to-tr from-purple-600 to-pink-500">
-                          <div className="w-full h-full rounded-full border-2 border-white overflow-hidden bg-white">
-                            <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
-                          </div>
-                        </div>
-                        <div className="flex flex-col">
-                          <div className="flex items-center gap-1">
-                            <span className="text-[13px] font-bold text-gray-900 leading-tight">{expert.name}</span>
-                            <VerifiedIcon sx={{ fontSize: 11 }} className="text-blue-500" />
-                          </div>
-                          <span className="text-[11px] font-medium text-gray-500 leading-tight mt-0.5">{expert.views}</span>
-                        </div>
-                      </div>
-                      <button className="px-3.5 py-1.5 rounded-[4px] bg-purple-50 text-purple-700 text-[11px] font-bold border-none shadow-sm flex-shrink-0">
-                        Follow
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </MobileScrollReveal>
+
 
             <MobileScrollReveal className="mt-4 mx-4">
-              <div className="relative w-full rounded-[16px] overflow-hidden bg-gradient-to-br from-[#4c1d95] via-[#7c3aed] to-[#c026d3] p-6 text-center shadow-[0_8px_24px_rgba(124,58,237,0.25)] flex flex-col items-center justify-center min-h-[280px]">
+              <div className="relative w-full rounded-[4px] overflow-hidden bg-gradient-to-br from-[#4c1d95] via-[#7c3aed] to-[#c026d3] p-6 text-center shadow-[0_8px_24px_rgba(124,58,237,0.25)] flex flex-col items-center justify-center min-h-[280px]">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                 
                 <div className="relative w-[120px] h-[180px] mx-auto -mt-6 mb-4 rounded-[10px] overflow-hidden shadow-2xl rotate-[-2deg]">
@@ -382,7 +382,7 @@ export default function SpotlightMobile() {
                 
                 <div className="relative z-10 w-full mt-auto">
                   <h3 className="text-white text-[20px] font-black mb-1.5 drop-shadow-md leading-tight">Create. Share. Inspire.</h3>
-                  <button className="bg-white text-[var(--color-primary-600)] text-[13px] font-bold px-5 py-2.5 rounded-full shadow-lg transition-all w-full border-none">
+                  <button className="bg-white text-[var(--color-primary-600)] text-[13px] font-bold px-5 py-2.5 rounded-[4px] shadow-lg transition-all w-full border-none">
                     Start Creating
                   </button>
                 </div>

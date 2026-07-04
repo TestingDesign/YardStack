@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -234,6 +235,21 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
   )
 })
 
+
+const MobileScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "0px" }}
+      transition={{ duration: 0.5, delay, ease: "easeOut" }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 export default function SpotlightMobile() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
@@ -262,7 +278,7 @@ export default function SpotlightMobile() {
   const hasMore = displayedVideos.length < filtered.length
 
   return (
-    <div className="relative w-full h-full flex flex-col bg-[#f8f9fa] overflow-hidden">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4 }} className="relative h-full w-full bg-gray-50 flex flex-col overflow-y-auto overflow-x-hidden hide-scrollbar pb-12">
       <style>{MOBILE_STYLES}</style>
 
       <div 
@@ -274,11 +290,11 @@ export default function SpotlightMobile() {
         </div>
 
         <div className="flex-1 flex flex-col pb-2">
-            <div className="mt-2 mx-2">
+            <MobileScrollReveal className="mt-2 mx-2">
               <MobileHeroCarousel videos={filtered} onPlay={setActiveVideo} />
-            </div>
+            </MobileScrollReveal>
 
-            <div className="mt-2">
+            <MobileScrollReveal className="mt-2">
               <div className="flex items-center gap-2 mb-3 px-4">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
                 <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending Shorts</h3>
@@ -296,10 +312,9 @@ export default function SpotlightMobile() {
                   })}
                 </div>
               </div>
-            </div>
+            </MobileScrollReveal>
 
-
-            <div className="mt-2 mx-2">
+            <MobileScrollReveal className="mt-2 mx-2">
               <div className="flex flex-col gap-3 p-4 rounded-lg">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3" />
                 <div className="flex items-center gap-2 mb-1 relative z-10">
@@ -315,9 +330,9 @@ export default function SpotlightMobile() {
                   ))}
                 </div>
               </div>
-            </div>
+            </MobileScrollReveal>
 
-            <div className="mt-2 mx-2">
+            <MobileScrollReveal className="mt-2 mx-2">
               <div className="flex flex-col gap-3 p-4 rounded-lg">
                 <div className="flex items-center justify-between mb-1">
                   <div className="flex items-center gap-2">
@@ -350,10 +365,9 @@ export default function SpotlightMobile() {
                   ))}
                 </div>
               </div>
-            </div>
+            </MobileScrollReveal>
 
-            
-            <div className="mt-4 mx-4">
+            <MobileScrollReveal className="mt-4 mx-4">
               <div className="relative w-full rounded-[16px] overflow-hidden bg-gradient-to-br from-[#4c1d95] via-[#7c3aed] to-[#c026d3] p-6 text-center shadow-[0_8px_24px_rgba(124,58,237,0.25)] flex flex-col items-center justify-center min-h-[280px]">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
                 
@@ -374,9 +388,9 @@ export default function SpotlightMobile() {
                   </button>
                 </div>
               </div>
-            </div>
+            </MobileScrollReveal>
 
-<div className="mt-6 px-3">
+            <MobileScrollReveal className="mt-6 px-3">
               <div className="flex items-center gap-2 mb-4 px-1">
                 <div className="p-1.5 bg-gradient-to-br from-[var(--color-primary-600)] to-purple-600 rounded-[4px] text-white shadow-[0_2px_8px_rgba(124,58,237,0.35)]">
                   <LayoutGrid size={14} />
@@ -402,20 +416,20 @@ export default function SpotlightMobile() {
                   </button>
                 </div>
               )}
-            </div>
+            </MobileScrollReveal>
         </div>
       </div>
 
       {activeVideo && (
-        <div className="absolute inset-0 z-[100] animate-in fade-in slide-in-from-bottom-8 duration-300">
+        <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }} className="absolute inset-0 z-[100]">
           <ActiveSpotlightMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}
             onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
             onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
           />
-        </div>
+        </motion.div>
       )}
-    </div>
+    </motion.div>
   )
 }

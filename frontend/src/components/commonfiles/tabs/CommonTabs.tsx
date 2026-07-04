@@ -13,6 +13,7 @@ export interface CommonTabsProps {
   tabs: CommonTabType[]
   active: string
   onChange: (key: string) => void
+  onFilterClick?: () => void
   extraControls?: ReactNode
   containerClassName?: string
   ariaLabel?: string
@@ -22,12 +23,10 @@ const TabButton = memo(function TabButton({
   tab,
   isActive,
   onClick,
-  index = 0,
 }: {
   tab: CommonTabType
   isActive: boolean
   onClick: (key: string) => void
-  index?: number
 }) {
   return (
     <button
@@ -73,8 +72,9 @@ export const CommonTabs = memo(function CommonTabs({
   tabs,
   active,
   onChange,
+  onFilterClick,
   extraControls,
-  containerClassName = 'bg-transparent py-1 px-2 md:px-0',
+  containerClassName = 'bg-transparent py-1 px-2',
   ariaLabel = 'Category filters',
 }: CommonTabsProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -121,8 +121,8 @@ export const CommonTabs = memo(function CommonTabs({
   }
 
   return (
-    <div className={`flex flex-col md:flex-row w-full items-start md:items-center gap-2 md:gap-0 ${containerClassName}`}>
-
+    <div className={`flex flex-col @md:flex-row w-full items-stretch @md:items-center gap-3 @md:gap-0 ${containerClassName}`}>
+      
       <div className="relative flex items-center flex-1 min-w-0 w-full group/container">
         {canScrollLeft && (
           <div className="absolute left-0 z-20 flex items-center h-full pl-1 pr-6 bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none">
@@ -147,13 +147,12 @@ export const CommonTabs = memo(function CommonTabs({
             aria-label={ariaLabel}
             className="flex items-center gap-2 shrink-0"
           >
-            {tabs.map((tab, idx) => (
+            {tabs.map((tab) => (
               <TabButton
                 key={tab.key}
                 tab={tab}
                 isActive={active === tab.key}
                 onClick={onChange}
-                index={idx}
               />
             ))}
           </div>
@@ -173,14 +172,19 @@ export const CommonTabs = memo(function CommonTabs({
         )}
       </div>
 
-      <div className="hidden md:block w-px h-5 bg-gray-200 shrink-0 mx-3" aria-hidden="true" />
+      <div className="hidden @md:block w-px h-5 bg-gray-200 shrink-0 mx-3" aria-hidden="true" />
 
-      <div className="flex items-center w-full md:w-auto shrink-0 gap-2">
-        {extraControls}
+      <div className="flex flex-row items-center justify-between @md:justify-end w-full @md:w-auto shrink-0 gap-2">
+        {extraControls && (
+          <div className="flex-1 min-w-0 flex items-center">
+            {extraControls}
+          </div>
+        )}
 
         <button
           type="button"
-          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-[32px] rounded-md border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 ease-out active:scale-95 font-medium text-[13px] outline-none cursor-pointer shadow-sm w-full md:w-auto"
+          onClick={onFilterClick}
+          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-[32px] rounded-md border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 ease-out active:scale-95 font-medium text-[13px] outline-none cursor-pointer shadow-sm w-auto"
           aria-label="Filter options"
         >
           <ListFilter

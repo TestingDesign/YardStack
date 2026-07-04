@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
@@ -140,11 +141,13 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
   }, [])
 
   return (
-    <article
-      className={`card-shimmer group flex flex-col cursor-pointer transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg opacity-0 animate-swipe-up ${
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
+      className={`card-shimmer group flex flex-col cursor-pointer transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(video)}
       role="button"
       tabIndex={0}
@@ -191,7 +194,7 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
           onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
         />
       </div>
-    </article>
+    </motion.article>
   )
 })
 
@@ -374,16 +377,30 @@ export default function SpotlightDesktop() {
     ? SPOTLIGHT_VIDEOS.findIndex((v) => v.id === activeVideo.id)
     : -1
 
+const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
   return (
-    <div className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-20px" }}
+      transition={{ duration: 0.6, delay, ease: [0.25, 0.25, 0, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
       <style>{STYLES}</style>
 
-      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-300 overflow-y-auto scroll-smooth hide-scrollbar pb-6">
-        <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1.5 opacity-0 animate-swipe-up" style={{ animationDelay: '0ms' }}>
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col overflow-y-auto scroll-smooth hide-scrollbar pb-6">
+        <motion.div initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1.5">
           <div className="max-w-[1400px] mx-auto">
             <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
           </div>
-        </div>
+        </motion.div>
 
         <div className="flex-1 flex flex-col xl:flex-row gap-6 px-2 py-2 max-w-[1400px] w-full mx-auto">
           
@@ -392,7 +409,7 @@ export default function SpotlightDesktop() {
               <CoverflowCarousel videos={filtered} onPlay={setActiveVideo} />
             </section>
 
-            <section className="w-full flex flex-col bg-white rounded-lg p-4 opacity-0 animate-swipe-up" style={{ animationDelay: '100ms' }}>
+            <motion.section initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="w-full flex flex-col bg-white rounded-lg p-4">
               <SectionHeader
                 icon={
                   <div className="p-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[4px] text-white">
@@ -435,12 +452,12 @@ export default function SpotlightDesktop() {
                   </p>
                 </div>
               )}
-            </section>
+            </motion.section>
           </main>
 
-          <aside className="w-full xl:w-[280px] shrink-0 flex flex-col gap-5 h-fit">
+          <ScrollReveal className="w-full xl:w-[300px] shrink-0 flex flex-col gap-4 h-fit">
             
-            <div className="bg-white rounded-lg p-4 relative overflow-hidden opacity-0 animate-swipe-up" style={{ animationDelay: '150ms' }}>
+            <div className="bg-white rounded-[8px] p-4 overflow-hidden relative">
               <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
               
               <div className="flex items-center gap-2 mb-4 relative z-10">
@@ -520,7 +537,7 @@ export default function SpotlightDesktop() {
               </div>
             </div>
 
-          </aside>
+          </ScrollReveal>
         </div>
       </div>
       
@@ -534,6 +551,6 @@ export default function SpotlightDesktop() {
           />
         </div>
       )}
-    </div>
+    </motion.div>
   )
 }

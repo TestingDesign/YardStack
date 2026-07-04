@@ -475,13 +475,13 @@ export default function PodcastDesktop() {
       <style>{STYLES}</style>
 
       <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-300 overflow-y-auto scroll-smooth hide-scrollbar pb-6">
-        <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1.5 opacity-0 animate-swipe-up" style={{ animationDelay: '0ms' }}>
+        <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-2 py-1.5 opacity-0 animate-swipe-up" style={{ animationDelay: '0ms' }}>
           <div className="max-w-[1400px] mx-auto">
             <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
           </div>
         </div>
 
-        <div className="flex-1 flex flex-col xl:flex-row gap-4 px-2 py-4 max-w-[1400px] w-full mx-auto">
+        <div className="flex-1 flex flex-col xl:flex-row gap-4 px-2 py-2 max-w-[1400px] w-full mx-auto">
           <main className="flex-1 min-w-0 flex flex-col gap-2">
               <div
                 className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 opacity-0 animate-swipe-up border border-gray-100 shadow-sm"

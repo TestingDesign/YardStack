@@ -152,7 +152,7 @@ const OpportunityCard = memo(function OpportunityCard({
                 </div>
 
                 <h3 
-                  className={`text-[16px] font-bold transition-colors duration-300 leading-snug ${
+                  className={`text-[16px] font-medium transition-colors duration-300 leading-snug ${
                     isExpanded 
                       ? 'text-purple-700 whitespace-normal' 
                       : 'text-slate-800 truncate group-hover/card:text-purple-700'

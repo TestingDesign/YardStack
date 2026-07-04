@@ -370,8 +370,6 @@ export default function SpotlightMobile() {
           <SpotlightVideoPlayerMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}
-            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
           />
         </div>
       )}

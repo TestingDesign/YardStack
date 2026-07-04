@@ -13,14 +13,10 @@ import SpotlightLink from './SpotlightLink'
 
 const SpotlightVideoPlayerMobile = memo(function SpotlightVideoPlayerMobile({ 
   video, 
-  onClose,
-  onNext,
-  onPrev
+  onClose
 }: { 
   video: SpotlightVideo 
   onClose: () => void
-  onNext?: () => void
-  onPrev?: () => void
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLiked, setIsLiked] = useState(false)

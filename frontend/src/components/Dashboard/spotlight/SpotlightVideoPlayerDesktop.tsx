@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, memo } from 'react'
-import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
+import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
@@ -25,6 +26,9 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLiked, setIsLiked] = useState(false)
+  const [isSaved, setIsSaved] = useState(false)
+  const [showPlayButton, setShowPlayButton] = useState(true)
   const menuRef = useRef<HTMLDivElement>(null)
   const scrollLockRef = useRef<boolean>(false)
 
@@ -81,122 +85,164 @@ const SpotlightVideoPlayerDesktop = memo(function SpotlightVideoPlayerDesktop({
   }, [onNext, onPrev])
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-neutral-950 animate-in fade-in duration-500 overflow-hidden relative">
+    <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] animate-in fade-in duration-500 overflow-hidden relative">
+      <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-[0.15] blur-3xl scale-150 transition-all duration-1000`} />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,#0a0a0a_70%)]" />
       
       <button 
         onClick={onClose}
-        className="absolute top-6 left-6 w-11 h-11 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white transition-all duration-300 hover:scale-105 active:scale-95 z-50 cursor-pointer border border-white/10 shadow-lg"
+        className="absolute top-5 left-5 w-9 h-9 flex items-center justify-center bg-white/8 hover:bg-white/15 backdrop-blur-xl rounded-full text-white/70 hover:text-white transition-all duration-300 hover:scale-105 active:scale-95 z-50 cursor-pointer border border-white/8 shadow-lg"
         aria-label="Go back"
       >
-        <ArrowBackIosNewIcon sx={{ fontSize: 20 }} className="ml-1" />
+        <ArrowBackIosNewIcon sx={{ fontSize: 15 }} className="ml-0.5" />
       </button>
 
-      <div className="flex flex-row items-center justify-center px-10 gap-6 h-[92vh] max-h-[950px] w-full">
-        
-        <div className="relative h-full aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/10 group shrink-0">
-          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 transition-opacity duration-700 group-hover:opacity-100`} />
+      <div className="flex flex-row items-center justify-center gap-5 h-[90vh] max-h-[920px] w-full px-6">
+        <div 
+          className="relative h-full aspect-[9/16] rounded-xl overflow-hidden bg-black shadow-[0_0_80px_-20px_rgba(0,0,0,0.8)] group shrink-0 cursor-pointer"
+          onMouseEnter={() => setShowPlayButton(true)}
+          onMouseLeave={() => setShowPlayButton(true)}
+        >
+          <div className={`absolute inset-0 bg-gradient-to-b ${video.gradient} opacity-90 transition-opacity duration-700`} />
           
           {isLoading ? (
-            <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/40 backdrop-blur-sm">
-              <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin shadow-[0_0_15px_rgba(255,255,255,0.2)]" />
+            <div className="absolute inset-0 flex items-center justify-center z-20 bg-black/30 backdrop-blur-sm">
+              <div className="w-10 h-10 border-3 border-white/20 border-t-white rounded-full animate-spin" />
             </div>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none">
-              <div className="w-24 h-24 bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20 shadow-2xl transition-transform duration-500 group-hover:scale-105 group-hover:bg-black/30">
-                <PlayArrowOutlinedIcon sx={{ fontSize: 60 }} className="drop-shadow-lg" />
+            <div className={`absolute inset-0 flex items-center justify-center z-10 pointer-events-none transition-opacity duration-300 ${showPlayButton ? 'opacity-100' : 'opacity-0'}`}>
+              <div className="w-16 h-16 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/15 shadow-2xl transition-transform duration-400 group-hover:scale-110">
+                <PlayArrowRoundedIcon sx={{ fontSize: 36 }} className="drop-shadow-lg ml-0.5" />
               </div>
             </div>
           )}
 
-          {/* Bottom Gradient for Text Legibility */}
-          <div className="absolute bottom-0 left-0 right-0 h-2/3 bg-gradient-to-t from-black/90 via-black/40 to-transparent pointer-events-none z-10" />
+          <div className="absolute top-3 right-3 z-20 bg-black/50 backdrop-blur-md rounded-md px-2 py-0.5 border border-white/10">
+            <span className="text-white/90 text-[11px] font-semibold tracking-wide">{video.duration}</span>
+          </div>
 
-          {/* Content Overlay */}
-          <div className="absolute bottom-0 left-0 right-0 p-6 z-20 flex flex-col justify-end">
-            
+          <div className="absolute bottom-0 left-0 right-0 h-[60%] bg-gradient-to-t from-black/95 via-black/50 to-transparent pointer-events-none z-10" />
+
+          <div className="absolute bottom-0 left-0 right-0 p-5 z-20 flex flex-col justify-end gap-3">
             {video.link && (
-              <div className="w-full max-w-[400px]">
+              <div className="w-full @container">
                 <SpotlightLink linkData={video.link} />
               </div>
             )}
 
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[2px] shadow-lg flex-shrink-0 cursor-pointer hover:scale-105 transition-transform">
-                <div className="w-full h-full rounded-full bg-neutral-900 border-2 border-transparent flex items-center justify-center overflow-hidden">
-                   <span className="text-white text-[15px] font-bold tracking-wider">{video.authorInitial}</span>
+            <div className="flex items-center gap-2.5">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 via-pink-500 to-orange-400 p-[1.5px] shadow-lg flex-shrink-0 cursor-pointer hover:scale-105 transition-transform">
+                <div className="w-full h-full rounded-full bg-neutral-900 flex items-center justify-center overflow-hidden">
+                   <span className="text-white text-[13px] font-bold tracking-wider">{video.authorInitial}</span>
                 </div>
               </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-white font-bold text-[16px] hover:underline cursor-pointer drop-shadow-md">{video.author}</span>
-                  {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-400 drop-shadow-md" />}
+              <div className="flex flex-col justify-center min-w-0">
+                <div className="flex items-center gap-1">
+                  <span className="text-white font-bold text-[14px] hover:underline cursor-pointer drop-shadow-md truncate">{video.author}</span>
+                  {video.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-blue-400 drop-shadow-md shrink-0" />}
                 </div>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-white/80 text-[13px] flex items-center gap-1 drop-shadow-md">
-                    <PlayArrowOutlinedIcon sx={{ fontSize: 14 }} /> {video.views}
+                <div className="flex items-center gap-1.5 mt-0.5">
+                  <span className="text-white/60 text-[12px] font-medium drop-shadow-md">
+                    {video.views} views
                   </span>
-                  <span className="text-white/40 text-xs">•</span>
-                  <button className="text-white/90 font-bold text-[13px] hover:text-white transition-colors cursor-pointer border-none bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full backdrop-blur-md">
+                  <span className="text-white/30 text-[10px]">•</span>
+                  <button className="text-white/80 font-bold text-[12px] hover:text-white transition-colors cursor-pointer border-none bg-transparent p-0">
                     Follow
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="text-white/95 text-[16px] leading-relaxed drop-shadow-md pr-12 line-clamp-3">
+            <p className="text-white/90 text-[14px] leading-snug drop-shadow-md line-clamp-2 font-medium">
               {video.title}
-            </div>
+            </p>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 h-1.5 bg-white/20 z-50">
-            <div className={`h-full bg-white rounded-r-full shadow-[0_0_10px_rgba(255,255,255,0.8)] relative transition-all duration-1000 ${isLoading ? 'w-0' : 'w-1/3'}`}>
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_8px_rgba(255,255,255,1)]" />
+          <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-white/15 z-50">
+            <div className={`h-full bg-white rounded-r-full relative transition-all duration-1000 ease-out ${isLoading ? 'w-0' : 'w-1/3'}`}>
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-white rounded-full shadow-[0_0_6px_rgba(255,255,255,0.9)] opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 h-full justify-end pb-12 shrink-0">
-          <ActionIcon icon={<FavoriteBorderIcon sx={{ fontSize: 28 }} />} label="12.4K" />
-          <ActionIcon icon={<ShareOutlinedIcon sx={{ fontSize: 28 }} />} label="Share" />
-          <ActionIcon icon={<BookmarkBorderIcon sx={{ fontSize: 28 }} />} label="Save" />
+        <div className="flex flex-col items-center gap-3 shrink-0 self-end pb-8">
+          <div className="flex flex-col items-center gap-1.5 mb-2">
+            <NavButton onClick={onPrev} disabled={!onPrev} icon={<KeyboardArrowUpIcon sx={{ fontSize: 20 }} />} ariaLabel="Previous video" />
+            <NavButton onClick={onNext} disabled={!onNext} icon={<KeyboardArrowDownIcon sx={{ fontSize: 20 }} />} ariaLabel="Next video" />
+          </div>
           
-          <div className="relative flex flex-col items-center gap-1.5 mt-2" ref={menuRef}>
-            <button 
-              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(!isMenuOpen) }}
-              className={`w-[52px] h-[52px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer border-none shadow-lg ${isMenuOpen ? 'bg-white text-black' : 'bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/10 text-white'}`}
-            >
-              <MoreVertIcon sx={{ fontSize: 28 }} />
-            </button>
+          <ActionButton 
+            icon={isLiked 
+              ? <FavoriteIcon sx={{ fontSize: 20 }} className="text-red-500" /> 
+              : <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+            } 
+            label={video.views} 
+            onClick={() => setIsLiked(v => !v)}
+            active={isLiked}
+          />
+          
+          <ActionButton icon={<ShareOutlinedIcon sx={{ fontSize: 20 }} />} label="Share" />
+          
+          <ActionButton 
+            icon={<BookmarkBorderIcon sx={{ fontSize: 20 }} />} 
+            label="Save" 
+            onClick={() => setIsSaved(v => !v)}
+            active={isSaved}
+          />
+          
+          <div className="relative flex flex-col items-center" ref={menuRef}>
+            <ActionButton 
+              icon={<MoreVertIcon sx={{ fontSize: 20 }} />} 
+              onClick={(e) => { e?.preventDefault(); e?.stopPropagation(); setIsMenuOpen(!isMenuOpen) }}
+              active={isMenuOpen}
+            />
             
             {isMenuOpen && (
-              <div className="absolute bottom-full right-1/2 translate-x-1/2 mb-4 w-48 bg-[#262626]/95 backdrop-blur-xl rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 z-50 flex flex-col text-[14px] border border-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-2 duration-200 origin-bottom">
+              <div className="absolute bottom-full right-1/2 translate-x-1/2 mb-3 w-44 bg-[#1a1a1a]/95 backdrop-blur-xl rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.6)] py-1 z-50 flex flex-col text-[13px] border border-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-2 duration-200 origin-bottom">
                 <button 
                   onClick={() => setIsMenuOpen(false)} 
-                  className="flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-white/10 transition-colors w-full text-left font-medium cursor-pointer border-none bg-transparent"
+                  className="flex items-center gap-2.5 px-3.5 py-2.5 text-white/70 hover:text-white hover:bg-white/8 transition-colors w-full text-left font-medium cursor-pointer border-none bg-transparent"
                 >
-                  <ReportProblemOutlinedIcon sx={{ fontSize: 20 }} /> Report Video
+                  <BookmarkBorderIcon sx={{ fontSize: 16 }} /> Save to playlist
+                </button>
+                <div className="h-px bg-white/8 mx-2.5" />
+                <button 
+                  onClick={() => setIsMenuOpen(false)} 
+                  className="flex items-center gap-2.5 px-3.5 py-2.5 text-red-400 hover:text-red-300 hover:bg-white/8 transition-colors w-full text-left font-medium cursor-pointer border-none bg-transparent"
+                >
+                  <ReportProblemOutlinedIcon sx={{ fontSize: 16 }} /> Report Video
                 </button>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      <div className="absolute right-8 top-1/2 -translate-y-1/2 flex flex-col gap-4 z-50">
-        <NavButton onClick={onPrev} disabled={!onPrev} icon={<KeyboardArrowUpIcon sx={{ fontSize: 30 }} />} ariaLabel="Previous video" />
-        <NavButton onClick={onNext} disabled={!onNext} icon={<KeyboardArrowDownIcon sx={{ fontSize: 30 }} />} ariaLabel="Next video" />
-      </div>
     </div>
   )
 })
 
-function ActionIcon({ icon, label }: { icon: React.ReactNode, label: string }) {
+function ActionButton({ 
+  icon, label, onClick, active 
+}: { 
+  icon: React.ReactNode, label?: string, onClick?: (e?: React.MouseEvent) => void, active?: boolean 
+}) {
   return (
-    <button className="flex flex-col items-center gap-1.5 group cursor-pointer border-none bg-transparent p-0">
-      <div className="w-[52px] h-[52px] rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md flex items-center justify-center transition-all duration-300 group-hover:scale-110 active:scale-95 text-white shadow-lg border border-white/10 group-hover:border-white/30">
+    <button 
+      onClick={onClick}
+      className={`flex flex-col items-center gap-1 group cursor-pointer border-none bg-transparent p-0 transition-transform duration-200 hover:scale-105 active:scale-95`}
+    >
+      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg ${
+        active 
+          ? 'bg-white/20 border border-white/25 text-white' 
+          : 'bg-white/8 hover:bg-white/15 border border-white/8 hover:border-white/20 text-white/80 hover:text-white'
+      }`}>
         {icon}
       </div>
-      <span className="text-white/90 text-[13px] font-semibold drop-shadow-md group-hover:text-white transition-colors">{label}</span>
+      {label && (
+        <span className={`text-[11px] font-medium drop-shadow-md transition-colors ${active ? 'text-white' : 'text-white/60 group-hover:text-white/80'}`}>
+          {label}
+        </span>
+      )}
     </button>
   )
 }
@@ -207,10 +253,10 @@ function NavButton({ onClick, disabled, icon, ariaLabel }: { onClick?: () => voi
       onClick={onClick} 
       disabled={disabled} 
       aria-label={ariaLabel}
-      className={`w-14 h-14 flex items-center justify-center rounded-full transition-all duration-300 border-none shadow-xl ${
+      className={`w-9 h-9 flex items-center justify-center rounded-full transition-all duration-300 border-none ${
         !disabled 
-          ? 'bg-white/10 hover:bg-white/20 backdrop-blur-md text-white cursor-pointer hover:scale-110 active:scale-95 border border-white/10' 
-          : 'bg-white/5 text-white/20 cursor-not-allowed'
+          ? 'bg-white/8 hover:bg-white/15 text-white/70 hover:text-white cursor-pointer hover:scale-110 active:scale-95 border border-white/8 hover:border-white/20' 
+          : 'bg-white/4 text-white/15 cursor-not-allowed'
       }`}
     >
       {icon}

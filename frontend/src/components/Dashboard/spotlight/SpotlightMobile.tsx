@@ -366,7 +366,7 @@ export default function SpotlightMobile() {
       </div>
 
       {activeVideo && (
-        <div className="fixed inset-0 z-[100] animate-in fade-in slide-in-from-bottom-8 duration-300">
+        <div className="absolute inset-0 z-[100] animate-in fade-in slide-in-from-bottom-8 duration-300">
           <SpotlightVideoPlayerMobile
             video={activeVideo}
             onClose={() => setActiveVideo(null)}

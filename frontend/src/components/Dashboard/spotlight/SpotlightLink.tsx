@@ -95,10 +95,10 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
       </div>
       
       <div className="flex items-center gap-2 shrink-0 ml-2">
-        <div className="hidden sm:flex px-3 py-1.5 rounded-[8px] bg-white text-black text-[11px] font-bold shadow-sm transition-transform group-hover:scale-105 active:scale-95">
+        <div className="hidden @sm:flex px-3 py-1.5 rounded-[8px] bg-white text-black text-[11px] font-bold shadow-sm transition-transform group-hover:scale-105 active:scale-95">
           {linkData.actionText || 'View'}
         </div>
-        <div className="flex w-7 h-7 rounded-full bg-white/10 items-center justify-center group-hover:bg-white/20 transition-colors sm:hidden">
+        <div className="flex w-7 h-7 rounded-full bg-white/10 items-center justify-center group-hover:bg-white/20 transition-colors @sm:hidden">
           <ArrowForwardIosIcon sx={{ fontSize: 12 }} className="text-white translate-x-[1px]" />
         </div>
       </div>

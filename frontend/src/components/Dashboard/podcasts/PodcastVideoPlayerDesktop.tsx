@@ -33,6 +33,7 @@ export default function PodcastVideoPlayerDesktop({
   const [volume, setVolume] = useState(0.8)
   const [controlsVisible, setControlsVisible] = useState(true)
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [isHoveringControls, setIsHoveringControls] = useState(false)
 
   const containerRef = useRef<HTMLDivElement>(null)
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -59,23 +60,25 @@ export default function PodcastVideoPlayerDesktop({
   const resetHideTimer = useCallback(() => {
     setControlsVisible(true)
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
-    if (isPlaying) {
+    if (isPlaying && !isHoveringControls) {
       hideTimerRef.current = setTimeout(() => setControlsVisible(false), 3500)
     }
-  }, [isPlaying])
+  }, [isPlaying, isHoveringControls])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetHideTimer()
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
     }
-  }, [isPlaying, resetHideTimer])
+  }, [isPlaying, isHoveringControls, resetHideTimer])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPlaying(false)
     setProgress(0)
+
+    if (episode && containerRef.current) {
+      containerRef.current.focus()
+    }
   }, [episode?.id])
 
   const exitFullscreen = useCallback(() => {
@@ -145,7 +148,11 @@ export default function PodcastVideoPlayerDesktop({
         controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
       }`}
     >
-      <div className="flex items-center gap-2 flex-1 min-w-0 pr-2 pointer-events-auto">
+      <div 
+        className="flex items-center gap-2 flex-1 min-w-0 pr-2 pointer-events-auto"
+        onMouseEnter={() => setIsHoveringControls(true)}
+        onMouseLeave={() => setIsHoveringControls(false)}
+      >
         <button
           type="button"
           onClick={onClose}
@@ -169,6 +176,8 @@ export default function PodcastVideoPlayerDesktop({
         controlsVisible || !isPlaying ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0 pointer-events-none'
       }`}
       onMouseMove={resetHideTimer}
+      onMouseEnter={() => setIsHoveringControls(true)}
+      onMouseLeave={() => setIsHoveringControls(false)}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="w-full px-2 -mb-1 z-40 relative">
@@ -272,7 +281,6 @@ export default function PodcastVideoPlayerDesktop({
             }`}
           />
 
-          {/* Center Controls */}
           <div
             className={`absolute inset-0 flex items-center justify-center gap-6 z-30 transition-all duration-300 ${
               !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'

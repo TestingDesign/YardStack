@@ -175,7 +175,6 @@ export default function PodcastActiveEpisodeDesktop({
           </div>
         </div>
 
-        {/* Right Column - Up Next Sidebar */}
         <div className="w-full xl:w-[400px] shrink-0 flex flex-col mt-4 xl:mt-0">
           <div className="flex items-center justify-between mb-5 px-2">
             <h3 className="text-[18px] font-black text-gray-900">Up Next</h3>

@@ -146,6 +146,8 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [isHovered, setIsHovered] = useState(false)
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -157,6 +159,19 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [])
 
+  const handleMouseEnter = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(true)
+    }, 600)
+  }
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    setIsHovered(false)
+  }
+
   const speakerInitial = episode.speaker ? episode.speaker.charAt(0).toUpperCase() : '?'
 
   return (
@@ -166,6 +181,8 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
       }`}
       style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -176,10 +193,20 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
+        {isHovered && (
+          <video
+            src="https://www.w3schools.com/html/mov_bbb.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-300" />
 
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
@@ -235,6 +262,8 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+  const [isHovered, setIsHovered] = useState(false)
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -246,6 +275,19 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [])
 
+  const handleMouseEnter = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsHovered(true)
+    }, 600)
+  }
+
+  const handleMouseLeave = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current)
+    }
+    setIsHovered(false)
+  }
+
   return (
     <article
       className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 opacity-0 animate-swipe-up ${
@@ -253,6 +295,8 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
       }`}
       style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -263,9 +307,19 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
+        {isHovered && (
+          <video
+            src="https://www.w3schools.com/html/mov_bbb.mp4"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover z-0"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-200 hover:scale-110 shadow-sm">
             <PlayArrowIcon sx={{ fontSize: 16 }} className="ml-0.5" />
@@ -470,6 +524,22 @@ export default function PodcastDesktop() {
     ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
     : -1
 
+  const [featuredHovered, setFeaturedHovered] = useState(false)
+  const featuredHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const handleFeaturedMouseEnter = () => {
+    featuredHoverTimeoutRef.current = setTimeout(() => {
+      setFeaturedHovered(true)
+    }, 600)
+  }
+
+  const handleFeaturedMouseLeave = () => {
+    if (featuredHoverTimeoutRef.current) {
+      clearTimeout(featuredHoverTimeoutRef.current)
+    }
+    setFeaturedHovered(false)
+  }
+
   return (
     <div className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
       <style>{STYLES}</style>
@@ -487,14 +557,26 @@ export default function PodcastDesktop() {
                 className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 opacity-0 animate-swipe-up border border-gray-100 shadow-sm"
                 style={{ animationDelay: '50ms' }}
                 onClick={() => setActiveEpisode(filtered[0])}
+                onMouseEnter={handleFeaturedMouseEnter}
+                onMouseLeave={handleFeaturedMouseLeave}
               >
                 <div className="relative w-full lg:w-[50%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg">
                   <img
                     src={filtered[0]?.thumbnail || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80'}
                     alt="Featured"
-                    className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-transform duration-500 group-hover:scale-105"
+                    className={`w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105 ${featuredHovered ? 'opacity-0' : 'group-hover:opacity-100'}`}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+                  {featuredHovered && (
+                    <video
+                      src="https://www.w3schools.com/html/mov_bbb.mp4"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="absolute inset-0 w-full h-full object-cover z-0"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
                   
                   <div className="absolute bottom-3 right-3 z-20">
                     <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-300 group-hover:scale-110 shadow-sm">
@@ -622,7 +704,7 @@ export default function PodcastDesktop() {
 
               {displayedEpisodes.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
                     {displayedEpisodes.map((ep, idx) => (
                       <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}

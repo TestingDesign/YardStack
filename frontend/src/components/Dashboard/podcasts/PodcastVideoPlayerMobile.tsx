@@ -269,7 +269,7 @@ export default function PodcastVideoPlayerMobile({
                 <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />
               </button>
               <div className="flex flex-col gap-1 drop-shadow-lg pt-0.5">
-                <h2 className="text-[12px] sm:text-[14px] font-bold text-white leading-tight line-clamp-2">
+                <h2 className="text-[12px] font-bold text-white leading-tight line-clamp-2">
                   {episode.title}
                 </h2>
               </div>

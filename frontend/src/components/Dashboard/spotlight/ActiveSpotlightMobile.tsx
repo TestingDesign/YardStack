@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import VerifiedIcon from '@mui/icons-material/Verified'
@@ -125,13 +126,21 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
           </div>
         </div>
 
-        {clickAnim && isPlaying && (
-          <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-            <div className="w-16 h-16 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20 animate-in zoom-in-50 fade-out duration-300 fill-mode-forwards">
-              <PlayArrowRoundedIcon sx={{ fontSize: 36 }} className="drop-shadow-2xl ml-1" />
-            </div>
-          </div>
-        )}
+        <AnimatePresence>
+          {clickAnim && isPlaying && (
+            <motion.div 
+              initial={{ scale: 0.5, opacity: 1 }}
+              animate={{ scale: 1.5, opacity: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
+            >
+              <div className="w-16 h-16 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20">
+                <PlayArrowRoundedIcon sx={{ fontSize: 36 }} className="drop-shadow-2xl ml-1" />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
 
@@ -218,34 +227,40 @@ const ActiveSpotlightMobile = memo(function ActiveSpotlightMobile({
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div
-          ref={menuRef}
-          className="absolute bottom-[7rem] right-14 w-[150px] overflow-hidden rounded-xl border border-white/10 bg-neutral-900/95 py-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl animate-in fade-in zoom-in-95 slide-in-from-bottom-2 duration-200 origin-bottom-right z-30"
-        >
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setIsMenuOpen(false)
-            }}
-            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white"
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            ref={menuRef}
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="absolute bottom-[7rem] right-14 w-[150px] overflow-hidden rounded-xl border border-white/10 bg-neutral-900/95 py-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.6)] backdrop-blur-xl origin-bottom-right z-30"
           >
-            <BookmarkBorderIcon sx={{ fontSize: 18 }} />
-            Save Video
-          </button>
-          <div className="mx-3 my-0.5 h-[1px] bg-white/10" />
-          <button
-            onClick={(e) => {
-              e.stopPropagation()
-              setIsMenuOpen(false)
-            }}
-            className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-red-400/90 transition-colors hover:bg-red-500/10 hover:text-red-400"
-          >
-            <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} />
-            Report
-          </button>
-        </div>
-      )}
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsMenuOpen(false)
+              }}
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-white/90 transition-colors hover:bg-white/10 hover:text-white border-none bg-transparent cursor-pointer"
+            >
+              <BookmarkBorderIcon sx={{ fontSize: 18 }} />
+              Save Video
+            </button>
+            <div className="mx-3 my-0.5 h-[1px] bg-white/10" />
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                setIsMenuOpen(false)
+              }}
+              className="flex w-full items-center gap-3 px-4 py-2.5 text-left text-[13px] font-medium text-red-400/90 transition-colors hover:bg-red-500/10 hover:text-red-400 border-none bg-transparent cursor-pointer"
+            >
+              <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} />
+              Report
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className={`absolute bottom-0 left-0 right-0 h-1 bg-white/10 z-20 overflow-hidden transition-opacity duration-500 ${isDistractionFree ? 'opacity-0' : 'opacity-100'}`}>
         <div 

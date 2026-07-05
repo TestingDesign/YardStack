@@ -164,16 +164,15 @@ const DesktopEpisodeSkeleton = () => (
 )
 
 const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
-  episode, onPlay, index = 0,
+  episode, onPlay,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
-  index?: number
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -282,16 +281,15 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 })
 
 const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
-  episode, onPlay, index = 0,
+  episode, onPlay,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
-  index?: number
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const [isHovered, setIsHovered] = useState(false)
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const hoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
@@ -388,16 +386,14 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
     </motion.article>
   )
 })
-
 function StatCard({
-  icon, value, label, color, bg, delay = 0,
+  icon, value, label, color, bg,
 }: {
   icon: React.ReactNode
   value: string
   label: string
   color: string
   bg: string
-  delay?: number
 }) {
   return (
     <motion.div
@@ -558,7 +554,7 @@ export default function PodcastDesktop() {
     : -1
 
   const [featuredHovered, setFeaturedHovered] = useState(false)
-  const featuredHoverTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const featuredHoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleFeaturedMouseEnter = () => {
     featuredHoverTimeoutRef.current = setTimeout(() => {
@@ -698,7 +694,7 @@ export default function PodcastDesktop() {
                   onScroll={handleScroll}
                   className="flex gap-3 overflow-x-auto pb-2 scroll-px-0 snap-x snap-mandatory hide-scrollbar"
                 >
-                  {filteredWithoutTop.slice(0, 10).map((ep, mapIdx) => {
+                  {filteredWithoutTop.slice(0, 10).map((ep) => {
                     const actualIdx = filtered.findIndex((e) => e.id === ep.id);
                     const rank = actualIdx + 1;
                     
@@ -712,7 +708,7 @@ export default function PodcastDesktop() {
                         }`}>
                           {rank}
                         </div>
-                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={mapIdx} />
+                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
                       </div>
                     )
                   })}
@@ -753,8 +749,8 @@ export default function PodcastDesktop() {
               {displayedEpisodes.length > 0 ? (
                 <>
                   <motion.div variants={containerVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
-                    {displayedEpisodes.map((ep, idx) => (
-                      <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    {displayedEpisodes.map((ep) => (
+                      <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
                     ))}
                     {isLoading && (
                       <>

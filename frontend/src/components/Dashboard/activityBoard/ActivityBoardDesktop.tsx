@@ -1,4 +1,5 @@
 import { useState, useCallback, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
@@ -21,6 +22,23 @@ import {
 } from './data'
 
 const ITEMS_PER_PAGE = 10
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  }
+}
 
 interface OpportunityCardProps {
   item: ActivityItem
@@ -47,7 +65,6 @@ const SkeletonCard = () => (
 
 const OpportunityCard = memo(function OpportunityCard({
   item,
-  index,
   isExpanded,
   onToggle,
 }: OpportunityCardProps) {
@@ -63,9 +80,10 @@ const OpportunityCard = memo(function OpportunityCard({
   if (isDismissed) return null
 
   return (
-    <div
-      className="flex flex-col relative shrink-0 group/card animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both"
-      style={{ animationDelay: `${index * 50}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileHover={{ y: -2 }}
+      className="flex flex-col relative shrink-0 group/card"
     >
       {isDismissing && (
         <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-lg rounded-[8px] border border-white transition-all duration-300 animate-in zoom-in-95 shadow-[0_8px_32px_rgba(0,0,0,0.12)]">
@@ -174,8 +192,15 @@ const OpportunityCard = memo(function OpportunityCard({
                   <span>{item.type}</span>
                 </div>
 
+                <AnimatePresence>
                 {isExpanded && (
-                  <div className="animate-in fade-in slide-in-from-top-2 duration-500 mt-3">
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 24 }} 
+                    className="mt-3"
+                  >
                     <div className="flex flex-wrap gap-2 mb-4">
                       {item.skills.map((skill) => (
                         <span
@@ -221,8 +246,9 @@ const OpportunityCard = memo(function OpportunityCard({
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 )}
+                </AnimatePresence>
 
                 {!isExpanded && (
                   <div className="flex flex-wrap gap-1.5 mt-2">
@@ -242,7 +268,13 @@ const OpportunityCard = memo(function OpportunityCard({
 
           <div className="shrink-0 flex flex-col items-center justify-between py-4 px-4 border-l border-gray-100/80 w-[160px] bg-gray-50/30 backdrop-blur-sm relative overflow-hidden">
             {isExpanded ? (
-              <div className="flex flex-col items-center justify-between h-full w-full animate-in fade-in zoom-in-95 duration-500 relative z-10">
+              <motion.div 
+                key="expanded"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                className="flex flex-col items-center justify-between h-full w-full relative z-10"
+              >
                 <div className="flex flex-col items-center gap-2.5 w-full">
                   <button
                     onClick={(e) => {
@@ -285,9 +317,15 @@ const OpportunityCard = memo(function OpportunityCard({
                     Apply Now
                   </button>
                 </div>
-              </div>
+              </motion.div>
             ) : (
-              <div className="flex flex-col items-center justify-between h-full w-full animate-in fade-in duration-500 relative z-10">
+              <motion.div 
+                key="collapsed"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="flex flex-col items-center justify-between h-full w-full relative z-10"
+              >
                 <div className="flex items-center gap-1 justify-center w-full">
                   <button
                     onClick={toggleSave}
@@ -323,12 +361,12 @@ const OpportunityCard = memo(function OpportunityCard({
                     }`}
                   />
                 </button>
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 })
 
@@ -443,7 +481,13 @@ export default function ActivityBoardDesktop() {
               </div>
             ) : (
               <>
-                <div className="flex flex-col gap-4">
+                <motion.div 
+                  variants={containerVariants} 
+                  initial="hidden" 
+                  whileInView="visible" 
+                  viewport={{ once: true, margin: "50px" }}
+                  className="flex flex-col gap-4"
+                >
                   {displayedItems.map((item, index) => (
                     <OpportunityCard
                       key={item.id}
@@ -461,7 +505,7 @@ export default function ActivityBoardDesktop() {
                       <SkeletonCard />
                     </>
                   )}
-                </div>
+                </motion.div>
 
                 {hasMore && (
                   <div className="flex justify-center mt-8 mb-4">

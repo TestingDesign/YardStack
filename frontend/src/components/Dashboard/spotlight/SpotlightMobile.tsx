@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
@@ -52,6 +52,23 @@ const MOBILE_STYLES = `
     animation: shimmer .7s ease forwards;
   }
 `
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  }
+}
 
 function MobileMoreMenu({
   open, menuRef, onToggle, onAction,
@@ -130,7 +147,7 @@ const MobileStatCard = ({ icon, value, label, color, bg }: any) => (
 )
 
 const SpotlightCard = memo(function SpotlightCard({
-  video, onPlay, rank, isTrending, index = 0,
+  video, onPlay, rank, isTrending,
 }: {
   video: SpotlightVideo
   onPlay: (v: SpotlightVideo) => void
@@ -150,9 +167,10 @@ const SpotlightCard = memo(function SpotlightCard({
   }, [])
 
   return (
-    <div
-      className={`m-card-shimmer group relative flex flex-col cursor-pointer animate-in fade-in fill-mode-both ${isTrending ? 'w-[130px] shrink-0 slide-in-from-right-4' : 'w-full slide-in-from-bottom-6'}`}
-      style={{ animationDelay: `${index * 50}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className={`m-card-shimmer group relative flex flex-col cursor-pointer ${isTrending ? 'w-[130px] shrink-0' : 'w-full'}`}
       onClick={() => onPlay(video)}
     >
       <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
@@ -201,7 +219,7 @@ const SpotlightCard = memo(function SpotlightCard({
           />
         )}
       </div>
-    </div>
+    </motion.div>
   )
 })
 
@@ -430,36 +448,45 @@ export default function SpotlightMobile() {
                 <h3 className="text-[15px] font-medium text-gray-900 tracking-tight">All Spotlights</h3>
               </div>
 
-              <div className="grid grid-cols-2 gap-1.5 w-full">
+              <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "50px" }}
+                className="grid grid-cols-2 gap-1.5 w-full"
+              >
                 {displayedVideos.map((v, idx) => (
                   <SpotlightCard key={v.id} video={v} onPlay={setActiveVideo} index={idx} />
                 ))}
-              </div>
+              </motion.div>
 
               {hasMore && (
                 <div className="mt-4 mb-2 flex items-center justify-center">
-                  <button
+                  <motion.button
+                    variants={itemVariants}
                     type="button"
                     onClick={() => setPage(p => p + 1)}
                     className="group flex items-center gap-1.5 px-5 py-2 rounded-[4px] bg-white border border-purple-200 text-[12px] font-medium text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(124,58,237,0.05)] hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] hover:-translate-y-0.5 active:translate-y-0"
                   >
                     <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
                     Load More Spotlights
-                  </button>
+                  </motion.button>
                 </div>
               )}
             </MobileScrollReveal>
         </div>
       </div>
 
-      {activeVideo && (
-        <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-0 z-[100]">
-          <ActiveSpotlightMobile
-            video={activeVideo}
-            onClose={() => setActiveVideo(null)}
-          />
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-0 z-[100]">
+            <ActiveSpotlightMobile
+              video={activeVideo}
+              onClose={() => setActiveVideo(null)}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

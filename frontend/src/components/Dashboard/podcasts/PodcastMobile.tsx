@@ -100,14 +100,12 @@ function MobileMoreMenu({
     </div>
   )
 }
-
 const TrendingCard = memo(function TrendingCard({
-  episode, onPlay, rank, index = 0,
+  episode, onPlay, rank,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   rank: number
-  index?: number
 }) {
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
@@ -192,13 +190,11 @@ const MobileEpisodeListSkeleton = () => (
     </div>
   </div>
 )
-
 const EpisodeListCard = memo(function EpisodeListCard({
-  episode, onPlay, index = 0,
+  episode, onPlay,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
-  index?: number
 }) {
   const moreMenuRef = useRef<HTMLDivElement>(null)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -264,11 +260,10 @@ const EpisodeListCard = memo(function EpisodeListCard({
 })
 
 const EpisodeGridCard = memo(function EpisodeGridCard({
-  episode, onPlay, index = 0,
+  episode, onPlay,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
-  index?: number
 }) {
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
@@ -553,12 +548,11 @@ export default function PodcastMobile() {
                 onScroll={handleTrendingScroll}
                 className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
               >
-                {filteredWithoutTop.slice(0, 8).map((ep, mapIdx) => {
+                {filteredWithoutTop.slice(0, 8).map((ep) => {
                   const actualIdx = filtered.findIndex((e) => e.id === ep.id)
                   const rank = actualIdx + 1
-                  
                   return (
-                    <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} index={mapIdx} />
+                    <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} />
                   )
                 })}
               </div>
@@ -667,8 +661,8 @@ export default function PodcastMobile() {
               <>
                 {viewMode === 'grid' ? (
                   <motion.div variants={containerVariants} className="grid grid-cols-2 gap-x-3 gap-y-5">
-                    {displayedEpisodes.map((ep, idx) => (
-                      <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    {displayedEpisodes.map((ep) => (
+                      <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
                     ))}
                     {isLoading && (
                       <>
@@ -681,8 +675,8 @@ export default function PodcastMobile() {
                   </motion.div>
                 ) : (
                   <motion.div variants={containerVariants} className="flex flex-col gap-3">
-                    {displayedEpisodes.map((ep, idx) => (
-                      <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    {displayedEpisodes.map((ep) => (
+                      <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
                     ))}
                     {isLoading && (
                       <>

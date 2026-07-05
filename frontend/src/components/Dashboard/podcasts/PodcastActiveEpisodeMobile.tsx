@@ -41,7 +41,6 @@ const MobileEpisodeListSkeleton = () => (
       </div>
     </div>
   </div>
-  
 )
 
 export default function PodcastActiveEpisodeMobile({
@@ -64,11 +63,11 @@ export default function PodcastActiveEpisodeMobile({
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const perPage = 6
-  
+
   const displayedCount = page * perPage
   const displayedForGrid = filteredWithoutTop.slice(0, displayedCount)
   const hasMore = displayedForGrid.length < filteredWithoutTop.length
-  
+
   const handleLoadMore = () => {
     setIsLoading(true)
     setTimeout(() => {
@@ -78,7 +77,7 @@ export default function PodcastActiveEpisodeMobile({
   }
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -86,7 +85,6 @@ export default function PodcastActiveEpisodeMobile({
       className="relative w-full flex-1 bg-white flex flex-col"
     >
       <div className="relative w-full bg-black shrink-0 aspect-[16/9] lg:aspect-[2.2/1]">
-
         <PodcastVideoPlayerMobile
           episode={activeEpisode}
           onClose={() => setActiveEpisode(null)}
@@ -96,7 +94,7 @@ export default function PodcastActiveEpisodeMobile({
           hasPrev={activeIdx > 0}
         />
       </div>
-      
+
       <div className="px-3 py-3 border-b border-gray-100/80">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2.5 min-w-0">
@@ -105,7 +103,9 @@ export default function PodcastActiveEpisodeMobile({
             </div>
             <div className="flex flex-col min-w-0">
               <div className="flex items-center gap-1 mb-0.5">
-                <h3 className="text-[14px] font-bold text-gray-900 leading-none tracking-tight truncate">{activeEpisode.speaker}</h3>
+                <h3 className="text-[14px] font-bold text-gray-900 leading-none tracking-tight truncate">
+                  {activeEpisode.speaker}
+                </h3>
                 {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
               </div>
               <p className="text-[11px] text-gray-500 font-medium leading-none truncate">{activeEpisode.role}</p>
@@ -123,12 +123,12 @@ export default function PodcastActiveEpisodeMobile({
         </div>
       </div>
 
-      <div className="px-2  pt-2 flex flex-col gap-2 border-b border-gray-100/80">
+      <div className="px-2 pt-2 flex flex-col gap-2 border-b border-gray-100/80">
         <div className="flex items-center justify-between mb-1 px-1">
           <h3 className="text-[14px] font-black text-gray-900">Up Next</h3>
           <div className="flex items-center gap-2">
             <span className="text-[12px] font-medium text-gray-500">Autoplay</span>
-            <button 
+            <button
               type="button"
               onClick={() => setAutoplay(v => !v)}
               className={`relative w-10 h-5 rounded-full transition-colors duration-300 outline-none ${
@@ -136,7 +136,7 @@ export default function PodcastActiveEpisodeMobile({
               }`}
               aria-label="Toggle autoplay"
             >
-              <span 
+              <span
                 className={`absolute top-[2px] left-[2px] w-[16px] h-[16px] bg-white rounded-full shadow-sm transition-transform duration-300 ${
                   autoplay ? 'translate-x-[20px]' : 'translate-x-0'
                 }`}
@@ -158,14 +158,18 @@ export default function PodcastActiveEpisodeMobile({
             <div className="flex items-center bg-gray-100 rounded-md p-0.5">
               <button
                 onClick={() => setViewMode('grid')}
-                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'}`}
+                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                  viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                }`}
                 aria-label="Grid view"
               >
                 <LayoutGrid size={13} />
               </button>
               <button
                 onClick={() => setViewMode('list')}
-                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'}`}
+                className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                  viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                }`}
                 aria-label="List view"
               >
                 <List size={13} />
@@ -173,7 +177,7 @@ export default function PodcastActiveEpisodeMobile({
             </div>
           </div>
         </div>
-        
+
         {viewMode === 'grid' ? (
           <div className="grid grid-cols-2 gap-3 pb-4 pt-1">
             {displayedForGrid.map((ep, idx) => (
@@ -202,7 +206,7 @@ export default function PodcastActiveEpisodeMobile({
             )}
           </div>
         )}
-        
+
         {hasMore && (
           <div className="mt-2 flex items-center justify-center">
             <button
@@ -228,7 +232,6 @@ export default function PodcastActiveEpisodeMobile({
           </div>
         )}
       </div>
-
     </motion.div>
   )
 }

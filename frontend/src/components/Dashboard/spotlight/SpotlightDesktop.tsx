@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
@@ -19,13 +19,6 @@ const STYLES = `
   @keyframes shimmer {
     0%   { background-position: -200% center; }
     100% { background-position:  200% center; }
-  }
-  @keyframes swipeUpFade {
-    0% { opacity: 0; transform: translateY(30px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-  .animate-swipe-up {
-    animation: swipeUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .card-shimmer::after {
     content: '';
@@ -49,6 +42,23 @@ const STYLES = `
     scrollbar-width: none;
   }
 `
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  }
+}
 
 const MoreMenu = memo(function MoreMenu({
   open, menuRef, onToggle, onAction,
@@ -121,11 +131,10 @@ const MoreMenu = memo(function MoreMenu({
 })
 
 const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
-  video, onPlay, index = 0,
+  video, onPlay,
 }: {
   video: SpotlightVideo
   onPlay: (ep: SpotlightVideo) => void
-  index?: number
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -142,10 +151,9 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-      className={`card-shimmer group flex flex-col cursor-pointer transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${
+      variants={itemVariants}
+      whileHover={{ y: -2, scale: 1.01 }}
+      className={`card-shimmer group flex flex-col cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${
         moreOpen ? 'z-50 relative' : ''
       }`}
       onClick={() => onPlay(video)}
@@ -199,7 +207,7 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
 })
 
 function StatCard({
-  icon, value, label, color, bg, delay = 0,
+  icon, value, label, color, bg,
 }: {
   icon: React.ReactNode
   value: string
@@ -209,9 +217,10 @@ function StatCard({
   delay?: number
 }) {
   return (
-    <div
-      className={`p-2 rounded-md ${bg} flex items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 opacity-0 animate-swipe-up`}
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileHover={{ y: -2, scale: 1.02 }}
+      className={`p-2 rounded-md ${bg} flex items-center gap-2`}
     >
       <div className={`w-7 h-7 ${color} flex items-center justify-center shrink-0`}>
         {icon}
@@ -220,13 +229,13 @@ function StatCard({
         <span className="text-[13px] font-medium text-gray-900 leading-none tracking-tight">{value}</span>
         <span className="text-[10px] font-medium text-gray-500 truncate mt-0.5">{label}</span>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2 mb-3 opacity-0 animate-swipe-up">
+    <motion.div variants={itemVariants} className="flex items-center gap-2 mb-3">
       <div className="flex items-center justify-center">
         {icon}
       </div>
@@ -236,7 +245,7 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
           {badge}
         </span>
       )}
-    </div>
+    </motion.div>
   )
 }
 
@@ -264,8 +273,12 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
   const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
-    <div 
-      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg opacity-0 animate-swipe-up" 
+    <motion.div 
+      variants={itemVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg" 
       style={{ perspective: '1200px' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -339,7 +352,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
       >
         <ChevronRight size={16} />
       </button>
-    </div>
+    </motion.div>
   )
 })
 
@@ -430,14 +443,20 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
 
               {displayedVideos.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2">
-                    {displayedVideos.map((video, idx) => (
-                      <DesktopSpotlightCard key={video.id} video={video} onPlay={setActiveVideo} index={idx} />
+                  <motion.div 
+                    variants={containerVariants} 
+                    initial="hidden" 
+                    whileInView="visible" 
+                    viewport={{ once: true, margin: "50px" }}
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+                  >
+                    {displayedVideos.map((video) => (
+                      <DesktopSpotlightCard key={video.id} video={video} onPlay={setActiveVideo} />
                     ))}
-                  </div>
+                  </motion.div>
 
                   {hasMore && (
-                    <div className="mt-8 flex items-center justify-center opacity-0 animate-swipe-up" style={{ animationDelay: '300ms' }}>
+                    <motion.div variants={itemVariants} className="mt-8 flex items-center justify-center">
                       <button
                         type="button"
                         onClick={handleLoadMore}
@@ -447,7 +466,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
                         <AutorenewIcon sx={{ fontSize: 16 }} className={isLoading ? 'animate-spin' : ''} />
                         {isLoading ? 'Loading...' : 'Load More Spotlights'}
                       </button>
-                    </div>
+                    </motion.div>
                   )}
                 </>
               ) : (
@@ -474,15 +493,27 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
                 <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Spotlight Impact</h3>
               </div>
               
-              <div className="grid grid-cols-2 gap-3 relative z-10">
+              <motion.div 
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className="grid grid-cols-2 gap-3 relative z-10"
+              >
                 <StatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[0].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
                 <StatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[1].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
                 <StatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[2].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
                 <StatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[3].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
-              </div>
+              </motion.div>
             </div>
 
-            <div className="relative w-full rounded-lg overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-800 to-fuchsia-900 p-5 text-center flex flex-col items-center justify-center min-h-[220px] group opacity-0 animate-swipe-up" style={{ animationDelay: '200ms' }}>
+            <motion.div 
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="relative w-full rounded-lg overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-800 to-fuchsia-900 p-5 text-center flex flex-col items-center justify-center min-h-[220px] group"
+            >
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
               
               <div className="relative w-[110px] h-[150px] mx-auto -mt-6 mb-4 rounded-md overflow-hidden -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 border border-white/10">
@@ -503,9 +534,15 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
                   <ChevronRight size={14} />
                 </button>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="bg-white rounded-lg p-4 opacity-0 animate-swipe-up" style={{ animationDelay: '250ms' }}>
+            <motion.div 
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="bg-white rounded-lg p-4"
+            >
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-6 h-6 rounded-[4px] bg-purple-50 flex items-center justify-center">
@@ -544,22 +581,29 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
                   </div>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
           </ScrollReveal>
         </div>
       </div>
       
-      {activeVideo && (
-        <div className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-sm animate-in fade-in duration-200">
-          <ActiveSpotlightDesktop
-            video={activeVideo}
-            onClose={() => setActiveVideo(null)}
-            onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-            onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
-          />
-        </div>
-      )}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-[100] bg-black/95 backdrop-blur-sm"
+          >
+            <ActiveSpotlightDesktop
+              video={activeVideo}
+              onClose={() => setActiveVideo(null)}
+              onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+              onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   )
 }

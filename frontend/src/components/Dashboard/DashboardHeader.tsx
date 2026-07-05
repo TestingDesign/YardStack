@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import MenuIcon from '@mui/icons-material/Menu'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
@@ -41,7 +42,8 @@ const NavCard = memo(function NavCard({
   const isImage = typeof icon === 'string' && (icon.includes('/') || icon.includes('.png'))
 
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.98 }}
       type="button"
       onClick={() => onClick(item.key)}
       className={`relative shrink-0 flex flex-row items-center justify-center gap-2 md:gap-2.5 transition-all duration-300 outline-none cursor-pointer px-3 md:px-4 h-[44px] md:h-[48px] rounded-[8px] border ${
@@ -77,7 +79,7 @@ const NavCard = memo(function NavCard({
           {item.badge}
         </span>
       )}
-    </button>
+    </motion.button>
   )
 })
 
@@ -158,13 +160,14 @@ export default function DashboardHeader({
             {canScrollLeftNav && (
               <div className="absolute left-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center">
                 <div className="pointer-events-auto -ml-1">
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
                     onClick={scrollNavLeft}
                     className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
                     aria-label="Scroll left"
                   >
                     <ChevronLeft size={16} />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
@@ -189,13 +192,14 @@ export default function DashboardHeader({
             {canScrollRightNav && (
               <div className="absolute right-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-l from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center justify-end">
                 <div className="pointer-events-auto -mr-1">
-                  <button
+                  <motion.button
+                    whileTap={{ scale: 0.95 }}
                     onClick={scrollNavRight}
                     className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
                     aria-label="Scroll right"
                   >
                     <ChevronRight size={16} />
-                  </button>
+                  </motion.button>
                 </div>
               </div>
             )}
@@ -205,21 +209,23 @@ export default function DashboardHeader({
         <div className="flex items-center gap-2 sm:gap-1 min-w-0">
           {onMenuClick && (
             <>
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={onMenuClick}
                 className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
                 aria-label="Toggle menu"
               >
                 <MenuIcon sx={{ fontSize: 22 }} />
-              </button>
+              </motion.button>
 
               <div className="w-px h-5 bg-[var(--color-border-default)] shrink-0" aria-hidden="true" />
             </>
           )}
 
           <div ref={cityRef} className="relative min-w-0 shrink">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.98 }}
               type="button"
               onClick={() => { setCityOpen((v) => !v); setProfileOpen(false) }}
               className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[var(--color-text-secondary)] hover:bg-[var(--color-brand-purple-mid)]/5 hover:text-[var(--color-text-primary)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] min-w-0 cursor-pointer"
@@ -232,10 +238,17 @@ export default function DashboardHeader({
                 sx={{ fontSize: 18 }}
                 className={`text-[var(--color-text-secondary)]/70 shrink-0 transition-transform duration-200 ${cityOpen ? 'rotate-180' : ''}`}
               />
-            </button>
+            </motion.button>
 
+            <AnimatePresence>
             {cityOpen && (
-              <ul className="absolute left-0 top-full mt-2 w-44 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 py-1.5 overflow-hidden animate-[fadeScale_0.15s_ease-out]">
+              <motion.ul
+                initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                transition={{ type: "spring" as const, stiffness: 300, damping: 24 }}
+                className="absolute left-0 top-full mt-2 w-44 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 py-1.5 overflow-hidden"
+              >
                 {CITY_OPTIONS.map((opt) => (
                   <li key={opt}>
                     <button
@@ -251,14 +264,16 @@ export default function DashboardHeader({
                     </button>
                   </li>
                 ))}
-              </ul>
+              </motion.ul>
             )}
+            </AnimatePresence>
           </div>
         </div>  
 
         <div className="flex items-center shrink-0 ml-auto">
           <div ref={profileRef} className="relative">
-            <button
+            <motion.button
+              whileTap={{ scale: 0.98 }}
               type="button"
               onClick={() => { setProfileOpen((v) => !v); setCityOpen(false) }}
               className="flex items-center gap-1.5 p-1 pr-2 rounded-md hover:bg-[var(--color-brand-purple-mid)]/5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] cursor-pointer"
@@ -276,10 +291,17 @@ export default function DashboardHeader({
                 sx={{ fontSize: 18 }}
                 className={`text-[var(--color-text-secondary)]/70 transition-transform duration-200 ${profileOpen ? 'rotate-180' : ''}`}
               />
-            </button>
+            </motion.button>
 
+            <AnimatePresence>
             {profileOpen && (
-              <div className="absolute right-0 top-full mt-2 w-52 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 overflow-hidden animate-[fadeScale_0.15s_ease-out]">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: -5 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -5 }}
+                transition={{ type: "spring" as const, stiffness: 300, damping: 24 }}
+                className="absolute right-0 top-full mt-2 w-52 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 overflow-hidden"
+              >
                 <div className="px-4 py-3 border-b border-[var(--color-border-default)] bg-[var(--color-bg-muted)]">
                   <p className="text-[0.65rem] font-bold text-[var(--color-text-secondary)]/70 uppercase tracking-wider mb-2">Role</p>
                   <div className="flex flex-col gap-0.5">
@@ -316,8 +338,9 @@ export default function DashboardHeader({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </motion.div>
             )}
+            </AnimatePresence>
           </div>
         </div>
 

@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { CheckCircle2 } from 'lucide-react'
 import type { PodcastEpisode } from './data'
 import SpotlightLink, { SPOTLIGHT_LINKS } from '../spotlight/SpotlightLink'

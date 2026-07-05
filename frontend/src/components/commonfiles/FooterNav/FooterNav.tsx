@@ -1,4 +1,5 @@
 import { memo, useCallback, type ElementType } from 'react'
+import { motion } from 'framer-motion'
 import { Users, Plus, LayoutDashboard, Bookmark } from 'lucide-react'
 import LogoPng from '../sidebar/Logo.png'
 
@@ -35,11 +36,12 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
   const { key, label, Icon } = item
 
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.95 }}
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
-      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-all duration-300 ease-out active:scale-[0.92] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]/50 focus-visible:ring-inset tap-highlight-transparent"
+      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]/50 focus-visible:ring-inset tap-highlight-transparent"
     >
       <div className="relative z-10">
         <Icon
@@ -68,12 +70,14 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       )}
 
       {isActive && (
-        <div
+        <motion.div
+          layoutId="footerActiveTab"
+          transition={{ type: "spring", stiffness: 300, damping: 24 }}
           aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)]"
         />
       )}
-    </button>
+    </motion.button>
   )
 })
 
@@ -81,7 +85,8 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
   const { key, label, Icon } = item
 
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.95 }}
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
@@ -120,12 +125,14 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
       </span>
       
       {isActive && (
-        <div
+        <motion.div
+          layoutId="footerActiveTab"
+          transition={{ type: "spring", stiffness: 300, damping: 24 }}
           aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)]"
         />
       )}
-    </button>
+    </motion.button>
   )
 })
 

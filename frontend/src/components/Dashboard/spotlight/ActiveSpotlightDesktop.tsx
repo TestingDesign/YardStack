@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import VerifiedIcon from '@mui/icons-material/Verified'
@@ -103,8 +104,10 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
     setTimeout(() => setClickAnim(false), 400)
   }
 
+  const springTransition = { type: "spring" as const, damping: 25, stiffness: 200 }
+
   return (
-    <div className="w-full h-full flex items-center justify-center bg-[#0a0a0a] animate-in fade-in duration-500 overflow-hidden relative">
+    <div className="w-full h-full flex items-center justify-center overflow-hidden relative">
       <div className="absolute inset-0 opacity-20 overflow-hidden mix-blend-screen">
         <img src={video.image} alt="" className="w-full h-full object-cover blur-[80px] scale-150 transition-all duration-1000 animate-pulse" />
       </div>
@@ -124,7 +127,12 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
       <div className="flex flex-row items-center justify-center w-full h-[90vh] max-h-[920px] px-8">
         
         <div className="flex-1 flex justify-end h-full min-w-0">
-          <div className="flex flex-col justify-end gap-2 h-full w-[300px] shrink-0 pb-10 z-10 -mr-16 animate-in slide-in-from-left-8 fade-in duration-700 delay-100 fill-mode-both">
+          <motion.div 
+            initial={{ x: -30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ ...springTransition, delay: 0.1 }}
+            className="flex flex-col justify-end gap-2 h-full w-[300px] shrink-0 pb-10 z-10 -mr-16"
+          >
 
 
             <div className="flex items-center gap-4 group">
@@ -149,11 +157,14 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
             <p className="text-white/95 text-[16px] leading-relaxed drop-shadow-xl font-medium tracking-wide">
               {video.title}
             </p>
-          </div>
+          </motion.div>
         </div>
 
-        <div 
-          className="relative h-full aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 shrink-0 cursor-pointer transition-all duration-500 hover:scale-[1.01] hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)] animate-in zoom-in-95 fade-in duration-700"
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ ...springTransition }}
+          className="relative h-full aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 shrink-0 cursor-pointer transition-shadow duration-500 hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)]"
           onClick={handleVideoClick}
         >
           <img 
@@ -182,13 +193,21 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
             </div>
           </div>
 
-          {clickAnim && isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-              <div className="w-20 h-20 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20 animate-in zoom-in-50 fade-out duration-300 fill-mode-forwards">
-                <PlayArrowRoundedIcon sx={{ fontSize: 50 }} className="drop-shadow-2xl ml-1.5" />
-              </div>
-            </div>
-          )}
+          <AnimatePresence>
+            {clickAnim && isPlaying && (
+              <motion.div 
+                initial={{ scale: 0.5, opacity: 1 }}
+                animate={{ scale: 1.5, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none"
+              >
+                <div className="w-20 h-20 bg-black/50 backdrop-blur-xl rounded-full flex items-center justify-center text-white border border-white/20">
+                  <PlayArrowRoundedIcon sx={{ fontSize: 50 }} className="drop-shadow-2xl ml-1.5" />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           <div className="absolute top-4 right-4 z-20">
             <div className="pointer-events-auto origin-top-right transition-transform duration-300 hover:scale-[1.02]" onClick={(e) => e.stopPropagation()}>
@@ -204,10 +223,15 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,1)] translate-x-1/2" />
             </div>
           </div>
-        </div>
+        </motion.div>
 
         <div className="flex-1 flex justify-start h-full min-w-0">
-          <div className="flex flex-col items-center justify-end gap-2 shrink-0 pb-10 z-10 ml-4 animate-in slide-in-from-right-8 fade-in duration-700 delay-100 fill-mode-both">
+          <motion.div 
+            initial={{ x: 30, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ ...springTransition, delay: 0.1 }}
+            className="flex flex-col items-center justify-end gap-2 shrink-0 pb-10 z-10 ml-4"
+          >
             <div className="flex flex-col items-center gap-2 mb-4 bg-white/5 backdrop-blur-xl p-2 rounded-[8px] border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
               <NavButton onClick={onPrev} disabled={!onPrev} icon={<KeyboardArrowUpIcon sx={{ fontSize: 24 }} />} ariaLabel="Previous video" />
               <div className="w-6 h-px bg-white/10" />
@@ -230,8 +254,15 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                 active={isMenuOpen}
               />
               
-              {isMenuOpen && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-48 bg-neutral-900/95 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] py-1.5 z-50 flex flex-col text-[14px] border border-white/10 overflow-hidden animate-in zoom-in-95 slide-in-from-bottom-2 duration-200">
+              <AnimatePresence>
+                {isMenuOpen && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-48 bg-neutral-900/95 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] py-1.5 z-50 flex flex-col text-[14px] border border-white/10 overflow-hidden"
+                  >
                   <button 
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }} 
                     className="flex items-center gap-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent"
@@ -245,10 +276,11 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                   >
                     <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} /> Report Video
                   </button>
-                </div>
-              )}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
+          </motion.div>
         </div>
 
       </div>

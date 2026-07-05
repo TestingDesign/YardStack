@@ -1,10 +1,34 @@
 import type { ReactNode } from 'react'
+import { motion } from 'framer-motion'
 import { Star, Mic, ChevronRight } from 'lucide-react'
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  }
+}
 
 export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode }) {
   return (
-    <div className="flex flex-col gap-4 w-full">
-      <div className="bg-white p-4">
+    <motion.div 
+      variants={containerVariants} 
+      initial="hidden" 
+      whileInView="visible" 
+      viewport={{ once: true, margin: "50px" }}
+      className="flex flex-col gap-4 w-full"
+    >
+      <motion.div variants={itemVariants} className="bg-white p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-[12px] font-black text-[#1A1A2E] tracking-wide">
             Hiring for Open Plots
@@ -71,9 +95,9 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-white p-4">
+      <motion.div variants={itemVariants} className="bg-white p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-[12px] font-black text-[#1A1A2E] tracking-wide">
             Upskill Your Career
@@ -125,11 +149,11 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      {adsContent}
+      {adsContent && <motion.div variants={itemVariants}>{adsContent}</motion.div>}
 
-      <div className="bg-white p-4">
+      <motion.div variants={itemVariants} className="bg-white p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-[12px] font-black text-[#1A1A2E] tracking-wide">
             Upcoming RED Conversation
@@ -162,9 +186,9 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
-      <div className="bg-white p-4">
+      <motion.div variants={itemVariants} className="bg-white p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-[12px] font-black text-[#1A1A2E] tracking-wide">
             Featured Companies
@@ -207,7 +231,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   )
 }

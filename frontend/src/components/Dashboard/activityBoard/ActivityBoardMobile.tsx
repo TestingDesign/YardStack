@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef, memo, useEffect } from 'react'
+import React, { useState, useCallback, useRef, memo } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
@@ -18,6 +19,23 @@ import { ACTIVITY_ITEMS, type ActivityItem } from './data'
 
 const ITEMS_PER_PAGE = 8
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 }
+  }
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  }
+}
+
 interface ActivityCardProps {
   item: ActivityItem
   index: number
@@ -30,17 +48,13 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
   const [tooltipPos, setTooltipPos] = useState<'top' | 'bottom'>(index === 0 ? 'bottom' : 'top')
-  const [isVisible, setIsVisible] = useState(false)
 
   const startX = useRef(0)
   const initialOffset = useRef(0)
   const maxSwipe = 80
   const saveBtnRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), index * 50)
-    return () => clearTimeout(timer)
-  }, [index])
+
 
   const handleTouchStart = (e: React.TouchEvent) => {
     if (isExpanded) onToggle()
@@ -85,11 +99,12 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
     }
   }
 
+
   return (
-    <div 
-      className={`relative mb-2.5 transition-all duration-500 ease-out transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-      }`}
+    <motion.div 
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className="relative mb-2.5"
     >
       <div className="relative z-10 rounded-[8px] group/card">
         <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-[8px] flex flex-col items-center justify-center text-white z-0 overflow-hidden">
@@ -241,12 +256,16 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
         </div>
       </div>
 
-      <div
-        className={`transition-all duration-500 ease-in-out overflow-hidden transform origin-top ${
-          isExpanded ? 'max-h-[400px] opacity-100 scale-y-100' : 'max-h-0 opacity-0 scale-y-95'
-        }`}
-      >
-        <div className="mx-2 p-4 pt-5 -mt-2 bg-gradient-to-b from-gray-50/80 to-white rounded-b-[8px] border border-t-0 border-gray-100 flex flex-col relative z-0 shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
+      <AnimatePresence>
+      {isExpanded && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 24 }}
+          className="overflow-hidden"
+        >
+          <div className="mx-2 p-4 pt-5 -mt-2 bg-gradient-to-b from-gray-50/80 to-white rounded-b-[8px] border border-t-0 border-gray-100 flex flex-col relative z-0 shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
           <div className="flex items-center gap-1.5 mb-3 text-[11px] font-bold text-[#1f1633]">
             <BusinessCenterIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1]" />
             Role Overview
@@ -301,8 +320,10 @@ const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onTog
             </button>
           </div>
         </div>
-      </div>
-    </div>
+        </motion.div>
+      )}
+      </AnimatePresence>
+    </motion.div>
   )
 })
 
@@ -401,7 +422,13 @@ export default function ActivityBoardMobile() {
             <p className="text-xs text-gray-500">There are no matching items in this category.</p>
           </div>
         ) : (
-          <div className="flex flex-col">
+          <motion.div 
+            variants={containerVariants} 
+            initial="hidden" 
+            whileInView="visible" 
+            viewport={{ once: true, margin: "50px" }}
+            className="flex flex-col"
+          >
             {displayedItems.map((item, index) => (
               <React.Fragment key={item.id}>
                 <ActivityCard 
@@ -416,7 +443,7 @@ export default function ActivityBoardMobile() {
               </React.Fragment>
             ))}
             <SponsoredBlock />
-          </div>
+          </motion.div>
         )}
 
         {hasMore && (

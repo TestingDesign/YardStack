@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef, useCallback, useEffect } from 'react'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
+import FeaturedListingCard from './FeaturedListingCard'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
 import { CircularProgress } from '@mui/material'
@@ -54,6 +56,28 @@ export default function PodcastActiveEpisodeDesktop({
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const perPage = 6
+  
+  const sliderRef = useRef<HTMLDivElement>(null)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+
+  const handleScroll = useCallback(() => {
+    if (sliderRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
+      setCanScrollLeft(scrollLeft > 5)
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 24)
+    }
+  }, [])
+
+  useEffect(() => {
+    handleScroll()
+    const timer = setTimeout(() => handleScroll(), 50)
+    window.addEventListener('resize', handleScroll)
+    return () => { clearTimeout(timer); window.removeEventListener('resize', handleScroll) }
+  }, [handleScroll, filteredWithoutTop])
+
+  const scrollRight = () => sliderRef.current?.scrollBy({ left: 280, behavior: 'smooth' })
+  const scrollLeft  = () => sliderRef.current?.scrollBy({ left: -280, behavior: 'smooth' })
   
   const displayedCount = page * perPage
   const displayedVideos = filteredWithoutTop.slice(0, displayedCount)
@@ -113,19 +137,82 @@ export default function PodcastActiveEpisodeDesktop({
               </div>
             </div>
 
-            <div className="mt-1 flex flex-col gap-2">
+            <div className="mt-8 flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-black text-gray-900">All Real Estate Episodes</h3>
+                <h3 className="text-[18px] font-black text-gray-900">Up Next</h3>
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-medium text-gray-500">Autoplay</span>
+                  <button 
+                    type="button"
+                    onClick={() => setAutoplay(v => !v)}
+                    className={`relative w-11 h-6 rounded-full transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 ${
+                      autoplay ? 'bg-purple-600' : 'bg-gray-200'
+                    }`}
+                    aria-label="Toggle autoplay"
+                  >
+                    <span 
+                      className={`absolute top-[2px] left-[2px] w-[20px] h-[20px] bg-white rounded-full shadow-sm transition-transform duration-300 ${
+                        autoplay ? 'translate-x-[20px]' : 'translate-x-0'
+                      }`}
+                    />
+                  </button>
+                </div>
+              </div>
+              <div className="relative group/slider w-full mt-1">
+                {canScrollLeft && (
+                  <div className="absolute left-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto">
+                      <button
+                        onClick={scrollLeft}
+                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
+                        aria-label="Scroll left"
+                      >
+                        <ChevronLeft size={16} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                <div
+                  ref={sliderRef}
+                  onScroll={handleScroll}
+                  className="flex gap-3 overflow-x-auto pb-2 scroll-px-0 snap-x snap-mandatory hide-scrollbar"
+                >
+                  {filteredWithoutTop.slice(0, 10).map((ep, idx) => (
+                    <div key={ep.id} className="min-w-[200px] w-[200px] snap-start relative pt-2 pl-1">
+                      <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    </div>
+                  ))}
+                </div>
+
+                {canScrollRight && (
+                  <div className="absolute right-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-auto">
+                      <button
+                        onClick={scrollRight}
+                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
+                        aria-label="Scroll right"
+                      >
+                        <ChevronRight size={16} />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-8 flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[18px] font-black text-gray-900">More Episodes</h3>
               </div>
               
               {viewMode === 'grid' ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  gap-4 pt-1">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-1">
                   {displayedVideos.map((ep, idx) => (
                     <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                   ))}
                   {isLoading && (
                     <>
-                                className="group flex items-center gap-2 px-7 py-2.5 rounded-lg bg-white border border-gray-300 text-[13px] font-bold text-gray-700 active:bg-gray-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:shadow-sm disabled:hover:bg-white disabled:hover:text-gray-700 disabled:hover:border-gray-300"
                       <DesktopEpisodeSkeleton />
                       <DesktopEpisodeSkeleton />
                     </>
@@ -175,32 +262,8 @@ export default function PodcastActiveEpisodeDesktop({
           </div>
         </div>
 
-        <div className="w-full xl:w-[400px] shrink-0 flex flex-col mt-4 xl:mt-0">
-          <div className="flex items-center justify-between mb-5 px-2">
-            <h3 className="text-[18px] font-black text-gray-900">Up Next</h3>
-            <div className="flex items-center gap-2">
-              <span className="text-[13px] font-medium text-gray-500">Autoplay</span>
-              <button 
-                type="button"
-                onClick={() => setAutoplay(v => !v)}
-                className={`relative w-11 h-6 rounded-full transition-colors duration-300 outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500 ${
-                  autoplay ? 'bg-purple-600' : 'bg-gray-200'
-                }`}
-                aria-label="Toggle autoplay"
-              >
-                <span 
-                  className={`absolute top-[2px] left-[2px] w-[20px] h-[20px] bg-white rounded-full shadow-sm transition-transform duration-300 ${
-                    autoplay ? 'translate-x-[20px]' : 'translate-x-0'
-                  }`}
-                />
-              </button>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2">
-            {filteredWithoutTop.slice(0, 10).map((ep, idx) => (
-              <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
-            ))}
-          </div>
+        <div className="w-full xl:w-[360px] shrink-0 flex flex-col mt-4 xl:mt-0 gap-4">
+          <FeaturedListingCard episode={activeEpisode} />
         </div>
 
       </div>

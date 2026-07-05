@@ -53,10 +53,10 @@ const containerVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { type: "spring" as const, stiffness: 300, damping: 24 }
   }
 }
 
@@ -73,11 +73,10 @@ const MoreMenu = memo(function MoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
-          open
+        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${open
             ? 'bg-purple-100 text-purple-700 shadow-inner'
             : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
-        }`}
+          }`}
         aria-label="More options"
         aria-expanded={open}
         aria-haspopup="menu"
@@ -153,16 +152,15 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
     <motion.article
       variants={itemVariants}
       whileHover={{ y: -2, scale: 1.01 }}
-      className={`card-shimmer group flex flex-col cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${
-        moreOpen ? 'z-50 relative' : ''
-      }`}
+      className={`card-shimmer group flex flex-col cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${moreOpen ? 'z-50 relative' : ''
+        }`}
       onClick={() => onPlay(video)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') { 
-          e.preventDefault() 
-          onPlay(video) 
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onPlay(video)
         }
       }}
     >
@@ -273,44 +271,44 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
   const activeIndex = (Math.round(-rotation / 72) % 5 + 5) % 5
 
   return (
-    <motion.div 
+    <motion.div
       variants={itemVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg" 
+      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg"
       style={{ perspective: '1200px' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <button 
-        onClick={handlePrev} 
+      <button
+        onClick={handlePrev}
         className="absolute left-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
       >
         <ChevronLeft size={16} />
       </button>
-      
-      <div 
-        className="relative w-full max-w-[800px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+
+      <div
+        className="relative w-full max-w-[800px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{ transformStyle: 'preserve-3d', transform: `translateZ(-280px) rotateY(${rotation}deg)` }}
       >
         {items.map((video, idx) => {
           const isActive = idx === activeIndex
           const cardAngle = idx * 72
-          
+
           let diff = idx - activeIndex
           if (diff > 2) diff -= 5
           if (diff < -2) diff += 5
           const absDiff = Math.abs(diff)
           const opacity = absDiff === 0 ? 1 : absDiff === 1 ? 0.7 : 0.2
-          
+
           return (
-            <div 
+            <div
               key={video.id}
               className={`absolute w-[160px] sm:w-[200px] aspect-[9/16] rounded-lg overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1' : 'border border-black/10'}`}
-              style={{ 
+              style={{
                 transform: `rotateY(${cardAngle}deg) translateZ(280px)`,
-                opacity 
+                opacity
               }}
               onClick={() => {
                 if (isActive) {
@@ -322,7 +320,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
             >
               <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-              
+
               {isActive && (
                 <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 hover:opacity-100 transition-opacity duration-200">
                   <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 hover:scale-110 transition-transform">
@@ -330,7 +328,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
                   </div>
                 </div>
               )}
-              
+
               <div className="absolute bottom-3 left-3 right-3 z-20">
                 <span className="inline-block px-1.5 py-0.5 mb-1.5 rounded-[3px] text-[9px] font-medium bg-black/60 backdrop-blur-md text-white uppercase tracking-wider border border-white/20">
                   {video.tag || 'Insight'}
@@ -346,8 +344,8 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
         })}
       </div>
 
-      <button 
-        onClick={handleNext} 
+      <button
+        onClick={handleNext}
         className="absolute right-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
       >
         <ChevronRight size={16} />
@@ -399,19 +397,19 @@ export default function SpotlightDesktop() {
     ? SPOTLIGHT_VIDEOS.findIndex((v) => v.id === activeVideo.id)
     : -1
 
-const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-20px" }}
-      transition={{ duration: 0.6, delay, ease: [0.25, 0.25, 0, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-};
+  const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-20px" }}
+        transition={{ duration: 0.6, delay, ease: [0.25, 0.25, 0, 1] }}
+        className={className}
+      >
+        {children}
+      </motion.div>
+    );
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
@@ -425,7 +423,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
         </motion.div>
 
         <div className="flex-1 flex flex-col xl:flex-row gap-6 px-2 py-2 max-w-[1400px] w-full mx-auto">
-          
+
           <main className="flex-1 min-w-0 flex flex-col gap-4">
             <section>
               <CoverflowCarousel videos={filtered} onPlay={setActiveVideo} />
@@ -443,10 +441,10 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
 
               {displayedVideos.length > 0 ? (
                 <>
-                  <motion.div 
-                    variants={containerVariants} 
-                    initial="hidden" 
-                    whileInView="visible" 
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
                     viewport={{ once: true, margin: "50px" }}
                     className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2"
                   >
@@ -484,16 +482,16 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
           </main>
 
           <ScrollReveal className="w-full xl:w-[300px] shrink-0 flex flex-col gap-4 h-fit">
-            
+
             <div className="bg-white rounded-[8px] p-4 overflow-hidden relative">
               <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
-              
+
               <div className="flex items-center gap-2 mb-4 relative z-10">
                 <Flame size={16} className="text-orange-500" />
                 <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Spotlight Impact</h3>
               </div>
-              
-              <motion.div 
+
+              <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -507,7 +505,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
               </motion.div>
             </div>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               initial="hidden"
               whileInView="visible"
@@ -515,7 +513,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
               className="relative w-full rounded-lg overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-800 to-fuchsia-900 p-5 text-center flex flex-col items-center justify-center min-h-[220px] group"
             >
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
-              
+
               <div className="relative w-[110px] h-[150px] mx-auto -mt-6 mb-4 rounded-md overflow-hidden -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 border border-white/10">
                 <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="App preview" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
@@ -525,7 +523,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
                   </div>
                 </div>
               </div>
-              
+
               <div className="relative z-10 w-full mt-auto">
                 <h3 className="text-white text-[15px] font-medium mb-1 leading-tight">Create. Share.</h3>
                 <p className="text-white/80 text-[11px] font-medium mb-4 leading-tight">Join thousands showcasing ideas.</p>
@@ -536,7 +534,7 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               initial="hidden"
               whileInView="visible"
@@ -586,10 +584,10 @@ const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React
           </ScrollReveal>
         </div>
       </div>
-      
+
       <AnimatePresence>
         {activeVideo && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

@@ -132,14 +132,14 @@ function MobileMoreMenu({
 }
 
 const MobileStatCard = ({ icon, value, label, color, bg }: any) => (
-  <div className="p-2.5 rounded-[4px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-md transition-all group overflow-hidden relative bg-white cursor-pointer">
-    <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br ${bg}`}></div>
+  <div className="p-2.5 rounded-[4px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden relative bg-white">
+    <div className={`absolute inset-0 bg-gradient-to-br ${bg}`}></div>
     <div className="relative z-10 flex flex-col gap-1.5">
-      <div className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${color.replace('text-', 'bg-').replace('600', '50').replace('500', '50')} ${color}`}>
+      <div className={`w-7 h-7 rounded-md flex items-center justify-center ${color.replace('text-', 'bg-').replace('600', '50').replace('500', '50')} ${color}`}>
         {icon}
       </div>
       <div>
-        <span className={`block text-[15px] font-bold text-gray-900 group-hover:${color} transition-colors leading-tight mb-0.5`}>{value}</span>
+        <span className={`block text-[15px] font-bold text-gray-900 leading-tight mb-0.5`}>{value}</span>
         <span className="block text-[10px] font-medium text-gray-500">{label}</span>
       </div>
     </div>

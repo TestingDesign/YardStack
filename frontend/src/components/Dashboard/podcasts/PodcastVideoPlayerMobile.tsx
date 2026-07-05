@@ -255,20 +255,20 @@ export default function PodcastVideoPlayerMobile({
 
         {!hideTopOverlay && (
           <div 
-            className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
+            className={`absolute top-0 inset-x-0 pt-[1px] px-[1px] z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
               !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <div className="flex items-start gap-1.5 pointer-events-auto max-w-full">
+            <div className="flex items-center gap-1 sm:gap-1.5 pointer-events-auto max-w-full">
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); handleClose() }}
-                className="mt-[-2px] p-1 text-white/80 hover:text-white transition-colors outline-none cursor-pointer"
+                className="shrink-0 p-0.5 text-white/90 hover:text-white transition-colors outline-none cursor-pointer flex items-center justify-center"
                 aria-label="Close player"
               >
                 <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />
               </button>
-              <div className="flex flex-col gap-1 drop-shadow-lg pt-0.5">
+              <div className="min-w-0 drop-shadow-lg pr-2">
                 <h2 className="text-[12px] font-bold text-white leading-tight line-clamp-2">
                   {episode.title}
                 </h2>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LayoutGrid, List } from 'lucide-react'
+import { LayoutGrid, List, ChevronDown } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
@@ -8,6 +8,7 @@ import { CircularProgress } from '@mui/material'
 import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import { motion } from 'framer-motion'
+import FeaturedListingCardMobile from './FeaturedListingCardMobile'
 
 type EpisodeCardProps = {
   episode: PodcastEpisode
@@ -121,6 +122,10 @@ export default function PodcastActiveEpisodeMobile({
             </button>
           </div>
         </div>
+      </div>
+
+      <div className="px-3 py-3 border-b border-gray-100/80 bg-gray-50/30">
+        <FeaturedListingCardMobile episode={activeEpisode} />
       </div>
 
       <div className="px-2 pt-2 flex flex-col gap-2 border-b border-gray-100/80">

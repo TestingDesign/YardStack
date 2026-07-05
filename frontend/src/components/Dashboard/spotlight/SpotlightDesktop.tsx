@@ -483,7 +483,7 @@ export default function SpotlightDesktop() {
 
           <ScrollReveal className="w-full xl:w-[300px] shrink-0 flex flex-col gap-4 h-fit">
 
-            <div className="bg-white rounded-[8px] p-4 overflow-hidden relative">
+            <div className="bg-white rounded-[8px] p-2 overflow-hidden relative">
               <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
 
               <div className="flex items-center gap-2 mb-4 relative z-10">
@@ -527,7 +527,7 @@ export default function SpotlightDesktop() {
               <div className="relative z-10 w-full mt-auto">
                 <h3 className="text-white text-[15px] font-medium mb-1 leading-tight">Create. Share.</h3>
                 <p className="text-white/80 text-[11px] font-medium mb-4 leading-tight">Join thousands showcasing ideas.</p>
-                <button className="bg-white text-purple-700 text-[13px] font-medium px-4 py-2 rounded-md hover:-translate-y-0.5 transition-all w-full border-none cursor-pointer flex items-center justify-center gap-1.5">
+                <button className="bg-white text-purple-700 text-[13px] font-medium px-4 py-2 rounded-md hover:-translate-y-0.5 transition-all w-full border-none cursor-pointer flex items-center justify-center gap-1">
                   Start Now
                   <ChevronRight size={14} />
                 </button>

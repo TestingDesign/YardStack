@@ -124,7 +124,7 @@ export default function PodcastActiveEpisodeMobile({
         </div>
       </div>
 
-      <div className="px-3 py-3 border-b border-gray-100/80 bg-gray-50/30">
+      <div className="px-2 py-2">
         <FeaturedListingCardMobile episode={activeEpisode} />
       </div>
 

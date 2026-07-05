@@ -33,7 +33,7 @@ export default function FeaturedListingCardMobile({ episode }: { episode: Podcas
   const content = getCardContent(episode.category)
   
   return (
-    <div className="flex flex-col p-3.5 bg-white rounded-lg border border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] w-full transition-all">
+    <div className="flex flex-col p-2 bg-white rounded-[4px] border border-slate-200 shadow-[0_2px_8px_rgba(0,0,0,0.04)] w-full transition-all">
       <p className="text-[13px] text-slate-600 mb-3 leading-relaxed">
         {content.description}
       </p>

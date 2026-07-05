@@ -132,16 +132,16 @@ function MobileMoreMenu({
 }
 
 const MobileStatCard = ({ icon, value, label, color, bg }: any) => (
-  <div className="p-2.5 rounded-[4px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden relative bg-white">
+  <div className="p-2 rounded-[4px] border border-gray-100 shadow-[0_2px_10px_rgba(0,0,0,0.02)] overflow-hidden relative bg-white">
     <div className={`absolute inset-0 bg-gradient-to-br ${bg}`}></div>
-    <div className="relative z-10 flex flex-col gap-1.5">
-      <div className={`w-7 h-7 rounded-md flex items-center justify-center ${color.replace('text-', 'bg-').replace('600', '50').replace('500', '50')} ${color}`}>
-        {icon}
+    <div className="relative z-10 flex flex-col gap-1">
+      <div className="flex items-center gap-1.5">
+        <div className={`w-6 h-6 shrink-0 rounded-md flex items-center justify-center ${color.replace('text-', 'bg-').replace('600', '50').replace('500', '50')} ${color}`}>
+          {icon}
+        </div>
+        <span className="text-[13px] font-bold text-gray-900 leading-none tracking-tight">{value}</span>
       </div>
-      <div>
-        <span className={`block text-[15px] font-bold text-gray-900 leading-tight mb-0.5`}>{value}</span>
-        <span className="block text-[10px] font-medium text-gray-500">{label}</span>
-      </div>
+      <span className="block text-[9px] font-medium text-gray-500 leading-tight pl-[2px]">{label}</span>
     </div>
   </div>
 )
@@ -398,7 +398,7 @@ export default function SpotlightMobile() {
             </MobileScrollReveal>
 
             <MobileScrollReveal className="mt-2 mx-2">
-              <div className="bg-white rounded-[8px] p-4 overflow-hidden relative">
+              <div className="bg-white rounded-[8px] p-2 overflow-hidden relative">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-purple-500/10 blur-2xl rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none" />
                 
                 <div className="flex items-center gap-1.5 mb-3 relative z-10">
@@ -406,11 +406,11 @@ export default function SpotlightMobile() {
                   <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Spotlight Impact</h3>
                 </div>
                 
-                <div className="grid grid-cols-2 gap-2 relative z-10">
-                  <MobileStatCard icon={<Eye size={14} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelMobile} color={SPOTLIGHT_IMPACT_STATS[0].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
-                  <MobileStatCard icon={<Flame size={14} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelMobile} color={SPOTLIGHT_IMPACT_STATS[1].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
-                  <MobileStatCard icon={<Users size={14} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelMobile} color={SPOTLIGHT_IMPACT_STATS[2].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
-                  <MobileStatCard icon={<TrendingUp size={14} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelMobile} color={SPOTLIGHT_IMPACT_STATS[3].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
+                <div className="grid grid-cols-4 gap-1 relative z-10">
+                  <MobileStatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelMobile} color={SPOTLIGHT_IMPACT_STATS[0].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
+                  <MobileStatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelMobile} color={SPOTLIGHT_IMPACT_STATS[1].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
+                  <MobileStatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelMobile} color={SPOTLIGHT_IMPACT_STATS[2].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
+                  <MobileStatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelMobile} color={SPOTLIGHT_IMPACT_STATS[3].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
                 </div>
               </div>
             </MobileScrollReveal>

@@ -11,7 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
-
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 import PodcastTabs from './PodcastTabs'
 import PodcastActiveEpisodeDesktop from './PodcastActiveEpisodeDesktop'
@@ -51,6 +51,32 @@ const STYLES = `
     scrollbar-width: none;
   }
 `
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.8 } 
+  },
+}
+
+const swipeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 250, damping: 20 } 
+  },
+}
 
 const MoreMenu = memo(function MoreMenu({
   open, menuRef, onToggle, onAction,
@@ -175,11 +201,13 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   const speakerInitial = episode.speaker ? episode.speaker.charAt(0).toUpperCase() : '?'
 
   return (
-    <article
-      className={`card-shimmer group flex flex-col rounded-lg overflow-visible cursor-pointer transition-all duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 opacity-0 animate-swipe-up ${
+    <motion.article
+      variants={itemVariants}
+      whileHover={{ y: -2 }}
+      whileTap={{ scale: 0.98 }}
+      className={`card-shimmer group flex flex-col rounded-lg overflow-visible cursor-pointer transition-colors duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -249,7 +277,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
           onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
         />
       </div>
-    </article>
+    </motion.article>
   )
 })
 
@@ -289,11 +317,12 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
   }
 
   return (
-    <article
-      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 opacity-0 animate-swipe-up ${
+    <motion.article
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 ${
         moreOpen ? 'z-50 relative' : ''
       }`}
-      style={{ animationDelay: `${index * 60}ms` }}
       onClick={() => onPlay(episode)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -356,7 +385,7 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
           onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
         />
       </div>
-    </article>
+    </motion.article>
   )
 })
 
@@ -371,9 +400,10 @@ function StatCard({
   delay?: number
 }) {
   return (
-    <div
-      className={`p-2.5 rounded-md ${bg} flex items-center gap-2 transition-transform duration-200 hover:-translate-y-0.5 opacity-0 animate-swipe-up`}
-      style={{ animationDelay: `${delay}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileHover={{ y: -2 }}
+      className={`p-2.5 rounded-md ${bg} flex items-center gap-2 transition-colors duration-200`}
     >
       <div className={`w-6 h-6 ${color} flex items-center justify-center shrink-0`}>
         {icon}
@@ -382,13 +412,16 @@ function StatCard({
         <span className="text-[14px] font-medium text-gray-900 leading-none tracking-tight">{value}</span>
         <span className="text-[10px] font-medium text-gray-500 truncate mt-0.5">{label}</span>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
 function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2 mb-2 opacity-0 animate-swipe-up">
+    <motion.div 
+      variants={itemVariants}
+      className="flex items-center gap-2 mb-2"
+    >
       <div className="flex items-center justify-center">
         {icon}
       </div>
@@ -398,7 +431,7 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
           {badge}
         </span>
       )}
-    </div>
+    </motion.div>
   )
 }
 
@@ -553,9 +586,12 @@ export default function PodcastDesktop() {
 
         <div className="flex-1 flex flex-col xl:flex-row gap-4 px-2 py-2 max-w-[1400px] w-full mx-auto">
           <main className="flex-1 min-w-0 flex flex-col gap-2">
-              <div
-                className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer transition-transform duration-300 hover:-translate-y-0.5 opacity-0 animate-swipe-up border border-gray-100 shadow-sm"
-                style={{ animationDelay: '50ms' }}
+              <motion.div
+                variants={swipeUpVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "50px" }}
+                className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer border border-gray-100 shadow-sm"
                 onClick={() => setActiveEpisode(filtered[0])}
                 onMouseEnter={handleFeaturedMouseEnter}
                 onMouseLeave={handleFeaturedMouseLeave}
@@ -628,9 +664,15 @@ export default function PodcastDesktop() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </motion.div>
 
-            <section className="w-full flex flex-col gap-2 bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '100ms' }}>
+            <motion.section 
+              variants={containerVariants}
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "50px" }}
+              className="w-full flex flex-col gap-2 bg-white rounded-lg p-4 border border-gray-50"
+            >
               <SectionHeader
                 icon={<Flame className="text-orange-500" size={16} />}
                 title="Trending This Week"
@@ -690,9 +732,15 @@ export default function PodcastDesktop() {
                   </div>
                 )}
               </div>
-            </section>
+            </motion.section>
 
-            <section className="w-full flex flex-col bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '150ms' }}>
+            <motion.section 
+              variants={containerVariants}
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "50px" }}
+              className="w-full flex flex-col bg-white rounded-lg p-4 border border-gray-50"
+            >
               <SectionHeader
                 icon={
                   <div className="p-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[4px] text-white">
@@ -704,7 +752,7 @@ export default function PodcastDesktop() {
 
               {displayedEpisodes.length > 0 ? (
                 <>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+                  <motion.div variants={containerVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
                     {displayedEpisodes.map((ep, idx) => (
                       <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
@@ -715,10 +763,10 @@ export default function PodcastDesktop() {
                         <DesktopEpisodeSkeleton />
                       </>
                     )}
-                  </div>
+                  </motion.div>
 
                   {hasMore && (
-                    <div className="mt-6 flex items-center justify-center opacity-0 animate-swipe-up" style={{ animationDelay: '300ms' }}>
+                    <motion.div variants={itemVariants} className="mt-6 flex items-center justify-center">
                       <button
                         type="button"
                         onClick={handleLoadMore}
@@ -737,7 +785,7 @@ export default function PodcastDesktop() {
                           </>
                         )}
                       </button>
-                    </div>
+                    </motion.div>
                   )}
                 </>
               ) : (
@@ -751,26 +799,38 @@ export default function PodcastDesktop() {
                   </p>
                 </div>
               )}
-            </section>
+            </motion.section>
           </main>
 
           <aside className="w-full xl:w-[280px] shrink-0 flex flex-col gap-5 h-fit">
-            <div className="bg-white rounded-lg p-4 relative overflow-hidden opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '200ms' }}>
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "50px" }}
+              className="bg-white rounded-lg p-4 relative overflow-hidden border border-gray-50"
+            >
               <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
               <div className="flex items-center gap-2 mb-3 relative z-10">
                 <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Platform Highlights</h3>
               </div>
               <div className="grid grid-cols-2 gap-2 relative z-10">
-                <StatCard icon={<Mic size={14} />} value="12K+" label="Episodes" color="text-purple-600" bg="bg-purple-50" delay={0} />
-                <StatCard icon={<Users size={14} />} value="500+" label="Experts" color="text-orange-500" bg="bg-orange-50" delay={50} />
-                <StatCard icon={<Building2 size={14} />} value="35" label="Cities" color="text-blue-500" bg="bg-blue-50" delay={100} />
-                <StatCard icon={<Eye size={14} />} value="20M+" label="Views" color="text-green-600" bg="bg-emerald-50" delay={150} />
+                <StatCard icon={<Mic size={14} />} value="12K+" label="Episodes" color="text-purple-600" bg="bg-purple-50" />
+                <StatCard icon={<Users size={14} />} value="500+" label="Experts" color="text-orange-500" bg="bg-orange-50" />
+                <StatCard icon={<Building2 size={14} />} value="35" label="Cities" color="text-blue-500" bg="bg-blue-50" />
+                <StatCard icon={<Eye size={14} />} value="20M+" label="Views" color="text-green-600" bg="bg-emerald-50" />
               </div>
-            </div>
+            </motion.div>
 
             <AdvertisementPlaceholder />
 
-            <div className="bg-white rounded-lg p-4 opacity-0 animate-swipe-up border border-gray-50" style={{ animationDelay: '250ms' }}>
+            <motion.div 
+              variants={containerVariants}
+              initial="hidden" 
+              whileInView="visible" 
+              viewport={{ once: true, margin: "50px" }}
+              className="bg-white rounded-lg p-4 border border-gray-50"
+            >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Top Experts</h3>
@@ -787,8 +847,10 @@ export default function PodcastDesktop() {
                   { name: 'Rahul Prasad', role: 'Property Investment Expert', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80' },
                   { name: 'Neha Iyer', role: 'Real Estate Strategist', image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80' },
                 ].map((expert, idx) => (
-                  <div
+                  <motion.div
                     key={idx}
+                    variants={itemVariants}
+                    whileHover={{ y: -2 }}
                     className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-1.5 rounded-md transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
@@ -806,24 +868,26 @@ export default function PodcastDesktop() {
                     <div className="w-5 h-5 rounded-full flex items-center justify-center">
                       <ChevronRight size={12} className="text-gray-300 group-hover:text-purple-500 transition-colors" />
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </aside>
         </div>
       </div>
 
-      {activeEpisode && (
-        <PodcastActiveEpisodeDesktop
-          activeEpisode={activeEpisode}
-          setActiveEpisode={setActiveEpisode}
-          activeIdx={activeIdx}
-          filteredWithoutTop={filteredWithoutTop}
-          DesktopEpisodeCard={DesktopEpisodeCard}
-          HorizontalEpisodeCard={HorizontalEpisodeCard}
-        />
-      )}
+      <AnimatePresence>
+        {activeEpisode && (
+          <PodcastActiveEpisodeDesktop
+            activeEpisode={activeEpisode}
+            setActiveEpisode={setActiveEpisode}
+            activeIdx={activeIdx}
+            filteredWithoutTop={filteredWithoutTop}
+            DesktopEpisodeCard={DesktopEpisodeCard}
+            HorizontalEpisodeCard={HorizontalEpisodeCard}
+          />
+        )}
+      </AnimatePresence>
 
       {showPlaylistModal && (
         <CreatePlaylistModal onClose={() => setShowPlaylistModal(false)} />

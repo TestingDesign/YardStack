@@ -17,6 +17,7 @@ import {
   ProgressBar,
   HorizontalVolumeControl
 } from './PodcastVideoPlayerShared'
+import { motion } from 'framer-motion'
 
 export default function PodcastVideoPlayerMobile({
   episode,
@@ -67,7 +68,6 @@ export default function PodcastVideoPlayerMobile({
   }, [isPlaying])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     resetHideTimer()
     return () => {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
@@ -75,15 +75,22 @@ export default function PodcastVideoPlayerMobile({
   }, [isPlaying, resetHideTimer])
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPlaying(false)
     setProgress(0)
+
+    if (episode) {
+      setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.focus({ preventScroll: true })
+          containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
+    }
   }, [episode?.id])
 
   useEffect(() => {
     if (!isPlaying) {
       if (hideTimerRef.current) clearTimeout(hideTimerRef.current)
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setControlsVisible(true)
     }
   }, [isPlaying])
@@ -101,7 +108,6 @@ export default function PodcastVideoPlayerMobile({
     try {
       await document.exitFullscreen()
     } catch {
-      // ignore error on exit
     } finally {
       setIsFullscreen(false)
     }
@@ -202,11 +208,16 @@ export default function PodcastVideoPlayerMobile({
   const currentTime = fmtTime(Math.floor(progress * totalDuration))
 
   return (
-    <div className={`animate-in slide-in-from-top-4 fade-in duration-400 ${
+    <motion.div 
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+      transition={{ duration: 0.4, type: "spring", damping: 25, stiffness: 200 }}
+      className={
       isLandscape && !isFullscreen
         ? 'fixed inset-0 z-[9999] bg-[#05030a]'
         : 'w-full flex flex-col bg-[#05030a] shrink-0'
-    }`}>
+    }>
       
       <div 
         ref={containerRef}
@@ -242,7 +253,6 @@ export default function PodcastVideoPlayerMobile({
         />
 
 
-        {/* Fading top overlay – title only */}
         {!hideTopOverlay && (
           <div 
             className={`absolute top-0 inset-x-0 p-1.5 sm:p-2 z-30 flex items-start pointer-events-none transition-opacity duration-300 ${
@@ -344,6 +354,6 @@ export default function PodcastVideoPlayerMobile({
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

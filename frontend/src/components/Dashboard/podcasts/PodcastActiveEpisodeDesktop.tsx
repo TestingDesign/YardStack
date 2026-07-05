@@ -7,6 +7,7 @@ import ShareIcon from '@mui/icons-material/Share'
 import { CircularProgress } from '@mui/material'
 import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
+import { motion } from 'framer-motion'
 
 const DesktopEpisodeSkeleton = () => (
   <div className="flex flex-col rounded-2xl animate-pulse bg-white p-1 pb-2 shadow-sm border border-gray-100/50">
@@ -92,9 +93,13 @@ export default function PodcastActiveEpisodeDesktop({
   }
 
   return (
-    <div className="absolute inset-0 z-[100] bg-white animate-in fade-in zoom-in-95 duration-300 flex flex-col overflow-y-auto scrollbar-none">
-
-
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 200 }}
+      className="absolute inset-0 z-[100] bg-white flex flex-col overflow-y-auto scrollbar-none"
+    >
       <div className="flex-1 w-full max-w-[1500px] mx-auto p-4 flex flex-col xl:flex-row gap-4 lg:gap-4">
         <div className="flex-1 flex flex-col min-w-0">
           <div className="relative w-full bg-black rounded-lg overflow-hidden aspect-[16/9] lg:aspect-[2.2/1] shadow-[0_12px_32px_rgba(0,0,0,0.08),0_4px_12px_rgba(0,0,0,0.04)] shrink-0 group border border-gray-900/50">
@@ -123,7 +128,7 @@ export default function PodcastActiveEpisodeDesktop({
                     <h3 className="text-[16px] font-bold text-gray-900 leading-none tracking-tight">{activeEpisode.speaker}</h3>
                     {activeEpisode.verified && <VerifiedIcon sx={{ fontSize: 15 }} className="text-blue-500" />}
                   </div>
-                  <p className="text-[13px] text-gray-500 font-medium leading-none">{activeEpisode.role}</p>
+                  <p className="text-[12px] text-gray-500 font-medium leading-none">{activeEpisode.role}</p>
                 </div>
               </div>
 
@@ -203,7 +208,7 @@ export default function PodcastActiveEpisodeDesktop({
 
             <div className="mt-8 flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-black text-gray-900">More Episodes</h3>
+                <h3 className="text-[18px] font-black text-gray-900">All Real Estate Episodes</h3>
               </div>
               
               {viewMode === 'grid' ? (
@@ -262,11 +267,11 @@ export default function PodcastActiveEpisodeDesktop({
           </div>
         </div>
 
-        <div className="w-full xl:w-[360px] shrink-0 flex flex-col mt-4 xl:mt-0 gap-4">
+        <div className="w-full xl:w-[360px] shrink-0 flex flex-col mt-4 xl:mt-0 gap-4 sticky top-4 self-start">
           <FeaturedListingCard episode={activeEpisode} />
         </div>
 
       </div>
-    </div>
+    </motion.div>
   )
 }

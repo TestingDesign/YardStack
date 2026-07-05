@@ -16,6 +16,7 @@ import {
   ProgressBar,
   VerticalVolumeControl
 } from './PodcastVideoPlayerShared'
+import { motion } from 'framer-motion'
 
 export default function PodcastVideoPlayerDesktop({
   episode,
@@ -76,8 +77,13 @@ export default function PodcastVideoPlayerDesktop({
     setIsPlaying(false)
     setProgress(0)
 
-    if (episode && containerRef.current) {
-      containerRef.current.focus()
+    if (episode) {
+      setTimeout(() => {
+        if (containerRef.current) {
+          containerRef.current.focus({ preventScroll: true })
+          containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 100)
     }
   }, [episode?.id])
 
@@ -237,11 +243,15 @@ export default function PodcastVideoPlayerDesktop({
   )
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, scale: inline ? 0.98 : 1 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: inline ? 0.98 : 1 }}
+      transition={{ duration: 0.4, type: "spring", damping: 25, stiffness: 200 }}
       className={
         inline
-          ? 'relative w-full h-full bg-black/95 animate-in fade-in zoom-in-[0.98] duration-500'
-          : 'fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl animate-in fade-in duration-400 p-3 sm:p-5'
+          ? 'relative w-full h-full bg-black/95'
+          : 'fixed inset-0 z-[9000] flex items-center justify-center bg-black/95 backdrop-blur-xl p-3 sm:p-5'
       }
       onClick={(e) => {
         if (e.target === e.currentTarget && !inline) onClose()
@@ -319,6 +329,6 @@ export default function PodcastVideoPlayerDesktop({
 
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

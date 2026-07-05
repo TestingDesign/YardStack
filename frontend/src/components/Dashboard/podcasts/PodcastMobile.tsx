@@ -11,7 +11,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
-
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import PodcastTabs from './PodcastTabs'
 import PodcastActiveEpisodeMobile from './PodcastActiveEpisodeMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
@@ -24,6 +24,32 @@ const EXPERTS = [
   { name: 'Rahul Prasad', role: 'Property Investment Expert', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80' },
   { name: 'Neha Iyer',    role: 'Real Estate Strategist',   image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&q=80' },
 ]
+
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.05 },
+  },
+}
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.8 } 
+  },
+}
+
+const swipeUpVariants: Variants = {
+  hidden: { opacity: 0, y: 25 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { type: "spring", stiffness: 250, damping: 20 } 
+  },
+}
 
 function MobileMoreMenu({
   open, menuRef, onToggle, onAction,
@@ -86,9 +112,10 @@ const TrendingCard = memo(function TrendingCard({
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
   return (
-    <div
-      className="m-card-shimmer relative shrink-0 w-[calc(50%-4px)] flex flex-col gap-1.5 animate-in fade-in slide-in-from-right-4 fill-mode-both cursor-pointer group"
-      style={{ animationDelay: `${index * 60}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className="m-card-shimmer relative shrink-0 w-[calc(50%-4px)] flex flex-col gap-1.5 cursor-pointer group"
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
@@ -133,7 +160,7 @@ const TrendingCard = memo(function TrendingCard({
           {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 })
 
@@ -187,9 +214,10 @@ const EpisodeListCard = memo(function EpisodeListCard({
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
   return (
-    <div
-      className="m-card-shimmer group relative flex items-start gap-2 py-2 cursor-pointer animate-in fade-in slide-in-from-bottom-4 fill-mode-both hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-all duration-300"
-      style={{ animationDelay: `${index * 45}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className="m-card-shimmer group relative flex items-start gap-2 py-2 cursor-pointer hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-colors duration-300"
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
@@ -231,7 +259,7 @@ const EpisodeListCard = memo(function EpisodeListCard({
           onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
         />
       </div>
-    </div>
+    </motion.div>
   )
 })
 
@@ -245,9 +273,10 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
   return (
-    <div
-      className="m-card-shimmer group relative flex flex-col cursor-pointer animate-in fade-in slide-in-from-bottom-6 fill-mode-both"
-      style={{ animationDelay: `${index * 50}ms` }}
+    <motion.div
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+      className="m-card-shimmer group relative flex flex-col cursor-pointer"
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
@@ -278,7 +307,7 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
         {episode.verified && <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />}
       </div>
       <p className="text-[9.5px] text-gray-500 mt-0.5 truncate font-normal ml-5 px-0.5">{episode.role}</p>
-    </div>
+    </motion.div>
   )
 })
 
@@ -415,21 +444,29 @@ export default function PodcastMobile() {
           <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
         </div>
 
-        {activeEpisode ? (
-          <PodcastActiveEpisodeMobile
-            activeEpisode={activeEpisode}
-            setActiveEpisode={setActiveEpisode}
-            activeIdx={activeIdx}
-            filteredWithoutTop={filteredWithoutTop}
-            EpisodeListCard={EpisodeListCard}
-            EpisodeGridCard={EpisodeGridCard}
-          />
-        ) : (
-          <div className="flex-1 flex flex-col">
+        <AnimatePresence mode="wait">
+          {activeEpisode ? (
+            <PodcastActiveEpisodeMobile
+              key="active-episode"
+              activeEpisode={activeEpisode}
+              setActiveEpisode={setActiveEpisode}
+              activeIdx={activeIdx}
+              filteredWithoutTop={filteredWithoutTop}
+              EpisodeListCard={EpisodeListCard}
+              EpisodeGridCard={EpisodeGridCard}
+            />
+          ) : (
+            <motion.div 
+              key="list-view"
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="flex-1 flex flex-col"
+            >
 
           {!activeEpisode && filtered[0] && (
-            <div
-              className="mx-2 rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer transition-all duration-500 hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)] animate-in fade-in slide-in-from-bottom-6 duration-600 delay-100"
+            <motion.div
+              variants={swipeUpVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }}
+              className="mx-2 rounded-[4px] overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08),0_1px_4px_rgba(0,0,0,0.04)] border border-gray-100 group cursor-pointer hover:shadow-[0_12px_36px_rgba(124,58,237,0.14)]"
               onClick={() => setActiveEpisode(filtered[0])}
             >
               <div className="flex gap-0">
@@ -487,10 +524,10 @@ export default function PodcastMobile() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
 
-          <div className="mt-4 px-2">
+          <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-4 px-2">
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
@@ -538,14 +575,14 @@ export default function PodcastMobile() {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
 
           <div className="mt-2 mx-2">
             <AdvertisementBlock />
           </div>
 
           <div className="mt-4 mx-2">
-            <div className="p-2 rounded-[8px] bg-white animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="p-2 rounded-[8px] bg-white">
               <div className="flex items-center gap-1.5 mb-3">
                 <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
               </div>
@@ -556,10 +593,10 @@ export default function PodcastMobile() {
                   { icon: <Building2 size={14} />, value: '35', label: 'Cities', color: 'text-blue-500', bg: 'bg-blue-50/60', border: 'border-blue-100', delay: 120 },
                   { icon: <Eye size={14} />, value: '20M+', label: 'Views', color: 'text-green-600', bg: 'bg-green-50/60', border: 'border-green-100', delay: 180 },
                 ].map((s) => (
-                  <div 
+                  <motion.div 
                     key={s.label} 
-                    className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 animate-in fade-in fill-mode-both transition-all duration-300 hover:scale-[1.03] hover:shadow-md`}
-                    style={{ animationDelay: `${s.delay}ms` }}
+                    variants={itemVariants} whileTap={{ scale: 0.98 }}
+                    className={`p-2.5 rounded-[4px] ${s.bg} border ${s.border} flex items-center gap-2.5 hover:shadow-md`}
                   >
                     <div className={`w-8 h-8 ${s.color} flex items-center justify-center shrink-0`}>
                       {s.icon}
@@ -568,13 +605,13 @@ export default function PodcastMobile() {
                       <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
                       <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          <div className="mt-6">
+          <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-6">
             <div className="flex items-center justify-between mb-1 px-4">
               <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Top Experts </h3>
               <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
@@ -584,7 +621,7 @@ export default function PodcastMobile() {
 
             <div className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 w-full snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]">
               {EXPERTS.map((expert, idx) => (
-                <div key={idx} className="flex flex-col items-center gap-1 animate-in fade-in slide-in-from-bottom-4 fill-mode-both min-w-[72px]" style={{ animationDelay: `${idx * 70}ms` }}>
+                <motion.div key={idx} variants={itemVariants} className="flex flex-col items-center gap-1 min-w-[72px]">
                   <div className="relative">
                     <div className="m-expert-avatar w-12 h-12 rounded-full overflow-hidden shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-2 border-white">
                       <img src={expert.image} alt={expert.name} className="w-full h-full object-cover" />
@@ -595,12 +632,12 @@ export default function PodcastMobile() {
                     <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
                   </div>
                   <span className="text-[8.5px] font-medium text-gray-500 text-center leading-tight line-clamp-2 h-6 w-full">{expert.role}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mt-6 px-4 pb-8">
+          <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-6 px-4 pb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <List className="text-green-500 drop-shadow-sm" size={18} />
@@ -629,7 +666,7 @@ export default function PodcastMobile() {
             {displayedEpisodes.length > 0 ? (
               <>
                 {viewMode === 'grid' ? (
-                  <div className="grid grid-cols-2 gap-x-3 gap-y-5">
+                  <motion.div variants={containerVariants} className="grid grid-cols-2 gap-x-3 gap-y-5">
                     {displayedEpisodes.map((ep, idx) => (
                       <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
@@ -641,9 +678,9 @@ export default function PodcastMobile() {
                         <MobileEpisodeGridSkeleton />
                       </>
                     )}
-                  </div>
+                  </motion.div>
                 ) : (
-                  <div className="flex flex-col gap-3">
+                  <motion.div variants={containerVariants} className="flex flex-col gap-3">
                     {displayedEpisodes.map((ep, idx) => (
                       <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
                     ))}
@@ -654,11 +691,11 @@ export default function PodcastMobile() {
                         <MobileEpisodeListSkeleton />
                       </>
                     )}
-                  </div>
+                  </motion.div>
                 )}
 
                 {hasMore && (
-                  <div className="mt-6 flex items-center justify-center">
+                  <motion.div variants={itemVariants} className="mt-6 flex items-center justify-center">
                     <button
                       type="button"
                       onClick={handleLoadMore}
@@ -677,7 +714,7 @@ export default function PodcastMobile() {
                         </>
                       )}
                     </button>
-                  </div>
+                  </motion.div>
                 )}
               </>
             ) : (
@@ -691,9 +728,10 @@ export default function PodcastMobile() {
                 </p>
               </div>
             )}
-          </div>
-        </div>
-        )}
+          </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       {showPlaylistModal && (
         <CreatePlaylistModal onClose={() => setShowPlaylistModal(false)} />

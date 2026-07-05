@@ -7,6 +7,7 @@ import { CircularProgress } from '@mui/material'
 
 import PodcastVideoPlayerMobile from './PodcastVideoPlayerMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
+import { motion } from 'framer-motion'
 
 type EpisodeCardProps = {
   episode: PodcastEpisode
@@ -77,8 +78,13 @@ export default function PodcastActiveEpisodeMobile({
   }
 
   return (
-    <div className="relative w-full flex-1 bg-white animate-in fade-in duration-300 flex flex-col">
-
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.3, type: "spring", damping: 25, stiffness: 200 }}
+      className="relative w-full flex-1 bg-white flex flex-col"
+    >
       <div className="relative w-full bg-black shrink-0 aspect-[16/9] lg:aspect-[2.2/1]">
 
         <PodcastVideoPlayerMobile
@@ -223,6 +229,6 @@ export default function PodcastActiveEpisodeMobile({
         )}
       </div>
 
-    </div>
+    </motion.div>
   )
 }

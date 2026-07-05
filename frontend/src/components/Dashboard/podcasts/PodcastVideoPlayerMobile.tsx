@@ -15,7 +15,7 @@ import {
   fmtTime,
   parseDuration,
   ProgressBar,
-  HorizontalVolumeControl
+  VerticalVolumeControl
 } from './PodcastVideoPlayerShared'
 import { motion } from 'framer-motion'
 
@@ -329,28 +329,30 @@ export default function PodcastVideoPlayerMobile({
         </div>
 
         <div 
-          className={`absolute bottom-0 inset-x-0 z-30 px-2 pb-2 pt-6 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${
+          className={`absolute bottom-0 inset-x-0 z-30 px-1 pb-[2px] pt-6 bg-gradient-to-t from-black via-black/80 to-transparent transition-opacity duration-300 ${
             !isPlaying || controlsVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
           }`}
         >
-          <div className="flex items-center justify-between text-white text-[12px] font-medium mb-1.5 px-1 drop-shadow-md">
-            <span className="tabular-nums text-white/90 tracking-wide">
-              {currentTime} <span className="text-white/40 mx-1">/</span> {episode.duration}
+          <div className="flex items-center justify-between text-white text-[11px] font-medium mb-[1px] px-1 drop-shadow-md">
+            <span className="tabular-nums text-white/90 tracking-wide mt-1">
+              {currentTime} <span className="text-white/40 mx-0.5">/</span> {episode.duration}
             </span>
-            <div className="flex items-center gap-3 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
-              <HorizontalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+            <div className="flex items-end gap-1.5 pointer-events-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="scale-[0.75] origin-bottom -mb-[2px]">
+                <VerticalVolumeControl volume={volume} muted={muted} setVolume={setVolume} setMuted={setMuted} />
+              </div>
               <button 
                 type="button" 
                 onClick={() => handleToggleFullscreen()} 
-                className="text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
+                className="mb-[1px] text-white/80 hover:text-[#c2ef4e] active:text-[#c2ef4e] hover:scale-110 active:scale-95 transition-transform outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-sm p-0.5"
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
               >
-                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 20 }} /> : <FullscreenIcon sx={{ fontSize: 20 }} />}
+                {isFullscreen ? <FullscreenExitIcon sx={{ fontSize: 18 }} /> : <FullscreenIcon sx={{ fontSize: 18 }} />}
               </button>
             </div>
           </div>
-          <div className="w-full px-2" onClick={(e) => e.stopPropagation()}>
-             <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
+          <div className="w-full px-1" onClick={(e) => e.stopPropagation()}>
+             <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} compact={true} />
           </div>
         </div>
       </div>

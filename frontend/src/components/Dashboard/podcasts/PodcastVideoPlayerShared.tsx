@@ -218,9 +218,8 @@ export const ProgressBar = memo(function ProgressBar({
       </div>
 
       <div
-        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full shadow-[0_0_12px_rgba(194,239,78,0.9)] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-          isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
-        }`}
+        className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full shadow-[0_0_12px_rgba(194,239,78,0.9)] transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${isActive ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+          }`}
         style={{
           left: `${displayPct * 100}%`,
           width: compact ? '12px' : '14px',

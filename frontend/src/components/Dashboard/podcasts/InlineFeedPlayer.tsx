@@ -53,7 +53,7 @@ export default function InlineFeedPlayer({ episode }: { episode: PodcastEpisode 
       </button>
 
 
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-white/20">
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/20">
         <div 
           className="h-full bg-red-600"
           style={{ width: `${progress * 100}%`, transition: 'width 1s linear' }}

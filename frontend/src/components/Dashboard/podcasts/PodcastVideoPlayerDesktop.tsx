@@ -186,7 +186,7 @@ export default function PodcastVideoPlayerDesktop({
       onMouseLeave={() => setIsHoveringControls(false)}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="w-full px-2 -mb-1 z-40 relative">
+      <div className="w-full px-2 mb-1 z-40 relative">
         <ProgressBar progress={progress} buffered={Math.min(1, progress + 0.15)} onChange={setProgress} />
       </div>
 

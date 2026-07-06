@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import { Mic, Users, Building2, Eye, Flame, ChevronRight, LayoutGrid, TrendingUp, List } from 'lucide-react'
+import { Mic, Users, Building2, Eye, Flame, ChevronLeft, ChevronRight, LayoutGrid, TrendingUp, List } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
@@ -590,6 +590,26 @@ export default function PodcastDesktop() {
   const perPage = 10
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const trendingScrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  const updateTrendingArrows = useCallback(() => {
+    const el = trendingScrollRef.current
+    if (!el) { setCanScrollLeft(false); setCanScrollRight(false); return }
+    setCanScrollLeft(el.scrollLeft > 1)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }, [])
+
+  useEffect(() => {
+    const el = trendingScrollRef.current
+    if (!el) return
+    updateTrendingArrows()
+    el.addEventListener('scroll', updateTrendingArrows, { passive: true })
+    const ro = new ResizeObserver(updateTrendingArrows)
+    ro.observe(el)
+    return () => { el.removeEventListener('scroll', updateTrendingArrows); ro.disconnect() }
+  }, [updateTrendingArrows])
 
   const activeIdx = activeEpisode
     ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
@@ -747,25 +767,59 @@ export default function PodcastDesktop() {
                 title="Trending This Week"
               />
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-3">
-                {filteredWithoutTop.slice(0, 6).map((ep) => {
-                  const actualIdx = filtered.findIndex((e) => e.id === ep.id);
-                  const rank = actualIdx + 1;
-                  
-                  return (
-                    <div key={ep.id} className="relative pt-2 pl-2">
-                      <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
-                        rank === 1 ? 'bg-amber-100 text-amber-700' :
-                        rank === 2 ? 'bg-gray-100 text-gray-700' :
-                        rank === 3 ? 'bg-orange-100 text-orange-700' :
-                        'bg-purple-100 text-purple-700'
-                      }`}>
-                        {rank}
+              <div className="relative mt-3">
+                {/* Left arrow – only shown when there's content to scroll left */}
+                {canScrollLeft && (
+                  <button
+                    onClick={() => {
+                      const el = trendingScrollRef.current;
+                      if (el) el.scrollBy({ left: -280, behavior: 'smooth' });
+                    }}
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                    aria-label="Scroll trending left"
+                  >
+                    <ChevronLeft size={16} />
+                  </button>
+                )}
+
+                {/* Right arrow – only shown when there's content to scroll right */}
+                {canScrollRight && (
+                  <button
+                    onClick={() => {
+                      const el = trendingScrollRef.current;
+                      if (el) el.scrollBy({ left: 280, behavior: 'smooth' });
+                    }}
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                    aria-label="Scroll trending right"
+                  >
+                    <ChevronRight size={16} />
+                  </button>
+                )}
+
+                <div
+                  ref={trendingScrollRef}
+                  className="flex gap-4 overflow-x-auto hide-scrollbar pb-1"
+                  style={{ scrollSnapType: 'x mandatory' }}
+                >
+                  {filteredWithoutTop.slice(0, 6).map((ep) => {
+                    const actualIdx = filtered.findIndex((e) => e.id === ep.id);
+                    const rank = actualIdx + 1;
+                    
+                    return (
+                      <div key={ep.id} className="relative pt-2 pl-2 flex-shrink-0" style={{ width: '220px', scrollSnapAlign: 'start' }}>
+                        <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
+                          rank === 1 ? 'bg-amber-100 text-amber-700' :
+                          rank === 2 ? 'bg-gray-100 text-gray-700' :
+                          rank === 3 ? 'bg-orange-100 text-orange-700' :
+                          'bg-purple-100 text-purple-700'
+                        }`}>
+                          {rank}
+                        </div>
+                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
                       </div>
-                      <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </motion.section>
 

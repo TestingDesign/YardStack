@@ -37,7 +37,7 @@ export default function InlineEpisodePlayer({
           />
         </div>
         
-        <div className="w-full md:w-[350px] lg:w-[400px] p-6 flex flex-col justify-between bg-gradient-to-br from-purple-50/30 to-fuchsia-50/20">
+        <div className="w-full md:w-[350px] lg:w-[400px] p-4 flex flex-col justify-between bg-gradient-to-br from-purple-50/30 to-fuchsia-50/20">
           <div>
             <h2 className="text-[20px] font-bold text-gray-900 leading-tight mb-2">
               {activeEpisode.title}

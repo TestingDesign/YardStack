@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LayoutGrid, List, ChevronDown } from 'lucide-react'
+import { LayoutGrid, List } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'

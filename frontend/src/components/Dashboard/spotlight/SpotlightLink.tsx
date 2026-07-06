@@ -106,8 +106,8 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsAnimating(true)
-      setTimeout(() => setIsAnimating(false), 1500)
-    }, 6000)
+      setTimeout(() => setIsAnimating(false), 1000)
+    }, 5000)
     return () => clearInterval(interval)
   }, [])
 
@@ -118,7 +118,7 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
   return (
     <div className="relative group/wrapper inline-block">
       <div 
-        className={`absolute -inset-0.5 rounded-[4px] blur-md opacity-0 transition-opacity duration-700 
+        className={`absolute -inset-0.5 rounded-[4px] blur-md opacity-0 transition-opacity duration-300 
           ${theme.glow} 
           ${isAnimating ? 'opacity-40' : 'group-hover/wrapper:opacity-30'}`}
       />
@@ -126,10 +126,10 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
       <button
         className={`
           group relative flex items-center justify-center gap-1.5 overflow-hidden
-          px-3.5 py-1.5 sm:px-5 sm:py-2
+          px-3.5 py-1.5 sm:px-4 sm:py-2
           rounded-[4px] border border-white/10
           text-white font-extrabold text-[11px] sm:text-[13px] tracking-wide
-          transition-all duration-300 ease-out active:scale-95
+          transition-all duration-200 ease-out active:scale-95
           bg-gradient-to-r ${theme.gradient}
           ${theme.shadow} hover:shadow-xl hover:-translate-y-0.5
           ${isAnimating ? `ring-2 ring-offset-1 ring-offset-transparent ${theme.ring} -translate-y-0.5` : 'ring-0 ring-offset-0'}
@@ -138,7 +138,7 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
       >
         <IconComponent
           strokeWidth={2.5}
-          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 transition-transform duration-500 ease-out 
+          className={`w-3.5 h-3.5 sm:w-4 sm:h-4 relative z-10 transition-transform duration-200 ease-out 
             ${isAnimating ? 'scale-110 -rotate-3' : 'group-hover:scale-110 group-hover:-rotate-3'}`}
         />
         
@@ -148,7 +148,7 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
         
         <ArrowRight
           strokeWidth={2.5}
-          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 relative z-10 transition-transform duration-500 ease-out
+          className={`w-3 h-3 sm:w-3.5 sm:h-3.5 relative z-10 transition-transform duration-200 ease-out
             ${isAnimating ? 'translate-x-1' : 'group-hover:translate-x-1'}`}
         />
 
@@ -156,7 +156,7 @@ export default function SpotlightLink({ linkData }: SpotlightLinkProps) {
 
         {isAnimating && (
           <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[4px]">
-            <div className="absolute inset-0 animate-[spotlightShimmer_1.2s_cubic-bezier(0.4,0,0.2,1)_forwards]">
+            <div className="absolute inset-0 animate-[spotlightShimmer_0.8s_cubic-bezier(0.4,0,0.2,1)_forwards]">
               <div className="w-[150%] h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12" />
             </div>
           </div>

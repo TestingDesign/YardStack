@@ -144,7 +144,7 @@ export default function PodcastActiveEpisodeDesktop({
 
             <div className="mt-2 flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-medium text-gray-900">Up Next</h3>
+                <h3 className="text-[18px] font-semibold text-gray-900">Up Next</h3>
                 <div className="flex items-center gap-2">
                   <span className="text-[13px] font-medium text-gray-500">Autoplay</span>
                   <button 
@@ -208,7 +208,7 @@ export default function PodcastActiveEpisodeDesktop({
 
             <div className="mt-8 flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-medium text-gray-900">All Real Estate Episodes</h3>
+                <h3 className="text-[18px] font-semibold text-gray-900">All Real Estate Episodes</h3>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center bg-gray-100 rounded-md p-0.5">
                     <button

@@ -43,13 +43,13 @@ const MOBILE_STYLES = `
     background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.18) 50%, transparent 60%);
     background-size: 200% 100%;
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .2s;
     pointer-events: none;
     border-radius: inherit;
   }
   .m-card-shimmer:hover::after {
     opacity: 1;
-    animation: shimmer .7s ease forwards;
+    animation: shimmer .5s ease forwards;
   }
 `
 
@@ -57,16 +57,16 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 }
+    transition: { staggerChildren: 0.03 }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
+    transition: { type: "spring" as const, stiffness: 400, damping: 20 } 
   }
 }
 
@@ -83,7 +83,7 @@ function MobileMoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 border-none cursor-pointer outline-none ${
+        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none ${
           open ? 'bg-purple-100 text-purple-700 scale-105 shadow-inner' : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
         }`}
         aria-label="More options"
@@ -92,7 +92,7 @@ function MobileMoreMenu({
       </button>
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-40 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-200"
+          className="absolute right-0 top-[110%] w-40 bg-white rounded-[4px] shadow-[0_20px_60px_-10px_rgba(124,58,237,0.18),0_4px_16px_rgba(0,0,0,0.08)] border border-purple-100/60 z-50 py-1 origin-top-right animate-in fade-in slide-in-from-top-2 zoom-in-95 duration-150"
         >
           {[
             { Icon: ShareOutlinedIcon, label: 'Share spotlight' },
@@ -173,11 +173,11 @@ const SpotlightCard = memo(function SpotlightCard({
       className={`m-card-shimmer group relative flex flex-col cursor-pointer ${isTrending ? 'w-[130px] shrink-0' : 'w-full'}`}
       onClick={() => onPlay(video)}
     >
-      <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-300 group-hover:scale-[1.02] group-hover:shadow-md">
-        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" />
+      <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden mb-1 bg-gray-100 border border-black/5 shadow-sm transition-transform duration-200 group-hover:scale-[1.02] group-hover:shadow-md">
+        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-300 group-hover:scale-105" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent opacity-80" />
         
-        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-95 group-hover:scale-100">
+        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 scale-95 group-hover:scale-100">
           <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shadow-xl">
             <PlayArrowOutlinedIcon sx={{ fontSize: 18 }} />
           </div>
@@ -239,7 +239,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
     if (isInteracting) return
     const timer = setInterval(() => {
       handleNext()
-    }, 4000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [isInteracting, handleNext])
 
@@ -258,13 +258,13 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
       
       <button 
         onClick={handlePrev} 
-        className="absolute left-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm active:scale-95"
+        className="absolute left-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-200 shadow-sm active:scale-95"
       >
         <ChevronLeft size={16} />
       </button>
 
       <div 
-        className="relative w-full max-w-[340px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]" 
+        className="relative w-full max-w-[340px] h-full flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]" 
         style={{ transformStyle: 'preserve-3d', transform: `translateZ(-160px) rotateY(${rotation}deg)` }}
       >
         {items.map((video, idx) => {
@@ -280,7 +280,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
           return (
             <div 
               key={video.id} 
-              className={`absolute w-[140px] aspect-[9/16] rounded-[4px] overflow-hidden shadow-lg cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-1 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
+              className={`absolute w-[140px] aspect-[9/16] rounded-[4px] overflow-hidden shadow-lg cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-1 ring-purple-500/40 ring-offset-1 border-none' : 'border border-black/5'}`}
               style={{ 
                 transform: `rotateY(${cardAngle}deg) translateZ(160px)`, 
                 opacity 
@@ -293,7 +293,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
                 }
               }}
             >
-              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-700 hover:scale-105" />
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-transform duration-500 hover:scale-105" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
               
               <div className="absolute top-2 left-2">
@@ -304,7 +304,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
 
               {isActive && (
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-md transform transition-transform hover:scale-110">
+                  <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 shadow-md transform transition-transform duration-200 hover:scale-110">
                     <PlayArrowOutlinedIcon sx={{ fontSize: 24 }} />
                   </div>
                 </div>
@@ -332,7 +332,7 @@ const MobileHeroCarousel = memo(function MobileHeroCarousel({
 
       <button 
         onClick={handleNext} 
-        className="absolute right-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm active:scale-95"
+        className="absolute right-1.5 z-50 w-7 h-7 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-200 shadow-sm active:scale-95"
       >
         <ChevronRight size={16} />
       </button>
@@ -346,7 +346,7 @@ const MobileScrollReveal = ({ children, delay = 0, className = "" }: { children:
       initial={{ opacity: 0, y: 15, scale: 0.98 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ once: true, margin: "-5%" }}
-      transition={{ duration: 0.5, delay, ease: [0.25, 1, 0.5, 1] }}
+      transition={{ duration: 0.3, delay, ease: [0.25, 1, 0.5, 1] }}
       className={className}
     >
       {children}
@@ -381,7 +381,7 @@ export default function SpotlightMobile() {
   const hasMore = displayedVideos.length < filtered.length
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }} className="relative h-full w-full bg-[#fcfcfc] flex flex-col overflow-hidden pb-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} className="relative h-full w-full bg-[#fcfcfc] flex flex-col overflow-hidden pb-6">
       <style>{MOBILE_STYLES}</style>
 
       <div 
@@ -407,10 +407,10 @@ export default function SpotlightMobile() {
                 </div>
                 
                 <div className="grid grid-cols-4 gap-1 relative z-10">
-                  <MobileStatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelMobile} color={SPOTLIGHT_IMPACT_STATS[0].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
-                  <MobileStatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelMobile} color={SPOTLIGHT_IMPACT_STATS[1].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
-                  <MobileStatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelMobile} color={SPOTLIGHT_IMPACT_STATS[2].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
-                  <MobileStatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelMobile} color={SPOTLIGHT_IMPACT_STATS[3].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
+                  <MobileStatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelMobile} color={SPOTLIGHT_IMPACT_STATS[0].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 50} />
+                  <MobileStatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelMobile} color={SPOTLIGHT_IMPACT_STATS[1].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 50} />
+                  <MobileStatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelMobile} color={SPOTLIGHT_IMPACT_STATS[2].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 50} />
+                  <MobileStatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelMobile} color={SPOTLIGHT_IMPACT_STATS[3].colorMobile} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 50} />
                 </div>
               </div>
             </MobileScrollReveal>
@@ -423,7 +423,7 @@ export default function SpotlightMobile() {
                 <div className="relative w-[90px] h-[140px] mx-auto -mt-2 mb-3 rounded-[4px] overflow-hidden shadow-[0_8px_16px_rgba(0,0,0,0.1)] border-2 border-white animate-[float_5s_ease-in-out_infinite]">
                   <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="App preview" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors duration-300 hover:bg-black/20">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors duration-200 hover:bg-black/20">
                     <div className="w-8 h-8 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center shadow-md transform transition-transform hover:scale-110 cursor-pointer">
                       <PlayArrowIcon sx={{ fontSize: 18 }} className="text-purple-600 ml-0.5" />
                     </div>
@@ -432,7 +432,7 @@ export default function SpotlightMobile() {
                 
                 <div className="relative z-10 w-full mt-auto">
                   <h3 className="text-gray-900 text-[16px] font-medium mb-1.5 tracking-tight">Create. Share. Inspire.</h3>
-                  <button className="relative overflow-hidden group bg-gray-900 text-white text-[12px] font-medium px-4 py-2 rounded-[4px] shadow-[0_2px_10px_0_rgba(0,0,0,0.15)] transition-all duration-300 hover:bg-purple-600 hover:shadow-[0_4px_16px_rgba(124,58,237,0.25)] active:scale-95 w-[75%] mx-auto block border-none cursor-pointer">
+                  <button className="relative overflow-hidden group bg-gray-900 text-white text-[12px] font-medium px-4 py-2 rounded-[4px] shadow-[0_2px_10px_0_rgba(0,0,0,0.15)] transition-all duration-200 hover:bg-purple-600 hover:shadow-[0_4px_16px_rgba(124,58,237,0.25)] active:scale-95 w-[75%] mx-auto block border-none cursor-pointer">
                     <span className="relative z-10">Start Creating</span>
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shine_1.5s_infinite]" />
                   </button>
@@ -466,9 +466,9 @@ export default function SpotlightMobile() {
                     variants={itemVariants}
                     type="button"
                     onClick={() => setPage(p => p + 1)}
-                    className="group flex items-center gap-1.5 px-5 py-2 rounded-[4px] bg-white border border-purple-200 text-[12px] font-medium text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_8px_rgba(124,58,237,0.05)] hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] hover:-translate-y-0.5 active:translate-y-0"
+                    className="group flex items-center gap-1.5 px-5 py-2 rounded-[4px] bg-white border border-purple-200 text-[12px] font-medium text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer shadow-[0_2px_8px_rgba(124,58,237,0.05)] hover:shadow-[0_6px_16px_rgba(124,58,237,0.2)] hover:-translate-y-0.5 active:translate-y-0"
                   >
-                    <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-700" />
+                    <AutorenewIcon sx={{ fontSize: 16 }} className="group-hover:rotate-180 transition-transform duration-500" />
                     Load More Spotlights
                   </motion.button>
                 </div>
@@ -479,7 +479,7 @@ export default function SpotlightMobile() {
 
       <AnimatePresence>
         {activeVideo && (
-          <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }} className="absolute inset-0 z-[100]">
+          <motion.div initial={{ opacity: 0, y: "100%" }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: "100%" }} transition={{ type: "spring", damping: 20, stiffness: 350 }} className="absolute inset-0 z-[100]">
             <ActiveSpotlightMobile
               video={activeVideo}
               onClose={() => setActiveVideo(null)}

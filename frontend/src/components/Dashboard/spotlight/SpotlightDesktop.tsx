@@ -27,12 +27,12 @@ const STYLES = `
     background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.15) 50%, transparent 60%);
     background-size: 200% 100%;
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .2s;
     pointer-events: none;
   }
   .card-shimmer:hover::after {
     opacity: 1;
-    animation: shimmer .7s ease forwards;
+    animation: shimmer .5s ease forwards;
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -47,16 +47,16 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 }
+    transition: { staggerChildren: 0.03 }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring" as const, stiffness: 300, damping: 24 }
+    transition: { type: "spring" as const, stiffness: 400, damping: 20 }
   }
 }
 
@@ -73,7 +73,7 @@ const MoreMenu = memo(function MoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${open
+        className={`w-6 h-6 flex items-center justify-center rounded-full transition-all duration-150 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${open
             ? 'bg-purple-100 text-purple-700 shadow-inner'
             : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
           }`}
@@ -86,7 +86,7 @@ const MoreMenu = memo(function MoreMenu({
 
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-40 bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-150"
+          className="absolute right-0 top-[110%] w-40 bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-100"
           role="menu"
         >
           {[
@@ -164,11 +164,11 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
         }
       }}
     >
-      <div className="relative w-full aspect-[9/16] rounded-md overflow-hidden mb-2 bg-gray-100 transition-all duration-300 group-hover:-translate-y-0.5 border border-black/5">
-        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300" />
+      <div className="relative w-full aspect-[9/16] rounded-md overflow-hidden mb-2 bg-gray-100 transition-all duration-200 group-hover:-translate-y-0.5 border border-black/5">
+        <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-200" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-200" />
 
-        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 pointer-events-none">
+        <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-150 pointer-events-none">
           <div className="w-9 h-9 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
             <PlayArrowOutlinedIcon sx={{ fontSize: 20 }} />
           </div>
@@ -184,7 +184,7 @@ const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
 
       <div className="flex items-start justify-between gap-1 px-0.5">
         <div className="min-w-0 flex-1">
-          <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 group-hover:text-purple-700 transition-colors duration-200">
+          <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 group-hover:text-purple-700 transition-colors duration-150">
             {video.title}
           </h3>
           <div className="flex items-center gap-1 text-[11px] text-gray-500 font-medium mt-0.5">
@@ -263,7 +263,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
     if (isHovered) return
     const timer = setInterval(() => {
       handleNext()
-    }, 4000)
+    }, 3000)
     return () => clearInterval(timer)
   }, [isHovered, handleNext])
 
@@ -276,20 +276,20 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="relative w-full h-[360px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg"
+      className="relative w-full h-[340px] flex items-center justify-center overflow-hidden bg-gray-50/40 rounded-lg"
       style={{ perspective: '1200px' }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <button
         onClick={handlePrev}
-        className="absolute left-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
+        className="absolute left-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-200 shadow-sm"
       >
         <ChevronLeft size={16} />
       </button>
 
       <div
-        className="relative w-full max-w-[800px] h-full flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+        className="relative w-full max-w-[800px] h-full flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
         style={{ transformStyle: 'preserve-3d', transform: `translateZ(-280px) rotateY(${rotation}deg)` }}
       >
         {items.map((video, idx) => {
@@ -305,7 +305,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
           return (
             <div
               key={video.id}
-              className={`absolute w-[160px] sm:w-[200px] aspect-[9/16] rounded-lg overflow-hidden cursor-pointer transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1' : 'border border-black/10'}`}
+              className={`absolute w-[160px] sm:w-[200px] aspect-[9/16] rounded-lg overflow-hidden cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] ${isActive ? 'ring-2 ring-purple-500/40 ring-offset-1' : 'border border-black/10'}`}
               style={{
                 transform: `rotateY(${cardAngle}deg) translateZ(280px)`,
                 opacity
@@ -318,11 +318,11 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
                 }
               }}
             >
-              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-500" />
+              <img src={video.image} alt={video.title} className="absolute inset-0 w-full h-full object-cover opacity-90 hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
 
               {isActive && (
-                <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 hover:opacity-100 transition-opacity duration-200">
+                <div className="absolute inset-0 flex items-center justify-center z-10 opacity-0 hover:opacity-100 transition-opacity duration-150">
                   <div className="w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/30 hover:scale-110 transition-transform">
                     <PlayArrowIcon sx={{ fontSize: 22 }} />
                   </div>
@@ -346,7 +346,7 @@ const CoverflowCarousel = memo(function CoverflowCarousel({
 
       <button
         onClick={handleNext}
-        className="absolute right-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
+        className="absolute right-3 z-50 w-8 h-8 rounded-full bg-white/90 backdrop-blur border border-gray-200 flex items-center justify-center text-gray-700 hover:bg-purple-600 hover:text-white hover:border-transparent transition-all duration-200 shadow-sm"
       >
         <ChevronRight size={16} />
       </button>
@@ -390,7 +390,7 @@ export default function SpotlightDesktop() {
     setTimeout(() => {
       setPage((prev) => prev + 1)
       setIsLoading(false)
-    }, 300)
+    }, 250)
   }
 
   const activeIdx = activeVideo
@@ -400,10 +400,10 @@ export default function SpotlightDesktop() {
   const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-20px" }}
-        transition={{ duration: 0.6, delay, ease: [0.25, 0.25, 0, 1] }}
+        viewport={{ once: true, margin: "-10px" }}
+        transition={{ duration: 0.3, delay, ease: [0.25, 0.25, 0, 1] }}
         className={className}
       >
         {children}
@@ -412,24 +412,24 @@ export default function SpotlightDesktop() {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }} className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
       <style>{STYLES}</style>
 
       <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col overflow-y-auto scroll-smooth hide-scrollbar pb-6">
-        <motion.div initial={{ y: -30, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.5 }} className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1.5">
+        <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }} className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1">
           <div className="max-w-[1400px] mx-auto">
             <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
           </div>
         </motion.div>
 
-        <div className="flex-1 flex flex-col xl:flex-row gap-6 px-2 py-2 max-w-[1400px] w-full mx-auto">
+        <div className="flex-1 flex flex-col xl:flex-row gap-5 px-2 pt-2 max-w-[1400px] w-full mx-auto">
 
           <main className="flex-1 min-w-0 flex flex-col gap-4">
             <section>
               <CoverflowCarousel videos={filtered} onPlay={setActiveVideo} />
             </section>
 
-            <motion.section initial={{ y: 20, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: 0.1 }} className="w-full flex flex-col bg-white rounded-lg p-4">
+            <motion.section initial={{ y: 15, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.3, delay: 0.05 }} className="w-full flex flex-col bg-white rounded-lg p-4">
               <SectionHeader
                 icon={
                   <div className="p-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[4px] text-white">
@@ -446,7 +446,7 @@ export default function SpotlightDesktop() {
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "50px" }}
-                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2"
+                    className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3"
                   >
                     {displayedVideos.map((video) => (
                       <DesktopSpotlightCard key={video.id} video={video} onPlay={setActiveVideo} />
@@ -459,7 +459,7 @@ export default function SpotlightDesktop() {
                         type="button"
                         onClick={handleLoadMore}
                         disabled={isLoading}
-                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                       >
                         <AutorenewIcon sx={{ fontSize: 16 }} className={isLoading ? 'animate-spin' : ''} />
                         {isLoading ? 'Loading...' : 'Load More Spotlights'}
@@ -498,10 +498,10 @@ export default function SpotlightDesktop() {
                 viewport={{ once: true }}
                 className="grid grid-cols-2 gap-3 relative z-10"
               >
-                <StatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[0].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 100} />
-                <StatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[1].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 100} />
-                <StatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[2].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 100} />
-                <StatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[3].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 100} />
+                <StatCard icon={<Eye size={12} />} value={SPOTLIGHT_IMPACT_STATS[0].value} label={SPOTLIGHT_IMPACT_STATS[0].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[0].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[0].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[0].delay + 50} />
+                <StatCard icon={<Flame size={12} />} value={SPOTLIGHT_IMPACT_STATS[1].value} label={SPOTLIGHT_IMPACT_STATS[1].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[1].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[1].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[1].delay + 50} />
+                <StatCard icon={<Users size={12} />} value={SPOTLIGHT_IMPACT_STATS[2].value} label={SPOTLIGHT_IMPACT_STATS[2].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[2].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[2].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[2].delay + 50} />
+                <StatCard icon={<TrendingUp size={12} />} value={SPOTLIGHT_IMPACT_STATS[3].value} label={SPOTLIGHT_IMPACT_STATS[3].labelDesktop} color={SPOTLIGHT_IMPACT_STATS[3].colorDesktop} bg={SPOTLIGHT_IMPACT_STATS[3].bgDesktop} delay={SPOTLIGHT_IMPACT_STATS[3].delay + 50} />
               </motion.div>
             </div>
 
@@ -514,11 +514,11 @@ export default function SpotlightDesktop() {
             >
               <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10 mix-blend-overlay"></div>
 
-              <div className="relative w-[110px] h-[150px] mx-auto -mt-6 mb-4 rounded-md overflow-hidden -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 border border-white/10">
+              <div className="relative w-[110px] h-[150px] mx-auto -mt-6 mb-4 rounded-md overflow-hidden -rotate-2 group-hover:rotate-0 group-hover:scale-105 transition-all duration-300 border border-white/10">
                 <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=300&q=80" alt="App preview" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-8 h-8 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/40 group-hover:scale-110 transition-transform duration-200">
                     <PlayArrowIcon sx={{ fontSize: 18 }} className="text-white ml-0.5" />
                   </div>
                 </div>
@@ -554,7 +554,7 @@ export default function SpotlightDesktop() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                {TOP_CREATORS.map((expert) => (
+                {TOP_CREATORS.slice(0, 5).map((expert) => (
                   <div
                     key={expert.rank}
                     className="flex items-center group cursor-pointer hover:bg-gray-50 p-2 -mx-2 rounded-md transition-colors"

@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import { Flame, Eye, ChevronRight, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
+import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import PodcastTabs from './PodcastTabs'
@@ -435,6 +435,27 @@ export default function PodcastMobile() {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
 
+  const trendingScrollRef = useRef<HTMLDivElement>(null)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(false)
+
+  const updateTrendingArrows = useCallback(() => {
+    const el = trendingScrollRef.current
+    if (!el) { setCanScrollLeft(false); setCanScrollRight(false); return }
+    setCanScrollLeft(el.scrollLeft > 1)
+    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)
+  }, [])
+
+  useEffect(() => {
+    const el = trendingScrollRef.current
+    if (!el) return
+    updateTrendingArrows()
+    el.addEventListener('scroll', updateTrendingArrows, { passive: true })
+    const ro = new ResizeObserver(updateTrendingArrows)
+    ro.observe(el)
+    return () => { el.removeEventListener('scroll', updateTrendingArrows); ro.disconnect() }
+  }, [updateTrendingArrows])
+
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
     setPage(1)
@@ -577,14 +598,46 @@ export default function PodcastMobile() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 pb-4 pt-2 px-2">
-              {filteredWithoutTop.slice(0, 4).map((ep) => {
-                const actualIdx = filtered.findIndex((e) => e.id === ep.id)
-                const rank = actualIdx + 1
-                return (
-                  <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} observerRef={handleObserve} isPlayingInline={playingId === ep.id} />
-                )
-              })}
+            <div className="relative px-2">
+              {canScrollLeft && (
+                <button
+                  onClick={() => {
+                    const el = trendingScrollRef.current;
+                    if (el) el.scrollBy({ left: -220, behavior: 'smooth' });
+                  }}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                  aria-label="Scroll trending left"
+                >
+                  <ChevronLeft size={14} />
+                </button>
+              )}
+              {canScrollRight && (
+                <button
+                  onClick={() => {
+                    const el = trendingScrollRef.current;
+                    if (el) el.scrollBy({ left: 220, behavior: 'smooth' });
+                  }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                  aria-label="Scroll trending right"
+                >
+                  <ChevronRight size={14} />
+                </button>
+              )}
+              <div
+                ref={trendingScrollRef}
+                className="flex gap-1 pb-1 pt-1 px-auto overflow-x-auto hide-scrollbar"
+                style={{ scrollSnapType: 'x mandatory' }}
+              >
+                {filteredWithoutTop.slice(0, 4).map((ep) => {
+                  const actualIdx = filtered.findIndex((e) => e.id === ep.id)
+                  const rank = actualIdx + 1
+                  return (
+                    <div key={ep.id} className="relative pt-3 pl-3 flex-shrink-0" style={{ width: '180px', scrollSnapAlign: 'start' }}>
+                      <TrendingCard episode={ep} onPlay={setActiveEpisode} rank={rank} observerRef={handleObserve} isPlayingInline={playingId === ep.id} />
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </motion.div>
 

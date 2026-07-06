@@ -235,27 +235,27 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
         className="w-full h-full object-cover"
       />
       
-      <div className="absolute top-2 right-2 z-20 flex flex-col gap-2 pointer-events-auto">
+      <div className="absolute top-1.5 right-1.5 z-20 pointer-events-auto">
         <button 
           onClick={toggleMute} 
-          className="w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white border-none cursor-pointer transition-colors backdrop-blur-sm shadow-sm"
+          className="w-6 h-6 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white border-none cursor-pointer transition-colors backdrop-blur-sm shadow-sm"
         >
-          {isMuted ? <VolumeOffIcon sx={{ fontSize: 16 }} /> : <VolumeUpIcon sx={{ fontSize: 16 }} />}
+          {isMuted ? <VolumeOffIcon sx={{ fontSize: 14 }} /> : <VolumeUpIcon sx={{ fontSize: 14 }} />}
         </button>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-2 pt-6 pointer-events-auto flex flex-col justify-end">
-        <div className="flex items-center gap-2 mb-1 px-1">
+      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-1.5 pt-3 pointer-events-auto flex flex-col justify-end">
+        <div className="flex items-center gap-1.5 px-0.5">
           <button 
             onClick={togglePlay} 
             className="text-white hover:text-fuchsia-400 border-none bg-transparent cursor-pointer transition-colors"
           >
-            {isPlaying ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
+            {isPlaying ? <PauseIcon sx={{ fontSize: 16 }} /> : <PlayArrowIcon sx={{ fontSize: 16 }} />}
           </button>
-          <div className="flex-1 px-1" onClick={e => e.stopPropagation()}>
+          <div className="flex-1 px-0.5" onClick={e => e.stopPropagation()}>
             <ProgressBar progress={progress} buffered={0} onChange={handleSeek} compact />
           </div>
-          <span className="text-white/90 text-[9px] font-medium min-w-[30px] text-right tracking-wider">
+          <span className="text-white/90 text-[8px] font-medium min-w-[26px] text-right tracking-wider">
             {fmtTime(currentTime)}
           </span>
         </div>
@@ -429,7 +429,7 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative shrink-0 w-[120px] aspect-video rounded-md overflow-hidden bg-gray-100 shadow-sm border border-black/5">
+      <div className="relative shrink-0 w-[180px] aspect-video rounded-md overflow-hidden bg-gray-100 shadow-sm border border-black/5">
         <img
           src={episode.thumbnail}
           alt={episode.title}
@@ -798,7 +798,7 @@ export default function PodcastDesktop() {
 
                 <div
                   ref={trendingScrollRef}
-                  className="flex gap-4 overflow-x-auto hide-scrollbar pb-1"
+                  className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 px-1 -mx-2 pt-1"
                   style={{ scrollSnapType: 'x mandatory' }}
                 >
                   {filteredWithoutTop.slice(0, 6).map((ep) => {
@@ -807,7 +807,7 @@ export default function PodcastDesktop() {
                     
                     return (
                       <div key={ep.id} className="relative pt-2 pl-2 flex-shrink-0" style={{ width: '220px', scrollSnapAlign: 'start' }}>
-                        <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
+                        <div className={`absolute top-0 left-0 w-[20px] h-[20px] rounded z-20 flex items-center justify-center text-[10px] font-medium border-2 border-white shadow-sm ${
                           rank === 1 ? 'bg-amber-100 text-amber-700' :
                           rank === 2 ? 'bg-gray-100 text-gray-700' :
                           rank === 3 ? 'bg-orange-100 text-orange-700' :

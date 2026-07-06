@@ -114,18 +114,20 @@ export default function PodcastVideoPlayerMobile({
   }, [])
 
   const handleClose = useCallback(() => {
+    if (isFullscreen) {
+      if (document.fullscreenElement && document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {})
+      }
+      setIsFullscreen(false)
+    }
+
     if (closingRef.current) return
     closingRef.current = true
 
     setIsPlaying(false)
     setControlsVisible(true)
-
-    if (document.fullscreenElement && document.exitFullscreen) {
-      document.exitFullscreen().catch(() => {})
-    }
-    setIsFullscreen(false)
     onClose()
-  }, [onClose])
+  }, [isFullscreen, onClose])
 
   const handleToggleFullscreen = useCallback(() => {
     if (!document.fullscreenElement) {
@@ -263,7 +265,7 @@ export default function PodcastVideoPlayerMobile({
               <button
                 type="button"
                 onClick={(e) => { e.stopPropagation(); handleClose() }}
-                className="shrink-0 p-0.5 text-white/90 hover:text-white transition-colors outline-none cursor-pointer flex items-center justify-center"
+                className="shrink-0 p-0.5 text-white/90 hover:text-white transition-colors outline-none cursor-pointer flex items-center justify-center relative before:absolute before:-inset-3 before:content-[''] tap-highlight-transparent"
                 aria-label="Close player"
               >
                 <KeyboardArrowDownIcon sx={{ fontSize: 24 }} />

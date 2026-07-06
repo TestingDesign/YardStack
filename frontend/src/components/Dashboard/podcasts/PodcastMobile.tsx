@@ -9,13 +9,14 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import { Flame, Eye, ChevronRight, ChevronLeft, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
+import { Flame, Eye, ChevronRight, LayoutGrid, List, TrendingUp, Mic, Users, Building2, Bookmark } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import PodcastTabs from './PodcastTabs'
 import PodcastActiveEpisodeMobile from './PodcastActiveEpisodeMobile'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import { AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
+import InlineFeedPlayer from './InlineFeedPlayer'
 
 
 const EXPERTS = [
@@ -101,11 +102,13 @@ function MobileMoreMenu({
   )
 }
 const TrendingCard = memo(function TrendingCard({
-  episode, onPlay, rank,
+  episode, onPlay, rank, observerRef, isPlayingInline,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   rank: number
+  observerRef?: (node: HTMLDivElement | null) => void
+  isPlayingInline?: boolean
 }) {
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
@@ -113,18 +116,24 @@ const TrendingCard = memo(function TrendingCard({
     <motion.div
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
-      className="m-card-shimmer relative shrink-0 w-[calc(50%-4px)] flex flex-col gap-1.5 cursor-pointer group"
+      className="m-card-shimmer relative flex flex-col gap-1.5 cursor-pointer group"
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative w-full aspect-video rounded-[4px] shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2">
+      <div ref={observerRef} data-id={episode.id} className="relative w-full aspect-video rounded-[4px] shadow-[0_4px_14px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_12px_32px_rgba(124,58,237,0.22)] mt-2">
         <div className="absolute inset-0 rounded-[4px] overflow-hidden">
-          <img src={episode.thumbnail} alt={episode.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-fuchsia-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+          {isPlayingInline ? (
+            <InlineFeedPlayer episode={episode} />
+          ) : (
+            <>
+              <img src={episode.thumbnail} alt={episode.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-fuchsia-900/15 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
+            </>
+          )}
 
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
             <div className="relative w-7 h-7 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
@@ -191,10 +200,12 @@ const MobileEpisodeListSkeleton = () => (
   </div>
 )
 const EpisodeListCard = memo(function EpisodeListCard({
-  episode, onPlay,
+  episode, onPlay, observerRef, isPlayingInline,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
+  observerRef?: (node: HTMLDivElement | null) => void
+  isPlayingInline?: boolean
 }) {
   const moreMenuRef = useRef<HTMLDivElement>(null)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -219,15 +230,21 @@ const EpisodeListCard = memo(function EpisodeListCard({
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative shrink-0 w-[155px] aspect-[16/10] rounded-[4px] overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)]">
-        <img src={episode.thumbnail} alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-600 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shadow-md">
-            <PlayArrowIcon sx={{ fontSize: 18 }} className="ml-0.5" />
-          </div>
-        </div>
+      <div ref={observerRef} data-id={episode.id} className="relative shrink-0 w-[155px] aspect-[16/10] rounded-[4px] overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)]">
+        {isPlayingInline ? (
+          <InlineFeedPlayer episode={episode} />
+        ) : (
+          <>
+            <img src={episode.thumbnail} alt={episode.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-600 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="w-9 h-9 rounded-full bg-white/30 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shadow-md">
+                <PlayArrowIcon sx={{ fontSize: 18 }} className="ml-0.5" />
+              </div>
+            </div>
+          </>
+        )}
         <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 bg-black/65 backdrop-blur-sm border border-white/10 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-md group-hover:opacity-0 transition-opacity duration-200">
           <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />{episode.duration}
         </div>
@@ -260,10 +277,12 @@ const EpisodeListCard = memo(function EpisodeListCard({
 })
 
 const EpisodeGridCard = memo(function EpisodeGridCard({
-  episode, onPlay,
+  episode, onPlay, observerRef, isPlayingInline,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
+  observerRef?: (node: HTMLDivElement | null) => void
+  isPlayingInline?: boolean
 }) {
   const speakerInitial = episode.speaker?.charAt(0).toUpperCase() ?? '?'
 
@@ -277,16 +296,22 @@ const EpisodeGridCard = memo(function EpisodeGridCard({
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div className="relative w-full aspect-video rounded-[4px] overflow-hidden mb-2 shadow-[0_3px_12px_rgba(0,0,0,0.09)] transition-all duration-500 group-hover:shadow-[0_12px_28px_rgba(124,58,237,0.2)] group-hover:-translate-y-0.5">
-        <img src={episode.thumbnail} alt={episode.title}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
-          <div className="relative w-9 h-9 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_12px_rgba(217,70,239,0.4)]">
-            <div className="absolute inset-0 rounded-full border border-white/30 animate-[spin_5s_linear_infinite] opacity-50" />
-            <PlayArrowIcon sx={{ fontSize: 18 }} className="ml-0.5" />
-          </div>
-        </div>
+      <div ref={observerRef} data-id={episode.id} className="relative w-full aspect-video rounded-[4px] overflow-hidden mb-2 shadow-[0_3px_12px_rgba(0,0,0,0.09)] transition-all duration-500 group-hover:shadow-[0_12px_28px_rgba(124,58,237,0.2)] group-hover:-translate-y-0.5">
+        {isPlayingInline ? (
+          <InlineFeedPlayer episode={episode} />
+        ) : (
+          <>
+            <img src={episode.thumbnail} alt={episode.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-400">
+              <div className="relative w-9 h-9 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-75 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.3),0_0_12px_rgba(217,70,239,0.4)]">
+                <div className="absolute inset-0 rounded-full border border-white/30 animate-[spin_5s_linear_infinite] opacity-50" />
+                <PlayArrowIcon sx={{ fontSize: 18 }} className="ml-0.5" />
+              </div>
+            </div>
+          </>
+        )}
         <div className="absolute bottom-1.5 left-1.5 flex items-center gap-1 bg-black/65 backdrop-blur-sm border border-white/10 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-md group-hover:opacity-0 transition-opacity duration-200">
           <GraphicEqIcon sx={{ fontSize: 9 }} className="text-fuchsia-400" />{episode.duration}
         </div>
@@ -372,10 +397,43 @@ export default function PodcastMobile() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const perPage = 10
 
-  const trendingRef = useRef<HTMLDivElement>(null)
+  const [playingId, setPlayingId] = useState<string | null>(null)
+  const visibilityMap = useRef(new Map<string, number>())
+  const observerRef = useRef<IntersectionObserver | null>(null)
+
+  const handleObserve = useCallback((node: HTMLDivElement | null) => {
+    if (!observerRef.current) {
+      observerRef.current = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const targetId = entry.target.getAttribute('data-id')
+          if (targetId) {
+            visibilityMap.current.set(targetId, entry.intersectionRatio)
+          }
+        })
+        
+        let maxRatio = 0
+        let bestId: string | null = null
+        visibilityMap.current.forEach((ratio, targetId) => {
+          if (ratio > maxRatio) {
+            maxRatio = ratio
+            bestId = targetId
+          }
+        })
+        
+        if (maxRatio >= 0.6 && bestId) {
+          setPlayingId(bestId)
+        } else {
+          setPlayingId(null)
+        }
+      }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1], rootMargin: '-10% 0px -10% 0px' })
+    }
+    
+    if (node) {
+      observerRef.current.observe(node)
+    }
+  }, [])
+
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [canScrollLeftTrending, setCanScrollLeftTrending] = useState(false)
-  const [canScrollRightTrending, setCanScrollRightTrending] = useState(true)
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -412,23 +470,6 @@ export default function PodcastMobile() {
     ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
     : -1
 
-  const handleTrendingScroll = useCallback(() => {
-    if (trendingRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = trendingRef.current
-      setCanScrollLeftTrending(scrollLeft > 10)
-      setCanScrollRightTrending(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 10)
-    }
-  }, [])
-
-  useEffect(() => {
-    handleTrendingScroll()
-    const timer = setTimeout(() => handleTrendingScroll(), 50)
-    window.addEventListener('resize', handleTrendingScroll)
-    return () => { clearTimeout(timer); window.removeEventListener('resize', handleTrendingScroll) }
-  }, [handleTrendingScroll, filteredWithoutTop])
-
-  const scrollTrendingRight = () => trendingRef.current?.scrollBy({ left: window.innerWidth * 0.5, behavior: 'smooth' })
-  const scrollTrendingLeft  = () => trendingRef.current?.scrollBy({ left: -(window.innerWidth * 0.5), behavior: 'smooth' })
 
   return (
     <>
@@ -465,23 +506,29 @@ export default function PodcastMobile() {
               onClick={() => setActiveEpisode(filtered[0])}
             >
               <div className="flex gap-0">
-                <div className="relative w-[46%] shrink-0 bg-black overflow-hidden" style={{ minHeight: 140 }}>
-                  <img
-                    src={filtered[0].thumbnail}
-                    alt="Featured"
-                    className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
-                  
-                  <div className="absolute bottom-2 left-2 text-white text-[10px] font-semibold bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded-md flex items-center gap-1">
-                    <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />{filtered[0].duration}
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.25)] group-hover:shadow-[0_6px_28px_rgba(217,70,239,0.5)]">
-                      <PlayArrowIcon sx={{ fontSize: 24 }} className="ml-0.5" />
-                    </div>
-                  </div>
+                <div ref={handleObserve} data-id={filtered[0].id} className="relative w-[46%] shrink-0 bg-black overflow-hidden" style={{ minHeight: 140 }}>
+                  {playingId === filtered[0].id ? (
+                    <InlineFeedPlayer episode={filtered[0]} />
+                  ) : (
+                    <>
+                      <img
+                        src={filtered[0].thumbnail}
+                        alt="Featured"
+                        className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
+                      
+                      <div className="absolute bottom-2 left-2 text-white text-[10px] font-semibold bg-black/60 backdrop-blur-sm px-1.5 py-0.5 rounded-md flex items-center gap-1">
+                        <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />{filtered[0].duration}
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-10 h-10 rounded-full bg-white/25 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shadow-[0_4px_20px_rgba(0,0,0,0.25)] group-hover:shadow-[0_6px_28px_rgba(217,70,239,0.5)]">
+                          <PlayArrowIcon sx={{ fontSize: 24 }} className="ml-0.5" />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="flex-1 p-3 flex flex-col justify-between bg-white min-w-0">
@@ -523,51 +570,21 @@ export default function PodcastMobile() {
           )}
 
           <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-4 px-2">
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-1 px-2">
               <div className="flex items-center gap-2">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
                 <h3 className="text-[16px] font-medium text-gray-900 tracking-tight">Trending This Week</h3>
               </div>
             </div>
 
-            <div className="relative w-full">
-              {canScrollLeftTrending && (
-                <div className="absolute -left-3 top-0 bottom-[55px] w-10 z-30 flex items-center justify-start pointer-events-none bg-gradient-to-r from-white/90 to-transparent">
-                  <button
-                    onClick={scrollTrendingLeft}
-                    className="w-7 h-7 rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-gray-100 flex items-center justify-center text-gray-600 hover:text-purple-600 transition-all duration-300 cursor-pointer pointer-events-auto ml-1"
-                    aria-label="Scroll left"
-                  >
-                    <ChevronLeft size={16} />
-                  </button>
-                </div>
-              )}
-
-              <div
-                ref={trendingRef}
-                onScroll={handleTrendingScroll}
-                className="flex gap-3 overflow-x-auto pb-4 pt-1 px-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none]"
-              >
-                {filteredWithoutTop.slice(0, 8).map((ep) => {
-                  const actualIdx = filtered.findIndex((e) => e.id === ep.id)
-                  const rank = actualIdx + 1
-                  return (
-                    <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} />
-                  )
-                })}
-              </div>
-
-              {canScrollRightTrending && (
-                <div className="absolute -right-3 top-0 bottom-[55px] w-10 z-30 flex items-center justify-end pointer-events-none bg-gradient-to-l from-white/90 to-transparent">
-                  <button
-                    onClick={scrollTrendingRight}
-                    className="w-7 h-7 rounded-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.15)] border border-gray-100 flex items-center justify-center text-gray-600 hover:text-purple-600 transition-all duration-300 cursor-pointer pointer-events-auto mr-1"
-                    aria-label="Scroll right"
-                  >
-                    <ChevronRight size={16} />
-                  </button>
-                </div>
-              )}
+            <div className="grid grid-cols-2 gap-3 pb-4 pt-2 px-2">
+              {filteredWithoutTop.slice(0, 4).map((ep) => {
+                const actualIdx = filtered.findIndex((e) => e.id === ep.id)
+                const rank = actualIdx + 1
+                return (
+                  <TrendingCard key={ep.id} episode={ep} onPlay={setActiveEpisode} rank={rank} observerRef={handleObserve} isPlayingInline={playingId === ep.id} />
+                )
+              })}
             </div>
           </motion.div>
 
@@ -661,7 +678,7 @@ export default function PodcastMobile() {
                 {viewMode === 'grid' ? (
                   <motion.div key="grid" variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-2 gap-x-3 gap-y-5">
                     {displayedEpisodes.map((ep) => (
-                      <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                      <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} observerRef={handleObserve} isPlayingInline={playingId === ep.id} />
                     ))}
                     {isLoading && (
                       <>
@@ -675,7 +692,7 @@ export default function PodcastMobile() {
                 ) : (
                   <motion.div key="list" variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col gap-3">
                     {displayedEpisodes.map((ep) => (
-                      <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                      <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} observerRef={handleObserve} isPlayingInline={playingId === ep.id} />
                     ))}
                     {isLoading && (
                       <>

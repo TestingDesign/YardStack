@@ -9,12 +9,16 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp, List } from 'lucide-react'
+import { Mic, Users, Building2, Eye, Flame, ChevronRight, LayoutGrid, TrendingUp, List } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 import PodcastTabs from './PodcastTabs'
 import PodcastActiveEpisodeDesktop from './PodcastActiveEpisodeDesktop'
+import VolumeUpIcon from '@mui/icons-material/VolumeUp'
+import VolumeOffIcon from '@mui/icons-material/VolumeOff'
+import PauseIcon from '@mui/icons-material/Pause'
+import { ProgressBar, fmtTime } from './PodcastVideoPlayerShared'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 
 const STYLES = `
@@ -163,11 +167,110 @@ const DesktopEpisodeSkeleton = () => (
   </div>
 )
 
+const HoverVideoPreview = memo(function HoverVideoPreview({
+  videoSrc,
+}: {
+  videoSrc: string
+}) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
+  const [progress, setProgress] = useState(0)
+  const [currentTime, setCurrentTime] = useState(0)
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => setIsPlaying(false))
+    }
+  }, [])
+
+  const togglePlay = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!videoRef.current) return
+    if (isPlaying) videoRef.current.pause()
+    else videoRef.current.play()
+    setIsPlaying(!isPlaying)
+  }
+
+  const toggleMute = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    if (!videoRef.current) return
+    videoRef.current.muted = !isMuted
+    setIsMuted(!isMuted)
+  }
+
+  const handleTimeUpdate = () => {
+    if (!videoRef.current) return
+    setCurrentTime(videoRef.current.currentTime)
+    if (videoRef.current.duration) {
+      setProgress(videoRef.current.currentTime / videoRef.current.duration)
+    }
+  }
+  
+  const handleLoadedMetadata = () => {
+  }
+
+  const handleSeek = (pct: number) => {
+    if (!videoRef.current) return
+    const newTime = pct * (videoRef.current.duration || 1)
+    videoRef.current.currentTime = newTime
+    setProgress(pct)
+  }
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }} 
+      exit={{ opacity: 0 }} 
+      className="absolute inset-0 w-full h-full z-10 bg-black overflow-hidden rounded-md"
+    >
+      <video
+        ref={videoRef}
+        src={videoSrc}
+        muted={isMuted}
+        loop
+        playsInline
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        className="w-full h-full object-cover"
+      />
+      
+      <div className="absolute top-2 right-2 z-20 flex flex-col gap-2 pointer-events-auto">
+        <button 
+          onClick={toggleMute} 
+          className="w-7 h-7 rounded-full bg-black/60 hover:bg-black/80 flex items-center justify-center text-white border-none cursor-pointer transition-colors backdrop-blur-sm shadow-sm"
+        >
+          {isMuted ? <VolumeOffIcon sx={{ fontSize: 16 }} /> : <VolumeUpIcon sx={{ fontSize: 16 }} />}
+        </button>
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-2 pt-6 pointer-events-auto flex flex-col justify-end">
+        <div className="flex items-center gap-2 mb-1 px-1">
+          <button 
+            onClick={togglePlay} 
+            className="text-white hover:text-fuchsia-400 border-none bg-transparent cursor-pointer transition-colors"
+          >
+            {isPlaying ? <PauseIcon sx={{ fontSize: 18 }} /> : <PlayArrowIcon sx={{ fontSize: 18 }} />}
+          </button>
+          <div className="flex-1 px-1" onClick={e => e.stopPropagation()}>
+            <ProgressBar progress={progress} buffered={0} onChange={handleSeek} compact />
+          </div>
+          <span className="text-white/90 text-[9px] font-medium min-w-[30px] text-right tracking-wider">
+            {fmtTime(currentTime)}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  )
+})
+
+
 const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
-  episode, onPlay,
+  episode, onPlay, isActive = false,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
+  isActive?: boolean
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -187,7 +290,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true)
-    }, 600)
+    }, 400)
   }
 
   const handleMouseLeave = () => {
@@ -206,7 +309,7 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
       whileTap={{ scale: 0.98 }}
       className={`card-shimmer group flex flex-col rounded-lg overflow-visible cursor-pointer transition-colors duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
         moreOpen ? 'z-50 relative' : ''
-      }`}
+      } ${isActive ? 'ring-2 ring-purple-500 ring-offset-2 bg-purple-50/30' : ''}`}
       onClick={() => onPlay(episode)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -222,30 +325,25 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
           alt={episode.title}
           className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
-        {isHovered && (
-          <video
-            src="https://www.w3schools.com/html/mov_bbb.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
+        {isHovered && <HoverVideoPreview videoSrc="https://www.w3schools.com/html/mov_bbb.mp4" />}
+
+        {!isHovered && (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+            
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+              <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-white/30">
+                <PlayArrowIcon sx={{ fontSize: 22 }} className="ml-0.5" />
+              </div>
+            </div>
+
+            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-medium px-1.5 py-0.5 rounded pointer-events-none group-hover:opacity-0 transition-opacity duration-200">
+              <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
+              {episode.duration}
+            </div>
+          </>
         )}
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-          <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-white/30">
-            <PlayArrowIcon sx={{ fontSize: 22 }} className="ml-0.5" />
-          </div>
-        </div>
-
-        <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-medium px-1.5 py-0.5 rounded pointer-events-none group-hover:opacity-0 transition-opacity duration-200">
-          <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
-          {episode.duration}
-        </div>
       </div>
 
       <div className="flex items-start justify-between gap-2 px-0.5">
@@ -281,10 +379,11 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 })
 
 const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
-  episode, onPlay,
+  episode, onPlay, isActive = false,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
+  isActive?: boolean
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -304,7 +403,7 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true)
-    }, 600)
+    }, 400)
   }
 
   const handleMouseLeave = () => {
@@ -320,7 +419,7 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
       whileTap={{ scale: 0.98 }}
       className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 ${
         moreOpen ? 'z-50 relative' : ''
-      }`}
+      } ${isActive ? 'bg-purple-50/50 border border-purple-200 shadow-sm' : ''}`}
       onClick={() => onPlay(episode)}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
@@ -336,17 +435,10 @@ const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
           alt={episode.title}
           className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
-        {isHovered && (
-          <video
-            src="https://www.w3schools.com/html/mov_bbb.mp4"
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover z-0"
-          />
+        {isHovered && <HoverVideoPreview videoSrc="https://www.w3schools.com/html/mov_bbb.mp4" />}
+        {!isHovered && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none" />
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
           <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-200 hover:scale-110 shadow-sm">
             <PlayArrowIcon sx={{ fontSize: 16 }} className="ml-0.5" />
@@ -497,10 +589,11 @@ export default function PodcastDesktop() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const perPage = 10
 
-  const sliderRef = useRef<HTMLDivElement>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const [canScrollRight, setCanScrollRight] = useState(true)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
+
+  const activeIdx = activeEpisode
+    ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
+    : -1
 
   useEffect(() => {
     if (activeEpisode && scrollContainerRef.current) {
@@ -532,27 +625,6 @@ export default function PodcastDesktop() {
     }, 300)
   }
 
-  const handleScroll = useCallback(() => {
-    if (sliderRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = sliderRef.current
-      setCanScrollLeft(scrollLeft > 5)
-      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 24)
-    }
-  }, [])
-
-  useEffect(() => {
-    handleScroll()
-    const timer = setTimeout(() => handleScroll(), 50)
-    window.addEventListener('resize', handleScroll)
-    return () => { clearTimeout(timer); window.removeEventListener('resize', handleScroll) }
-  }, [handleScroll, filteredWithoutTop])
-
-  const scrollRight = () => sliderRef.current?.scrollBy({ left: 280, behavior: 'smooth' })
-  const scrollLeft  = () => sliderRef.current?.scrollBy({ left: -280, behavior: 'smooth' })
-
-  const activeIdx = activeEpisode
-    ? PODCAST_EPISODES.findIndex((ep) => ep.id === activeEpisode.id)
-    : -1
 
   const [featuredHovered, setFeaturedHovered] = useState(false)
   const featuredHoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -675,59 +747,25 @@ export default function PodcastDesktop() {
                 title="Trending This Week"
               />
 
-              <div className="relative group/slider w-full mt-1">
-                {canScrollLeft && (
-                  <div className="absolute left-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 pointer-events-auto">
-                      <button
-                        onClick={scrollLeft}
-                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
-                        aria-label="Scroll left"
-                      >
-                        <ChevronLeft size={16} />
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                <div
-                  ref={sliderRef}
-                  onScroll={handleScroll}
-                  className="flex gap-3 overflow-x-auto pb-2 scroll-px-0 snap-x snap-mandatory hide-scrollbar"
-                >
-                  {filteredWithoutTop.slice(0, 10).map((ep) => {
-                    const actualIdx = filtered.findIndex((e) => e.id === ep.id);
-                    const rank = actualIdx + 1;
-                    
-                    return (
-                      <div key={ep.id} className="min-w-[180px] w-[180px] snap-start relative pt-2 pl-2">
-                        <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
-                          rank === 1 ? 'bg-amber-100 text-amber-700' :
-                          rank === 2 ? 'bg-gray-100 text-gray-700' :
-                          rank === 3 ? 'bg-orange-100 text-orange-700' :
-                          'bg-purple-100 text-purple-700'
-                        }`}>
-                          {rank}
-                        </div>
-                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-3">
+                {filteredWithoutTop.slice(0, 6).map((ep) => {
+                  const actualIdx = filtered.findIndex((e) => e.id === ep.id);
+                  const rank = actualIdx + 1;
+                  
+                  return (
+                    <div key={ep.id} className="relative pt-2 pl-2">
+                      <div className={`absolute top-0 left-0 w-[18px] h-[18px] rounded z-20 flex items-center justify-center text-[9px] font-medium border-2 border-white shadow-sm ${
+                        rank === 1 ? 'bg-amber-100 text-amber-700' :
+                        rank === 2 ? 'bg-gray-100 text-gray-700' :
+                        rank === 3 ? 'bg-orange-100 text-orange-700' :
+                        'bg-purple-100 text-purple-700'
+                      }`}>
+                        {rank}
                       </div>
-                    )
-                  })}
-                </div>
-
-                {canScrollRight && (
-                  <div className="absolute right-0 top-0 bottom-0 w-10 z-30 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent">
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-auto">
-                      <button
-                        onClick={scrollRight}
-                        className="w-7 h-7 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-colors cursor-pointer"
-                        aria-label="Scroll right"
-                      >
-                        <ChevronRight size={16} />
-                      </button>
+                      <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
                     </div>
-                  </div>
-                )}
+                  )
+                })}
               </div>
             </motion.section>
 

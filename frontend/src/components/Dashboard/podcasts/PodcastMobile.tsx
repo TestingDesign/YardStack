@@ -138,7 +138,7 @@ const TrendingCard = memo(function TrendingCard({
           </div>
         </div>
         
-        <div className={`absolute -top-2 -left-1.5 w-5 h-5 rounded flex items-center justify-center text-[10px] font-black border border-white shadow-[0_3px_10px_rgba(0,0,0,0.15)] ${
+        <div className={`absolute -top-2 -left-1.5 w-5 h-5 rounded flex items-center justify-center text-[10px] font-medium border border-white shadow-[0_3px_10px_rgba(0,0,0,0.15)] ${
           rank === 1 ? 'bg-amber-400 text-amber-900' :
           rank === 2 ? 'bg-gray-300 text-gray-700'   :
           rank === 3 ? 'bg-amber-600 text-amber-100' :
@@ -314,7 +314,7 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-[20px] font-black text-gray-900">Create new playlist</h2>
+          <h2 className="text-[20px] font-medium text-gray-900">Create new playlist</h2>
           <button 
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-200 hover:text-gray-800 transition-colors border-none cursor-pointer"
@@ -405,7 +405,7 @@ export default function PodcastMobile() {
     setTimeout(() => {
       setPage(p => p + 1)
       setIsLoading(false)
-    }, 800)
+    }, 300)
   }
 
   const activeIdx = activeEpisode
@@ -487,11 +487,11 @@ export default function PodcastMobile() {
                 <div className="flex-1 p-3 flex flex-col justify-between bg-white min-w-0">
                   <div>
                     <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className="inline-flex items-center gap-1 text-[8px] font-black text-[var(--color-secondary-500)] uppercase tracking-widest bg-[var(--color-secondary-500)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="inline-flex items-center gap-1 text-[8px] font-medium text-[var(--color-secondary-500)] uppercase tracking-widest bg-[var(--color-secondary-500)]/10 px-2 py-0.5 rounded-full whitespace-nowrap">
                         <TrendingUp size={7} />Trending #1
                       </span>
                     </div>
-                    <h2 className="text-[12px] font-black text-gray-900 leading-tight line-clamp-3 mb-2 group-hover:text-purple-700 transition-colors duration-300 break-words">
+                    <h2 className="text-[12px] font-medium text-gray-900 leading-tight line-clamp-3 mb-2 group-hover:text-purple-700 transition-colors duration-300 break-words">
                       {filtered[0].title}
                     </h2>
                     <p className="text-[10px] text-gray-500 leading-relaxed line-clamp-2 mb-2 font-medium break-words">
@@ -526,7 +526,7 @@ export default function PodcastMobile() {
             <div className="flex items-center justify-between mb-1">
               <div className="flex items-center gap-2">
                 <Flame className="text-orange-500 drop-shadow-sm" size={18} />
-                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">Trending This Week</h3>
+                <h3 className="text-[16px] font-medium text-gray-900 tracking-tight">Trending This Week</h3>
               </div>
             </div>
 
@@ -578,7 +578,7 @@ export default function PodcastMobile() {
           <div className="mt-4 mx-2">
             <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="p-2 rounded-[8px] bg-white">
               <div className="flex items-center gap-1.5 mb-3">
-                <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Platform Highlights</h3>
+                <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Platform Highlights</h3>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {[
@@ -596,7 +596,7 @@ export default function PodcastMobile() {
                       {s.icon}
                     </div>
                     <div>
-                      <span className="block text-[15px] font-black text-gray-900 leading-tight">{s.value}</span>
+                      <span className="block text-[15px] font-medium text-gray-900 leading-tight">{s.value}</span>
                       <span className="block text-[11px] font-medium text-gray-500 mt-0.5">{s.label}</span>
                     </div>
                   </motion.div>
@@ -607,7 +607,7 @@ export default function PodcastMobile() {
 
           <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-6">
             <div className="flex items-center justify-between mb-1 px-4">
-              <h3 className="text-[14px] font-black text-gray-900 tracking-tight">Top Experts </h3>
+              <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">Top Experts </h3>
               <button className="flex items-center gap-1 text-[11px] font-bold text-purple-600 hover:text-purple-700 transition-colors cursor-pointer bg-transparent border-none">
                 View all <ChevronRight size={13} />
               </button>
@@ -634,8 +634,7 @@ export default function PodcastMobile() {
           <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "50px" }} className="mt-6 px-4 pb-8">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <List className="text-green-500 drop-shadow-sm" size={18} />
-                <h3 className="text-[16px] font-black text-gray-900 tracking-tight">All Real Estate Episodes</h3>
+                <h3 className="text-[16px] font-medium text-gray-900 tracking-tight">All Real Estate Episodes</h3>
               </div>
               <div className="flex items-center gap-2">
                 <div className="flex items-center bg-gray-100 rounded-md p-0.5">
@@ -660,7 +659,7 @@ export default function PodcastMobile() {
             {displayedEpisodes.length > 0 ? (
               <>
                 {viewMode === 'grid' ? (
-                  <motion.div variants={containerVariants} className="grid grid-cols-2 gap-x-3 gap-y-5">
+                  <motion.div key="grid" variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-2 gap-x-3 gap-y-5">
                     {displayedEpisodes.map((ep) => (
                       <EpisodeGridCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
                     ))}
@@ -674,7 +673,7 @@ export default function PodcastMobile() {
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div variants={containerVariants} className="flex flex-col gap-3">
+                  <motion.div key="list" variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col gap-3">
                     {displayedEpisodes.map((ep) => (
                       <EpisodeListCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
                     ))}

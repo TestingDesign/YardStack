@@ -390,7 +390,7 @@ export default function SpotlightDesktop() {
     setTimeout(() => {
       setPage((prev) => prev + 1)
       setIsLoading(false)
-    }, 600)
+    }, 300)
   }
 
   const activeIdx = activeVideo

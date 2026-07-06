@@ -1,5 +1,5 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, LayoutGrid, List } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import FeaturedListingCard from './FeaturedListingCard'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
@@ -53,7 +53,7 @@ export default function PodcastActiveEpisodeDesktop({
   HorizontalEpisodeCard: React.FC<any>
 }) {
   const [autoplay, setAutoplay] = useState(true)
-  const viewMode = 'grid' as const
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const perPage = 6
@@ -89,7 +89,7 @@ export default function PodcastActiveEpisodeDesktop({
     setTimeout(() => {
       setPage(p => p + 1)
       setIsLoading(false)
-    }, 800)
+    }, 300)
   }
 
   return (
@@ -120,7 +120,7 @@ export default function PodcastActiveEpisodeDesktop({
             
             <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-fuchsia-500 text-white font-black flex items-center justify-center text-[20px] shadow-md shrink-0 border-2 border-white">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-600 to-fuchsia-500 text-white font-medium flex items-center justify-center text-[20px] shadow-md shrink-0 border-2 border-white">
                   {activeEpisode.speaker?.charAt(0)}
                 </div>
                 <div className="flex flex-col">
@@ -144,7 +144,7 @@ export default function PodcastActiveEpisodeDesktop({
 
             <div className="mt-2 flex flex-col gap-4">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-black text-gray-900">Up Next</h3>
+                <h3 className="text-[18px] font-medium text-gray-900">Up Next</h3>
                 <div className="flex items-center gap-2">
                   <span className="text-[13px] font-medium text-gray-500">Autoplay</span>
                   <button 
@@ -208,7 +208,29 @@ export default function PodcastActiveEpisodeDesktop({
 
             <div className="mt-8 flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <h3 className="text-[18px] font-black text-gray-900">All Real Estate Episodes</h3>
+                <h3 className="text-[18px] font-medium text-gray-900">All Real Estate Episodes</h3>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                        viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                      }`}
+                      aria-label="Grid view"
+                    >
+                      <LayoutGrid size={15} />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                        viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                      }`}
+                      aria-label="List view"
+                    >
+                      <List size={15} />
+                    </button>
+                  </div>
+                </div>
               </div>
               
               {viewMode === 'grid' ? (

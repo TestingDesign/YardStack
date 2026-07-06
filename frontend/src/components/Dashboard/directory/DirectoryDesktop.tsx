@@ -167,7 +167,7 @@ export default function DirectoryDesktop() {
     setTimeout(() => {
       setVisibleCount(prev => prev + 8)
       setIsLoading(false)
-    }, 600)
+    }, 300)
   }
 
   const featuredBuilder = BUILDERS.find(b => b.isFeatured) || BUILDERS[0]

@@ -9,7 +9,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp } from 'lucide-react'
+import { Mic, Users, Building2, Eye, Flame, ChevronRight, ChevronLeft, LayoutGrid, TrendingUp, List } from 'lucide-react'
 import { CircularProgress } from '@mui/material'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
@@ -494,6 +494,7 @@ export default function PodcastDesktop() {
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
   const [showPlaylistModal, setShowPlaylistModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const perPage = 10
 
   const sliderRef = useRef<HTMLDivElement>(null)
@@ -528,7 +529,7 @@ export default function PodcastDesktop() {
     setTimeout(() => {
       setPage((prev) => prev + 1)
       setIsLoading(false)
-    }, 600)
+    }, 300)
   }
 
   const handleScroll = useCallback(() => {
@@ -737,29 +738,56 @@ export default function PodcastDesktop() {
               viewport={{ once: true, margin: "50px" }}
               className="w-full flex flex-col bg-white rounded-lg p-4 border border-gray-50"
             >
-              <SectionHeader
-                icon={
-                  <div className="p-1 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-[4px] text-white">
-                    <LayoutGrid size={12} />
+              <div className="flex items-center justify-between mb-2">
+                <h2 className="text-[22px] font-medium text-[#0B132B] tracking-tight">
+                  All Real Estate Episodes
+                </h2>
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+                    <button
+                      onClick={() => setViewMode('grid')}
+                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                        viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                      }`}
+                      aria-label="Grid view"
+                    >
+                      <LayoutGrid size={15} />
+                    </button>
+                    <button
+                      onClick={() => setViewMode('list')}
+                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                        viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
+                      }`}
+                      aria-label="List view"
+                    >
+                      <List size={15} />
+                    </button>
                   </div>
-                }
-                title="All Episodes"
-              />
+                </div>
+              </div>
 
               {displayedEpisodes.length > 0 ? (
                 <>
-                  <motion.div variants={containerVariants} className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
-                    {displayedEpisodes.map((ep) => (
-                      <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
-                    ))}
-                    {isLoading && (
-                      <>
-                        <DesktopEpisodeSkeleton />
-                        <DesktopEpisodeSkeleton />
-                        <DesktopEpisodeSkeleton />
-                      </>
-                    )}
-                  </motion.div>
+                  {viewMode === 'grid' ? (
+                    <motion.div key="grid" variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
+                      {displayedEpisodes.map((ep) => (
+                        <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                      ))}
+                      {isLoading && (
+                        <>
+                          <DesktopEpisodeSkeleton />
+                          <DesktopEpisodeSkeleton />
+                          <DesktopEpisodeSkeleton />
+                        </>
+                      )}
+                    </motion.div>
+                  ) : (
+                    <motion.div key="list" variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col gap-3 mt-2">
+                      {displayedEpisodes.map((ep) => (
+                        <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                      ))}
+                    </motion.div>
+                  )}
 
                   {hasMore && (
                     <motion.div variants={itemVariants} className="mt-6 flex items-center justify-center">

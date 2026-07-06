@@ -60,7 +60,7 @@ export default function PodcastActiveEpisodeMobile({
   EpisodeGridCard: React.ComponentType<EpisodeCardProps>
 }) {
   const [autoplay, setAutoplay] = useState(true)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list')
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const perPage = 6
@@ -74,7 +74,7 @@ export default function PodcastActiveEpisodeMobile({
     setTimeout(() => {
       setPage(p => p + 1)
       setIsLoading(false)
-    }, 800)
+    }, 300)
   }
 
   return (
@@ -130,7 +130,7 @@ export default function PodcastActiveEpisodeMobile({
 
       <div className="px-2 pt-2 flex flex-col gap-2 border-b border-gray-100/80">
         <div className="flex items-center justify-between mb-1 px-1">
-          <h3 className="text-[14px] font-black text-gray-900">Up Next</h3>
+          <h3 className="text-[14px] font-medium text-gray-900">Up Next</h3>
           <div className="flex items-center gap-2">
             <span className="text-[12px] font-medium text-gray-500">Autoplay</span>
             <button
@@ -158,7 +158,7 @@ export default function PodcastActiveEpisodeMobile({
 
       <div className="px-2 py-2 flex flex-col gap-4 pb-2 pt-3">
         <div className="flex items-center justify-between px-1">
-          <h3 className="text-[18px] font-black text-gray-900">All Real Estate Episodes</h3>
+          <h3 className="text-[18px] font-medium text-gray-900">All Real Estate Episodes</h3>
           <div className="flex items-center gap-2">
             <div className="flex items-center bg-gray-100 rounded-md p-0.5">
               <button

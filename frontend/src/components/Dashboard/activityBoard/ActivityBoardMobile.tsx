@@ -399,7 +399,7 @@ export default function ActivityBoardMobile() {
     setTimeout(() => {
       setVisibleCount(prev => prev + ITEMS_PER_PAGE)
       setIsLoading(false)
-    }, 600)
+    }, 300)
   }
 
   const handleToggleExpand = useCallback((id: string) => {

@@ -447,9 +447,9 @@ export default function ActivityBoardDesktop() {
   const handleLoadMore = () => {
     setIsLoading(true)
     setTimeout(() => {
-      setVisibleCount((prev) => prev + ITEMS_PER_PAGE)
+      setVisibleCount(prev => prev + ITEMS_PER_PAGE)
       setIsLoading(false)
-    }, 800)
+    }, 300)
   }
 
   const handleToggleExpand = useCallback((id: string) => {

@@ -358,10 +358,10 @@ export default function PlatformPreviewDesktop() {
                   aria-label={`Browse ${cat.title} directory, ${cat.count} listed`}
                   className={`group text-left flex items-center justify-between p-4 sm:p-5 rounded-[4px] bg-white border border-gray-200 ${c.hoverBorder} hover:shadow-[4px] transition-all duration-300 relative overflow-hidden focus-within:ring-2 ${c.focusRing} focus-within:ring-offset-2`}
                 >
-                  <div className="absolute inset-0 bg-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[4px]" aria-hidden="true" />
+                  <div className="absolute inset-0 bg-gray-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[2px]" aria-hidden="true" />
                   
                   <div className="flex items-center gap-4 relative z-10">
-                    <div className={`w-14 h-14 shrink-0 rounded-[8px] bg-gradient-to-br ${c.grad} border ${c.border} flex items-center justify-center ${c.text} group-hover:scale-110 shadow-sm transition-transform duration-300`} aria-hidden="true">
+                    <div className={`w-14 h-14 shrink-0 rounded-[2px] bg-gradient-to-br ${c.grad} border ${c.border} flex items-center justify-center ${c.text} group-hover:scale-110 shadow-sm transition-transform duration-300`} aria-hidden="true">
                       <Icon size={26} className="transition-transform duration-300" />
                     </div>
                     <div>

@@ -56,11 +56,11 @@ const NavCard = memo(function NavCard({
         {isImage ? (
           <img src={icon as string} alt={item.label} className="w-full h-full object-contain" draggable={false} />
         ) : (
-          <span className="text-[20px] md:text-[24px]">
+          <span className="text-[20px] md:text-[24px] flex items-center justify-center [&>svg]:text-inherit [&>svg]:fill-current">
             {typeof icon === 'object' && icon !== null && '$$typeof' in icon && !('props' in icon)
-              ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
+              ? (() => { const IconCmp = icon as any; return <IconCmp color="inherit" className="text-inherit" />; })()
               : typeof icon === 'function'
-              ? (() => { const IconCmp = icon as any; return <IconCmp />; })()
+              ? (() => { const IconCmp = icon as any; return <IconCmp color="inherit" className="text-inherit" />; })()
               : icon}
           </span>
         )}

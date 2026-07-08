@@ -18,6 +18,8 @@ import LaunchingSoonDesktop from './launchingSoon/LaunchingSoonDesktop'
 import LaunchingSoonMobile from './launchingSoon/LaunchingSoonMobile'
 import DirectoryDesktop from './directory/DirectoryDesktop'
 import DirectoryMobile from './directory/DirectoryMobile'
+import PulseDesktop from './pulse/PulseDesktop'
+import PulseMobile from './pulse/PulseMobile'
 import DashboardHeader from './DashboardHeader'
 import DashboardSidebar from '../commonfiles/sidebar/DashboardSidebar'
 import type { DashboardNavKey } from '../commonfiles/sidebar/DashboardSidebar'
@@ -171,6 +173,8 @@ function DesktopDashboard() {
           <SpotlightDesktop />
         ) : activeTab === 'directory' ? (
           <DirectoryDesktop />
+        ) : activeTab === 'pulse' ? (
+          <PulseDesktop />
         ) : (
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <header className="mb-6">
@@ -267,21 +271,23 @@ function MobileDashboard() {
           <SpotlightMobile />
         ) : activeTab === 'directory' ? (
           <DirectoryMobile />
+        ) : activeTab === 'pulse' ? (
+          <PulseMobile />
         ) : (
-          <div className="flex-1 overflow-y-auto px-2 py-2 bg-white">
-            <header className="mb-5">
+          <div className="flex-1 overflow-y-auto px-4 py-6">
+            <header className="mb-6">
               <p className="text-[0.65rem] font-semibold text-[#6b7280] uppercase tracking-widest truncate">
                 {activeItem?.label ?? 'Dashboard'}
               </p>
-              <h2 className="text-[1.2rem] font-extrabold text-transparent bg-clip-text bg-linear-to-r from-[#6B21A8] to-[#D946EF] mt-1 truncate">
+              <h2 className="text-[1.25rem] font-extrabold text-transparent bg-clip-text bg-linear-to-r from-[#6B21A8] to-[#D946EF] mt-0.5 truncate">
                 {activeSubTab}
               </h2>
             </header>
             <StatCards />
-            <div className="mb-5">
+            <div className="flex flex-col gap-6">
               <RecentProperties />
+              <ActivityFeed />
             </div>
-            <ActivityFeed />
           </div>
         )}
       </div>

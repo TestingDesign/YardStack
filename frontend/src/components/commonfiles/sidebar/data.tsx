@@ -6,6 +6,7 @@ import learnactiveIcon from './Images/learn.png'
 import spotlightactiveIcon from './Images/spotlight.png'
 import directoryactiveIcon from './Images/directory.png'
 import cityactiveIcon from './Images/city.png'
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 
 /* import micWhite from './Images1/mic1.png'
 import activityWhite from './Images1/activity1.png'
@@ -42,7 +43,8 @@ export interface NavItem {
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'pulse',         label: 'Pulse',          activeIcon: cityactiveIcon,      Icon: cityactiveIcon },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { key: 'pulse',         label: 'Pulse',          activeIcon: DynamicFeedIcon as any, Icon: DynamicFeedIcon as any },
   { key: 'spotlight',     label: 'Spotlight',      activeIcon: spotlightactiveIcon, Icon: spotlightactiveIcon },
   { key: 'podcasts',      label: 'RED Expert',     activeIcon: micPurple,           Icon: micPurple },
   { key: 'activityBoard', label: 'Opportunities',  activeIcon: activityactiveIcon,  Icon: activityactiveIcon },

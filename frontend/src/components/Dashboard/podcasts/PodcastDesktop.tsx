@@ -265,12 +265,13 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
 })
 
 
-const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
-  episode, onPlay, isActive = false,
+export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
+  episode, onPlay, isActive = false, hideDetails = false,
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   isActive?: boolean
+  hideDetails?: boolean
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -346,39 +347,41 @@ const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         )}
       </div>
 
-      <div className="flex items-start justify-between gap-2 px-0.5">
-        <div className="min-w-0 flex-1">
-          <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
-            {episode.title}
-          </h3>
-          <div className="flex items-center gap-1.5">
-            <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
-              <span className="text-[8px] font-medium text-white select-none">{speakerInitial}</span>
+      {!hideDetails && (
+        <div className="flex items-start justify-between gap-2 px-0.5">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
+              {episode.title}
+            </h3>
+            <div className="flex items-center gap-1.5">
+              <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
+                <span className="text-[8px] font-medium text-white select-none">{speakerInitial}</span>
+              </div>
+              <span className="text-[11px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
+                {episode.speaker}
+              </span>
+              {episode.verified && (
+                <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
+              )}
             </div>
-            <span className="text-[11px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
-              {episode.speaker}
-            </span>
-            {episode.verified && (
-              <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
-            )}
+            <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-5.5">
+              {episode.role}
+            </p>
           </div>
-          <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-5.5">
-            {episode.role}
-          </p>
-        </div>
 
-        <MoreMenu
-          open={moreOpen}
-          menuRef={menuRef}
-          onToggle={(e) => { e.stopPropagation(); setMoreOpen((v) => !v) }}
-          onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
-        />
-      </div>
+          <MoreMenu
+            open={moreOpen}
+            menuRef={menuRef}
+            onToggle={(e) => { e.stopPropagation(); setMoreOpen((v) => !v) }}
+            onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
+          />
+        </div>
+      )}
     </motion.article>
   )
 })
 
-const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
+export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
   episode, onPlay, isActive = false,
 }: {
   episode: PodcastEpisode

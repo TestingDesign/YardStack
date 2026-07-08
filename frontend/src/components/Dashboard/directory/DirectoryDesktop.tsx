@@ -97,17 +97,17 @@ function SectionHeader({ icon, title, action }: { icon: React.ReactNode; title: 
   )
 }
 
-const BuilderCard = memo(function BuilderCard({ builder }: { builder: Builder }) {
+export const BuilderCard = memo(function BuilderCard({ builder }: { builder: Builder }) {
   return (
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -3, transition: { duration: 0.25 } }}
-      className="group relative flex items-center bg-white border border-transparent rounded-[4px] cursor-pointer p-4 gap-4 transition-all duration-300 ease-out hover:border-purple-200 hover:shadow-[0_8px_32px_rgba(124,58,237,0.06)] outline-none card-shimmer overflow-hidden"
+      className="group relative flex items-center bg-white border border-transparent rounded-[8px] cursor-pointer p-4 gap-4 transition-all duration-300 ease-out hover:border-purple-200 hover:shadow-[0_8px_32px_rgba(124,58,237,0.06)] outline-none card-shimmer overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 group-hover:from-purple-50/60 group-hover:to-fuchsia-50/40 transition-all duration-500 rounded-[4px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 group-hover:from-purple-50/60 group-hover:to-fuchsia-50/40 transition-all duration-500 rounded-[8px] pointer-events-none" />
 
       <div 
-        className="relative flex items-center justify-center shrink-0 rounded-[2px] shadow-sm w-14 h-14 overflow-hidden px-1"
+        className="relative flex items-center justify-center shrink-0 rounded-[4px] shadow-sm w-14 h-14 overflow-hidden px-1"
         style={{ backgroundColor: builder.logoBg }}
       >
         <span className="text-[10px] sm:text-[11px] font-bold tracking-wider truncate w-full text-center" style={{ color: builder.logoColor }}>
@@ -130,7 +130,7 @@ const BuilderCard = memo(function BuilderCard({ builder }: { builder: Builder })
         </p>
       </div>
 
-      <button className="relative shrink-0 px-5 py-2 bg-white border border-purple-200 text-purple-600 text-[12px] font-bold rounded-[4px] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97] z-10">
+      <button className="relative shrink-0 px-5 py-2 bg-white border border-purple-200 text-purple-600 text-[12px] font-bold rounded-[8px] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97] z-10">
         Connect
       </button>
     </motion.div>

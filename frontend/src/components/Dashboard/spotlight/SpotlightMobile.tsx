@@ -146,7 +146,7 @@ const MobileStatCard = ({ icon, value, label, color, bg }: any) => (
   </div>
 )
 
-const SpotlightCard = memo(function SpotlightCard({
+export const SpotlightCard = memo(function SpotlightCard({
   video, onPlay, rank, isTrending,
 }: {
   video: SpotlightVideo

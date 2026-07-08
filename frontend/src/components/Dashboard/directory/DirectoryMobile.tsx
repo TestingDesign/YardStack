@@ -57,14 +57,14 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
   )
 }
 
-const BuilderCardMobile = memo(function BuilderCardMobile({ builder }: { builder: Builder }) {
+export const BuilderCardMobile = memo(function BuilderCardMobile({ builder }: { builder: Builder }) {
   return (
     <motion.div
       variants={itemVariants}
-      className="flex items-center bg-white rounded-[4px] p-3 gap-3 shadow-sm overflow-hidden relative"
+      className="flex items-center bg-white rounded-[8px] p-3 gap-3 shadow-sm overflow-hidden relative"
     >
       {/* Hover gradient accent */}
-      <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 active:from-purple-50/40 active:to-fuchsia-50/40 transition-all duration-300 rounded-[4px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 active:from-purple-50/40 active:to-fuchsia-50/40 transition-all duration-300 rounded-[8px] pointer-events-none" />
 
       <div 
         className="relative flex items-center justify-center shrink-0 rounded-[4px] w-12 h-12 overflow-hidden px-1 z-10"

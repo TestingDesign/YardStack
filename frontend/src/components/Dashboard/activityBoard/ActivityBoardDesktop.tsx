@@ -40,7 +40,7 @@ const itemVariants = {
   }
 }
 
-interface OpportunityCardProps {
+export interface OpportunityCardProps {
   item: ActivityItem
   index: number
   isExpanded: boolean
@@ -63,7 +63,7 @@ const SkeletonCard = () => (
   </div>
 )
 
-const OpportunityCard = memo(function OpportunityCard({
+export const OpportunityCard = memo(function OpportunityCard({
   item,
   isExpanded,
   onToggle,

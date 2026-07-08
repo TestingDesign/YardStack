@@ -129,7 +129,7 @@ const MoreMenu = memo(function MoreMenu({
   )
 })
 
-const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
+export const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
   video, onPlay,
 }: {
   video: SpotlightVideo

@@ -199,13 +199,14 @@ const MobileEpisodeListSkeleton = () => (
     </div>
   </div>
 )
-const EpisodeListCard = memo(function EpisodeListCard({
-  episode, onPlay, observerRef, isPlayingInline,
+export const EpisodeListCard = memo(function EpisodeListCard({
+  episode, onPlay, observerRef, isPlayingInline, hideDetails
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   observerRef?: (node: HTMLDivElement | null) => void
   isPlayingInline?: boolean
+  hideDetails?: boolean
 }) {
   const moreMenuRef = useRef<HTMLDivElement>(null)
   const [moreOpen, setMoreOpen] = useState(false)
@@ -224,13 +225,13 @@ const EpisodeListCard = memo(function EpisodeListCard({
     <motion.div
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
-      className="m-card-shimmer group relative flex items-start gap-2 py-2 cursor-pointer hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-colors duration-300"
+      className={`m-card-shimmer group relative flex items-start gap-2 py-2 cursor-pointer hover:bg-purple-50/40 rounded-[4px] px-2 -mx-2 transition-colors duration-300 ${hideDetails ? 'justify-center' : ''}`}
       onClick={() => onPlay(episode)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) } }}
     >
-      <div ref={observerRef} data-id={episode.id} className="relative shrink-0 w-[155px] aspect-[16/10] rounded-[4px] overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)]">
+      <div ref={observerRef} data-id={episode.id} className={`relative shrink-0 rounded-[4px] overflow-hidden shadow-[0_3px_12px_rgba(0,0,0,0.10)] transition-all duration-500 group-hover:shadow-[0_8px_24px_rgba(124,58,237,0.18)] ${hideDetails ? 'w-full aspect-[16/9] max-w-[280px]' : 'w-[155px] aspect-[16/10]'}`}>
         {isPlayingInline ? (
           <InlineFeedPlayer episode={episode} />
         ) : (
@@ -250,33 +251,37 @@ const EpisodeListCard = memo(function EpisodeListCard({
         </div>
       </div>
 
-      <div className="flex-1 min-w-0 pr-1 py-1">
-        <h4 className="text-[12px] font-semibold text-gray-900 line-clamp-2 leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-200">
-          {episode.title}
-        </h4>
-        <div className="flex items-center gap-1.5 mb-1.5">
-          <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
-            <span className="text-[9px] font-semibold text-white select-none">{speakerInitial}</span>
+      {!hideDetails && (
+        <div className="flex-1 min-w-0 pr-1 py-1">
+          <h4 className="text-[12px] font-semibold text-gray-900 line-clamp-2 leading-snug mb-2 group-hover:text-purple-700 transition-colors duration-200">
+            {episode.title}
+          </h4>
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <div className="w-5 h-5 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center">
+              <span className="text-[9px] font-semibold text-white select-none">{speakerInitial}</span>
+            </div>
+            <span className="text-[12px] font-medium text-gray-600 truncate">{episode.speaker}</span>
+            {episode.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />}
           </div>
-          <span className="text-[12px] font-medium text-gray-600 truncate">{episode.speaker}</span>
-          {episode.verified && <VerifiedIcon sx={{ fontSize: 13 }} className="text-blue-500 shrink-0" />}
+          <p className="text-[11px] text-gray-500 truncate font-normal ml-6.5">{episode.role}</p>
         </div>
-        <p className="text-[11px] text-gray-500 truncate font-normal ml-6.5">{episode.role}</p>
-      </div>
+      )}
 
-      <div className="flex flex-col items-center gap-1 shrink-0 py-1">
-        <MobileMoreMenu
-          open={moreOpen}
-          menuRef={moreMenuRef}
-          onToggle={(e) => { e.stopPropagation(); setMoreOpen(v => !v) }}
-          onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
-        />
-      </div>
+      {!hideDetails && (
+        <div className="flex flex-col items-center gap-1 shrink-0 py-1">
+          <MobileMoreMenu
+            open={moreOpen}
+            menuRef={moreMenuRef}
+            onToggle={(e) => { e.stopPropagation(); setMoreOpen(v => !v) }}
+            onAction={(e) => { e.stopPropagation(); setMoreOpen(false) }}
+          />
+        </div>
+      )}
     </motion.div>
   )
 })
 
-const EpisodeGridCard = memo(function EpisodeGridCard({
+export const EpisodeGridCard = memo(function EpisodeGridCard({
   episode, onPlay, observerRef, isPlayingInline,
 }: {
   episode: PodcastEpisode

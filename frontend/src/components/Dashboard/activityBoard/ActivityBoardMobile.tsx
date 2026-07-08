@@ -36,14 +36,14 @@ const itemVariants = {
   }
 }
 
-interface ActivityCardProps {
+export interface ActivityCardProps {
   item: ActivityItem
   index: number
   isExpanded: boolean
   onToggle: () => void
 }
 
-const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onToggle }: ActivityCardProps) {
+export const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onToggle }: ActivityCardProps) {
   const [isSaved, setIsSaved] = useState(false)
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)

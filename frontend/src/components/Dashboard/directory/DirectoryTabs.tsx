@@ -24,7 +24,7 @@ const DirectoryTabs = memo(function DirectoryTabs({ active, onChange }: Director
             type="text"
             placeholder="Search builders..."
             aria-label="Search builders"
-            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] @md:text-[13px] rounded-lg border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 hover:border-gray-300 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/15 transition-all duration-300 shadow-sm font-medium"
+            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] rounded-[2px] border border-gray-200 bg-white text-gray-800 placeholder:text-gray-400 hover:border-gray-300 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-500/15 transition-all duration-300 shadow-sm font-medium"
           />
         </div>
       }

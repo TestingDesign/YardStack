@@ -1,3 +1,8 @@
+import BusinessIcon from '@mui/icons-material/Business'
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
+import PeopleIcon from '@mui/icons-material/People'
+import { Shield } from 'lucide-react'
+
 export interface DirectoryTab {
   key: string
   label: string
@@ -10,6 +15,13 @@ export const DIRECTORY_TABS: DirectoryTab[] = [
   { key: 'contractors', label: 'Contractors' },
   { key: 'agents', label: 'Agents' },
   { key: 'offices', label: 'Offices' }
+]
+
+export const DIRECTORY_STATS = [
+  { label: 'Builders Listed', shortLabel: 'Builders', value: '450+', icon: BusinessIcon, color: '#6366F1', isLucide: false },
+  { label: 'Cities Covered', shortLabel: 'Cities', value: '28', icon: LocationOnOutlinedIcon, color: '#EC4899', isLucide: false },
+  { label: 'Verified Partners', shortLabel: 'Verified', value: '320+', icon: Shield, color: '#10B981', isLucide: true },
+  { label: 'Active Connections', shortLabel: 'Connections', value: '12K+', icon: PeopleIcon, color: '#F59E0B', isLucide: false },
 ]
 
 export interface Builder {

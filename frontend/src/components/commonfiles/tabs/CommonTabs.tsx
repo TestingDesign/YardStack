@@ -184,7 +184,7 @@ export const CommonTabs = memo(function CommonTabs({
         <button
           type="button"
           onClick={onFilterClick}
-          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-[32px] rounded-md border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 ease-out active:scale-95 font-medium text-[13px] outline-none cursor-pointer shadow-sm w-auto"
+          className="group shrink-0 flex items-center justify-center gap-1.5 px-3 h-[32px] rounded-[2px] border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 transition-colors duration-200 ease-out active:scale-95 font-medium text-[13px] outline-none cursor-pointer shadow-sm w-auto"
           aria-label="Filter options"
         >
           <ListFilter

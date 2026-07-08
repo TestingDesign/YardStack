@@ -21,7 +21,7 @@ const SpotlightTabs = memo(function SpotlightTabs({ active, onChange }: Spotligh
           <input 
             type="text" 
             placeholder="Search spotlights..." 
-            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] @md:text-[13px] rounded-md @md:rounded-lg border border-[var(--color-border-default)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)]/70 focus:outline-none focus:border-[var(--color-brand-purple)] focus:ring-1 focus:ring-[var(--color-brand-purple)] transition-all"
+            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] @md:text-[13px] rounded-[4px] border border-[var(--color-border-default)] bg-[var(--color-bg-surface)] text-[var(--color-text-primary)] placeholder-[var(--color-text-secondary)]/70 focus:outline-none focus:border-[var(--color-brand-purple)] focus:ring-1 focus:ring-[var(--color-brand-purple)] transition-all"
           />
         </div>
       }

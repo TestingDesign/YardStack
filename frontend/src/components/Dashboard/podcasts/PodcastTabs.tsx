@@ -30,7 +30,7 @@ const PodcastTabs = memo(function PodcastTabs({ active, onChange }: PodcastTabsP
             type="text"
             placeholder="Search episodes..."
             aria-label="Search episodes"
-            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] @md:text-[13px] rounded-lg border border-[var(--color-border-default)] bg-white text-[var(--color-text-primary)] placeholder-gray-400 hover:border-gray-300 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 shadow-sm hover:shadow-md focus:shadow-[0_4px_16px_rgba(124,58,237,0.15)] font-medium"
+            className="w-full h-full pl-8 @md:pl-9 pr-3 text-[12px] @md:text-[13px] rounded-[4px] border border-[var(--color-border-default)] bg-white text-[var(--color-text-primary)] placeholder-gray-400 hover:border-gray-300 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-300 shadow-sm hover:shadow-md focus:shadow-[0_4px_16px_rgba(124,58,237,0.15)] font-medium"
           />
         </motion.div>
       }

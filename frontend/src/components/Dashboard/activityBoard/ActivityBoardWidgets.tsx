@@ -54,7 +54,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
                 <span className="text-[11px] font-medium text-gray-400">Hyderabad</span>
               </div>
             </div>
-            <button className="px-3 py-1.5 rounded-[4px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
+            <button className="px-3 py-1.5 rounded-[2px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
               Apply Now
             </button>
           </div>
@@ -72,7 +72,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
                 <span className="text-[11px] font-medium text-gray-400">Hyderabad</span>
               </div>
             </div>
-            <button className="px-3 py-1.5 rounded-[4px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
+            <button className="px-3 py-1.5 rounded-[2px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
               Apply Now
             </button>
           </div>
@@ -90,7 +90,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
                 <span className="text-[11px] font-medium text-gray-400">Hyderabad</span>
               </div>
             </div>
-            <button className="px-3 py-1.5 rounded-[4px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
+            <button className="px-3 py-1.5 rounded-[2px] border border-[#E91E8C] text-[#E91E8C] text-[11px] font-bold hover:bg-[#E91E8C] hover:text-white transition-all shrink-0">
               Apply Now
             </button>
           </div>
@@ -128,7 +128,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
                 </span>
               </div>
             </div>
-            <button className="px-3 py-1.5 rounded-[4px] border border-purple-600 text-purple-600 text-[11px] font-bold hover:bg-purple-600 hover:text-white transition-all shrink-0">
+            <button className="px-3 py-1.5 rounded-[2px] border border-purple-600 text-purple-600 text-[11px] font-bold hover:bg-purple-600 hover:text-white transition-all shrink-0">
               Enroll Now
             </button>
           </div>
@@ -144,7 +144,7 @@ export function ActivityBoardWidgets({ adsContent }: { adsContent?: ReactNode })
                 <Star size={9} fill="currentColor" /> 4.7 <span className="text-gray-400 font-normal">(210)</span>
               </span>
             </div>
-            <button className="px-3 py-1.5 rounded-[4px] border border-purple-600 text-purple-600 text-[11px] font-bold hover:bg-purple-600 hover:text-white transition-all shrink-0">
+            <button className="px-3 py-1.5 rounded-[2px] border border-purple-600 text-purple-600 text-[11px] font-bold hover:bg-purple-600 hover:text-white transition-all shrink-0">
               Enroll Now
             </button>
           </div>

@@ -94,7 +94,7 @@ const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: F
     >
       <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
         <div
-          className={`relative flex items-center justify-center w-11 h-11 rounded-xl bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] transition-all duration-300 ease-out border border-[#D946EF]/25 group-active:scale-90 ${
+          className={`relative flex items-center justify-center w-11 h-11 rounded-[6px] bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] transition-all duration-300 ease-out border border-[#D946EF]/25 group-active:scale-90 ${
             isActive 
               ? 'shadow-[inset_0_0_20px_rgba(217,70,239,0.2),0_4px_16px_rgba(0,0,0,0.5)] translate-y-0.5 bg-[#D946EF]/20' 
               : 'shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_4px_12px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 hover:shadow-[inset_0_0_30px_rgba(217,70,239,0.15),0_6px_16px_rgba(0,0,0,0.5)] hover:border-[#D946EF]/40'

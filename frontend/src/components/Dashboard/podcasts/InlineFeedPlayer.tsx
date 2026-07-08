@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import type { PodcastEpisode } from './data'
-import { parseDuration, ProgressBar, fmtTime } from './PodcastVideoPlayerShared'
+import { parseDuration, ProgressBar } from './PodcastVideoPlayerShared'
+
 
 export default function InlineFeedPlayer({ episode }: { episode: PodcastEpisode }) {
   const [progress, setProgress] = useState(0)

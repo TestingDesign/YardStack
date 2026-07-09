@@ -2,6 +2,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
+  useRef,
   type MouseEvent,
   type FocusEvent,
 } from 'react'
@@ -45,6 +46,66 @@ function getPos(el: HTMLElement) {
   return { x: r.right + 10, y: r.top + r.height / 2 }
 }
 
+const SCROLL_THRESHOLD = 8
+
+function useScrollDirection() {
+  const [isHidden, setIsHidden] = useState(false)
+  const lastScrollY = useRef(0)
+  const lastScrollEl = useRef<EventTarget | null>(null)
+  const ticking = useRef(false)
+
+  useEffect(() => {
+    const onScroll = (e: Event) => {
+      const target = e.target
+      // Only respond to vertical-scrollable elements (not the sidebar itself)
+      if (target instanceof HTMLElement) {
+        // Skip sidebar's own scrollable areas
+        if (target.closest('[data-sidebar-root]')) return
+        // Skip elements that only scroll horizontally
+        if (target.scrollHeight <= target.clientHeight) return
+      }
+
+      if (ticking.current) return
+      ticking.current = true
+
+      requestAnimationFrame(() => {
+        let currentY = 0
+        if (target instanceof HTMLElement) {
+          currentY = target.scrollTop
+        } else {
+          currentY = window.scrollY || document.documentElement.scrollTop
+        }
+
+        // Reset tracking when switching scroll targets
+        if (lastScrollEl.current !== target) {
+          lastScrollEl.current = target
+          lastScrollY.current = currentY
+          ticking.current = false
+          return
+        }
+
+        const delta = currentY - lastScrollY.current
+
+        if (delta > SCROLL_THRESHOLD) {
+          setIsHidden(true)
+          lastScrollY.current = currentY
+        } else if (delta < -SCROLL_THRESHOLD) {
+          setIsHidden(false)
+          lastScrollY.current = currentY
+        }
+        // If within threshold, don't update lastScrollY — accumulate delta
+
+        ticking.current = false
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { capture: true, passive: true })
+    return () => window.removeEventListener('scroll', onScroll, { capture: true })
+  }, [])
+
+  return isHidden
+}
+
 export default function DashboardSidebar({
   active = 'home',
   onNavigate,
@@ -52,6 +113,16 @@ export default function DashboardSidebar({
   const [isOpen, setIsOpen] = useState(true)
   const [tooltip, setTooltip] = useState<TooltipState>(HIDDEN_TOOLTIP)
   const [mounted, setMounted] = useState(false)
+  const isScrollHidden = useScrollDirection()
+
+  // Track the current sidebar width for the wrapper collapse animation
+  const sidebarRef = useRef<HTMLElement>(null)
+  const [sidebarWidth, setSidebarWidth] = useState(isOpen ? 240 : 72)
+
+  // Keep sidebarWidth in sync with collapse state
+  useEffect(() => {
+    setSidebarWidth(isOpen ? 240 : 72)
+  }, [isOpen])
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -94,10 +165,25 @@ export default function DashboardSidebar({
         `}
       </style>
 
+      {/* Wrapper div: animates width so main content smoothly expands/contracts */}
+      <div
+        className="shrink-0 h-full transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none"
+        style={{ width: isScrollHidden ? 0 : sidebarWidth }}
+        aria-hidden={isScrollHidden}
+      >
       <aside
+        ref={sidebarRef}
+        data-sidebar-root
         aria-label="Dashboard Navigation Sidebar"
         className={`flex flex-col shrink-0 h-full text-white transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] relative z-[50] shadow-[4px_0_32px_rgba(0,0,0,0.5)] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] motion-reduce:transition-none ${!isOpen ? 'w-[72px]' : 'w-60'
           }`}
+        style={{
+          transform: isScrollHidden ? 'translateX(-100%)' : 'translateX(0)',
+          opacity: isScrollHidden ? 0 : 1,
+          transition: 'transform 500ms cubic-bezier(0.22, 1, 0.36, 1), opacity 400ms cubic-bezier(0.22, 1, 0.36, 1)',
+          willChange: 'transform, opacity',
+          pointerEvents: isScrollHidden ? 'none' : 'auto',
+        }}
       >
         <div className="flex flex-col w-full overflow-hidden shrink-0 mt-2 px-3 py-3">
           <div className="flex items-center justify-center w-full h-10">
@@ -216,6 +302,7 @@ export default function DashboardSidebar({
           </button>
         </div>
       </aside>
+      </div>
 
       {mounted &&
         tooltip.visible &&

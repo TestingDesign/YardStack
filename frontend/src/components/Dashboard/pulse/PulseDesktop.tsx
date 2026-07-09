@@ -1,338 +1,438 @@
 import { useState, useCallback, useRef, useEffect } from 'react'
+import PulseRightPane from './PulseRightPane'
 import { motion, AnimatePresence } from 'framer-motion'
-import { OpportunityCard } from '../activityBoard/ActivityBoardDesktop'
+import type { Variants } from 'framer-motion'
+import { OpportunityCard, AdvertisementPlaceholder } from '../activityBoard/ActivityBoardDesktop'
 import { BuilderCard } from '../directory/DirectoryDesktop'
-import { DesktopEpisodeCard, HorizontalEpisodeCard } from '../podcasts/PodcastDesktop'
 import ActiveSpotlightDesktop from '../spotlight/ActiveSpotlightDesktop'
 import PodcastActiveEpisodeDesktop from '../podcasts/PodcastActiveEpisodeDesktop'
+import { DesktopEpisodeCard, HorizontalEpisodeCard } from '../podcasts/PodcastDesktop'
 import type { SpotlightVideo } from '../spotlight/data'
 import type { PodcastEpisode } from '../podcasts/data'
-import { PULSE_FEED, FEED_TYPE_CONFIG } from './data'
-import type { PulseItem } from './data'
+import { SPOTLIGHT_VIDEOS } from '../spotlight/data'
+import { PODCAST_EPISODES } from '../podcasts/data'
+import { ACTIVITY_ITEMS } from '../activityBoard/data'
+import { BUILDERS } from '../directory/data'
 
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
-import AutorenewIcon from '@mui/icons-material/Autorenew'
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
-import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined'
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import VerifiedIcon from '@mui/icons-material/Verified'
+import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
+import MicExternalOnIcon from '@mui/icons-material/MicExternalOn'
+import WorkIcon from '@mui/icons-material/Work'
+import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined'
+import OpenInFullIcon from '@mui/icons-material/OpenInFull'
+import GroupsIcon from '@mui/icons-material/Groups'
+import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
+import EngineeringIcon from '@mui/icons-material/Engineering'
+import PublicIcon from '@mui/icons-material/Public'
+import { ArrowRight, Sparkles } from 'lucide-react'
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.05 }
-  }
-}
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 400, damping: 30 }
-  }
-}
-
-const menuVariants = {
-  hidden: { opacity: 0, y: -8, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1, 
-    transition: { duration: 0.15, ease: 'easeOut' as const } 
+    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
   },
-  exit: { 
-    opacity: 0, 
-    y: -8, 
-    scale: 0.95, 
-    transition: { duration: 0.1, ease: 'easeIn' as const } 
-  }
 }
 
-const TYPE_ACTION_MAP = {
-  spotlight: 'posted a spotlight',
-  expert: 'shared a podcast',
-  opportunity: 'posted an opportunity',
-  directory: 'joined the directory',
-} as const
-
-function getAuthorInfo(item: PulseItem) {
-  switch (item.type) {
-    case 'spotlight':
-      return { name: item.data.author, initial: item.data.authorInitial || item.data.author?.[0] || 'S', time: item.data.timeAgo || 'Recently' }
-    case 'expert':
-      return { name: item.data.speaker, initial: item.data.speaker[0], time: item.data.timeAgo || 'Recently' }
-    case 'opportunity':
-      return { name: item.data.company, initial: item.data.company[0], time: item.data.postedAgo || 'Recently' }
-    case 'directory':
-      return { name: item.data.name, initial: item.data.name[0], time: 'Recently added' }
-  }
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } },
 }
 
-function FeedMoreMenu() {
-  const [open, setOpen] = useState(false)
-  const menuRef = useRef<HTMLDivElement>(null)
+function ScrollReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, ease: [0.25, 0.25, 0, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  )
+}
+
+function SectionHeader({
+  icon: Icon,
+  title,
+}: {
+  icon: React.ElementType
+  title: string
+}) {
+  return (
+    <div className="flex items-center gap-2 mb-4">
+      <Icon sx={{ fontSize: 22 }} className="text-purple-600" />
+      <button className="text-[18px] font-extrabold text-gray-900 tracking-tight hover:text-purple-600 transition-colors cursor-pointer group flex items-center gap-1.5 border-none bg-transparent p-0">
+        {title}
+        <ArrowRight size={16} strokeWidth={2.5} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+      </button>
+    </div>
+  )
+}
+
+function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+
+  const visibleCards = 5
+  const spotlightSlice = SPOTLIGHT_VIDEOS.slice(0, 10)
+  const totalPages = Math.ceil(spotlightSlice.length / visibleCards)
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      setCanScrollLeft(scrollLeft > 1)
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth)
+    }
+  }, [])
+
+  const scroll = useCallback((dir: 'left' | 'right') => {
+    const el = scrollRef.current
+    if (!el) return
+    const cardWidth = el.scrollWidth / spotlightSlice.length
+    const scrollAmount = cardWidth * visibleCards
+    el.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' })
+  }, [spotlightSlice.length])
 
   useEffect(() => {
-    function out(e: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setOpen(false)
+    checkScroll()
+    const el = scrollRef.current
+    if (!el) return
+    const onScroll = () => {
+      checkScroll()
     }
-    document.addEventListener('mousedown', out)
-    return () => document.removeEventListener('mousedown', out)
+    el.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', checkScroll)
+    return () => {
+      el.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', checkScroll)
+    }
+  }, [spotlightSlice.length, totalPages, checkScroll])
+
+  return (
+    <ScrollReveal className="mb-6">
+      <SectionHeader icon={AutoAwesomeIcon} title="Your Daily Spotlight" />
+
+      <div className="relative">
+        {canScrollLeft && (
+          <button
+            onClick={() => scroll('left')}
+            className="absolute -left-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md shadow-gray-200/50 flex items-center justify-center cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-900/10 hover:border-purple-100 transition-all duration-300 text-gray-600"
+            aria-label="Scroll left"
+          >
+            <ChevronLeftIcon sx={{ fontSize: 20 }} />
+          </button>
+        )}
+
+        {canScrollRight && (
+          <button
+            onClick={() => scroll('right')}
+            className="absolute -right-3 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md shadow-gray-200/50 flex items-center justify-center cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-900/10 hover:border-purple-100 transition-all duration-300 text-gray-600"
+            aria-label="Scroll right"
+          >
+            <ChevronRightIcon sx={{ fontSize: 20 }} />
+          </button>
+        )}
+
+        <div
+          ref={scrollRef}
+          className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+        >
+          {spotlightSlice.map((video) => (
+            <motion.div
+              key={video.id}
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="snap-start shrink-0 w-[calc((100%-32px)/5)] min-w-[160px]"
+            >
+              <div
+                className="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-gray-900 cursor-pointer group/card shadow-md shadow-gray-200/50 hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5 hover:border-purple-100 transition-all duration-500 border border-white"
+                onClick={() => onPlay(video)}
+              >
+              {video.image ? (
+                <img
+                  src={video.image}
+                  alt={video.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-105"
+                />
+              ) : (
+                <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${video.gradient}`} />
+              )}
+
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+              <div className="absolute top-2 right-2 z-10 w-7 h-7 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 hover:bg-black/50">
+                <OpenInFullIcon sx={{ fontSize: 14 }} />
+              </div>
+
+              <div className="absolute bottom-0 left-0 right-0 p-2 z-10">
+                <h3 className="text-white text-[12px] font-extrabold leading-tight mb-1.5 line-clamp-2 drop-shadow-sm">
+                  {video.title}
+                </h3>
+                <div className="flex items-center gap-1 text-white text-[10px] font-bold bg-white/20 backdrop-blur-sm px-1.5 py-0.5 rounded-sm w-fit">
+                  <PlayArrowRoundedIcon sx={{ fontSize: 12 }} />
+                  {video.views}
+                </div>
+              </div>
+            </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </ScrollReveal>
+  )
+}
+
+function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const expertsSlice = PODCAST_EPISODES.slice(0, 8)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
+
+  const checkScroll = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+      setCanScrollLeft(scrollLeft > 1)
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth)
+    }
+  }, [])
+
+  useEffect(() => {
+    checkScroll()
+    const el = scrollRef.current
+    if (!el) return
+    el.addEventListener('scroll', checkScroll, { passive: true })
+    window.addEventListener('resize', checkScroll)
+    return () => {
+      el.removeEventListener('scroll', checkScroll)
+      window.removeEventListener('resize', checkScroll)
+    }
+  }, [checkScroll])
+
+  return (
+    <ScrollReveal className="mb-6">
+      <SectionHeader icon={MicExternalOnIcon} title="Recommended Experts" />
+
+      <div className="relative">
+        {canScrollLeft && (
+          <button
+            onClick={() => scrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })}
+            className="absolute -left-3 top-[38%] -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md shadow-gray-200/50 flex items-center justify-center cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-900/10 hover:border-purple-100 transition-all duration-300 text-gray-600"
+          >
+            <ChevronLeftIcon sx={{ fontSize: 20 }} />
+          </button>
+        )}
+        {canScrollRight && (
+          <button
+            onClick={() => scrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })}
+            className="absolute -right-3 top-[38%] -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white border border-gray-200 shadow-md shadow-gray-200/50 flex items-center justify-center cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-900/10 hover:border-purple-100 transition-all duration-300 text-gray-600"
+          >
+            <ChevronRightIcon sx={{ fontSize: 20 }} />
+          </button>
+        )}
+
+        <div
+          ref={scrollRef}
+          className="flex gap-3 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+        >
+          {expertsSlice.map((ep) => (
+            <motion.div
+              key={ep.id}
+              variants={itemVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="snap-start shrink-0 w-[220px] cursor-pointer group/ep"
+              onClick={() => onPlay(ep)}
+            >
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black shadow-md shadow-gray-200/50 mb-2 border border-white hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5 transition-all duration-300">
+              <img
+                src={ep.thumbnail}
+                alt={ep.title}
+                className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover/ep:scale-105 opacity-90 group-hover/ep:opacity-100"
+              />
+
+              <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm flex items-center gap-0.5 z-10">
+                <PlayArrowRoundedIcon sx={{ fontSize: 10 }} />
+                {ep.duration}
+              </div>
+
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 group-hover/ep:bg-black/20 transition-colors duration-300 z-10">
+                <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-md opacity-0 group-hover/ep:opacity-100 scale-75 group-hover/ep:scale-100 transition-all duration-300">
+                  <PlayArrowRoundedIcon sx={{ fontSize: 18 }} className="text-purple-600 ml-0.5" />
+                </div>
+              </div>
+            </div>
+
+            <h4 className="text-[12px] font-extrabold text-gray-900 leading-tight line-clamp-2 mb-0.5 group-hover/ep:text-purple-600 transition-colors duration-300">
+              {ep.title}
+            </h4>
+            <div className="flex items-center gap-1 mb-0.5">
+              <span className="text-[11px] text-gray-500 font-medium truncate">{ep.speaker}</span>
+              {ep.verified && (
+                <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />
+              )}
+            </div>
+            <span className="text-[10px] text-gray-400 font-medium">{ep.role}</span>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </ScrollReveal>
+  )
+}
+
+function OpportunitiesSection() {
+  const [expandedId, setExpandedId] = useState<string | null>(null)
+  const opportunitiesSlice = ACTIVITY_ITEMS.slice(0, 4)
+
+  const handleToggle = useCallback((id: string) => {
+    setExpandedId(prev => prev === id ? null : id)
   }, [])
 
   return (
-    <div className="relative" ref={menuRef}>
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        type="button"
-        onClick={() => setOpen(!open)}
-        className={`w-8 h-8 flex items-center justify-center rounded-full transition-colors duration-150 border-none cursor-pointer outline-none ${
-          open ? 'bg-gray-100 text-gray-700' : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
-        }`}
-      >
-        <MoreVertIcon sx={{ fontSize: 18 }} />
-      </motion.button>
+    <ScrollReveal className="mb-6">
+      <SectionHeader icon={WorkIcon} title="Career Opportunities" />
 
-      <AnimatePresence>
-        {open && (
-          <motion.div 
-            variants={menuVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-lg border border-gray-100 z-50 py-1.5 origin-top-right overflow-hidden"
-          >
-            {[
-              { Icon: BookmarkBorderIcon, label: 'Save' },
-              { Icon: VisibilityOffOutlinedIcon, label: 'Not interested' },
-              { Icon: SettingsOutlinedIcon, label: 'Control' },
-            ].map(({ Icon, label }) => (
-              <button
-                key={label}
-                type="button"
-                onClick={() => setOpen(false)}
-                className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-[13px] font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer text-left"
-              >
-                <Icon sx={{ fontSize: 18 }} className="text-gray-400" />
-                {label}
-              </button>
-            ))}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+        className="flex flex-col gap-2"
+      >
+        {opportunitiesSlice.map((item, index) => (
+          <motion.div key={item.id} variants={itemVariants}>
+            <OpportunityCard
+              item={item}
+              index={index}
+              isExpanded={expandedId === item.id}
+              onToggle={() => handleToggle(item.id)}
+            />
           </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+        ))}
+      </motion.div>
+    </ScrollReveal>
   )
 }
 
-function ActionHeader({ item }: { item: PulseItem }) {
-  const config = FEED_TYPE_CONFIG[item.type]
-  const author = getAuthorInfo(item)
+function DirectorySection() {
+  const buildersSlice = BUILDERS.slice(0, 9)
 
   return (
-    <div className="flex items-center gap-3 px-5 pt-5 pb-3">
-      <div
-        className="w-10 h-10 rounded-full flex items-center justify-center text-white text-[13px] font-semibold shadow-sm shrink-0"
-        style={{ background: config.color }}
+    <ScrollReveal className="mb-6">
+      <SectionHeader icon={ContactsOutlinedIcon} title="Network Suggestions" />
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+        className="grid grid-cols-2 lg:grid-cols-3 gap-2"
       >
-        {author.initial}
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <p className="text-[14px] text-gray-900 leading-tight truncate">
-          <span className="font-semibold">{author.name}</span>
-          <span className="text-gray-500 font-normal ml-1.5">{TYPE_ACTION_MAP[item.type]}</span>
-        </p>
-        <p className="text-[12px] text-gray-400 mt-0.5">{author.time}</p>
-      </div>
-
-      <FeedMoreMenu />
-    </div>
+        {buildersSlice.map((builder) => (
+          <motion.div key={builder.id} variants={itemVariants}>
+            <BuilderCard builder={builder} />
+          </motion.div>
+        ))}
+      </motion.div>
+    </ScrollReveal>
   )
 }
 
-function PulseSpotlightCard({ item, onPlay }: { item: PulseItem & { type: 'spotlight' }, onPlay: (v: SpotlightVideo) => void }) {
-  const video = item.data
-
+function CTABanner() {
   return (
-    <motion.div 
-      variants={itemVariants} 
-      layout="position"
-      whileHover={{ y: -2 }}
-      className="bg-white rounded-[8px] mb-6 border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 overflow-hidden group/card w-full"
-    >
-      <ActionHeader item={item} />
-
-      <div className="px-5 pb-5 pt-1 flex flex-col items-center">
-        <div className="w-full max-w-[280px]">
-          <div
-            className="relative w-full aspect-[9/16] rounded-[8px] overflow-hidden bg-gray-900 border border-black/5 shadow-sm cursor-pointer group hover:shadow-lg transition-all duration-500"
-            onClick={() => onPlay(video)}
-          >
-            {video.image ? (
-              <motion.img 
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                src={video.image} 
-                alt={video.title} 
-                className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:opacity-100" 
-              />
-            ) : (
-              <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${video.gradient} opacity-90 group-hover:opacity-100 transition-opacity`} />
-            )}
-
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <div className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-md border border-white/20 flex items-center justify-center text-white shadow-lg group-hover:bg-black/40 group-hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100">
-                <PlayArrowRoundedIcon sx={{ fontSize: 28 }} />
-              </div>
-            </div>
-
-            <div className="absolute bottom-3 left-3 flex items-center z-20">
-              <div className="flex items-center gap-1.5 text-white text-[11px] font-medium drop-shadow-md bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-[4px]">
-                <PlayArrowRoundedIcon sx={{ fontSize: 14 }} />
-                {video.views}
-              </div>
-            </div>
-
-            {video.duration && (
-              <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] font-medium px-2 py-1 rounded-[4px] z-20">
-                {video.duration}
-              </div>
-            )}
-          </div>
-          {/* Removed repetitive title/author elements here */}
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
-function PulseOpportunityCard({ item, expandedId, onToggleExpand }: { item: PulseItem & { type: 'opportunity' }, expandedId: string | null, onToggleExpand: (id: string) => void }) {
-  return (
-    <motion.div 
-      variants={itemVariants} 
-      layout="position"
-      whileHover={{ y: -2 }}
-      className="bg-white rounded-[8px] mb-6 border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 overflow-hidden"
-    >
-      <ActionHeader item={item} />
-      <div className="px-5 pb-5 pt-1">
-        <OpportunityCard
-          item={item.data}
-          index={0}
-          isExpanded={expandedId === item.id}
-          onToggle={() => onToggleExpand(item.id)}
+    <ScrollReveal className="mb-20">
+      <section className="relative overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] rounded-lg selection:bg-fuchsia-500/30 selection:text-white py-8 px-6 lg:px-8">
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-800 rounded-lg blur-[100px] opacity-30 pointer-events-none"
+          aria-hidden="true"
         />
-      </div>
-    </motion.div>
-  )
-}
 
-function PulseExpertCard({ item, onPlay }: { item: PulseItem & { type: 'expert' }, onPlay: (ep: PodcastEpisode) => void }) {
-  return (
-    <motion.div 
-      variants={itemVariants} 
-      layout="position"
-      whileHover={{ y: -2 }}
-      className="bg-white rounded-[8px] mb-6 border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 overflow-hidden"
-    >
-      <ActionHeader item={item} />
-      <div className="px-5 pb-5 pt-1 flex flex-col items-center">
-        <div className="w-full">
-          <DesktopEpisodeCard episode={item.data} onPlay={onPlay} hideDetails={true} />
-        </div>
-      </div>
-    </motion.div>
-  )
-}
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.6, ease: 'easeOut' as const }}
+          className="relative z-10 flex flex-col xl:flex-row items-center justify-between gap-6"
+        >
+          <div className="flex-1 w-full text-center xl:text-left">
+            <div className="flex items-center justify-center xl:justify-start gap-1.5 mb-3">
+              <Sparkles size={14} className="text-fuchsia-400" />
+              <span className="text-[11px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
+                Your Dashboard
+              </span>
+              <Sparkles size={14} className="text-purple-400" />
+            </div>
 
-function PulseDirectoryCard({ item }: { item: PulseItem & { type: 'directory' } }) {
-  return (
-    <motion.div 
-      variants={itemVariants} 
-      layout="position"
-      whileHover={{ y: -2 }}
-      className="bg-white rounded-[8px] mb-6 border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all duration-300 overflow-hidden"
-    >
-      <ActionHeader item={item} />
-      <div className="px-3 pb-4">
-        <BuilderCard builder={item.data} />
-      </div>
-    </motion.div>
+            <h3 className="text-[20px] xl:text-[24px] font-extrabold text-white tracking-tight leading-snug mb-2 break-words whitespace-normal">
+              Maximize your tailored{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-purple-400">
+                insights & connections.
+              </span>
+            </h3>
+
+            <div className="flex flex-wrap items-center justify-center xl:justify-start gap-x-4 gap-y-1.5 mt-3">
+              {[
+                { icon: OndemandVideoIcon, label: '10K+ Videos' },
+                { icon: GroupsIcon, label: '5K+ Experts' },
+                { icon: EngineeringIcon, label: '2K+ Builders' },
+                { icon: PublicIcon, label: '100K+ Community' },
+              ].map(({ icon: StatIcon, label }) => (
+                <span key={label} className="flex items-center gap-1 text-purple-100/70 text-[12px] font-medium">
+                  <StatIcon sx={{ fontSize: 14 }} className="text-fuchsia-400" />
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0">
+            <button className="group flex items-center justify-center gap-1.5 px-6 py-2.5 rounded bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[14px] font-extrabold shadow-md shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer border-none">
+              Explore Network
+              <ArrowRight size={14} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-1" />
+            </button>
+            <button className="px-6 py-2.5 rounded bg-white/5 backdrop-blur-sm text-white text-[14px] font-bold border border-white/10 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer">
+              Update Profile
+            </button>
+          </div>
+        </motion.div>
+      </section>
+    </ScrollReveal>
   )
 }
 
 export default function PulseDesktop() {
-  const [expandedId, setExpandedId] = useState<string | null>(null)
   const [activeSpotlight, setActiveSpotlight] = useState<SpotlightVideo | null>(null)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
 
-  const handleToggleExpand = useCallback((id: string) => {
-    setExpandedId((prev) => (prev === id ? null : id))
-  }, [])
-
   return (
-    <div className="flex-1 overflow-y-auto bg-[#F8F9FA] p-6 sm:p-8 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none min-h-screen">
-      <div className="max-w-[760px] mx-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key="pulse-feed"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, transition: { duration: 0.15 } }}
-          >
-            {PULSE_FEED.map(item => {
-              switch (item.type) {
-                case 'opportunity':
-                  return <PulseOpportunityCard key={item.id} item={item} expandedId={expandedId} onToggleExpand={handleToggleExpand} />
-                case 'spotlight':
-                  return <PulseSpotlightCard key={item.id} item={item} onPlay={setActiveSpotlight} />
-                case 'expert':
-                  return <PulseExpertCard key={item.id} item={item} onPlay={setActiveEpisode} />
-                case 'directory':
-                  return <PulseDirectoryCard key={item.id} item={item} />
-                default:
-                  return null
-              }
-            })}
+    <main className="flex-1 overflow-y-auto bg-slate-50 px-4 sm:px-6 pt-6 pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none min-h-screen selection:bg-purple-200 selection:text-purple-900">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_260px] xl:grid-cols-[1fr_280px] gap-6">
+        <div className="min-w-0">
+          <SpotlightCarousel onPlay={setActiveSpotlight} />
+          <ExpertsRow onPlay={setActiveEpisode} />
 
-            {PULSE_FEED.length === 0 && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="text-center py-24 bg-white rounded-[8px] border border-gray-100 shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
-              >
-                <AutorenewIcon className="text-gray-300 mb-4" sx={{ fontSize: 44 }} />
-                <h3 className="text-gray-900 text-[17px] font-semibold mb-1.5">No Updates Available</h3>
-                <p className="text-gray-500 text-[14px]">Check back later for more recent activity.</p>
-              </motion.div>
-            )}
+          <ScrollReveal className="mb-6">
+            <AdvertisementPlaceholder />
+          </ScrollReveal>
 
-            {PULSE_FEED.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-center py-8"
-              >
-                <motion.button 
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white border border-[#9B51E0] text-[14px] font-semibold text-[#9B51E0] hover:bg-[#F9F5FF] transition-all shadow-sm cursor-pointer group"
-                >
-                  <AutorenewIcon sx={{ fontSize: 18 }} className="group-hover:rotate-180 transition-transform duration-500" />
-                  Load More Updates
-                </motion.button>
-              </motion.div>
-            )}
-          </motion.div>
-        </AnimatePresence>
+          <OpportunitiesSection />
+          <DirectorySection />
+          <CTABanner />
+        </div>
+
+        <div className="hidden lg:block relative">
+          <PulseRightPane />
+        </div>
       </div>
 
       <AnimatePresence>
@@ -342,7 +442,7 @@ export default function PulseDesktop() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md"
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm"
           >
             <ActiveSpotlightDesktop
               video={activeSpotlight}
@@ -350,14 +450,14 @@ export default function PulseDesktop() {
             />
           </motion.div>
         )}
-        
+
         {activeEpisode && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 md:p-8"
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
           >
             <PodcastActiveEpisodeDesktop
               activeEpisode={activeEpisode}
@@ -370,6 +470,6 @@ export default function PulseDesktop() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </main>
   )
 }

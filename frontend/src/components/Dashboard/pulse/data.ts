@@ -103,3 +103,30 @@ export const FEED_TYPE_CONFIG = {
     gradient: 'from-[#2563EB] to-[#1D4ED8]',
   },
 } as const
+
+export const N4RE_HIGHLIGHTS = [
+  {
+    id: 'hl-1',
+    title: 'Verified Professionals',
+    description: 'Connect with over 5K+ background-checked experts in the real estate ecosystem.',
+    icon: 'ShieldCheck'
+  },
+  {
+    id: 'hl-2',
+    title: 'Market Intelligence',
+    description: 'Access 10K+ hours of exclusive video insights and market analysis.',
+    icon: 'TrendingUp'
+  },
+  {
+    id: 'hl-3',
+    title: 'Global Community',
+    description: 'Join a thriving network of 100K+ builders, investors, and agents.',
+    icon: 'Globe'
+  },
+  {
+    id: 'hl-4',
+    title: 'Premium Opportunities',
+    description: 'Discover off-market deals and exclusive career opportunities daily.',
+    icon: 'Briefcase'
+  }
+]

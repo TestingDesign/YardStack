@@ -109,7 +109,7 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
 
       <div
         ref={scrollRef}
-        className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1"
+        className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1 pb-2"
       >
         {spotlightSlice.map((video) => (
           <div
@@ -177,12 +177,12 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
         title="Recommended Experts"
       />
 
-      <div className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1">
+      <div className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1 pb-2">
         {expertsSlice.map((ep) => (
           <motion.div
             key={ep.id}
             whileTap={{ scale: 0.97 }}
-            className="snap-start shrink-0 w-[200px] cursor-pointer group/ep"
+            className="snap-start shrink-0 w-50 cursor-pointer group/ep"
             onClick={() => onPlay(ep)}
           >
             <div className="relative w-full aspect-video rounded-[4px] overflow-hidden bg-black shadow-sm shadow-gray-200/50 mb-1.5 border border-white">
@@ -366,7 +366,7 @@ export default function PulseMobile() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm"
           >
             <ActiveSpotlightMobile
               video={activeSpotlight}
@@ -381,7 +381,7 @@ export default function PulseMobile() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex flex-col"
+            className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm flex flex-col"
           >
             <PodcastActiveEpisodeMobile
               activeEpisode={activeEpisode}

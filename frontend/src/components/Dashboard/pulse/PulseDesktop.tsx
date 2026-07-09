@@ -142,7 +142,7 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
 
         <div
           ref={scrollRef}
-          className="flex gap-2 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+          className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-2"
         >
           {spotlightSlice.map((video) => (
             <motion.div
@@ -154,7 +154,7 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
               className="snap-start shrink-0 w-[calc((100%-32px)/5)] min-w-[160px]"
             >
               <div
-                className="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-gray-900 cursor-pointer group/card shadow-md shadow-gray-200/50 hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5 hover:border-purple-100 transition-all duration-500 border border-white"
+                className="relative w-full aspect-[3/4] rounded-lg overflow-hidden bg-gray-900 cursor-pointer group/card shadow-md shadow-gray-200/50 hover:shadow-lg hover:shadow-purple-900/10 hover:border-purple-100 transition-all duration-500 border border-white"
                 onClick={() => onPlay(video)}
               >
               {video.image ? (
@@ -241,7 +241,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
 
         <div
           ref={scrollRef}
-          className="flex gap-3 overflow-x-auto scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+          className="flex gap-3 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none pb-2"
         >
           {expertsSlice.map((ep) => (
             <motion.div
@@ -253,7 +253,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
               className="snap-start shrink-0 w-[220px] cursor-pointer group/ep"
               onClick={() => onPlay(ep)}
             >
-              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black shadow-md shadow-gray-200/50 mb-2 border border-white hover:shadow-lg hover:shadow-purple-900/10 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-black shadow-md shadow-gray-200/50 mb-2 border border-white hover:shadow-lg hover:shadow-purple-900/10 transition-all duration-300">
               <img
                 src={ep.thumbnail}
                 alt={ep.title}

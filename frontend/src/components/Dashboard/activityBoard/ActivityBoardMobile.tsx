@@ -41,9 +41,16 @@ export interface ActivityCardProps {
   index: number
   isExpanded: boolean
   onToggle: () => void
+  isEmbedded?: boolean
 }
 
-export const ActivityCard = memo(function ActivityCard({ item, index, isExpanded, onToggle }: ActivityCardProps) {
+export const ActivityCard = memo(function ActivityCard({ 
+  item, 
+  index, 
+  isExpanded, 
+  onToggle,
+  isEmbedded 
+}: ActivityCardProps) {
   const [isSaved, setIsSaved] = useState(false)
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
@@ -104,8 +111,9 @@ export const ActivityCard = memo(function ActivityCard({ item, index, isExpanded
     <motion.div 
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
-      className="relative mb-2.5"
+      className="relative mb-3"
     >
+
       <div className="relative z-10 rounded-[8px] group/card">
         <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-[8px] flex flex-col items-center justify-center text-white z-0 overflow-hidden">
           <button
@@ -130,9 +138,9 @@ export const ActivityCard = memo(function ActivityCard({ item, index, isExpanded
             transitionTimingFunction: isSwiping ? 'linear' : 'cubic-bezier(0.34, 1.56, 0.64, 1)',
             backgroundColor: item.cardBg || '#FFFFFF'
           }}
-          className="relative flex flex-col p-2.5 @md:p-3 border border-gray-100 rounded-[8px] z-10 transition-colors min-h-20 hover:border-gray-200 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+          className={`relative flex flex-col ${isEmbedded ? 'px-3.5 pb-2.5 pt-1 border-transparent' : 'p-2 border border-gray-200 shadow-sm'} rounded-[4px] z-10 transition-colors min-h-20`}
         >
-          <div className="absolute top-2 right-2 bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none">
+          <div className={`absolute top-2 ${isEmbedded ? 'right-3.5' : 'right-2'} bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none`}>
             <div className="flex items-center pointer-events-auto">
               <button
                 onClick={toggleSwipe}

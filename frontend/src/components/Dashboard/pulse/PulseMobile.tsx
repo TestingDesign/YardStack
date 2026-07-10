@@ -1,402 +1,273 @@
-import { useState, useCallback, useRef, useEffect } from 'react'
+import { memo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import type { Variants } from 'framer-motion'
-import { ActivityCard, AdvertisementBlock } from '../activityBoard/ActivityBoardMobile'
-import { BuilderCardMobile } from '../directory/DirectoryMobile'
-import ActiveSpotlightMobile from '../spotlight/ActiveSpotlightMobile'
-import PodcastActiveEpisodeMobile from '../podcasts/PodcastActiveEpisodeMobile'
-import { EpisodeListCard, EpisodeGridCard } from '../podcasts/PodcastMobile'
-import type { SpotlightVideo } from '../spotlight/data'
-import type { PodcastEpisode } from '../podcasts/data'
-import { SPOTLIGHT_VIDEOS } from '../spotlight/data'
-import { PODCAST_EPISODES } from '../podcasts/data'
-import { ACTIVITY_ITEMS } from '../activityBoard/data'
-import { BUILDERS } from '../directory/data'
-
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
+import { PULSE_FEED, FEED_TYPE_CONFIG } from './data'
+import type { PulseItem } from './data'
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite'
 import VerifiedIcon from '@mui/icons-material/Verified'
-import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome'
-import MicExternalOnIcon from '@mui/icons-material/MicExternalOn'
-import WorkIcon from '@mui/icons-material/Work'
-import ContactsOutlinedIcon from '@mui/icons-material/ContactsOutlined'
-import OpenInFullIcon from '@mui/icons-material/OpenInFull'
-import GroupsIcon from '@mui/icons-material/Groups'
-import OndemandVideoIcon from '@mui/icons-material/OndemandVideo'
-import EngineeringIcon from '@mui/icons-material/Engineering'
-import PublicIcon from '@mui/icons-material/Public'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import AutorenewIcon from '@mui/icons-material/Autorenew'
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
+import ShareIcon from '@mui/icons-material/Share'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
+import InlinePulsePlayer from './InlinePulsePlayer'
+import { ActivityCard } from '../activityBoard/ActivityBoardMobile'
+import { BuilderCardMobile } from '../directory/DirectoryMobile'
 
-const containerVariants: Variants = {
+const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05, delayChildren: 0.05 },
-  },
+    transition: { staggerChildren: 0.08 }
+  }
 }
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  visible: { opacity: 1, y: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } },
+const itemVariants = {
+  hidden: { opacity: 0, y: 16, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 350, damping: 28 }
+  }
 }
 
-function ScrollReveal({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+const TYPE_ACTION_MAP = {
+  spotlight: 'posted a video',
+  expert: 'shared a podcast',
+  opportunity: 'posted an opportunity',
+  directory: 'joined the directory',
+} as const
+
+function getAuthorInfo(item: PulseItem) {
+  switch (item.type) {
+    case 'spotlight':
+      return { name: item.data.author, initial: item.data.authorInitial, time: item.data.timeAgo || 'Recently' }
+    case 'expert':
+      return { name: item.data.speaker, initial: item.data.speaker[0], time: item.data.timeAgo || 'Recently' }
+    case 'opportunity':
+      return { name: item.data.company, initial: item.data.company[0], time: item.data.postedAgo || 'Recently' }
+    case 'directory':
+      return { name: item.data.name, initial: item.data.name[0], time: 'Recently added' }
+  }
+}
+
+const FeedCardMobile = memo(function FeedCardMobile({ item }: { item: PulseItem }) {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+
+
+  const config = FEED_TYPE_CONFIG[item.type]
+  const author = getAuthorInfo(item)
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.5, ease: [0.25, 0.25, 0, 1] }}
-      className={className}
+      variants={itemVariants}
+      layout
+      className="bg-white rounded-[4px] mb-2 border border-gray-200 shadow-sm relative"
     >
-      {children}
-    </motion.div>
-  )
-}
+      <div className="flex items-center gap-2 px-3 pt-2 pb-2">
+        <div
+          className="w-9 h-9 rounded-full flex items-center justify-center text-white text-[12px] font-medium shadow-sm"
+          style={{ background: config.color }}
+        >
+          {author.initial}
+        </div>
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  onLinkClick,
-}: {
-  icon: React.ElementType
-  title: string
-  onLinkClick?: () => void
-}) {
-  return (
-    <div className="flex items-end justify-between mb-3">
-      <div className="flex flex-col gap-0.5">
-        <div className="flex items-center gap-1">
-          <Icon sx={{ fontSize: 18 }} className="text-purple-600" />
-          <button 
-            onClick={onLinkClick}
-            className="text-[16px] font-medium text-gray-900 tracking-tight flex items-center gap-1 hover:text-purple-600 transition-colors border-none bg-transparent p-0 cursor-pointer group"
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] text-gray-900 leading-tight truncate">
+            <span className="font-medium">{author.name}</span>
+            <span className="text-gray-500 font-normal ml-1">{TYPE_ACTION_MAP[item.type]}</span>
+          </p>
+          <p className="text-[11px] text-gray-500 mt-0.5">{author.time}</p>
+        </div>
+
+        <div className="relative shrink-0">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-1 rounded-full hover:bg-gray-50 active:bg-gray-100 transition-colors border-none bg-transparent outline-none cursor-pointer flex items-center justify-center"
           >
-            {title}
-            <ArrowRight size={14} strokeWidth={2.5} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
+            <MoreVertIcon sx={{ fontSize: 20 }} className="text-gray-400" />
           </button>
+
+          <AnimatePresence>
+            {isMenuOpen && (
+              <>
+                <div className="fixed inset-0 z-99999" onClick={() => setIsMenuOpen(false)} />
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-full mt-1 w-48 bg-white rounded-[8px] shadow-[0_4px_20px_rgba(0,0,0,0.15)] border border-gray-100 py-1.5 z-50 overflow-hidden"
+                >
+                  <button className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2.5 transition-colors border-none bg-transparent outline-none cursor-pointer">
+                    <BookmarkBorderIcon sx={{ fontSize: 18 }} className="text-gray-400" />
+                    Save post
+                  </button>
+                  <button className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-gray-700 hover:bg-gray-50 flex items-center gap-2.5 transition-colors border-none bg-transparent outline-none cursor-pointer">
+                    <ShareIcon sx={{ fontSize: 18 }} className="text-gray-400" />
+                    Share via...
+                  </button>
+                  <div className="h-[1px] bg-gray-100 my-1 mx-2" />
+                  <button className="w-full text-left px-4 py-2.5 text-[13px] font-medium text-red-600 hover:bg-red-50 flex items-center gap-2.5 transition-colors border-none bg-transparent outline-none cursor-pointer">
+                    <span className="w-4 h-4 flex items-center justify-center text-[16px] leading-none mb-0.5">×</span>
+                    Hide this post
+                  </button>
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </div>
-  )
-}
 
-function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
+      <div className={item.type === 'spotlight' || item.type === 'expert' ? "px-3.5 pb-3.5 pt-1" : "px-0 pb-1 pt-0"}>
+        {item.type === 'spotlight' && (
+          <div className="flex flex-col w-full max-w-[260px] mx-auto mb-1" onClick={() => !isPlaying && setIsPlaying(true)}>
+            <div className="relative w-full aspect-[4/5] rounded-[4px] overflow-hidden mb-2.5 bg-gray-900 border border-black/5 shadow-sm active:scale-[0.98] transition-transform duration-300">
+              {isPlaying && <InlinePulsePlayer duration={item.data.duration} />}
+              {!isPlaying && (
+                <>
+                  {item.data.image ? (
+                    <img src={item.data.image} alt={item.data.title} className="absolute inset-0 w-full h-full object-cover opacity-90 transition-opacity duration-300" />
+                  ) : (
+                    <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${item.data.gradient} opacity-90`} />
+                  )}
 
-  const spotlightSlice = SPOTLIGHT_VIDEOS.slice(0, 10)
-  const visibleCards = 2
-  const totalPages = Math.ceil(spotlightSlice.length / visibleCards)
+                  <div className="absolute inset-0 flex items-center justify-center z-10">
+                    <div className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white shadow-lg active:bg-black/40 active:scale-105 transition-all duration-200">
+                      <PlayCircleFilledWhiteIcon sx={{ fontSize: 28 }} />
+                    </div>
+                  </div>
 
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    const onScroll = () => {
-      const cardWidth = el.scrollWidth / spotlightSlice.length
-      const page = Math.round(el.scrollLeft / (cardWidth * visibleCards))
-      setActiveIndex(Math.min(page, totalPages - 1))
-    }
-    el.addEventListener('scroll', onScroll, { passive: true })
-    return () => el.removeEventListener('scroll', onScroll)
-  }, [spotlightSlice.length, totalPages])
-
-  return (
-    <ScrollReveal className="mb-5">
-      <SectionHeader
-        icon={AutoAwesomeIcon}
-        title="Your Daily Spotlight"
-      />
-
-      <div
-        ref={scrollRef}
-        className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1 pb-2"
-      >
-        {spotlightSlice.map((video) => (
-          <div
-            key={video.id}
-            className="snap-start shrink-0 w-[140px]"
-          >
-            <motion.div
-              whileTap={{ scale: 0.97 }}
-              className="relative w-full aspect-[3/4] rounded-[4px] overflow-hidden bg-gray-900 cursor-pointer shadow-md shadow-gray-200/50 border border-white active:scale-95 transition-transform duration-200"
-              onClick={() => onPlay(video)}
-            >
-              {video.image ? (
-                <img
-                  src={video.image}
-                  alt={video.title}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-              ) : (
-                <div className={`absolute inset-0 w-full h-full bg-gradient-to-br ${video.gradient}`} />
+                  <div className="absolute bottom-2 left-2 flex items-center z-20">
+                    <div className="flex items-center gap-1.5 text-white text-[11px] font-medium tracking-wide drop-shadow-md">
+                      <PlayCircleFilledWhiteIcon sx={{ fontSize: 12 }} />
+                      {item.data.views}
+                    </div>
+                  </div>
+                </>
               )}
-
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-
-              <div className="absolute top-1.5 right-1.5 z-10 w-5 h-5 rounded-full bg-black/30 backdrop-blur-sm flex items-center justify-center text-white">
-                <OpenInFullIcon sx={{ fontSize: 11 }} />
-              </div>
-
-              <div className="absolute bottom-0 left-0 right-0 p-2 z-10">
-                <h3 className="text-white text-[11px] font-medium leading-tight line-clamp-2 mb-1 drop-shadow-sm">
-                  {video.title}
-                </h3>
-                <div className="flex items-center gap-1 text-white text-[9px] font-medium bg-white/20 backdrop-blur-sm px-1 py-0.5 rounded-[2px] w-fit">
-                  <PlayArrowRoundedIcon sx={{ fontSize: 10 }} />
-                  {video.views}
+            </div>
+            <div className="flex items-start justify-between px-1">
+              <div className="flex flex-col flex-1 pr-2">
+                <h4 className="text-[14px] font-medium text-gray-900 leading-snug line-clamp-2 active:text-blue-600 transition-colors">
+                  {item.data.title}
+                </h4>
+                <div className="flex items-center gap-1 text-[12px] text-gray-500 mt-1">
+                  <span className="truncate font-medium">{item.data.author || 'Author Name'}</span>
+                  {item.data.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500 shrink-0" />}
                 </div>
               </div>
-            </motion.div>
+            </div>
           </div>
-        ))}
-      </div>
+        )}
 
-       <div className="flex items-center justify-center gap-1 mt-2.5">
-        {Array.from({ length: totalPages }).map((_, i) => (
-          <div
-            key={i}
-            className={`rounded-full transition-all duration-300 ${
-              i === activeIndex
-                ? 'w-4 h-1 bg-gradient-to-r from-purple-600 to-fuchsia-500'
-                : 'w-1 h-1 bg-gray-300'
-            }`}
-          />
-        ))}
-      </div> 
+        {item.type === 'expert' && (
+          <div className="relative flex flex-col gap-2.5 mt-1" onClick={() => !isPlaying && setIsPlaying(true)}>
+            <div className="relative w-full aspect-[16/9] rounded-[4px] overflow-hidden border border-black/5 bg-gray-900 shadow-sm active:scale-[0.98] transition-transform duration-300">
+              {isPlaying && <InlinePulsePlayer duration={item.data.duration} />}
+              {!isPlaying && (
+                <>
+                  <img src={item.data.thumbnail} alt={item.data.title} className="absolute inset-0 w-full h-full object-cover opacity-85 transition-opacity duration-300" />
 
-    </ScrollReveal>
-  )
-}
+                  <div className="absolute inset-0 flex items-center justify-center z-10">
+                    <div className="w-12 h-12 rounded-full bg-black/30 backdrop-blur-sm border border-white/30 flex items-center justify-center text-white shadow-lg active:bg-black/40 active:scale-105 transition-all duration-200">
+                      <PlayCircleFilledWhiteIcon sx={{ fontSize: 28 }} />
+                    </div>
+                  </div>
 
-function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
-  const expertsSlice = PODCAST_EPISODES.slice(0, 8)
-
-  return (
-    <ScrollReveal className="mb-5">
-      <SectionHeader
-        icon={MicExternalOnIcon}
-        title="Recommended Experts"
-      />
-
-      <div className="flex gap-2 overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none -mx-1 px-1 pb-2">
-        {expertsSlice.map((ep) => (
-          <motion.div
-            key={ep.id}
-            whileTap={{ scale: 0.97 }}
-            className="snap-start shrink-0 w-50 cursor-pointer group/ep"
-            onClick={() => onPlay(ep)}
-          >
-            <div className="relative w-full aspect-video rounded-[4px] overflow-hidden bg-black shadow-sm shadow-gray-200/50 mb-1.5 border border-white">
-              <img
-                src={ep.thumbnail}
-                alt={ep.title}
-                className="absolute inset-0 w-full h-full object-contain"
-              />
-
-              <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-sm text-white text-[8px] font-medium px-1 py-0.5 rounded-[2px] flex items-center gap-0.5 z-10">
-                <PlayArrowRoundedIcon sx={{ fontSize: 9 }} />
-                {ep.duration}
-              </div>
-
-              <div className="absolute inset-0 flex items-center justify-center z-10">
-                <div className="w-7 h-7 rounded-full bg-white/90 flex items-center justify-center shadow-sm opacity-80">
-                  <PlayArrowRoundedIcon sx={{ fontSize: 16 }} className="text-purple-600 ml-0.5" />
-                </div>
-              </div>
-            </div>
-
-            <h4 className="text-[11px] font-medium text-gray-900 leading-tight line-clamp-2 mb-0.5">
-              {ep.title}
-            </h4>
-            <div className="flex items-center gap-1 mb-0.5">
-              <span className="text-[10px] text-gray-500 font-medium truncate">{ep.speaker}</span>
-              {ep.verified && (
-                <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
+                  <div className="absolute bottom-2 left-2 bg-[#3B0764]/90 backdrop-blur-sm text-white text-[10px] font-medium px-2 py-0.5 rounded-[4px] flex items-center gap-1 shadow-sm">
+                    <span className="w-1 h-1 rounded-full bg-white animate-pulse" />
+                    {item.data.duration}
+                  </div>
+                </>
               )}
             </div>
-            <span className="text-[9px] text-gray-400 font-medium">{ep.role}</span>
-          </motion.div>
-        ))}
-      </div>
-    </ScrollReveal>
-  )
-}
 
-function OpportunitiesSection() {
-  const [expandedId, setExpandedId] = useState<string | null>(null)
-  const opportunitiesSlice = ACTIVITY_ITEMS.slice(0, 3)
+            <div className="flex flex-col px-1">
+              <h4 className="text-[14px] font-medium text-gray-900 leading-snug line-clamp-2 active:text-[#9B51E0] transition-colors">
+                {item.data.title}
+              </h4>
+              <div className="flex flex-col gap-1 mt-1.5">
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5 h-5 rounded-full flex items-center justify-center text-white text-[9px] font-medium" style={{ background: config.color }}>
+                    {item.data.speaker[0]}
+                  </div>
+                  <span className="text-[12px] text-gray-700 font-medium">{item.data.speaker}</span>
+                  {item.data.verified && <VerifiedIcon sx={{ fontSize: 12 }} className="text-blue-500" />}
+                </div>
+                <p className="text-[11px] text-gray-500 ml-6">{item.data.category} · {item.data.listens} listens</p>
+              </div>
+            </div>
+          </div>
+        )}
 
-  const handleToggle = useCallback((id: string) => {
-    setExpandedId(prev => prev === id ? null : id)
-  }, [])
-
-  return (
-    <ScrollReveal className="mb-5">
-      <SectionHeader
-        icon={WorkIcon}
-        title="Career Opportunities"
-      />
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-20px' }}
-        className="flex flex-col gap-2"
-      >
-        {opportunitiesSlice.map((item, index) => (
-          <motion.div key={item.id} variants={itemVariants}>
+        {item.type === 'opportunity' && (
+          <div className="mt-1">
             <ActivityCard
-              item={item}
-              index={index}
-              isExpanded={expandedId === item.id}
-              onToggle={() => handleToggle(item.id)}
+              item={item.data}
+              index={0}
+              isExpanded={isExpanded}
+              onToggle={() => setIsExpanded(!isExpanded)}
+              isEmbedded={true}
             />
-          </motion.div>
-        ))}
-      </motion.div>
-    </ScrollReveal>
-  )
-}
-
-function DirectorySection() {
-  const buildersSlice = BUILDERS.slice(0, 6)
-
-  return (
-    <ScrollReveal className="mb-5">
-      <SectionHeader
-        icon={ContactsOutlinedIcon}
-        title="Network Suggestions"
-      />
-
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-20px' }}
-        className="grid grid-cols-1 gap-2"
-      >
-        {buildersSlice.map((builder) => (
-          <motion.div key={builder.id} variants={itemVariants}>
-            <BuilderCardMobile builder={builder} />
-          </motion.div>
-        ))}
-      </motion.div>
-    </ScrollReveal>
-  )
-}
-
-function CTABanner() {
-  return (
-    <ScrollReveal className="mb-64">
-      <section className="relative overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] rounded-[4px] py-6 px-4">
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[150px] bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-800 rounded-full blur-[60px] opacity-25 pointer-events-none"
-          aria-hidden="true"
-        />
-
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: 'easeOut' as const }}
-          className="relative z-10 flex flex-col items-center text-center"
-        >
-          <div className="flex items-center gap-1 mb-2">
-            <Sparkles size={12} className="text-fuchsia-400" />
-            <span className="text-[9px] font-medium uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
-              Your Dashboard
-            </span>
-            <Sparkles size={12} className="text-purple-400" />
           </div>
+        )}
 
-          <h3 className="text-[17px] font-medium text-white tracking-tight leading-snug mb-3">
-            Maximize your tailored{' '}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-purple-400">
-              insights & connections.
-            </span>
-          </h3>
-
-          <div className="flex justify-center w-full mb-5">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-2.5">
-              {[
-                { icon: OndemandVideoIcon, label: '10K+ Videos' },
-                { icon: GroupsIcon, label: '5K+ Experts' },
-                { icon: EngineeringIcon, label: '2K+ Builders' },
-                { icon: PublicIcon, label: '100K+ Community' },
-              ].map(({ icon: StatIcon, label }) => (
-                <span key={label} className="flex items-center gap-1.5 justify-start text-purple-100/70 text-[10.5px] font-medium">
-                  <StatIcon sx={{ fontSize: 13 }} className="text-fuchsia-400" />
-                  {label}
-                </span>
-              ))}
-            </div>
+        {item.type === 'directory' && (
+          <div className="mt-1">
+            <BuilderCardMobile builder={item.data} isEmbedded={true} />
           </div>
-
-          <button className="group w-full flex items-center justify-center gap-1.5 py-2.5 rounded-[4px] bg-gradient-to-r from-purple-600 to-pink-500 text-white text-[13px] font-medium shadow-md shadow-purple-500/25 active:scale-95 transition-all duration-300 border-none">
-            Explore Network
-            <ArrowRight size={14} strokeWidth={2.5} />
-          </button>
-        </motion.div>
-      </section>
-    </ScrollReveal>
+        )}
+      </div>
+    </motion.div>
   )
-}
+})
 
 export default function PulseMobile() {
-  const [activeSpotlight, setActiveSpotlight] = useState<SpotlightVideo | null>(null)
-  const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
-
   return (
-    <main className="flex-1 overflow-y-auto bg-slate-50 px-3 pt-4 pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none min-h-screen selection:bg-purple-200 selection:text-purple-900">
-      <div>
-        <SpotlightCarousel onPlay={setActiveSpotlight} />
-        <ExpertsRow onPlay={setActiveEpisode} />
+    <main className="flex-1 w-full h-full overflow-y-auto bg-[#F8F9FA] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none relative">
+      <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-purple-300/10 rounded-full blur-[60px] -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-20 left-0 w-[250px] h-[250px] bg-blue-300/10 rounded-full blur-[50px] translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      
+      <div className="py-3.5 pb-12 relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key="pulse-feed"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            exit={{ opacity: 0, transition: { duration: 0.1 } }}
+            className="flex flex-col"
+          >
+            {PULSE_FEED.map(item => (
+              <FeedCardMobile key={item.id} item={item} />
+            ))}
 
-        <ScrollReveal className="mb-5">
-          <AdvertisementBlock />
-        </ScrollReveal>
+            {PULSE_FEED.length === 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-12 bg-white rounded-[8px] border border-gray-200 shadow-sm"
+              >
+                <AutorenewIcon className="text-gray-300 mb-2" sx={{ fontSize: 32 }} />
+                <h3 className="text-gray-900 text-[14px] font-medium mb-1">No Updates Available</h3>
+                <p className="text-gray-500 text-[12px]">Check back later for more activity.</p>
+              </motion.div>
+            )}
 
-        <OpportunitiesSection />
-        <DirectorySection />
-        <CTABanner />
+            {PULSE_FEED.length > 0 && (
+              <div className="text-center pt-2 pb-4">
+                <button className="flex items-center gap-1.5 mx-auto px-5 py-2.5 rounded-[4px] bg-white border border-[#9B51E0] text-[13px] font-medium text-[#9B51E0] active:bg-[#F9F5FF] transition-all shadow-sm">
+                  <AutorenewIcon sx={{ fontSize: 16 }} />
+                  Load More Updates
+                </button>
+              </div>
+            )}
+          </motion.div>
+        </AnimatePresence>
       </div>
-
-      <AnimatePresence>
-        {activeSpotlight && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm"
-          >
-            <ActiveSpotlightMobile
-              video={activeSpotlight}
-              onClose={() => setActiveSpotlight(null)}
-            />
-          </motion.div>
-        )}
-
-        {activeEpisode && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-100 bg-black/90 backdrop-blur-sm flex flex-col"
-          >
-            <PodcastActiveEpisodeMobile
-              activeEpisode={activeEpisode}
-              setActiveEpisode={setActiveEpisode}
-              activeIdx={0}
-              filteredWithoutTop={[]}
-              EpisodeListCard={EpisodeListCard}
-              EpisodeGridCard={EpisodeGridCard}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
     </main>
   )
 }

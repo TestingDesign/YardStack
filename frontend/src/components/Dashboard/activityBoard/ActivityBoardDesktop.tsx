@@ -45,6 +45,7 @@ export interface OpportunityCardProps {
   index: number
   isExpanded: boolean
   onToggle: () => void
+  isEmbedded?: boolean
 }
 
 const SkeletonCard = () => (
@@ -67,6 +68,7 @@ export const OpportunityCard = memo(function OpportunityCard({
   item,
   isExpanded,
   onToggle,
+  isEmbedded,
 }: OpportunityCardProps) {
   const [isSaved, setIsSaved] = useState(false)
   const [isDismissing, setIsDismissing] = useState(false)
@@ -114,15 +116,17 @@ export const OpportunityCard = memo(function OpportunityCard({
       )}
 
       <div
-        className={`relative rounded-[8px] transition-all duration-500 ease-out border overflow-hidden ${
+        className={`relative rounded-[8px] transition-all duration-500 ease-out overflow-hidden ${
           isExpanded
-            ? 'border-[#E91E8C]/40 bg-white shadow-[0_12px_40px_rgba(233,30,140,0.08)] scale-[1.01] z-10'
-            : 'border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:border-[#E91E8C]/20 hover:scale-[1.005]'
+            ? 'border border-[#E91E8C]/40 bg-white shadow-[0_12px_40px_rgba(233,30,140,0.08)] scale-[1.01] z-10'
+            : isEmbedded
+              ? ''
+              : 'border border-gray-200 bg-white/80 backdrop-blur-sm shadow-sm hover:shadow-[0_8px_32px_rgba(0,0,0,0.06)] hover:border-[#E91E8C]/20 hover:scale-[1.005]'
         }`}
       >
         <div className="flex">
           <div
-            className="flex-1 p-4 cursor-pointer min-w-0"
+            className={`flex-1 ${isEmbedded ? 'px-4 py-2' : 'p-4'} cursor-pointer min-w-0`}
             onClick={onToggle}
           >
             <div className="flex items-start gap-3.5">

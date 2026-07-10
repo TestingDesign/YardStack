@@ -57,39 +57,45 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
   )
 }
 
-export const BuilderCardMobile = memo(function BuilderCardMobile({ builder }: { builder: Builder }) {
+export const BuilderCardMobile = memo(function BuilderCardMobile({ builder, isEmbedded }: { builder: Builder, isEmbedded?: boolean }) {
   return (
     <motion.div
       variants={itemVariants}
-      className="flex items-center bg-white rounded-[8px] p-3 gap-3 shadow-sm overflow-hidden relative"
+      className={`flex items-center ${isEmbedded ? 'px-3.5 pb-2.5 pt-1 bg-transparent' : 'p-3 bg-white shadow-sm'} rounded-[8px] gap-3 overflow-hidden relative`}
     >
       {/* Hover gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 active:from-purple-50/40 active:to-fuchsia-50/40 transition-all duration-300 rounded-[8px] pointer-events-none" />
 
-      <div 
-        className="relative flex items-center justify-center shrink-0 rounded-[4px] w-12 h-12 overflow-hidden px-1 z-10"
-        style={{ backgroundColor: builder.logoBg }}
-      >
-        <span className="text-[10px] font-bold tracking-wider truncate w-full text-center" style={{ color: builder.logoColor }}>
-          {builder.logoText}
-        </span>
-      </div>
+      {!isEmbedded && (
+        <div 
+          className="relative flex items-center justify-center shrink-0 rounded-[4px] w-12 h-12 overflow-hidden px-1 z-10"
+          style={{ backgroundColor: builder.logoBg }}
+        >
+          <span className="text-[10px] font-bold tracking-wider truncate w-full text-center" style={{ color: builder.logoColor }}>
+            {builder.logoText}
+          </span>
+        </div>
+      )}
       
       <div className="relative flex-1 min-w-0 flex flex-col justify-center z-10">
-        <div className="flex items-center gap-1 justify-start">
-          <h3 className="font-medium text-gray-800 text-[13px] truncate">
-            {builder.name}
-          </h3>
-          {builder.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-purple-500 shrink-0" />}
-        </div>
-        <p className="text-[11px] font-medium text-gray-500 truncate mt-0.5">
+        {!isEmbedded && (
+          <div className="flex items-center gap-1 justify-start">
+            <h3 className="font-medium text-gray-800 text-[13px] truncate">
+              {builder.name}
+            </h3>
+            {builder.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-purple-500 shrink-0" />}
+          </div>
+        )}
+        <p className={`text-[11px] font-medium text-gray-500 truncate ${!isEmbedded ? 'mt-0.5' : ''}`}>
           {builder.category}
         </p>
       </div>
 
-      <button className="relative shrink-0 px-4 py-2 rounded-[4px] text-[11px] font-bold text-purple-600 bg-white border border-purple-200 shadow-[0_2px_12px_rgba(124,58,237,0.1)] active:scale-[0.97] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 z-10">
-        Connect
-      </button>
+      {!isEmbedded && (
+        <button className="relative shrink-0 px-4 py-2 rounded-[4px] text-[11px] font-bold text-purple-600 bg-white border border-purple-200 shadow-[0_2px_12px_rgba(124,58,237,0.1)] active:scale-[0.97] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 z-10">
+          Connect
+        </button>
+      )}
     </motion.div>
   )
 })

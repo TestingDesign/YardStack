@@ -70,10 +70,10 @@ export default function PulseRightPane() {
           <Zap size={20} className="text-white fill-white drop-shadow-sm animate-pulse" />
         </div>
         <div>
-          <h2 className="text-[22px] font-extrabold text-gray-900 tracking-tight leading-tight">
+          <h2 className="text-[22px] font-medium text-gray-900 tracking-tight leading-tight">
             Network Highlights
           </h2>
-          <p className="text-[13px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-500">
+          <p className="text-[13px] font-medium text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-fuchsia-500">
             Maximize your platform benefits
           </p>
         </div>
@@ -101,7 +101,7 @@ export default function PulseRightPane() {
                   <IconComponent size={18} strokeWidth={2.5} className={`transition-colors duration-300 ${config.color}`} />
                 </div>
                 <div>
-                  <h3 className="text-[14px] font-extrabold text-gray-900 mb-1 group-hover:text-gray-800 transition-colors duration-300">
+                  <h3 className="text-[14px] font-medium text-gray-900 mb-1 group-hover:text-gray-800 transition-colors duration-300">
                     {item.title}
                   </h3>
                   <p className="text-[12px] font-medium text-gray-500 leading-relaxed group-hover:text-gray-600 transition-colors duration-300">

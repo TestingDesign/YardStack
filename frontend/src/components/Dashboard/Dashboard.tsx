@@ -128,6 +128,7 @@ function DesktopDashboard() {
   const [activeTab, setActiveTab] = useState<NavKey | 'launchingSoon'>('pulse')
   const [activeSubTab, setActiveSubTab] = useState(TAB_ITEMS[0]?.subTabs?.[0]?.label ?? '')
   const [activeFooterTab, setActiveFooterTab] = useState<DashboardNavKey>('home')
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const activeItem = TAB_ITEMS.find(t => t.key === activeTab)
   const currentSubTabs = activeTab === 'podcasts' ? [] : (activeItem?.subTabs ?? [])
@@ -144,6 +145,8 @@ function DesktopDashboard() {
     <div className="flex h-full w-full relative overflow-hidden bg-white">
       <DashboardSidebar 
         active={activeFooterTab} 
+        isOpen={isSidebarOpen}
+        onToggle={setIsSidebarOpen}
         onNavigate={(k) => {
           setActiveFooterTab(k)
         }} 
@@ -174,7 +177,7 @@ function DesktopDashboard() {
         ) : activeTab === 'directory' ? (
           <DirectoryDesktop />
         ) : activeTab === 'pulse' ? (
-          <PulseDesktop />
+          <PulseDesktop isSidebarExpanded={isSidebarOpen} />
         ) : (
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <header className="mb-6">

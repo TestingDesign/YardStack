@@ -69,7 +69,7 @@ function SectionHeader({
           <Icon sx={{ fontSize: 18 }} className="text-purple-600" />
           <button 
             onClick={onLinkClick}
-            className="text-[16px] font-extrabold text-gray-900 tracking-tight flex items-center gap-1 hover:text-purple-600 transition-colors border-none bg-transparent p-0 cursor-pointer group"
+            className="text-[16px] font-medium text-gray-900 tracking-tight flex items-center gap-1 hover:text-purple-600 transition-colors border-none bg-transparent p-0 cursor-pointer group"
           >
             {title}
             <ArrowRight size={14} strokeWidth={2.5} className="opacity-0 -ml-1 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
@@ -138,10 +138,10 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 p-2 z-10">
-                <h3 className="text-white text-[11px] font-extrabold leading-tight line-clamp-2 mb-1 drop-shadow-sm">
+                <h3 className="text-white text-[11px] font-medium leading-tight line-clamp-2 mb-1 drop-shadow-sm">
                   {video.title}
                 </h3>
-                <div className="flex items-center gap-1 text-white text-[9px] font-bold bg-white/20 backdrop-blur-sm px-1 py-0.5 rounded-[2px] w-fit">
+                <div className="flex items-center gap-1 text-white text-[9px] font-medium bg-white/20 backdrop-blur-sm px-1 py-0.5 rounded-[2px] w-fit">
                   <PlayArrowRoundedIcon sx={{ fontSize: 10 }} />
                   {video.views}
                 </div>
@@ -151,7 +151,7 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-1 mt-2.5">
+       <div className="flex items-center justify-center gap-1 mt-2.5">
         {Array.from({ length: totalPages }).map((_, i) => (
           <div
             key={i}
@@ -162,7 +162,8 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
             }`}
           />
         ))}
-      </div>
+      </div> 
+
     </ScrollReveal>
   )
 }
@@ -192,7 +193,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
                 className="absolute inset-0 w-full h-full object-contain"
               />
 
-              <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-sm text-white text-[8px] font-bold px-1 py-0.5 rounded-[2px] flex items-center gap-0.5 z-10">
+              <div className="absolute top-1 left-1 bg-black/60 backdrop-blur-sm text-white text-[8px] font-medium px-1 py-0.5 rounded-[2px] flex items-center gap-0.5 z-10">
                 <PlayArrowRoundedIcon sx={{ fontSize: 9 }} />
                 {ep.duration}
               </div>
@@ -204,7 +205,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
               </div>
             </div>
 
-            <h4 className="text-[11px] font-extrabold text-gray-900 leading-tight line-clamp-2 mb-0.5">
+            <h4 className="text-[11px] font-medium text-gray-900 leading-tight line-clamp-2 mb-0.5">
               {ep.title}
             </h4>
             <div className="flex items-center gap-1 mb-0.5">
@@ -287,7 +288,7 @@ function DirectorySection() {
 
 function CTABanner() {
   return (
-    <ScrollReveal className="mb-20">
+    <ScrollReveal className="mb-64">
       <section className="relative overflow-hidden bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] rounded-[4px] py-6 px-4">
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[150px] bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-800 rounded-full blur-[60px] opacity-25 pointer-events-none"
@@ -303,34 +304,36 @@ function CTABanner() {
         >
           <div className="flex items-center gap-1 mb-2">
             <Sparkles size={12} className="text-fuchsia-400" />
-            <span className="text-[9px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
+            <span className="text-[9px] font-medium uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
               Your Dashboard
             </span>
             <Sparkles size={12} className="text-purple-400" />
           </div>
 
-          <h3 className="text-[17px] font-extrabold text-white tracking-tight leading-snug mb-3">
+          <h3 className="text-[17px] font-medium text-white tracking-tight leading-snug mb-3">
             Maximize your tailored{' '}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-purple-400">
               insights & connections.
             </span>
           </h3>
 
-          <div className="grid grid-cols-2 gap-1.5 w-full mb-4">
-            {[
-              { icon: OndemandVideoIcon, label: '10K+ Videos' },
-              { icon: GroupsIcon, label: '5K+ Experts' },
-              { icon: EngineeringIcon, label: '2K+ Builders' },
-              { icon: PublicIcon, label: '100K+ Community' },
-            ].map(({ icon: StatIcon, label }) => (
-              <span key={label} className="flex items-center gap-1 justify-center text-purple-100/70 text-[10px] font-medium">
-                <StatIcon sx={{ fontSize: 12 }} className="text-fuchsia-400" />
-                {label}
-              </span>
-            ))}
+          <div className="flex justify-center w-full mb-5">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-2.5">
+              {[
+                { icon: OndemandVideoIcon, label: '10K+ Videos' },
+                { icon: GroupsIcon, label: '5K+ Experts' },
+                { icon: EngineeringIcon, label: '2K+ Builders' },
+                { icon: PublicIcon, label: '100K+ Community' },
+              ].map(({ icon: StatIcon, label }) => (
+                <span key={label} className="flex items-center gap-1.5 justify-start text-purple-100/70 text-[10.5px] font-medium">
+                  <StatIcon sx={{ fontSize: 13 }} className="text-fuchsia-400" />
+                  {label}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <button className="group w-full flex items-center justify-center gap-1.5 py-2.5 rounded-[4px] bg-gradient-to-r from-purple-600 to-pink-500 text-white text-[13px] font-extrabold shadow-md shadow-purple-500/25 active:scale-95 transition-all duration-300 border-none">
+          <button className="group w-full flex items-center justify-center gap-1.5 py-2.5 rounded-[4px] bg-gradient-to-r from-purple-600 to-pink-500 text-white text-[13px] font-medium shadow-md shadow-purple-500/25 active:scale-95 transition-all duration-300 border-none">
             Explore Network
             <ArrowRight size={14} strokeWidth={2.5} />
           </button>

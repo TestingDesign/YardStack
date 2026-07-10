@@ -66,7 +66,7 @@ function SectionHeader({
   return (
     <div className="flex items-center gap-2 mb-4">
       <Icon sx={{ fontSize: 22 }} className="text-purple-600" />
-      <button className="text-[18px] font-extrabold text-gray-900 tracking-tight hover:text-purple-600 transition-colors cursor-pointer group flex items-center gap-1.5 border-none bg-transparent p-0">
+      <button className="text-[18px] font-medium text-gray-900 tracking-tight hover:text-purple-600 transition-colors cursor-pointer group flex items-center gap-1.5 border-none bg-transparent p-0">
         {title}
         <ArrowRight size={16} strokeWidth={2.5} className="opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
       </button>
@@ -174,10 +174,10 @@ function SpotlightCarousel({ onPlay }: { onPlay: (v: SpotlightVideo) => void }) 
               </div>
 
               <div className="absolute bottom-0 left-0 right-0 p-2 z-10">
-                <h3 className="text-white text-[12px] font-extrabold leading-tight mb-1.5 line-clamp-2 drop-shadow-sm">
+                <h3 className="text-white text-[12px] font-medium leading-tight mb-1.5 line-clamp-2 drop-shadow-sm">
                   {video.title}
                 </h3>
-                <div className="flex items-center gap-1 text-white text-[10px] font-bold bg-white/20 backdrop-blur-sm px-1.5 py-0.5 rounded-sm w-fit">
+                <div className="flex items-center gap-1 text-white text-[10px] font-medium bg-white/20 backdrop-blur-sm px-1.5 py-0.5 rounded-sm w-fit">
                   <PlayArrowRoundedIcon sx={{ fontSize: 12 }} />
                   {video.views}
                 </div>
@@ -260,7 +260,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
                 className="absolute inset-0 w-full h-full object-contain transition-transform duration-700 group-hover/ep:scale-105 opacity-90 group-hover/ep:opacity-100"
               />
 
-              <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold px-1.5 py-0.5 rounded-sm flex items-center gap-0.5 z-10">
+              <div className="absolute top-1.5 left-1.5 bg-black/60 backdrop-blur-sm text-white text-[9px] font-medium px-1.5 py-0.5 rounded-sm flex items-center gap-0.5 z-10">
                 <PlayArrowRoundedIcon sx={{ fontSize: 10 }} />
                 {ep.duration}
               </div>
@@ -272,7 +272,7 @@ function ExpertsRow({ onPlay }: { onPlay: (ep: PodcastEpisode) => void }) {
               </div>
             </div>
 
-            <h4 className="text-[12px] font-extrabold text-gray-900 leading-tight line-clamp-2 mb-0.5 group-hover/ep:text-purple-600 transition-colors duration-300">
+            <h4 className="text-[12px] font-medium text-gray-900 leading-tight line-clamp-2 mb-0.5 group-hover/ep:text-purple-600 transition-colors duration-300">
               {ep.title}
             </h4>
             <div className="flex items-center gap-1 mb-0.5">
@@ -324,7 +324,7 @@ function OpportunitiesSection() {
   )
 }
 
-function DirectorySection() {
+function DirectorySection({ isSidebarExpanded }: { isSidebarExpanded?: boolean }) {
   const buildersSlice = BUILDERS.slice(0, 9)
 
   return (
@@ -336,7 +336,7 @@ function DirectorySection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
-        className="grid grid-cols-2 lg:grid-cols-3 gap-2"
+        className={`grid gap-2 ${isSidebarExpanded ? 'grid-cols-2' : 'grid-cols-3'}`}
       >
         {buildersSlice.map((builder) => (
           <motion.div key={builder.id} variants={itemVariants}>
@@ -367,13 +367,13 @@ function CTABanner() {
           <div className="flex-1 w-full text-center xl:text-left">
             <div className="flex items-center justify-center xl:justify-start gap-1.5 mb-3">
               <Sparkles size={14} className="text-fuchsia-400" />
-              <span className="text-[11px] font-black uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
+              <span className="text-[11px] font-medium uppercase tracking-[0.2em] bg-clip-text text-transparent bg-gradient-to-r from-purple-300 to-fuchsia-300">
                 Your Dashboard
               </span>
               <Sparkles size={14} className="text-purple-400" />
             </div>
 
-            <h3 className="text-[20px] xl:text-[24px] font-extrabold text-white tracking-tight leading-snug mb-2 break-words whitespace-normal">
+            <h3 className="text-[20px] xl:text-[24px] font-medium text-white tracking-tight leading-snug mb-2 break-words whitespace-normal">
               Maximize your tailored{' '}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 to-purple-400">
                 insights & connections.
@@ -396,11 +396,11 @@ function CTABanner() {
           </div>
 
           <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0">
-            <button className="group flex items-center justify-center gap-1.5 px-6 py-2.5 rounded bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[14px] font-extrabold shadow-md shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer border-none">
+            <button className="group flex items-center justify-center gap-1.5 px-6 py-2.5 rounded bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-500 hover:to-pink-400 text-white text-[14px] font-medium shadow-md shadow-purple-500/25 hover:shadow-purple-500/40 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer border-none">
               Explore Network
               <ArrowRight size={14} strokeWidth={2.5} className="transition-transform duration-300 group-hover:translate-x-1" />
             </button>
-            <button className="px-6 py-2.5 rounded bg-white/5 backdrop-blur-sm text-white text-[14px] font-bold border border-white/10 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer">
+            <button className="px-6 py-2.5 rounded bg-white/5 backdrop-blur-sm text-white text-[14px] font-medium border border-white/10 hover:bg-white/15 hover:border-white/30 hover:-translate-y-0.5 transition-all duration-300 active:scale-95 cursor-pointer">
               Update Profile
             </button>
           </div>
@@ -410,7 +410,11 @@ function CTABanner() {
   )
 }
 
-export default function PulseDesktop() {
+interface PulseDesktopProps {
+  isSidebarExpanded?: boolean;
+}
+
+export default function PulseDesktop({ isSidebarExpanded = true }: PulseDesktopProps) {
   const [activeSpotlight, setActiveSpotlight] = useState<SpotlightVideo | null>(null)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
 
@@ -426,7 +430,7 @@ export default function PulseDesktop() {
           </ScrollReveal>
 
           <OpportunitiesSection />
-          <DirectorySection />
+          <DirectorySection isSidebarExpanded={isSidebarExpanded} />
           <CTABanner />
         </div>
 

@@ -22,6 +22,8 @@ interface DashboardNavItem {
 interface DashboardSidebarProps {
   active?: DashboardNavKey
   onNavigate?: (k: DashboardNavKey) => void
+  isOpen?: boolean
+  onToggle?: (isOpen: boolean) => void
 }
 
 interface TooltipState {
@@ -105,8 +107,20 @@ function useScrollDirection() {
 export default function DashboardSidebar({
   active = 'home',
   onNavigate,
+  isOpen: externalIsOpen,
+  onToggle,
 }: DashboardSidebarProps) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [internalIsOpen, setInternalIsOpen] = useState(true)
+  const isControlled = externalIsOpen !== undefined
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen
+
+  const handleToggle = () => {
+    const newVal = !isOpen
+    if (!isControlled) {
+      setInternalIsOpen(newVal)
+    }
+    onToggle?.(newVal)
+  }
   const [tooltip, setTooltip] = useState<TooltipState>(HIDDEN_TOOLTIP)
   const [mounted, setMounted] = useState(false)
   const isScrollHidden = useScrollDirection()
@@ -195,7 +209,7 @@ export default function DashboardSidebar({
           <div className="flex items-center justify-center w-full h-10">
             <div className={`flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${!isOpen ? 'w-full' : 'gap-3 '}`}>
               <button
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={handleToggle}
                 className="hover:scale-110 hover:bg-white/10 p-1.5 pt-3 rounded-sm transition-all duration-300 active:scale-95 outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]"
                 aria-label="Toggle menu"
               >
@@ -284,7 +298,7 @@ export default function DashboardSidebar({
 
         <div className="px-2 pb-3 mt-auto">
           <button
-            onClick={() => setIsOpen((prev) => !prev)}
+            onClick={handleToggle}
             aria-expanded={isOpen}
             aria-label={isOpen ? 'Collapse menu' : 'Expand menu'}
             className={`group w-full flex items-center py-2 rounded-[8px] transition-all duration-300 bg-transparent border-none cursor-pointer active:scale-[0.97] outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF] hover:bg-white/10 hover:shadow-lg ${!isOpen ? 'justify-center px-0' : 'justify-start px-3 gap-3.5'

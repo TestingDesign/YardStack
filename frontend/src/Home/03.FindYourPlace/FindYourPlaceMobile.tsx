@@ -202,7 +202,7 @@ export default function FindYourPlaceMobile() {
                   <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-100 to-purple-50 flex items-center justify-center shrink-0 border border-purple-100/50 shadow-inner">
                     <Icon name={selectedRole.roleIcon} size={18} className="text-purple-700" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-[18px] font-extrabold text-gray-900 leading-tight tracking-tight">
+                  <h3 className="text-[18px] font-medium text-gray-900 leading-tight tracking-tight">
                     {selectedRole.label}
                   </h3>
                 </div>

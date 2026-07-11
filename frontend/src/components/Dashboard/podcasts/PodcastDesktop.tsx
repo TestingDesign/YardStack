@@ -266,12 +266,13 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
 
 
 export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
-  episode, onPlay, isActive = false, hideDetails = false,
+  episode, onPlay, isActive = false, hideDetails = false, idPrefix = 'podcast-card-'
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   isActive?: boolean
   hideDetails?: boolean
+  idPrefix?: string
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -305,6 +306,7 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 
   return (
     <motion.article
+      id={`${idPrefix}${episode.id}`}
       variants={itemVariants}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
@@ -382,11 +384,12 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
 })
 
 export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
-  episode, onPlay, isActive = false,
+  episode, onPlay, isActive = false, idPrefix = 'podcast-card-'
 }: {
   episode: PodcastEpisode
   onPlay: (ep: PodcastEpisode) => void
   isActive?: boolean
+  idPrefix?: string
 }) {
   const [moreOpen, setMoreOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -418,6 +421,7 @@ export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
 
   return (
     <motion.article
+      id={`${idPrefix}${episode.id}`}
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
       className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 ${
@@ -587,6 +591,19 @@ export default function PodcastDesktop() {
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [activeEpisode, setActiveEpisode] = useState<PodcastEpisode | null>(null)
+  const [lastPoppedId, setLastPoppedId] = useState<string | null>(null)
+
+  const handleSetActiveEpisode = useCallback((ep: PodcastEpisode | null) => {
+    if (ep === null) {
+      if (activeEpisode) {
+        setLastPoppedId(activeEpisode.id)
+      }
+      setActiveEpisode(null)
+    } else {
+      setLastPoppedId(null)
+      setActiveEpisode(ep)
+    }
+  }, [activeEpisode])
   const [showPlaylistModal, setShowPlaylistModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -619,10 +636,14 @@ export default function PodcastDesktop() {
     : -1
 
   useEffect(() => {
-    if (activeEpisode && scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    const targetId = activeEpisode ? activeEpisode.id : lastPoppedId;
+    if (targetId) {
+      const el = document.getElementById(`podcast-card-${targetId}`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
     }
-  }, [activeEpisode])
+  }, [activeEpisode, lastPoppedId])
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -679,6 +700,7 @@ export default function PodcastDesktop() {
         <div className="flex-1 flex flex-col xl:flex-row gap-4 px-2 pb-2 pt-0 max-w-[1400px] w-full mx-auto">
           <main className="flex-1 min-w-0 flex flex-col gap-2">
               <motion.div
+                id={`podcast-card-${filtered[0]?.id}`}
                 variants={swipeUpVariants}
                 initial="hidden"
                 whileInView="visible"
@@ -818,7 +840,7 @@ export default function PodcastDesktop() {
                         }`}>
                           {rank}
                         </div>
-                        <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} />
+                        <DesktopEpisodeCard episode={ep} onPlay={handleSetActiveEpisode} />
                       </div>
                     )
                   })}
@@ -866,7 +888,7 @@ export default function PodcastDesktop() {
                   {viewMode === 'grid' ? (
                     <motion.div key="grid" variants={containerVariants} initial="hidden" animate="visible" className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2">
                       {displayedEpisodes.map((ep) => (
-                        <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                        <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={handleSetActiveEpisode} />
                       ))}
                       {isLoading && (
                         <>
@@ -879,7 +901,7 @@ export default function PodcastDesktop() {
                   ) : (
                     <motion.div key="list" variants={containerVariants} initial="hidden" animate="visible" className="flex flex-col gap-3 mt-2">
                       {displayedEpisodes.map((ep) => (
-                        <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} />
+                        <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={handleSetActiveEpisode} />
                       ))}
                     </motion.div>
                   )}
@@ -999,11 +1021,11 @@ export default function PodcastDesktop() {
         {activeEpisode && (
           <PodcastActiveEpisodeDesktop
             activeEpisode={activeEpisode}
-            setActiveEpisode={setActiveEpisode}
+            setActiveEpisode={handleSetActiveEpisode}
             activeIdx={activeIdx}
             filteredWithoutTop={filteredWithoutTop}
             DesktopEpisodeCard={DesktopEpisodeCard}
-            HorizontalEpisodeCard={HorizontalEpisodeCard}
+            lastPoppedId={lastPoppedId}
           />
         )}
       </AnimatePresence>

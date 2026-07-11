@@ -1,42 +1,16 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, LayoutGrid, List } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Sparkles, Lightbulb } from 'lucide-react'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import FeaturedListingCard from './FeaturedListingCard'
 
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareIcon from '@mui/icons-material/Share'
-import { CircularProgress } from '@mui/material'
+
 import PodcastVideoPlayerDesktop from './PodcastVideoPlayerDesktop'
 import { PODCAST_EPISODES, type PodcastEpisode } from './data'
 import { motion } from 'framer-motion'
 
-const DesktopEpisodeSkeleton = () => (
-  <div className="flex flex-col rounded-2xl animate-pulse bg-white p-1 pb-2 shadow-sm border border-gray-100/50">
-    <div className="w-full aspect-video rounded-[8px] mb-2.5 bg-gray-200/80" />
-    <div className="flex flex-col gap-1.5 px-1.5">
-      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-5/6" />
-      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-2/3" />
-      <div className="flex items-center gap-2 mt-1.5">
-        <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
-        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
-      </div>
-      <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/3 ml-7 mt-0.5" />
-    </div>
-  </div>
-)
 
-const HorizontalEpisodeSkeleton = () => (
-  <div className="relative flex items-start gap-2.5 p-1.5 animate-pulse bg-white/60 rounded-xl">
-    <div className="shrink-0 w-[128px] aspect-video rounded-[4px] bg-gray-200/80" />
-    <div className="flex-1 min-w-0 pt-0.5 flex flex-col gap-2">
-      <div className="h-3.5 bg-gray-200/80 rounded-[4px] w-3/4" />
-      <div className="flex items-center gap-2 mt-1">
-        <div className="h-3 bg-gray-200/80 rounded-[4px] w-1/2" />
-      </div>
-      <div className="h-2.5 bg-gray-200/80 rounded-[4px] w-1/3 mt-0.5" />
-    </div>
-  </div>
-)
 
 export default function PodcastActiveEpisodeDesktop({
   activeEpisode,
@@ -44,21 +18,18 @@ export default function PodcastActiveEpisodeDesktop({
   activeIdx,
   filteredWithoutTop,
   DesktopEpisodeCard,
-  HorizontalEpisodeCard
+  lastPoppedId
 }: {
   activeEpisode: PodcastEpisode
   setActiveEpisode: (ep: PodcastEpisode | null) => void
   activeIdx: number
   filteredWithoutTop: PodcastEpisode[]
   DesktopEpisodeCard: React.FC<any>
-  HorizontalEpisodeCard: React.FC<any>
+  lastPoppedId?: string | null
 }) {
   const [autoplay, setAutoplay] = useState(true)
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
-  const [page, setPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const perPage = 6
   
+  const dialogScrollRef = useRef<HTMLDivElement>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
   const [canScrollRight, setCanScrollRight] = useState(true)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
@@ -78,23 +49,24 @@ export default function PodcastActiveEpisodeDesktop({
     return () => { clearTimeout(timer); window.removeEventListener('resize', handleScroll) }
   }, [handleScroll, filteredWithoutTop])
 
+  useEffect(() => {
+    if (lastPoppedId) {
+      const el = document.getElementById(`dialog-${lastPoppedId}`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    } else if (dialogScrollRef.current) {
+      dialogScrollRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [activeEpisode, lastPoppedId])
+
   const scrollRight = () => sliderRef.current?.scrollBy({ left: 280, behavior: 'smooth' })
   const scrollLeft  = () => sliderRef.current?.scrollBy({ left: -280, behavior: 'smooth' })
-  
-  const displayedCount = page * perPage
-  const displayedVideos = filteredWithoutTop.slice(0, displayedCount)
-  const hasMore = displayedVideos.length < filteredWithoutTop.length
-  
-  const handleLoadMore = () => {
-    setIsLoading(true)
-    setTimeout(() => {
-      setPage(p => p + 1)
-      setIsLoading(false)
-    }, 300)
-  }
+
 
   return (
     <motion.div 
+      ref={dialogScrollRef}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.95 }}
@@ -136,6 +108,38 @@ export default function PodcastActiveEpisodeDesktop({
             <button className="flex items-center justify-center gap-2 px-4 py-2 bg-white hover:bg-gray-50 text-gray-700 rounded-md text-[14px] font-medium transition-colors cursor-pointer border border-gray-200 shadow-sm">
               <ShareIcon sx={{ fontSize: 18 }} /> Share
             </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg p-5 border border-gray-100 shadow-sm">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <Sparkles size={16} className="text-purple-600" />
+              <h4 className="text-[15px] font-semibold text-gray-900">AI Generated Summary</h4>
+            </div>
+            <p className="text-[13px] text-gray-600 leading-relaxed">
+              In this episode, {activeEpisode.speaker || 'Murali Krishna'} shares insights on real estate market trends, key growth corridors, pricing outlook, and what investors and homebuyers should watch in 2025 and beyond. He also discusses infrastructure developments, demand drivers, and strategies for long-term real estate investment.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center gap-2">
+              <Lightbulb size={16} className="text-purple-600" />
+              <h4 className="text-[15px] font-semibold text-gray-900">Key Takeaways</h4>
+            </div>
+            <ul className="flex flex-col gap-2">
+              {[
+                "Real estate is increasingly infrastructure-led.",
+                "Outer Ring Road and Metro expansion are game changers.",
+                "Residential demand will remain strong in 2025.",
+                "Focus on long-term value, not short-term hype.",
+                "Verify legal approvals and infrastructure before investing."
+              ].map((item, i) => (
+                <li key={i} className="flex items-start gap-2 text-[13px] text-gray-600">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-600 shrink-0 mt-1.5" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -183,7 +187,7 @@ export default function PodcastActiveEpisodeDesktop({
               >
                 {filteredWithoutTop.slice(0, 10).map((ep, idx) => (
                   <div key={ep.id} className="min-w-[200px] w-[200px] snap-start relative pt-2 pl-1">
-                    <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={idx} />
+                    <DesktopEpisodeCard episode={ep} onPlay={setActiveEpisode} index={idx} idPrefix="dialog-" />
                   </div>
                 ))}
               </div>
@@ -204,82 +208,7 @@ export default function PodcastActiveEpisodeDesktop({
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <h3 className="text-[18px] font-semibold text-gray-900">All Real Estate Episodes</h3>
-              <div className="flex items-center gap-2">
-                <div className="flex items-center bg-gray-100 rounded-md p-0.5">
-                  <button
-                    onClick={() => setViewMode('grid')}
-                    className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
-                      viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
-                    }`}
-                    aria-label="Grid view"
-                  >
-                    <LayoutGrid size={15} />
-                  </button>
-                  <button
-                    onClick={() => setViewMode('list')}
-                    className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
-                      viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
-                    }`}
-                    aria-label="List view"
-                  >
-                    <List size={15} />
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            {viewMode === 'grid' ? (
-              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4 pt-1">
-                {displayedVideos.map((ep, idx) => (
-                  <DesktopEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
-                ))}
-                {isLoading && (
-                  <>
-                    <DesktopEpisodeSkeleton />
-                    <DesktopEpisodeSkeleton />
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-3 pt-1">
-                {displayedVideos.map((ep, idx) => (
-                  <HorizontalEpisodeCard key={ep.id} episode={ep} onPlay={setActiveEpisode} index={idx} />
-                ))}
-                {isLoading && (
-                  <>
-                    <HorizontalEpisodeSkeleton />
-                    <HorizontalEpisodeSkeleton />
-                    <HorizontalEpisodeSkeleton />
-                  </>
-                )}
-              </div>
-            )}
-            
-            {hasMore && (
-              <div className="mt-2 mb-6 flex items-center justify-center">
-                <button
-                  type="button"
-                  onClick={handleLoadMore}
-                  disabled={isLoading}
-                  className="group flex items-center justify-center gap-2 w-full max-w-[200px] py-2.5 rounded-md bg-white border border-gray-200 text-[13px] font-medium text-gray-700 hover:bg-gray-50 transition-colors cursor-pointer"
-                >
-                  {isLoading ? (
-                    <>
-                      <CircularProgress size={16} sx={{ color: '#6B7280' }} />
-                      <span>Loading...</span>
-                    </>
-                  ) : (
-                    <>
-                      Load More
-                    </>
-                  )}
-                </button>
-              </div>
-            )}
-          </div>
+
         </div>
       </div>
 

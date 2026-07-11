@@ -150,6 +150,7 @@ export const DesktopSpotlightCard = memo(function DesktopSpotlightCard({
 
   return (
     <motion.article
+      id={`spotlight-card-${video.id}`}
       variants={itemVariants}
       whileHover={{ y: -2, scale: 1.01 }}
       className={`card-shimmer group flex flex-col cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg ${moreOpen ? 'z-50 relative' : ''
@@ -359,15 +360,22 @@ export default function SpotlightDesktop() {
   const [page, setPage] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
   const [activeVideo, setActiveVideo] = useState<SpotlightVideo | null>(null)
+  const [lastPoppedId, setLastPoppedId] = useState<string | null>(null)
+
+  const handleSetActiveVideo = useCallback((video: SpotlightVideo | null) => {
+    if (video === null) {
+      if (activeVideo) {
+        setLastPoppedId(activeVideo.id)
+      }
+      setActiveVideo(null)
+    } else {
+      setLastPoppedId(null)
+      setActiveVideo(video)
+    }
+  }, [activeVideo])
   const perPage = 10
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (activeVideo && scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
-    }
-  }, [activeVideo])
 
   const handleFilterChange = useCallback((key: string) => {
     setActiveFilter(key)
@@ -397,6 +405,16 @@ export default function SpotlightDesktop() {
     ? SPOTLIGHT_VIDEOS.findIndex((v) => v.id === activeVideo.id)
     : -1
 
+  useEffect(() => {
+    const targetId = activeVideo ? activeVideo.id : lastPoppedId;
+    if (targetId) {
+      const el = document.getElementById(`spotlight-card-${targetId}`)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    }
+  }, [activeVideo, lastPoppedId])
+
   const ScrollReveal = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
     return (
       <motion.div
@@ -425,7 +443,7 @@ export default function SpotlightDesktop() {
         <div className="flex-1 flex flex-col xl:flex-row gap-5 px-2 pb-2 pt-0 max-w-[1400px] w-full mx-auto">
 
           <main className="flex-1 min-w-0 flex flex-col gap-4">
-            <section>
+            <section id={`spotlight-card-${filtered[0]?.id}`}>
               <CoverflowCarousel videos={filtered} onPlay={setActiveVideo} />
             </section>
 
@@ -449,7 +467,7 @@ export default function SpotlightDesktop() {
                     className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-3"
                   >
                     {displayedVideos.map((video) => (
-                      <DesktopSpotlightCard key={video.id} video={video} onPlay={setActiveVideo} />
+                      <DesktopSpotlightCard key={video.id} video={video} onPlay={handleSetActiveVideo} />
                     ))}
                   </motion.div>
 
@@ -595,9 +613,9 @@ export default function SpotlightDesktop() {
           >
             <ActiveSpotlightDesktop
               video={activeVideo}
-              onClose={() => setActiveVideo(null)}
-              onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
-              onPrev={activeIdx > 0 ? () => setActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
+              onClose={() => handleSetActiveVideo(null)}
+              onNext={activeIdx < SPOTLIGHT_VIDEOS.length - 1 ? () => handleSetActiveVideo(SPOTLIGHT_VIDEOS[activeIdx + 1]) : undefined}
+              onPrev={activeIdx > 0 ? () => handleSetActiveVideo(SPOTLIGHT_VIDEOS[activeIdx - 1]) : undefined}
             />
           </motion.div>
         )}

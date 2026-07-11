@@ -23,17 +23,19 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 }
+    transition: { staggerChildren: 0.08, delayChildren: 0.1 }
   }
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { type: "spring" as const, stiffness: 300, damping: 24 } 
-  }
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 400, damping: 30 } 
+  },
+  exit: { opacity: 0, scale: 0.95, height: 0, overflow: 'hidden', transition: { duration: 0.2 } }
 }
 
 export interface ActivityCardProps {
@@ -54,6 +56,7 @@ export const ActivityCard = memo(function ActivityCard({
   const [isSaved, setIsSaved] = useState(false)
   const [swipeOffset, setSwipeOffset] = useState(0)
   const [isSwiping, setIsSwiping] = useState(false)
+  const [isDismissed, setIsDismissed] = useState(false)
   const [tooltipPos, setTooltipPos] = useState<'top' | 'bottom'>(index === 0 ? 'bottom' : 'top')
 
   const startX = useRef(0)
@@ -61,9 +64,8 @@ export const ActivityCard = memo(function ActivityCard({
   const maxSwipe = 80
   const saveBtnRef = useRef<HTMLDivElement>(null)
 
-
-
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (isEmbedded) return
     if (isExpanded) onToggle()
     startX.current = e.touches[0].clientX
     initialOffset.current = swipeOffset
@@ -106,39 +108,46 @@ export const ActivityCard = memo(function ActivityCard({
     }
   }
 
+  if (isDismissed) return null
 
   return (
     <motion.div 
+      layout
       variants={itemVariants}
-      whileTap={{ scale: 0.98 }}
-      className="relative mb-3"
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+      whileTap={{ scale: isExpanded ? 1 : 0.98 }}
+      className={`relative origin-center ${isEmbedded ? '' : 'mb-3'}`}
     >
-
-      <div className="relative z-10 rounded-[8px] group/card">
-        <div className="absolute inset-y-0 right-0 w-20 bg-red-500 rounded-r-[8px] flex flex-col items-center justify-center text-white z-0 overflow-hidden">
-          <button
-            type="button"
-            className="flex flex-col items-center justify-center w-full h-full active:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
-            onClick={() => console.log('Not Interested in', item.id)}
-          >
-            <CloseIcon sx={{ fontSize: 20 }} className="mb-0.5 hover:scale-110 transition-transform duration-300" />
-            <span className="text-[9px] font-bold px-2 text-center leading-tight">
-              Not<br />Interested
-            </span>
-          </button>
-        </div>
+      <div className={`relative z-10 rounded-[4px] group/card ${isEmbedded ? '' : 'shadow-sm hover:shadow-md transition-shadow duration-300 bg-red-500'}`}>
+        {!isEmbedded && (
+          <div className="absolute inset-y-0 right-0 w-20 rounded-r-[4px] flex flex-col items-center justify-center text-white z-0 overflow-hidden">
+            <motion.button
+              type="button"
+              whileTap={{ scale: 0.9 }}
+              className="flex flex-col items-center justify-center w-full h-full hover:bg-red-600 transition-colors border-none outline-none cursor-pointer bg-transparent focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-white"
+              onClick={() => setIsDismissed(true)}
+            >
+              <CloseIcon sx={{ fontSize: 20 }} className="mb-0.5 hover:scale-110 transition-transform duration-300" />
+              <span className="text-[9px] font-bold px-2 text-center leading-tight">
+                Not<br />Interested
+              </span>
+            </motion.button>
+          </div>
+        )}
 
         <div
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          onTouchStart={isEmbedded ? undefined : handleTouchStart}
+          onTouchMove={isEmbedded ? undefined : handleTouchMove}
+          onTouchEnd={isEmbedded ? undefined : handleTouchEnd}
           style={{
             transform: `translateX(${swipeOffset}px)`,
             transitionDuration: isSwiping ? '0ms' : '400ms',
             transitionTimingFunction: isSwiping ? 'linear' : 'cubic-bezier(0.34, 1.56, 0.64, 1)',
             backgroundColor: item.cardBg || '#FFFFFF'
           }}
-          className={`relative flex flex-col ${isEmbedded ? 'px-3.5 pb-2.5 pt-1 border-transparent' : 'p-2 border border-gray-200 shadow-sm'} rounded-[4px] z-10 transition-colors min-h-20`}
+          className={`relative flex flex-col ${isEmbedded ? 'px-3.5 pb-2.5 pt-1 border-transparent' : 'p-2 border border-gray-200'} rounded-[4px] z-10 transition-colors min-h-20`}
         >
           <div className={`absolute top-2 ${isEmbedded ? 'right-3.5' : 'right-2'} bottom-2 z-20 flex flex-col items-end justify-between pointer-events-none`}>
             <div className="flex items-center pointer-events-auto">
@@ -162,18 +171,25 @@ export const ActivityCard = memo(function ActivityCard({
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 }`}
               >
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
                   onClick={toggleSave}
-                  className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-pink-100 text-[#E91E8C] bg-white hover:bg-pink-50 hover:border-pink-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E91E8C]/50 transition-all duration-300 active:scale-95 cursor-pointer ${
+                  className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-pink-100 text-[#E91E8C] bg-white hover:bg-pink-50 hover:border-pink-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E91E8C]/50 transition-all duration-300 cursor-pointer ${
                     isSaved ? 'scale-110' : ''
                   }`}
                   aria-label={isSaved ? "Saved" : "Save"}
                 >
-                  {isSaved ? <BookmarkIcon sx={{ fontSize: 16 }} className="drop-shadow-sm text-[#E91E8C]" /> : <BookmarkBorderIcon sx={{ fontSize: 16 }} />}
-                </button>
+                  {isSaved ? (
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }}>
+                      <BookmarkIcon sx={{ fontSize: 16 }} className="drop-shadow-sm text-[#E91E8C]" />
+                    </motion.div>
+                  ) : (
+                    <BookmarkBorderIcon sx={{ fontSize: 16 }} />
+                  )}
+                </motion.button>
 
                 <span
-                  className={`absolute right-0 px-2 py-1 bg-gray-900 text-white text-[9px] font-bold rounded-[2px] opacity-0 group-hover/save:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-100 ${
+                  className={`absolute right-0 px-2 py-1 bg-gray-900 text-white text-[9px] font-bold rounded-[2px] opacity-0 group-hover/save:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap z-[100] ${
                     tooltipPos === 'top' ? 'bottom-full mb-1.5 translate-y-1 group-hover/save:translate-y-0' : 'top-full mt-1.5 -translate-y-1 group-hover/save:translate-y-0'
                   }`}
                 >
@@ -186,18 +202,20 @@ export const ActivityCard = memo(function ActivityCard({
                 </span>
               </div>
 
-              <button
-                className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition-all duration-300 active:scale-95 cursor-pointer ${
+              <motion.button
+                whileTap={{ scale: 0.9 }}
+                className={`flex items-center justify-center w-7 h-7 rounded-[2px] border border-gray-200 text-gray-500 bg-white hover:bg-gray-50 hover:border-gray-300 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-300 transition-all duration-300 cursor-pointer ${
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 }`}
                 aria-label="Share"
               >
                 <ShareOutlinedIcon sx={{ fontSize: 16 }} />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
                 onClick={(e) => { e.stopPropagation(); onToggle(); }}
-                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded-[4px] border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
+                className={`flex items-center gap-0.5 px-1.5 py-0.5 bg-white hover:bg-pink-50 rounded-[4px] border border-pink-500/20 text-pink-600 font-bold text-[9px] md:text-[10px] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50 pointer-events-auto shadow-sm cursor-pointer hover:shadow hover:border-pink-500/40 ${
                   swipeOffset < -10 ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 }`}
               >
@@ -206,7 +224,7 @@ export const ActivityCard = memo(function ActivityCard({
                   sx={{ fontSize: 12 }}
                   className={`transition-transform duration-500 ${isExpanded ? 'rotate-180' : ''}`}
                 />
-              </button>
+              </motion.button>
             </div>
           </div>
 
@@ -217,26 +235,34 @@ export const ActivityCard = memo(function ActivityCard({
                   <img
                     src={item.logoImg}
                     alt={item.company}
-                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[8px] object-cover border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
+                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[4px] object-cover border border-black/5 transition-transform duration-500 group-hover/logo:scale-110 group-hover/logo:-rotate-2 shadow-sm"
                   />
                 ) : (
                   <div
-                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[8px] flex items-center justify-center border border-black/5 transition-transform duration-500 group-hover/logo:scale-105"
+                    className="w-10 h-10 @md:w-12 @md:h-12 rounded-[4px] flex items-center justify-center border border-black/5 transition-transform duration-500 group-hover/logo:scale-110 group-hover/logo:-rotate-2 shadow-sm overflow-hidden relative"
                     style={{ backgroundColor: item.logoBg, color: item.logoColor }}
                   >
+                    <motion.div 
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      className="absolute -inset-4 opacity-20"
+                      style={{
+                        background: `conic-gradient(from 0deg, transparent, ${item.logoColor}, transparent)`
+                      }}
+                    />
                     <span
-                      className="text-center font-bold text-[9px] @md:text-[10px] leading-tight whitespace-pre-wrap tracking-wide"
+                      className="text-center font-bold text-[9px] @md:text-[10px] leading-tight whitespace-pre-wrap tracking-wide relative z-10"
                       style={{ color: item.logoColor }}
                     >
                       {item.logoText}
                     </span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-black/0 group-hover/logo:bg-black/5 transition-colors rounded-[8px] pointer-events-none" />
+                <div className="absolute inset-0 bg-black/0 group-hover/logo:bg-black/5 transition-colors rounded-[4px] pointer-events-none" />
               </div>
             </div>
 
-            <div className="flex flex-col min-w-0 w-full py-0.5 transition-transform duration-300 group-hover/card:translate-x-0.5">
+            <div className="flex flex-col min-w-0 w-full py-0.5 transition-transform duration-300 group-hover/card:translate-x-1">
               <div className="flex items-center gap-1">
                 <span className="text-[11px] @md:text-[12px] font-semibold text-[#1f1633] truncate">
                   {item.company}
@@ -249,12 +275,14 @@ export const ActivityCard = memo(function ActivityCard({
               </h3>
 
               <div className="flex items-center w-full mt-2 gap-1.5 min-w-0">
-                <span
-                  className="px-1.5 py-0.5 rounded-[2px] text-[8px] @md:text-[9px] font-bold tracking-wide uppercase shrink-0 transition-colors duration-300"
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="px-1.5 py-0.5 rounded-[2px] text-[8px] @md:text-[9px] font-bold tracking-wide uppercase shrink-0 transition-colors duration-300 shadow-sm"
                   style={{ backgroundColor: item.tagBg, color: item.tagColor }}
                 >
                   {item.tag}
-                </span>
+                </motion.span>
                 <span className="text-[10px] font-medium text-gray-500 truncate">
                   {item.detail}
                 </span>
@@ -267,66 +295,98 @@ export const ActivityCard = memo(function ActivityCard({
       <AnimatePresence>
       {isExpanded && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ type: "spring", stiffness: 300, damping: 24 }}
+          initial={{ opacity: 0, height: 0, filter: "blur(4px)" }}
+          animate={{ opacity: 1, height: "auto", filter: "blur(0px)" }}
+          exit={{ opacity: 0, height: 0, filter: "blur(4px)" }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
           className="overflow-hidden"
         >
           <div className="mx-2 p-4 pt-5 -mt-2 bg-gradient-to-b from-gray-50/80 to-white rounded-b-[8px] border border-t-0 border-gray-100 flex flex-col relative z-0 shadow-[0_4px_16px_rgba(0,0,0,0.02)]">
-          <div className="flex items-center gap-1.5 mb-3 text-[11px] font-bold text-[#1f1633]">
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="flex items-center gap-1.5 mb-3 text-[11px] font-bold text-[#1f1633]"
+          >
             <BusinessCenterIcon sx={{ fontSize: 14 }} className="text-[#6a5fc1]" />
             Role Overview
-          </div>
+          </motion.div>
 
-          <div className="flex flex-wrap gap-1.5 mb-3">
-            {item.skills?.map((skill) => (
-              <span
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.15 }}
+            className="flex flex-wrap gap-1.5 mb-3"
+          >
+            {item.skills?.map((skill, i) => (
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.15 + i * 0.05 }}
                 key={skill}
-                className="px-2 py-1 rounded-[4px] text-[10px] font-semibold bg-blue-50/50 text-blue-600 border border-blue-100/50"
+                className="px-2 py-1 rounded-[4px] text-[10px] font-semibold bg-blue-50/50 text-blue-600 border border-blue-100/50 hover:bg-blue-100 transition-colors"
               >
                 {skill}
-              </span>
+              </motion.span>
             ))}
-          </div>
+          </motion.div>
 
-          <p className="text-[11px] text-gray-600 leading-relaxed mb-4">
+          <motion.p 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-[11px] text-gray-600 leading-relaxed mb-4"
+          >
             {item.description || `We are actively looking for candidates/agencies specializing in ${item.tag} to fulfill the requirements for ${item.title}. The ideal candidate should have strong leadership skills and a proven track record.`}
-          </p>
+          </motion.p>
 
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-gray-100/80">
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.25 }}
+            className="flex flex-col sm:flex-row sm:items-center gap-3 pt-3 border-t border-gray-100/80"
+          >
             <div className="flex items-center gap-3 w-full overflow-x-auto scrollbar-none">
               <div className="flex items-center gap-2 text-[10px] font-medium text-gray-500 whitespace-nowrap">
-                <span className="flex items-center gap-1">
-                  <GroupIcon sx={{ fontSize: 14 }} className="text-blue-500" />
+                <span className="flex items-center gap-1 group/stat hover:text-blue-600 transition-colors cursor-default">
+                  <GroupIcon sx={{ fontSize: 14 }} className="text-blue-500 group-hover/stat:scale-110 transition-transform" />
                   {item.applicants || 0} Applicants
                 </span>
                 <span className="text-gray-300">•</span>
-                <span className="flex items-center gap-1">
-                  <VisibilityIcon sx={{ fontSize: 14 }} className="text-purple-500" />
+                <span className="flex items-center gap-1 group/stat hover:text-purple-600 transition-colors cursor-default">
+                  <VisibilityIcon sx={{ fontSize: 14 }} className="text-purple-500 group-hover/stat:scale-110 transition-transform" />
                   {item.views || 0} Views
                 </span>
                 <span className="text-gray-300">•</span>
-                <span className="flex items-center gap-1">
-                  <AccessTimeIcon sx={{ fontSize: 14 }} className="text-orange-500" />
+                <span className="flex items-center gap-1 group/stat hover:text-orange-600 transition-colors cursor-default">
+                  <AccessTimeIcon sx={{ fontSize: 14 }} className="text-orange-500 group-hover/stat:rotate-12 transition-transform" />
                   {item.postedAgo || 'Just now'}
                 </span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="mt-4 flex justify-end">
-            <button className="
-              px-5 py-2 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border-none
-              bg-gradient-to-r from-pink-500 to-rose-500 bg-[length:200%_auto]
-              hover:bg-[position:100%_center] hover:scale-[1.02]
-              shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)]
-              transition-all duration-300 active:scale-95
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50
-            ">
+          <motion.div 
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="mt-4 flex justify-end"
+          >
+            <motion.button 
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.95 }}
+              className="
+                px-5 py-2 rounded-[4px] text-[12px] font-bold text-white cursor-pointer border-none
+                bg-gradient-to-r from-pink-500 to-rose-500 bg-[length:200%_auto]
+                hover:bg-[position:100%_center]
+                shadow-[0_2px_8px_rgba(236,72,153,0.25)] hover:shadow-[0_4px_12px_rgba(225,29,72,0.35)]
+                transition-all duration-300
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-500/50
+              "
+            >
               Apply / Connect
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         </div>
         </motion.div>
       )}
@@ -337,32 +397,54 @@ export const ActivityCard = memo(function ActivityCard({
 
 export const AdvertisementBlock = memo(function AdvertisementBlock() {
   return (
-    <div className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center w-full h-[120px] my-3 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
+    <motion.div 
+      whileHover={{ scale: 1.01 }}
+      className="bg-gradient-to-br from-indigo-50/60 to-blue-50/60 border border-white/80 backdrop-blur-xl rounded-[4px] flex flex-col items-center justify-center w-full h-[120px] my-3 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] group"
+    >
+      <motion.div 
+        animate={{ x: ['-100%', '200%'] }}
+        transition={{ repeat: Infinity, duration: 3, ease: "linear", repeatDelay: 1 }}
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+      />
+      <div className="absolute inset-0 bg-white/40 group-hover:bg-transparent transition-colors duration-500" />
       <div className="text-center relative z-10 p-4 flex flex-col items-center">
         <span className="block text-sm mb-2 font-black text-indigo-900/30 tracking-widest uppercase drop-shadow-sm">
           Advertisement
         </span>
       </div>
-    </div>
+    </motion.div>
   )
 })
 
 const SponsoredBlock = memo(function SponsoredBlock() {
   return (
-    <div className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[8px] flex flex-col items-center justify-center h-[100px] w-full mt-4 mb-2 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] animate-in fade-in duration-500">
+    <motion.div 
+      whileHover={{ scale: 1.01 }}
+      className="bg-gradient-to-br from-pink-50/60 to-rose-50/60 border border-white/80 backdrop-blur-xl rounded-[4px] flex flex-col items-center justify-center h-[100px] w-full mt-4 mb-2 relative overflow-hidden shadow-[0_4px_16px_rgba(0,0,0,0.04)] group"
+    >
+      <motion.div 
+        animate={{ x: ['-100%', '200%'] }}
+        transition={{ repeat: Infinity, duration: 3.5, ease: "linear", repeatDelay: 1.5 }}
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-12"
+      />
+      <div className="absolute inset-0 bg-white/40 group-hover:bg-transparent transition-colors duration-500" />
       <div className="text-center relative z-10 p-4 flex flex-col items-center">
         <span className="block text-xs mb-2 font-black text-pink-900/30 tracking-widest uppercase drop-shadow-sm">
           Sponsored
         </span>
       </div>
-    </div>
+    </motion.div>
   )
 })
 
 const HiringCTA = memo(function HiringCTA() {
   return (
-    <div className="rounded-[8px] overflow-hidden border border-slate-700/50 bg-gradient-to-br from-[#0f172a]/90 to-[#1e293b]/90 backdrop-blur-xl p-4 text-white relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] mt-4 mb-6 animate-in fade-in duration-500">
-      <div className="absolute -right-8 -top-8 w-24 h-24 bg-[#E91E8C]/20 rounded-full blur-2xl" />
+    <div className="rounded-[4px] overflow-hidden border border-slate-700/50 bg-gradient-to-br from-[#0f172a]/90 to-[#1e293b]/90 backdrop-blur-xl p-4 text-white relative shadow-[0_8px_24px_rgba(0,0,0,0.15)] mt-4 mb-6 group transition-shadow hover:shadow-[0_12px_28px_rgba(0,0,0,0.25)]">
+      <motion.div 
+        animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute -right-8 -top-8 w-24 h-24 bg-[#E91E8C] rounded-full blur-2xl pointer-events-none" 
+      />
       <div className="flex items-center gap-3 relative z-10">
         <div className="flex-1">
           <h3 className="text-[14px] font-bold mb-1 text-white drop-shadow-sm">
@@ -371,12 +453,21 @@ const HiringCTA = memo(function HiringCTA() {
           <p className="text-[11px] text-gray-300 leading-relaxed mb-3">
             Post a job and connect with verified professionals.
           </p>
-          <button className="px-4 py-2 rounded-[4px] text-[11px] font-bold text-white cursor-pointer border border-pink-500/30 bg-gradient-to-r from-[#E91E8C] to-[#F472B6] shadow-[0_2px_8px_rgba(233,30,140,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]">
+          <motion.button 
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="px-4 py-2 rounded-[4px] text-[11px] font-bold text-white cursor-pointer border border-pink-500/30 bg-gradient-to-r from-[#E91E8C] to-[#F472B6] shadow-[0_2px_8px_rgba(233,30,140,0.4)] transition-all duration-300"
+          >
             Post a Job
-          </button>
+          </motion.button>
         </div>
-        <div className="shrink-0 w-12 h-12 rounded-[8px] bg-white/5 flex items-center justify-center border border-white/10 backdrop-blur-md shadow-inner">
-          <BusinessCenterIcon sx={{ fontSize: 24 }} className="text-white/80 drop-shadow-lg" />
+        <div className="shrink-0 w-12 h-12 rounded-[4px] bg-white/5 flex items-center justify-center border border-white/10 backdrop-blur-md shadow-inner group-hover:bg-white/10 transition-colors">
+          <motion.div
+            whileHover={{ rotate: [0, -10, 10, -10, 0] }}
+            transition={{ duration: 0.5 }}
+          >
+            <BusinessCenterIcon sx={{ fontSize: 24 }} className="text-white/80 drop-shadow-lg" />
+          </motion.div>
         </div>
       </div>
     </div>
@@ -407,7 +498,7 @@ export default function ActivityBoardMobile() {
     setTimeout(() => {
       setVisibleCount(prev => prev + ITEMS_PER_PAGE)
       setIsLoading(false)
-    }, 300)
+    }, 600)
   }
 
   const handleToggleExpand = useCallback((id: string) => {
@@ -421,49 +512,67 @@ export default function ActivityBoardMobile() {
       </div>
 
       <div className="w-full pt-2 pb-16 max-w-5xl mx-auto px-3">
-        {displayedItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-8 text-center animate-in fade-in zoom-in duration-500">
-            <div className="w-12 h-12 mb-3 rounded-[8px] bg-white shadow-sm border border-gray-100 flex items-center justify-center">
-              <span className="text-xl">📭</span>
-            </div>
-            <h3 className="text-sm font-bold text-[#1f1633] mb-0.5">No activities found</h3>
-            <p className="text-xs text-gray-500">There are no matching items in this category.</p>
-          </div>
-        ) : (
-          <motion.div 
-            variants={containerVariants} 
-            initial="hidden" 
-            whileInView="visible" 
-            viewport={{ once: true, margin: "50px" }}
-            className="flex flex-col"
-          >
-            {displayedItems.map((item, index) => (
-              <React.Fragment key={item.id}>
-                <ActivityCard 
-                  item={item} 
-                  index={index} 
-                  isExpanded={expandedId === item.id}
-                  onToggle={() => handleToggleExpand(item.id)}
-                />
-                {index === 3 && displayedItems.length > 3 && (
-                  <AdvertisementBlock />
-                )}
-              </React.Fragment>
-            ))}
-            <SponsoredBlock />
-          </motion.div>
-        )}
+        <AnimatePresence mode="wait">
+          {displayedItems.length === 0 ? (
+            <motion.div 
+              key="empty"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="flex flex-col items-center justify-center p-8 text-center"
+            >
+              <motion.div 
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="w-12 h-12 mb-3 rounded-[4px] bg-white shadow-sm border border-gray-100 flex items-center justify-center"
+              >
+                <span className="text-xl">📭</span>
+              </motion.div>
+              <h3 className="text-sm font-bold text-[#1f1633] mb-0.5">No activities found</h3>
+              <p className="text-xs text-gray-500">There are no matching items in this category.</p>
+            </motion.div>
+          ) : (
+            <motion.div 
+              key="list"
+              variants={containerVariants} 
+              initial="hidden" 
+              animate="visible" 
+              className="flex flex-col"
+            >
+              {displayedItems.map((item, index) => (
+                <React.Fragment key={item.id}>
+                  <ActivityCard 
+                    item={item} 
+                    index={index} 
+                    isExpanded={expandedId === item.id}
+                    onToggle={() => handleToggleExpand(item.id)}
+                  />
+                  {index === 3 && displayedItems.length > 3 && (
+                    <AdvertisementBlock />
+                  )}
+                </React.Fragment>
+              ))}
+              <SponsoredBlock />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {hasMore && (
-          <div className="flex justify-center mt-4 mb-4">
-            <button
+        {hasMore && displayedItems.length > 0 && (
+          <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className="flex justify-center mt-4 mb-4"
+          >
+            <motion.button
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
               onClick={handleLoadMore}
               disabled={isLoading}
-              className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+              className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] disabled:opacity-70 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <>
-                  <CircularProgress size={14} sx={{ color: '#7C3AED' }} />
+                  <CircularProgress size={14} sx={{ color: 'inherit' }} />
                   <span>Loading...</span>
                 </>
               ) : (
@@ -472,15 +581,20 @@ export default function ActivityBoardMobile() {
                   <span>Load More Opportunities</span>
                 </>
               )}
-            </button>
-          </div>
+            </motion.button>
+          </motion.div>
         )}
 
         {displayedItems.length > 0 && (
-          <div className="flex flex-col gap-4 mt-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex flex-col gap-4 mt-6"
+          >
             <ActivityBoardWidgets />
             <HiringCTA />
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

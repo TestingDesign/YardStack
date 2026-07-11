@@ -66,36 +66,30 @@ export const BuilderCardMobile = memo(function BuilderCardMobile({ builder, isEm
       {/* Hover gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-purple-50/0 to-fuchsia-50/0 active:from-purple-50/40 active:to-fuchsia-50/40 transition-all duration-300 rounded-[8px] pointer-events-none" />
 
-      {!isEmbedded && (
-        <div 
-          className="relative flex items-center justify-center shrink-0 rounded-[4px] w-12 h-12 overflow-hidden px-1 z-10"
-          style={{ backgroundColor: builder.logoBg }}
-        >
-          <span className="text-[10px] font-bold tracking-wider truncate w-full text-center" style={{ color: builder.logoColor }}>
-            {builder.logoText}
-          </span>
-        </div>
-      )}
+      <div 
+        className={`relative flex items-center justify-center shrink-0 rounded-[4px] ${isEmbedded ? 'w-10 h-10' : 'w-12 h-12'} overflow-hidden px-1 z-10`}
+        style={{ backgroundColor: builder.logoBg }}
+      >
+        <span className="text-[10px] font-bold tracking-wider truncate w-full text-center" style={{ color: builder.logoColor }}>
+          {builder.logoText}
+        </span>
+      </div>
       
       <div className="relative flex-1 min-w-0 flex flex-col justify-center z-10">
-        {!isEmbedded && (
-          <div className="flex items-center gap-1 justify-start">
-            <h3 className="font-medium text-gray-800 text-[13px] truncate">
-              {builder.name}
-            </h3>
-            {builder.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-purple-500 shrink-0" />}
-          </div>
-        )}
+        <div className="flex items-center gap-1 justify-start">
+          <h3 className="font-medium text-gray-800 text-[13px] truncate">
+            {builder.name}
+          </h3>
+          {builder.verified && <VerifiedIcon sx={{ fontSize: 14 }} className="text-purple-500 shrink-0" />}
+        </div>
         <p className={`text-[11px] font-medium text-gray-500 truncate ${!isEmbedded ? 'mt-0.5' : ''}`}>
           {builder.category}
         </p>
       </div>
 
-      {!isEmbedded && (
-        <button className="relative shrink-0 px-4 py-2 rounded-[4px] text-[11px] font-bold text-purple-600 bg-white border border-purple-200 shadow-[0_2px_12px_rgba(124,58,237,0.1)] active:scale-[0.97] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 z-10">
-          Connect
-        </button>
-      )}
+      <button className="relative shrink-0 px-4 py-2 rounded-[4px] text-[11px] font-bold text-purple-600 bg-white border border-purple-200 shadow-[0_2px_12px_rgba(124,58,237,0.1)] active:scale-[0.97] hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 z-10">
+        Connect
+      </button>
     </motion.div>
   )
 })

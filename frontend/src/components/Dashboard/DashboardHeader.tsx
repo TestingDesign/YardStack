@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import CheckIcon from '@mui/icons-material/Check'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import LogoPng from '../../Home/01.Hero/Logo.png'
 
 interface NavCardItem {
   key: string
@@ -153,10 +154,26 @@ export default function DashboardHeader({
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-[var(--color-border-default)]">
-      <div className="flex items-center h-16 px-2 sm:px-2 w-full gap-4">
+      <div className="flex items-center h-16 px-4 w-full gap-4">
+
+        {onMenuClick && (
+          <div className="flex items-center shrink-0 gap-4">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              type="button"
+              onClick={onMenuClick}
+              className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              <MenuIcon sx={{ fontSize: 24 }} />
+            </motion.button>
+            <img src={LogoPng} alt="N4RE Logo" className="h-8 object-contain shrink-0" />
+            <div className="w-px h-6 bg-[var(--color-border-default)] shrink-0 ml-1 mr-1" aria-hidden="true" />
+          </div>
+        )}
 
         {navItems.length > 0 && (
-          <div className="flex-1 min-w-0 relative group/navslider h-full flex items-center">
+          <div className="flex-1 min-w-0 relative group/navslider h-full flex items-center justify-center">
             {canScrollLeftNav && (
               <div className="absolute left-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center">
                 <div className="pointer-events-auto -ml-1">
@@ -176,7 +193,7 @@ export default function DashboardHeader({
               ref={navScrollRef}
               onScroll={handleNavScroll}
               aria-label="Primary Navigation"
-              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto w-full px-1 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
+              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto max-w-full px-1 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
             >
               {navItems.map((item) => (
                 <div key={item.key} className="snap-start shrink-0">
@@ -207,22 +224,6 @@ export default function DashboardHeader({
         )}
 
         <div className="flex items-center gap-2 sm:gap-1 min-w-0">
-          {onMenuClick && (
-            <>
-              <motion.button
-                whileTap={{ scale: 0.95 }}
-                type="button"
-                onClick={onMenuClick}
-                className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
-                aria-label="Toggle menu"
-              >
-                <MenuIcon sx={{ fontSize: 22 }} />
-              </motion.button>
-
-              <div className="w-px h-5 bg-[var(--color-border-default)] shrink-0" aria-hidden="true" />
-            </>
-          )}
-
           <div ref={cityRef} className="relative min-w-0 shrink">
             <motion.button
               whileTap={{ scale: 0.98 }}

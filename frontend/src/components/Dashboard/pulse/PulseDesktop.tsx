@@ -230,8 +230,8 @@ interface PulseDesktopProps {
 export default function PulseDesktop(_props: PulseDesktopProps) {
   return (
     <main className="flex-1 overflow-y-auto bg-[#F3F2EF] px-12 pt-1 pb-12 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none min-h-screen relative">
-      <div className="max-w-[1128px] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-6 relative z-10">
-        <div className="min-w-0 max-w-[576px] mx-auto w-full">
+      <div className="max-w-[1128px] mx-auto flex justify-center gap-6 relative z-10">
+        <div className="min-w-0 w-full max-w-[576px]">
           <AnimatePresence mode="wait">
             <motion.div
               key="pulse-feed"
@@ -273,8 +273,10 @@ export default function PulseDesktop(_props: PulseDesktopProps) {
           </AnimatePresence>
         </div>
 
-        <div className="hidden lg:block relative">
-          <PulseRightPane />
+        <div className="hidden lg:block w-[300px] shrink-0 relative h-full">
+          <div className="sticky top-6">
+            <PulseRightPane />
+          </div>
         </div>
       </div>
     </main>

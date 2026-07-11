@@ -142,22 +142,26 @@ function DesktopDashboard() {
   }, [])
 
   return (
-    <div className="flex h-full w-full relative overflow-hidden bg-white">
-      <DashboardSidebar 
-        active={activeFooterTab} 
-        isOpen={isSidebarOpen}
-        onToggle={setIsSidebarOpen}
-        onNavigate={(k) => {
-          setActiveFooterTab(k)
-        }} 
+    <div className="flex flex-col h-full w-full relative overflow-hidden bg-white">
+      <DashboardHeader
+        navItems={HEADER_NAV_ITEMS}
+        activeTab={activeTab}
+        onTabChange={handleTabChange}
+        onMenuClick={() => setIsSidebarOpen(prev => !prev)}
       />
 
-      <main className="flex-1 flex flex-col h-full overflow-hidden">
-        <DashboardHeader
-          navItems={HEADER_NAV_ITEMS}
-          activeTab={activeTab}
-          onTabChange={handleTabChange}
+      <div className="flex flex-1 overflow-hidden">
+        <DashboardSidebar 
+          active={activeFooterTab} 
+          isOpen={isSidebarOpen}
+          onToggle={setIsSidebarOpen}
+          onNavigate={(k) => {
+            setActiveFooterTab(k)
+          }} 
         />
+
+        <main className="flex-1 flex flex-col h-full overflow-hidden">
+
 
       {currentSubTabs.length > 0 && (
         <nav aria-label="Secondary Navigation" className="shrink-0 border-b border-[#eef0f3] bg-white/60 backdrop-blur-md px-6 py-1">
@@ -200,7 +204,8 @@ function DesktopDashboard() {
           </div>
         )}
       </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 }

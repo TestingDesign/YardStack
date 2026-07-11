@@ -1,22 +1,34 @@
 import { useState, useRef, useEffect, useCallback, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import MenuIcon from '@mui/icons-material/Menu'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import CheckIcon from '@mui/icons-material/Check'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import {
+  Menu,
+  MapPin,
+  ChevronDown,
+  User,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  LogOut,
+  UserCircle,
+  Video,
+  Mic,
+  Briefcase,
+  Users,
+  Bell
+} from 'lucide-react'
 import LogoPng from '../../Home/01.Hero/Logo.png'
 
-interface NavCardItem {
+export interface NavCardItem {
   key: string
   label: string
-  Icon: string
-  activeIcon?: string
+  Icon: React.ElementType | string
+  activeIcon?: React.ElementType | string
   badge?: string
+  tooltip?: string
 }
 
-interface DashboardHeaderProps {
+export interface DashboardHeaderProps {
   onMenuClick?: () => void
   city?: string
   role?: string
@@ -30,6 +42,61 @@ interface DashboardHeaderProps {
 const CITY_OPTIONS = ['Hyderabad', 'Bengaluru', 'Mumbai', 'Chennai', 'Pune', 'Delhi']
 const ROLE_OPTIONS = ['Builder', 'Agent', 'Buyer', 'Investor']
 
+const MOCK_NOTIFICATIONS = [
+  { id: 1, title: 'New Message', desc: 'Sarah left a comment on your video.', time: '5m ago', unread: true },
+  { id: 2, title: 'Opportunity Alert', desc: 'New commercial property listed in Hyderabad.', time: '2h ago', unread: true },
+  { id: 3, title: 'System Update', desc: 'Your profile visibility has been updated.', time: '1d ago', unread: false },
+]
+
+export const navigationData: NavCardItem[] = [
+  {
+    key: 'short-videos',
+    label: 'Short Videos',
+    Icon: Video,
+    badge: 'SPOTLIGHT',
+    tooltip: 'Bite-sized, high-impact videos to engage, learn, build credibility and stay updated with the real estate ecosystem.',
+  },
+  {
+    key: 'podcasts',
+    label: 'Podcasts',
+    Icon: Mic,
+    badge: 'RED EXPERT',
+    tooltip: 'In-depth conversations with real estate domain experts, practitioners and industry leaders sharing practical insights and experiences.',
+  },
+  {
+    key: 'opportunities',
+    label: 'Opportunities',
+    Icon: Briefcase,
+    badge: 'MARKETPLACE',
+    tooltip: 'Discover jobs, vendor requirements, agent hiring, partnerships, collaborations and other B2B opportunities across the ecosystem.',
+  },
+  {
+    key: 'directory',
+    label: 'Directory',
+    Icon: Users,
+    badge: 'DATABASE',
+    tooltip: 'Explore a comprehensive directory of verified professionals, businesses and service providers across the real estate ecosystem.',
+  }
+]
+
+function useScrollDirection(threshold = 10) {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const updateScrollDirection = () => {
+      const scrollY = window.pageYOffset
+      if (Math.abs(scrollY - lastScrollY.current) < threshold) return
+      setIsScrolled(scrollY > 20)
+      lastScrollY.current = scrollY > 0 ? scrollY : 0
+    }
+    window.addEventListener('scroll', updateScrollDirection, { passive: true })
+    return () => window.removeEventListener('scroll', updateScrollDirection)
+  }, [threshold])
+
+  return isScrolled
+}
+
 const NavCard = memo(function NavCard({
   item,
   isActive,
@@ -39,48 +106,92 @@ const NavCard = memo(function NavCard({
   isActive: boolean
   onClick: (key: string) => void
 }) {
-  const icon = isActive && item.activeIcon ? item.activeIcon : item.Icon
-  const isImage = typeof icon === 'string' && (icon.includes('/') || icon.includes('.png'))
+  const [isHovered, setIsHovered] = useState(false)
+  const IconComponent = isActive && item.activeIcon ? item.activeIcon : item.Icon
+  const isImage = typeof IconComponent === 'string'
 
   return (
-    <motion.button
-      whileTap={{ scale: 0.98 }}
-      type="button"
-      onClick={() => onClick(item.key)}
-      className={`relative shrink-0 flex flex-row items-center justify-center gap-2 md:gap-2.5 transition-all duration-300 outline-none cursor-pointer px-3 md:px-4 h-[44px] md:h-[48px] rounded-[8px] border ${
-        isActive
-          ? 'bg-linear-to-r from-[#7C3AED] to-[#EC4899] border-transparent shadow-[0_4px_16px_rgba(124,58,237,0.25)] scale-[1.02]'
-          : 'bg-white text-[#374151] border-gray-200 hover:border-gray-300 hover:shadow-sm hover:-translate-y-0.5'
-      }`}
+    <div 
+      className="relative flex items-center justify-center group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'w-5 h-5 md:w-6 md:h-6 text-white' : 'w-5 h-5 md:w-6 md:h-6 text-[#374151]'}`}>
-        {isImage ? (
-          <img src={icon as string} alt={item.label} className="w-full h-full object-contain" draggable={false} />
-        ) : (
-          <span className="text-[20px] md:text-[24px] flex items-center justify-center [&>svg]:text-inherit [&>svg]:fill-current">
-            {typeof icon === 'object' && icon !== null && '$$typeof' in icon && !('props' in icon)
-              ? (() => { const IconCmp = icon as any; return <IconCmp color="inherit" className="text-inherit" />; })()
-              : typeof icon === 'function'
-              ? (() => { const IconCmp = icon as any; return <IconCmp color="inherit" className="text-inherit" />; })()
-              : icon}
-          </span>
-        )}
-      </span>
-
-      <span
-        className={`text-[12px] md:text-[13px] leading-[1.15] text-center whitespace-nowrap transition-all duration-200 ${
-          isActive ? 'font-semibold text-white' : 'font-semibold text-[#374151]'
+      <motion.button
+        type="button"
+        onClick={() => onClick(item.key)}
+        whileHover={{ scale: 1.02, y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        className={`relative shrink-0 flex flex-row items-center justify-center gap-2.5 transition-all duration-400 ease-out outline-none cursor-pointer px-4 h-[42px] md:h-[46px] rounded border ${
+          isActive
+            ? 'border-transparent shadow-[0_8px_20px_-6px_rgba(124,58,237,0.4)]'
+            : 'border-slate-200/60 bg-white/50 hover:bg-white hover:border-slate-300 hover:text-slate-900 text-slate-600 hover:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)] backdrop-blur-sm'
         }`}
       >
-        {item.label}
-      </span>
+        {isActive && (
+          <motion.div
+            layoutId="activeNavTabGlow"
+            className="absolute inset-0 rounded bg-gradient-to-r from-purple-600 to-pink-500"
+            transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+          />
+        )}
+        
+        {isActive && (
+          <div className="absolute inset-0 rounded shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)] pointer-events-none" />
+        )}
 
-      {item.badge && (
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[10px] font-bold px-2 py-[2px] rounded-full bg-[#7C3AED] text-white leading-none z-10 shadow-sm border border-white">
-          {item.badge}
+        <span className={`relative z-10 flex items-center justify-center transition-all duration-300 ${
+          isActive ? 'text-white scale-110 drop-shadow-md' : 'text-slate-400 group-hover:text-violet-600'
+        }`}>
+          {isImage ? (
+            <img src={IconComponent as string} alt={item.label} className="w-4 h-4 object-contain" draggable={false} />
+          ) : (
+            <IconComponent className="w-4 h-4" strokeWidth={isActive ? 2.5 : 2} />
+          )}
         </span>
-      )}
-    </motion.button>
+
+        <span
+          className={`relative z-10 text-[13px] tracking-wide whitespace-nowrap transition-all duration-300 ${
+            isActive ? 'font-bold text-white drop-shadow-sm' : 'font-medium text-slate-600 group-hover:text-slate-900'
+          }`}
+        >
+          {item.label}
+        </span>
+
+        {item.badge && (
+          <span className={`absolute -top-1.5 -right-1.5 whitespace-nowrap text-[9px] font-bold px-1.5 py-0.5 rounded-full leading-none z-20 shadow-sm border transition-colors duration-300 ${
+            isActive 
+              ? 'bg-white text-fuchsia-600 border-white/20'
+              : 'bg-violet-50 text-violet-600 border-violet-100' 
+          }`}>
+            {item.badge}
+          </span>
+        )}
+      </motion.button>
+
+      <AnimatePresence>
+        {isHovered && item.tooltip && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.9, rotateX: -10 }}
+            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.15 } }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+            className="absolute top-full mt-4 w-72 p-4 bg-white/90 backdrop-blur-xl border border-white/40 text-slate-700 text-xs leading-relaxed rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.03)] z-50 pointer-events-none transform-gpu"
+            style={{ perspective: 1000 }}
+          >
+            <div className="absolute inset-0 rounded shadow-[inset_0_1px_0_rgba(255,255,255,1)] pointer-events-none" />
+            
+            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/90 border-t border-l border-white/40 rotate-45 rounded-tl-sm backdrop-blur-xl" />
+            
+            <div className="relative z-10 flex gap-3 items-start">
+              <div className="shrink-0 p-1.5 bg-violet-50 rounded text-violet-600">
+                {!isImage && <IconComponent className="w-4 h-4" strokeWidth={2} />}
+              </div>
+              <span className="block font-medium text-slate-600 mt-0.5">{item.tooltip}</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 })
 
@@ -88,64 +199,74 @@ export default function DashboardHeader({
   onMenuClick,
   city: initialCity = 'Hyderabad',
   role: initialRole = 'Builder',
-  userName = 'User',
-  avatarUrl,
-  navItems = [],
-  activeTab = '',
+  userName = 'Alex Mitchell',
+  avatarUrl = "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+  navItems = navigationData,
+  activeTab = 'short-videos',
   onTabChange,
 }: DashboardHeaderProps) {
   const [city, setCity] = useState(initialCity)
   const [role, setRole] = useState(initialRole)
   const [cityOpen, setCityOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
+  const [notificationOpen, setNotificationOpen] = useState(false)
+  const isScrolled = useScrollDirection()
 
   const cityRef = useRef<HTMLDivElement>(null)
   const profileRef = useRef<HTMLDivElement>(null)
+  const notificationRef = useRef<HTMLDivElement>(null)
   const navScrollRef = useRef<HTMLElement>(null)
 
-  const [canScrollLeftNav, setCanScrollLeftNav] = useState(false)
-  const [canScrollRightNav, setCanScrollRightNav] = useState(true)
+  const [canScrollLeft, setCanScrollLeft] = useState(false)
+  const [canScrollRight, setCanScrollRight] = useState(true)
 
   const handleNavScroll = useCallback(() => {
     if (navScrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = navScrollRef.current
-      setCanScrollLeftNav(scrollLeft > 5)
-      setCanScrollRightNav(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5)
+      setCanScrollLeft(scrollLeft > 5)
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth - 5)
     }
   }, [])
 
   useEffect(() => {
     handleNavScroll()
-    const timer = setTimeout(() => handleNavScroll(), 50)
+    const timer = setTimeout(() => handleNavScroll(), 100)
     window.addEventListener('resize', handleNavScroll)
-    return () => { clearTimeout(timer); window.removeEventListener('resize', handleNavScroll) }
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('resize', handleNavScroll)
+    }
   }, [handleNavScroll, navItems])
 
-  const scrollNavLeft = () => navScrollRef.current?.scrollBy({ left: -200, behavior: 'smooth' })
-  const scrollNavRight = () => navScrollRef.current?.scrollBy({ left: 200, behavior: 'smooth' })
+  const scrollNav = (direction: 'left' | 'right') => {
+    navScrollRef.current?.scrollBy({ left: direction === 'left' ? -300 : 300, behavior: 'smooth' })
+  }
 
   const closeAll = useCallback(() => {
     setCityOpen(false)
     setProfileOpen(false)
+    setNotificationOpen(false)
   }, [])
 
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const target = e.target
       if (target instanceof Node) {
-        if (!cityRef.current?.contains(target) && !profileRef.current?.contains(target)) {
+        if (
+          !cityRef.current?.contains(target) && 
+          !profileRef.current?.contains(target) &&
+          !notificationRef.current?.contains(target)
+        ) {
           closeAll()
         }
       }
     }
-    
     function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') closeAll()
     }
 
     document.addEventListener('mousedown', handleClick, { capture: true })
     document.addEventListener('keydown', handleKey, { capture: true })
-    
     return () => {
       document.removeEventListener('mousedown', handleClick, { capture: true })
       document.removeEventListener('keydown', handleKey, { capture: true })
@@ -153,194 +274,312 @@ export default function DashboardHeader({
   }, [closeAll])
 
   return (
-    <header className="sticky top-0 z-50 bg-[var(--color-bg-surface)]/95 backdrop-blur-xl border-b border-[var(--color-border-default)]">
-      <div className="flex items-center h-16 px-4 w-full gap-4">
-
-        {onMenuClick && (
-          <div className="flex items-center shrink-0 gap-4">
+    <header 
+      className={`sticky top-0 z-50 w-full transition-all duration-500 ease-in-out ${
+        isScrolled 
+          ? 'bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.1)] py-1' 
+          : 'bg-white/40 backdrop-blur-lg border-b border-slate-200/30 py-2'
+      }`}
+    >
+      <div className="max-w-[1600px] mx-auto flex items-center h-16 px-4 md:px-8 w-full gap-6 lg:gap-10">
+        
+        <div className="flex items-center shrink-0 gap-5 relative z-10">
+          {onMenuClick && (
             <motion.button
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              type="button"
               onClick={onMenuClick}
-              className="flex items-center justify-center w-8 h-8 rounded-md text-[var(--color-text-secondary)] hover:text-[var(--color-brand-purple)] hover:bg-[var(--color-brand-purple-mid)]/10 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] shrink-0 cursor-pointer"
+              className="flex items-center justify-center w-10 h-10 rounded text-slate-500 hover:text-violet-600 hover:bg-violet-50/80 hover:shadow-inner transition-all focus:outline-none focus:ring-2 focus:ring-violet-500/50 shrink-0"
               aria-label="Toggle menu"
             >
-              <MenuIcon sx={{ fontSize: 24 }} />
+              <Menu className="w-5 h-5" />
             </motion.button>
-            <img src={LogoPng} alt="N4RE Logo" className="h-12 w-auto object-contain shrink-0" />
-            <div className="w-px h-6 bg-[var(--color-border-default)] shrink-0 ml-1 mr-1" aria-hidden="true" />
-          </div>
-        )}
-
-        {navItems.length > 0 && (
-          <div className="flex-1 min-w-0 relative group/navslider h-full flex items-center justify-center">
-            {canScrollLeftNav && (
-              <div className="absolute left-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-r from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center">
-                <div className="pointer-events-auto -ml-1">
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={scrollNavLeft}
-                    className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
-                    aria-label="Scroll left"
-                  >
-                    <ChevronLeft size={16} />
-                  </motion.button>
-                </div>
+          )}
+          
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="flex items-center group cursor-pointer"
+          >
+            {LogoPng ? (
+              <img src={LogoPng} alt="N4RE Logo" className="h-8 md:h-9 w-auto object-contain shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105" />
+            ) : (
+              <div className="text-2xl font-black bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+                N4RE
               </div>
             )}
+          </motion.div>
+          
+          <div className="hidden lg:block w-[1px] h-8 bg-gradient-to-b from-transparent via-slate-200 to-transparent shrink-0 ml-2" />
+        </div>
 
-            <nav
-              ref={navScrollRef}
-              onScroll={handleNavScroll}
-              aria-label="Primary Navigation"
-              className="flex items-center justify-start gap-1.5 md:gap-2 overflow-x-auto max-w-full px-1 py-3 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
-            >
-              {navItems.map((item) => (
-                <div key={item.key} className="snap-start shrink-0">
+        <div className="flex-1 min-w-0 relative h-full flex items-center justify-center max-w-4xl mx-auto">
+          <div className="absolute inset-0 bg-slate-50/50 rounded -z-10 mx-4 border border-slate-100/50" />
+
+          <AnimatePresence>
+            {canScrollLeft && (
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                className="absolute left-2 top-0 bottom-0 w-16 z-20 pointer-events-none bg-gradient-to-r from-white via-white/80 to-transparent flex items-center"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => scrollNav('left')}
+                  className="pointer-events-auto w-8 h-8 rounded bg-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)] border border-slate-100 flex items-center justify-center text-slate-500 hover:text-violet-600 hover:border-violet-100 transition-all ml-1"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <nav
+            ref={navScrollRef}
+            onScroll={handleNavScroll}
+            className="flex items-center justify-start gap-2 md:gap-3 overflow-x-auto w-full max-w-full px-6 py-4 scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none snap-x"
+          >
+            <div className="flex items-center gap-2 md:gap-3 m-auto">
+              {navItems.map((item, index) => (
+                <motion.div 
+                  key={item.key} 
+                  className="snap-center shrink-0"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05, type: 'spring' }}
+                >
                   <NavCard
                     item={item}
                     isActive={item.key === activeTab}
                     onClick={(key) => onTabChange?.(key)}
                   />
-                </div>
+                </motion.div>
               ))}
-            </nav>
+            </div>
+          </nav>
 
-            {canScrollRightNav && (
-              <div className="absolute right-0 top-0 bottom-0 w-12 z-20 pointer-events-none bg-gradient-to-l from-[var(--color-bg-surface)] via-[var(--color-bg-surface)]/80 to-transparent flex items-center justify-end">
-                <div className="pointer-events-auto -mr-1">
-                  <motion.button
-                    whileTap={{ scale: 0.95 }}
-                    onClick={scrollNavRight}
-                    className="w-7 h-7 rounded-full bg-white shadow-md border border-gray-100 flex items-center justify-center text-gray-600 hover:bg-purple-50 hover:text-purple-700 transition-all cursor-pointer"
-                    aria-label="Scroll right"
-                  >
-                    <ChevronRight size={16} />
-                  </motion.button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        <div className="flex items-center gap-2 sm:gap-1 min-w-0">
-          <div ref={cityRef} className="relative min-w-0 shrink">
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              type="button"
-              onClick={() => { setCityOpen((v) => !v); setProfileOpen(false) }}
-              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[var(--color-text-secondary)] hover:bg-[var(--color-brand-purple-mid)]/5 hover:text-[var(--color-text-primary)] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] min-w-0 cursor-pointer"
-            >
-              <LocationOnIcon sx={{ fontSize: 18 }} className="text-[var(--color-brand-purple)] shrink-0" />
-              <span className="text-[0.88rem] font-semibold text-[var(--color-text-primary)] leading-none truncate">
-                {city}
-              </span>
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className={`text-[var(--color-text-secondary)]/70 shrink-0 transition-transform duration-200 ${cityOpen ? 'rotate-180' : ''}`}
-              />
-            </motion.button>
-
-            <AnimatePresence>
-            {cityOpen && (
-              <motion.ul
-                initial={{ opacity: 0, scale: 0.95, y: -5 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                transition={{ type: "spring" as const, stiffness: 300, damping: 24 }}
-                className="absolute left-0 top-full mt-2 w-44 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 py-1.5 overflow-hidden"
-              >
-                {CITY_OPTIONS.map((opt) => (
-                  <li key={opt}>
-                    <button
-                      type="button"
-                      onClick={() => { setCity(opt); closeAll() }}
-                      className={`w-full text-left px-4 py-2.5 text-[0.82rem] cursor-pointer transition-colors duration-150 ${
-                        opt === city
-                          ? 'bg-[var(--color-brand-purple-mid)]/10 text-[var(--color-brand-purple)] font-semibold border-l-[3px] border-[var(--color-brand-purple-mid)]'
-                          : 'text-[var(--color-text-secondary)] font-medium hover:bg-[var(--color-brand-purple-mid)]/5 border-l-[3px] border-transparent'
-                      }`}
-                    >
-                      {opt}
-                    </button>
-                  </li>
-                ))}
-              </motion.ul>
-            )}
-            </AnimatePresence>
-          </div>
-        </div>  
-
-        <div className="flex items-center shrink-0 ml-auto">
-          <div ref={profileRef} className="relative">
-            <motion.button
-              whileTap={{ scale: 0.98 }}
-              type="button"
-              onClick={() => { setProfileOpen((v) => !v); setCityOpen(false) }}
-              className="flex items-center gap-1.5 p-1 pr-2 rounded-md hover:bg-[var(--color-brand-purple-mid)]/5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brand-purple)] cursor-pointer"
-            >
-              {avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt={userName}
-                  className="w-8 h-8 rounded-full object-cover border border-[var(--color-border-default)]"
-                />
-              ) : (
-                <AccountCircleIcon sx={{ fontSize: 32 }} className="text-[var(--color-text-secondary)]/70" />
-              )}
-              <KeyboardArrowDownIcon
-                sx={{ fontSize: 18 }}
-                className={`text-[var(--color-text-secondary)]/70 transition-transform duration-200 ${profileOpen ? 'rotate-180' : ''}`}
-              />
-            </motion.button>
-
-            <AnimatePresence>
-            {profileOpen && (
+          <AnimatePresence>
+            {canScrollRight && (
               <motion.div
-                initial={{ opacity: 0, scale: 0.95, y: -5 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -5 }}
-                transition={{ type: "spring" as const, stiffness: 300, damping: 24 }}
-                className="absolute right-0 top-full mt-2 w-52 bg-[var(--color-bg-surface)] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] border border-[var(--color-border-default)] z-50 overflow-hidden"
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                className="absolute right-2 top-0 bottom-0 w-16 z-20 pointer-events-none bg-gradient-to-l from-white via-white/80 to-transparent flex items-center justify-end"
               >
-                <div className="px-4 py-3 border-b border-[var(--color-border-default)] bg-[var(--color-bg-muted)]">
-                  <p className="text-[0.65rem] font-bold text-[var(--color-text-secondary)]/70 uppercase tracking-wider mb-2">Role</p>
-                  <div className="flex flex-col gap-0.5">
-                    {ROLE_OPTIONS.map((r) => (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => { setRole(r); closeAll() }}
-                        className={`flex items-center justify-between w-full text-left text-[0.82rem] px-2.5 py-2 rounded-lg transition-colors duration-150 cursor-pointer border-none ${
-                          r === role
-                            ? 'bg-[var(--color-brand-purple-mid)]/10 text-[var(--color-brand-purple)] font-semibold'
-                            : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-border-default)]/50 font-medium bg-transparent'
-                        }`}
-                      >
-                        <span>{r}</span>
-                        {r === role && (
-                          <CheckIcon sx={{ fontSize: 16 }} className="text-[var(--color-brand-purple)]" />
-                        )}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <ul className="py-1">
-                  {['Profile', 'Settings', 'Sign out'].map((item) => (
-                    <li key={item}>
-                      <button
-                        type="button"
-                        onClick={closeAll}
-                        className="w-full text-left px-4 py-2.5 text-[0.82rem] font-medium text-[var(--color-text-secondary)] hover:bg-[var(--color-brand-purple-mid)]/5 hover:text-[var(--color-text-primary)] cursor-pointer transition-colors duration-150"
-                      >
-                        {item}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => scrollNav('right')}
+                  className="pointer-events-auto w-8 h-8 rounded bg-white shadow-[0_2px_8px_-2px_rgba(0,0,0,0.1)] border border-slate-100 flex items-center justify-center text-slate-500 hover:text-violet-600 hover:border-violet-100 transition-all mr-1"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </motion.button>
               </motion.div>
             )}
+          </AnimatePresence>
+        </div>
+
+        <div className="flex items-center gap-2 md:gap-4 shrink-0 relative z-10 ml-auto">
+          
+          <div ref={notificationRef} className="relative hidden md:block">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => { 
+                setNotificationOpen((v) => !v); 
+                setProfileOpen(false); 
+                setCityOpen(false); 
+              }}
+              className={`flex w-10 h-10 items-center justify-center rounded transition-colors relative ${
+                notificationOpen ? 'bg-slate-100 text-slate-700' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-100/50'
+              }`}
+            >
+              <Bell className="w-4 h-4" />
+              {MOCK_NOTIFICATIONS.some(n => n.unread) && (
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-rose-500 rounded-full border-2 border-white" />
+              )}
+            </motion.button>
+
+            <AnimatePresence>
+              {notificationOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="absolute right-0 top-full mt-3 w-80 bg-white/95 backdrop-blur-xl rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 overflow-hidden"
+                >
+                  <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100/80 bg-slate-50/50">
+                    <span className="text-sm font-semibold text-slate-800">Notifications</span>
+                    <button className="text-xs font-medium text-violet-600 hover:text-violet-700 transition-colors">
+                      Mark all as read
+                    </button>
+                  </div>
+                  <div className="max-h-72 overflow-y-auto">
+                    {MOCK_NOTIFICATIONS.map((notif) => (
+                      <div 
+                        key={notif.id} 
+                        className={`px-4 py-3 border-b border-slate-50 last:border-0 hover:bg-slate-50/80 transition-colors cursor-pointer ${
+                          notif.unread ? 'bg-violet-50/30' : ''
+                        }`}
+                      >
+                        <div className="flex justify-between items-start mb-1">
+                          <span className={`text-sm ${notif.unread ? 'font-semibold text-slate-800' : 'font-medium text-slate-700'}`}>
+                            {notif.title}
+                          </span>
+                          <span className="text-[10px] text-slate-400 font-medium whitespace-nowrap ml-2">
+                            {notif.time}
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                          {notif.desc}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="hidden lg:block w-[1px] h-6 bg-slate-200 shrink-0 mx-1" />
+
+          <div ref={cityRef} className="relative hidden sm:block">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={() => { setCityOpen((v) => !v); setProfileOpen(false); setNotificationOpen(false); }}
+              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
+                cityOpen 
+                  ? 'bg-violet-50 border-violet-200 text-violet-700 shadow-sm' 
+                  : 'bg-white/80 border-slate-200/80 text-slate-600 hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm'
+              }`}
+            >
+              <div className={`p-1 rounded-full ${cityOpen ? 'bg-violet-100/50' : 'bg-slate-100'}`}>
+                <MapPin className={`w-3.5 h-3.5 ${cityOpen ? 'text-violet-600' : 'text-slate-400'}`} />
+              </div>
+              <span className="text-sm font-medium leading-none mt-0.5">{city}</span>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${cityOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
+            </motion.button>
+
+            <AnimatePresence>
+              {cityOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="absolute right-0 top-full mt-3 w-56 bg-white/95 backdrop-blur-xl rounded shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 p-2 overflow-hidden"
+                >
+                  <div className="px-3 py-2 mb-1">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Select Region</p>
+                  </div>
+                  {CITY_OPTIONS.map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => { setCity(opt); closeAll() }}
+                      className="w-full text-left px-3 py-2.5 rounded text-sm transition-all duration-200 flex items-center justify-between group hover:bg-violet-50/50"
+                    >
+                      <span className={`transition-colors ${opt === city ? 'text-violet-700 font-semibold' : 'text-slate-600 group-hover:text-violet-900 font-medium'}`}>
+                        {opt}
+                      </span>
+                      {opt === city && (
+                        <motion.div layoutId="cityCheck">
+                          <Check className="w-4 h-4 text-violet-600" />
+                        </motion.div>
+                      )}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div ref={profileRef} className="relative ml-1">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => { setProfileOpen((v) => !v); setCityOpen(false); setNotificationOpen(false); }}
+              className={`flex items-center gap-2 p-1 pr-2.5 rounded border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
+                profileOpen ? 'bg-slate-100 border-slate-200 shadow-inner' : 'bg-white/80 border-slate-200/80 hover:border-slate-300 hover:shadow-sm'
+              }`}
+            >
+              <div className="relative">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt={userName} className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" />
+                ) : (
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center border-2 border-white shadow-sm text-violet-600">
+                    <User className="w-4 h-4" />
+                  </div>
+                )}
+                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-white rounded-full" />
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${profileOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
+            </motion.button>
+
+            <AnimatePresence>
+              {profileOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  className="absolute right-0 top-full mt-3 w-64 bg-white/95 backdrop-blur-xl rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 overflow-hidden"
+                >
+                  <div className="px-5 py-4 border-b border-slate-100/80 bg-gradient-to-b from-slate-50/50 to-transparent">
+                    <p className="text-sm font-semibold text-slate-800 truncate">{userName}</p>
+                    <p className="text-xs text-slate-400 mt-0.5 truncate">{userName.toLowerCase().replace(' ', '.')}@example.com</p>
+                  </div>
+
+                  <div className="px-3 py-3 border-b border-slate-100/80">
+                    <p className="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Switch Role</p>
+                    <div className="space-y-1">
+                      {ROLE_OPTIONS.map((r) => (
+                        <button
+                          key={r}
+                          onClick={() => { setRole(r); closeAll() }}
+                          className={`flex items-center justify-between w-full text-sm px-3 py-2 rounded transition-all duration-200 ${
+                            r === role
+                              ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 text-violet-700 font-semibold shadow-sm border border-violet-100/50'
+                              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium border border-transparent'
+                          }`}
+                        >
+                          {r}
+                          {r === role && (
+                            <motion.div layoutId="roleCheck">
+                              <Check className="w-4 h-4 text-violet-600" />
+                            </motion.div>
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-2">
+                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
+                      <div className="p-1.5 rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all">
+                        <UserCircle className="w-4 h-4" />
+                      </div>
+                      My Profile
+                    </button>
+                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
+                      <div className="p-1.5 rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all">
+                        <Settings className="w-4 h-4" />
+                      </div>
+                      Account Settings
+                    </button>
+                    <div className="h-px bg-slate-100 my-1 mx-2" />
+                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors group">
+                      <div className="p-1.5 rounded bg-rose-50/50 text-rose-500 group-hover:bg-white group-hover:shadow-sm transition-all">
+                        <LogOut className="w-4 h-4" />
+                      </div>
+                      Sign out
+                    </button>
+                  </div>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
         </div>

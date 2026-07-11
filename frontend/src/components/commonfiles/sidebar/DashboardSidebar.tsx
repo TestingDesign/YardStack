@@ -35,7 +35,6 @@ interface TooltipState {
 
 const HIDDEN_TOOLTIP: TooltipState = { label: '', x: 0, y: 0, visible: false }
 
-// Custom asymmetrical layout grid icon from image_e9c1a3.png
 const ManageIcon = ({ size = 24, className = '', ...props }: any) => (
   <svg
     width={size}
@@ -66,7 +65,7 @@ const DASHBOARD_NAV_ITEMS: DashboardNavItem[] = [
 
 function getPos(el: HTMLElement) {
   const r = el.getBoundingClientRect()
-  return { x: r.right + 12, y: r.top + r.height / 2 }
+  return { x: r.right + 12, y: r.top + r.height / 2 + 12 }
 }
 
 const SCROLL_THRESHOLD = 8

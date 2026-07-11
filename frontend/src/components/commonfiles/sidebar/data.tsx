@@ -1,19 +1,17 @@
 import type { SubTabItem } from '../TabBar/SubTabBar' 
 
-import micPurple from './Images/mic.png' 
-import activityactiveIcon from './Images/activity.png'
-import learnactiveIcon from './Images/learn.png'
-import spotlightactiveIcon from './Images/spotlight.png'
-import directoryactiveIcon from './Images/directory.png'
-import cityactiveIcon from './Images/city.png'
+import { 
+  Activity, 
+  PlayCircle, 
+  Mic, 
+  Megaphone, 
+  Folder, 
+  Rocket, 
+  Building2, 
+  ClipboardList, 
+  BookOpen 
+} from 'lucide-react'
 import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
-
-/* import micWhite from './Images1/mic1.png'
-import activityWhite from './Images1/activity1.png'
-import learnWhite from './Images1/learn1.png'
-import spotlightWhite from './Images1/spotlight1.png'
-import directoryWhite from './Images1/directory1.png'
-import cityWhite from './Images1/city1.png' */
 
 export type NavKey =
   | 'activityBoard'
@@ -45,12 +43,12 @@ export interface NavItem {
 export const NAV_ITEMS: NavItem[] = [
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   { key: 'pulse',         label: 'Pulse',          activeIcon: DynamicFeedIcon as any, Icon: DynamicFeedIcon as any },
-  { key: 'spotlight',     label: 'Spotlight',      activeIcon: spotlightactiveIcon, Icon: spotlightactiveIcon },
-  { key: 'podcasts',      label: 'RED Expert',     activeIcon: micPurple,           Icon: micPurple },
-  { key: 'activityBoard', label: 'Opportunities',  activeIcon: activityactiveIcon,  Icon: activityactiveIcon },
-  { key: 'directory',     label: 'Directory',      activeIcon: directoryactiveIcon, Icon: directoryactiveIcon },
-  { key: 'showcase',      label: 'Showcase',       activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
-  { key: 'cityInventory', label: 'City Inventory', activeIcon: cityactiveIcon,      Icon: cityactiveIcon },
-  { key: 'surveyPools',   label: 'Survey Pools',   activeIcon: learnactiveIcon,     Icon: learnactiveIcon },
-  { key: 'lms',           label: 'LMS',            activeIcon: learnactiveIcon,     Icon: learnactiveIcon }
+  { key: 'spotlight',     label: 'Spotlight',      activeIcon: PlayCircle as any, Icon: PlayCircle as any },
+  { key: 'podcasts',      label: 'RED Expert',     activeIcon: Mic as any,           Icon: Mic as any },
+  { key: 'activityBoard', label: 'Opportunities',  activeIcon: Megaphone as any,  Icon: Megaphone as any },
+  { key: 'directory',     label: 'Directory',      activeIcon: Folder as any, Icon: Folder as any },
+  { key: 'showcase',      label: 'Launching',      activeIcon: Rocket as any,     Icon: Rocket as any, badge: 'Soon' },
+  { key: 'cityInventory', label: 'City Inventory', activeIcon: Building2 as any,      Icon: Building2 as any },
+  { key: 'surveyPools',   label: 'Survey Pools',   activeIcon: ClipboardList as any,     Icon: ClipboardList as any },
+  { key: 'lms',           label: 'LMS',            activeIcon: BookOpen as any,     Icon: BookOpen as any }
 ]

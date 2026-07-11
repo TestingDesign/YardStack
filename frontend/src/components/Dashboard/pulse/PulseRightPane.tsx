@@ -94,10 +94,10 @@ export default function PulseRightPane() {
               key={item.id}
               variants={itemVariants}
               whileHover={{ y: -2, scale: 1.01 }}
-              className={`group bg-white rounded-[8px] p-3 border border-gray-100 shadow-sm hover:shadow-md ${config.shadow} transition-all duration-300 ease-out cursor-default`}
+              className={`group bg-white rounded-[4px] p-2 border border-gray-100 shadow-sm hover:shadow-md ${config.shadow} transition-all duration-300 ease-out cursor-default`}
             >
-              <div className="flex items-start gap-3">
-                <div className={`w-9 h-9 rounded-[4px] flex items-center justify-center shrink-0 transition-all duration-300 ${config.bg}`}>
+              <div className="flex items-start gap-2">
+                <div className={`w-9 h-9 rounded-[2px] flex items-center justify-center shrink-0 transition-all duration-300 ${config.bg}`}>
                   <IconComponent size={18} strokeWidth={2.5} className={`transition-colors duration-300 ${config.color}`} />
                 </div>
                 <div>

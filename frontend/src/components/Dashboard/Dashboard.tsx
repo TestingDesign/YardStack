@@ -252,7 +252,7 @@ function MobileDashboard() {
       </div>
 
       <main className="flex-1 h-full flex flex-col overflow-hidden">
-        <DashboardHeader onMenuClick={() => setIsSidebarOpen(true)} />
+        <DashboardHeader onMenuClick={() => setIsSidebarOpen(true)} isMobileView={true} />
 
       <nav aria-label="Main Navigation" className="shrink-0 bg-white z-10">
         <TabBar

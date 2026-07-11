@@ -37,6 +37,7 @@ export interface DashboardHeaderProps {
   navItems?: NavCardItem[]
   activeTab?: string
   onTabChange?: (key: string) => void
+  isMobileView?: boolean
 }
 
 const CITY_OPTIONS = ['Hyderabad', 'Bengaluru', 'Mumbai', 'Chennai', 'Pune', 'Delhi']
@@ -204,6 +205,7 @@ export default function DashboardHeader({
   navItems = navigationData,
   activeTab = 'short-videos',
   onTabChange,
+  isMobileView = false,
 }: DashboardHeaderProps) {
   const [city, setCity] = useState(initialCity)
   const [role, setRole] = useState(initialRole)
@@ -278,21 +280,21 @@ export default function DashboardHeader({
       className={`sticky top-0 z-50 w-full transition-all duration-500 ease-in-out ${
         isScrolled 
           ? 'bg-white/70 backdrop-blur-2xl border-b border-slate-200/50 shadow-[0_4px_24px_-12px_rgba(0,0,0,0.1)] py-1' 
-          : 'bg-white/40 backdrop-blur-lg border-b border-slate-200/30 py-2'
+          : 'bg-white/40 backdrop-blur-lg border-b border-slate-200/30'
       }`}
     >
-      <div className="max-w-[1600px] mx-auto flex items-center h-16 px-4 md:px-8 w-full gap-6 lg:gap-10">
+      <div className={`max-w-[1600px] mx-auto flex items-center ${isMobileView ? 'h-14 pl-1 pr-2 gap-1' : 'h-16 pl-4 pr-4 md:pr-8 gap-6 lg:gap-10'} w-full`}>
         
-        <div className="flex items-center shrink-0 gap-5 relative z-10">
+        <div className={`flex items-center shrink-0 relative z-10 ${isMobileView ? 'gap-0' : 'gap-3'}`}>
           {onMenuClick && (
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={onMenuClick}
-              className="flex items-center justify-center w-10 h-10 rounded text-slate-500 hover:text-violet-600 hover:bg-violet-50/80 hover:shadow-inner transition-all focus:outline-none focus:ring-2 focus:ring-violet-500/50 shrink-0"
+              className={`flex items-center justify-center rounded text-slate-500 hover:text-violet-600 hover:bg-violet-50/80 hover:shadow-inner transition-all focus:outline-none focus:ring-2 focus:ring-violet-500/50 shrink-0 ${isMobileView ? 'w-9 h-9 mt-1.5' : 'w-10 h-10 mt-1.5'}`}
               aria-label="Toggle menu"
             >
-              <Menu className="w-5 h-5" />
+              <Menu className={`${isMobileView ? 'w-5 h-5' : 'w-5 h-5'}`} />
             </motion.button>
           )}
           
@@ -302,7 +304,7 @@ export default function DashboardHeader({
             className="flex items-center group cursor-pointer"
           >
             {LogoPng ? (
-              <img src={LogoPng} alt="N4RE Logo" className="h-8 md:h-9 w-auto object-contain shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105" />
+              <img src={LogoPng} alt="N4RE Logo" className={`${isMobileView ? 'h-10' : 'h-12 ml-1'} w-auto object-contain shrink-0 drop-shadow-sm transition-transform duration-300 group-hover:scale-105`} />
             ) : (
               <div className="text-2xl font-black bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
                 N4RE
@@ -310,9 +312,10 @@ export default function DashboardHeader({
             )}
           </motion.div>
           
-          <div className="hidden lg:block w-[1px] h-8 bg-gradient-to-b from-transparent via-slate-200 to-transparent shrink-0 ml-2" />
+          {!isMobileView && <div className="hidden lg:block w-[1px] h-8 bg-gradient-to-b from-transparent via-slate-200 to-transparent shrink-0 ml-2" />}
         </div>
 
+        {!isMobileView && (
         <div className="flex-1 min-w-0 relative h-full flex items-center justify-center max-w-4xl mx-auto">
           <div className="absolute inset-0 bg-slate-50/50 rounded -z-10 mx-4 border border-slate-100/50" />
 
@@ -380,9 +383,10 @@ export default function DashboardHeader({
             )}
           </AnimatePresence>
         </div>
+        )}
 
-        <div className="flex items-center gap-2 md:gap-4 shrink-0 relative z-10 ml-auto">
-          
+        <div className={`flex items-center shrink-0 relative z-10 ml-auto ${isMobileView ? 'gap-1' : 'gap-2 md:gap-4'}`}>
+          {!isMobileView && (
           <div ref={notificationRef} className="relative hidden md:block">
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -443,25 +447,28 @@ export default function DashboardHeader({
               )}
             </AnimatePresence>
           </div>
+          )}
 
-          <div className="hidden lg:block w-[1px] h-6 bg-slate-200 shrink-0 mx-1" />
+          {!isMobileView && <div className="hidden lg:block w-[1px] h-6 bg-slate-200 shrink-0 mx-1" />}
 
-          <div ref={cityRef} className="relative hidden sm:block">
+          <div ref={cityRef} className={`relative ${isMobileView ? '' : 'hidden sm:block'}`}>
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => { setCityOpen((v) => !v); setProfileOpen(false); setNotificationOpen(false); }}
-              className={`flex items-center gap-2 px-3 md:px-4 py-2 md:py-2.5 rounded border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
+              className={`flex items-center rounded border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
+                isMobileView ? 'gap-1 px-1.5 py-1' : 'gap-2 px-3 md:px-4 py-2 md:py-2.5'
+              } ${
                 cityOpen 
                   ? 'bg-violet-50 border-violet-200 text-violet-700 shadow-sm' 
                   : 'bg-white/80 border-slate-200/80 text-slate-600 hover:bg-slate-50 hover:border-slate-300 hover:shadow-sm'
               }`}
             >
-              <div className={`p-1 rounded-full ${cityOpen ? 'bg-violet-100/50' : 'bg-slate-100'}`}>
-                <MapPin className={`w-3.5 h-3.5 ${cityOpen ? 'text-violet-600' : 'text-slate-400'}`} />
+              <div className={`rounded-full ${isMobileView ? 'p-0.5' : 'p-1'} ${cityOpen ? 'bg-violet-100/50' : 'bg-slate-100'}`}>
+                <MapPin className={`${isMobileView ? 'w-3 h-3' : 'w-3.5 h-3.5'} ${cityOpen ? 'text-violet-600' : 'text-slate-400'}`} />
               </div>
-              <span className="text-sm font-medium leading-none mt-0.5">{city}</span>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${cityOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
+              <span className={`${isMobileView ? 'text-[11px] max-w-[65px] truncate' : 'text-sm'} font-medium leading-none mt-0.5`}>{city}</span>
+              <ChevronDown className={`${isMobileView ? 'w-3 h-3' : 'w-3.5 h-3.5'} transition-transform duration-300 shrink-0 ${cityOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
             </motion.button>
 
             <AnimatePresence>
@@ -471,23 +478,25 @@ export default function DashboardHeader({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className="absolute right-0 top-full mt-3 w-56 bg-white/95 backdrop-blur-xl rounded shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 p-2 overflow-hidden"
+                  className={`absolute right-0 top-full mt-3 ${isMobileView ? 'w-48 p-1.5' : 'w-56 p-2'} bg-white/95 backdrop-blur-xl rounded shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 overflow-hidden`}
                 >
-                  <div className="px-3 py-2 mb-1">
+                  <div className={`px-2 ${isMobileView ? 'py-1 mb-0.5' : 'py-2 mb-1'}`}>
                     <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Select Region</p>
                   </div>
                   {CITY_OPTIONS.map((opt) => (
                     <button
                       key={opt}
                       onClick={() => { setCity(opt); closeAll() }}
-                      className="w-full text-left px-3 py-2.5 rounded text-sm transition-all duration-200 flex items-center justify-between group hover:bg-violet-50/50"
+                      className={`w-full text-left rounded transition-all duration-200 flex items-center justify-between group hover:bg-violet-50/50 ${
+                        isMobileView ? 'px-2.5 py-1.5 text-[13px]' : 'px-3 py-2.5 text-sm'
+                      }`}
                     >
                       <span className={`transition-colors ${opt === city ? 'text-violet-700 font-semibold' : 'text-slate-600 group-hover:text-violet-900 font-medium'}`}>
                         {opt}
                       </span>
                       {opt === city && (
                         <motion.div layoutId="cityCheck">
-                          <Check className="w-4 h-4 text-violet-600" />
+                          <Check className={`${isMobileView ? 'w-3.5 h-3.5' : 'w-4 h-4'} text-violet-600`} />
                         </motion.div>
                       )}
                     </button>
@@ -502,21 +511,23 @@ export default function DashboardHeader({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => { setProfileOpen((v) => !v); setCityOpen(false); setNotificationOpen(false); }}
-              className={`flex items-center gap-2 p-1 pr-2.5 rounded border transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
-                profileOpen ? 'bg-slate-100 border-slate-200 shadow-inner' : 'bg-white/80 border-slate-200/80 hover:border-slate-300 hover:shadow-sm'
+              className={`flex items-center rounded transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-violet-500/30 ${
+                isMobileView ? 'gap-1 p-0.5 pr-1' : 'gap-2 p-1 pr-2.5'
+              } ${
+                profileOpen ? 'bg-slate-100 shadow-inner' : 'bg-white/80 hover:shadow-sm'
               }`}
             >
               <div className="relative">
                 {avatarUrl ? (
-                  <img src={avatarUrl} alt={userName} className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" />
+                  <img src={avatarUrl} alt={userName} className={`${isMobileView ? 'w-7 h-7' : 'w-9 h-9'} rounded-full object-cover border-2 border-white shadow-sm`} />
                 ) : (
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center border-2 border-white shadow-sm text-violet-600">
-                    <User className="w-4 h-4" />
+                  <div className={`${isMobileView ? 'w-7 h-7' : 'w-9 h-9'} rounded-full bg-gradient-to-br from-violet-100 to-fuchsia-100 flex items-center justify-center border-2 border-white shadow-sm text-violet-600`}>
+                    <User className={`${isMobileView ? 'w-3 h-3' : 'w-4 h-4'}`} />
                   </div>
                 )}
-                <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-400 border-2 border-white rounded-full" />
+                <div className={`absolute bottom-0 right-0 ${isMobileView ? 'w-2 h-2 border-[1.5px]' : 'w-2.5 h-2.5 border-2'} bg-emerald-400 border-white rounded-full`} />
               </div>
-              <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-300 ${profileOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
+              <ChevronDown className={`${isMobileView ? 'w-3 h-3' : 'w-3.5 h-3.5'} transition-transform duration-300 ${profileOpen ? 'rotate-180 text-violet-600' : 'text-slate-400'}`} />
             </motion.button>
 
             <AnimatePresence>
@@ -526,21 +537,23 @@ export default function DashboardHeader({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  className="absolute right-0 top-full mt-3 w-64 bg-white/95 backdrop-blur-xl rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 overflow-hidden"
+                  className={`absolute right-0 top-full mt-3 ${isMobileView ? 'w-56' : 'w-64'} bg-white/95 backdrop-blur-xl rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)] z-50 overflow-hidden`}
                 >
-                  <div className="px-5 py-4 border-b border-slate-100/80 bg-gradient-to-b from-slate-50/50 to-transparent">
-                    <p className="text-sm font-semibold text-slate-800 truncate">{userName}</p>
-                    <p className="text-xs text-slate-400 mt-0.5 truncate">{userName.toLowerCase().replace(' ', '.')}@example.com</p>
+                  <div className={`${isMobileView ? 'px-4 py-3' : 'px-5 py-4'} border-b border-slate-100/80 bg-gradient-to-b from-slate-50/50 to-transparent`}>
+                    <p className={`${isMobileView ? 'text-xs' : 'text-sm'} font-semibold text-slate-800 truncate`}>{userName}</p>
+                    <p className={`${isMobileView ? 'text-[10px]' : 'text-xs'} text-slate-400 mt-0.5 truncate`}>{userName.toLowerCase().replace(' ', '.')}@example.com</p>
                   </div>
 
-                  <div className="px-3 py-3 border-b border-slate-100/80">
-                    <p className="px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Switch Role</p>
-                    <div className="space-y-1">
+                  <div className={`${isMobileView ? 'px-2 py-2' : 'px-3 py-3'} border-b border-slate-100/80`}>
+                    <p className={`px-2 text-[10px] font-bold text-slate-400 uppercase tracking-wider ${isMobileView ? 'mb-1' : 'mb-2'}`}>Switch Role</p>
+                    <div className="space-y-0.5">
                       {ROLE_OPTIONS.map((r) => (
                         <button
                           key={r}
                           onClick={() => { setRole(r); closeAll() }}
-                          className={`flex items-center justify-between w-full text-sm px-3 py-2 rounded transition-all duration-200 ${
+                          className={`flex items-center justify-between w-full rounded transition-all duration-200 ${
+                            isMobileView ? 'px-2.5 py-1.5 text-[13px]' : 'px-3 py-2 text-sm'
+                          } ${
                             r === role
                               ? 'bg-gradient-to-r from-violet-50 to-fuchsia-50 text-violet-700 font-semibold shadow-sm border border-violet-100/50'
                               : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium border border-transparent'
@@ -549,7 +562,7 @@ export default function DashboardHeader({
                           {r}
                           {r === role && (
                             <motion.div layoutId="roleCheck">
-                              <Check className="w-4 h-4 text-violet-600" />
+                              <Check className={`${isMobileView ? 'w-3.5 h-3.5' : 'w-4 h-4'} text-violet-600`} />
                             </motion.div>
                           )}
                         </button>
@@ -557,23 +570,23 @@ export default function DashboardHeader({
                     </div>
                   </div>
 
-                  <div className="p-2">
-                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
-                      <div className="p-1.5 rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all">
-                        <UserCircle className="w-4 h-4" />
+                  <div className={isMobileView ? 'p-1' : 'p-2'}>
+                    <button onClick={closeAll} className={`w-full flex items-center rounded font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group ${isMobileView ? 'gap-2 px-2 py-1.5 text-xs' : 'gap-3 px-3 py-2.5 text-sm'}`}>
+                      <div className={`rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all ${isMobileView ? 'p-1' : 'p-1.5'}`}>
+                        <UserCircle className={isMobileView ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
                       </div>
                       My Profile
                     </button>
-                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group">
-                      <div className="p-1.5 rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all">
-                        <Settings className="w-4 h-4" />
+                    <button onClick={closeAll} className={`w-full flex items-center rounded font-medium text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors group ${isMobileView ? 'gap-2 px-2 py-1.5 text-xs' : 'gap-3 px-3 py-2.5 text-sm'}`}>
+                      <div className={`rounded bg-slate-100 text-slate-400 group-hover:bg-white group-hover:shadow-sm group-hover:text-violet-500 transition-all ${isMobileView ? 'p-1' : 'p-1.5'}`}>
+                        <Settings className={isMobileView ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
                       </div>
                       Account Settings
                     </button>
                     <div className="h-px bg-slate-100 my-1 mx-2" />
-                    <button onClick={closeAll} className="w-full flex items-center gap-3 px-3 py-2.5 rounded text-sm font-medium text-rose-600 hover:bg-rose-50 transition-colors group">
-                      <div className="p-1.5 rounded bg-rose-50/50 text-rose-500 group-hover:bg-white group-hover:shadow-sm transition-all">
-                        <LogOut className="w-4 h-4" />
+                    <button onClick={closeAll} className={`w-full flex items-center rounded font-medium text-rose-600 hover:bg-rose-50 transition-colors group ${isMobileView ? 'gap-2 px-2 py-1.5 text-xs' : 'gap-3 px-3 py-2.5 text-sm'}`}>
+                      <div className={`rounded bg-rose-50/50 text-rose-500 group-hover:bg-white group-hover:shadow-sm transition-all ${isMobileView ? 'p-1' : 'p-1.5'}`}>
+                        <LogOut className={isMobileView ? 'w-3.5 h-3.5' : 'w-4 h-4'} />
                       </div>
                       Sign out
                     </button>

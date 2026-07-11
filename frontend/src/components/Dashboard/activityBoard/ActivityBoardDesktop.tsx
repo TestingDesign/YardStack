@@ -589,14 +589,14 @@ export default function ActivityBoardDesktop() {
   }, [])
 
   return (
-    <div className="flex flex-col w-full h-full bg-[#f8f9fb]/50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none outline-none overflow-hidden relative">
+    <div className="flex flex-col w-full h-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none outline-none overflow-hidden relative">
       <div className="fixed inset-0 pointer-events-none bg-radial-gradient from-transparent to-[#f8f9fb] z-0" />
       
-      <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl shrink-0 border-b border-gray-100 shadow-sm">
+      <div className="sticky top-0 z-30 bg-white backdrop-blur-xl shrink-0">
         <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
       </div>
 
-      <div className="w-full flex-1 overflow-hidden max-w-[1280px] mx-auto relative z-10 ">
+      <div className="w-full flex-1 overflow-hidden max-w-[1280px] mx-auto relative z-10 bg-white ">
         <div className="grid grid-cols-12 h-full gap-4 p-4 lg:p-4">
           <div className="col-span-12 lg:col-span-8 flex flex-col h-full overflow-y-auto pb-12 pr-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none">
             <AnimatePresence mode="wait">

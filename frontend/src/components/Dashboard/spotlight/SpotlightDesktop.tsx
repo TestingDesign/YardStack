@@ -416,13 +416,13 @@ export default function SpotlightDesktop() {
       <style>{STYLES}</style>
 
       <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col overflow-y-auto scroll-smooth hide-scrollbar pb-6">
-        <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }} className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md border-b border-gray-50 px-4 py-1">
-          <div className="max-w-[1400px] mx-auto">
+        <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 0.3 }} className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md px-2 pt-1 pb-0">
+          <div className="max-w-[1400px] mx-auto w-full">
             <SpotlightTabs active={activeFilter} onChange={handleFilterChange} />
           </div>
         </motion.div>
 
-        <div className="flex-1 flex flex-col xl:flex-row gap-5 px-2 pt-2 max-w-[1400px] w-full mx-auto">
+        <div className="flex-1 flex flex-col xl:flex-row gap-5 px-2 pb-2 pt-0 max-w-[1400px] w-full mx-auto">
 
           <main className="flex-1 min-w-0 flex flex-col gap-4">
             <section>

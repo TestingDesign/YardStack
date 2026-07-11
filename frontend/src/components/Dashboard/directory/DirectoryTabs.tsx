@@ -14,7 +14,8 @@ const DirectoryTabs = memo(function DirectoryTabs({ active, onChange }: Director
       tabs={DIRECTORY_TABS}
       active={active}
       onChange={onChange}
-      ariaLabel="Directory filters"
+      ariaLabel="Directory category filters"
+      containerClassName="px-4 py-1"
       extraControls={
         <div className="relative flex items-center flex-1 @md:w-[200px] @lg:w-[240px] h-8 @md:h-9 group animate-in fade-in zoom-in-[0.98] duration-400 ease-out">
           <SearchIcon

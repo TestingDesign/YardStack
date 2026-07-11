@@ -16,6 +16,7 @@ const PodcastTabs = memo(function PodcastTabs({ active, onChange }: PodcastTabsP
       active={active}
       onChange={onChange}
       ariaLabel="Podcast category filters"
+      containerClassName="px-2 py-1"
       extraControls={
         <motion.div 
           initial={{ opacity: 0, scale: 0.98 }}

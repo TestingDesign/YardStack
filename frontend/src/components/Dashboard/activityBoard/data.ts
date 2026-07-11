@@ -1,9 +1,10 @@
 import type React from 'react'
 import GridViewIcon from '@mui/icons-material/GridView'
 import PersonSearchIcon from '@mui/icons-material/PersonSearch'
-import SearchIcon from '@mui/icons-material/Search'
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
-import MenuBookIcon from '@mui/icons-material/MenuBook'
+import ApartmentIcon from '@mui/icons-material/Apartment'
+import TrendingUpIcon from '@mui/icons-material/TrendingUp'
+import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices'
+import ConstructionIcon from '@mui/icons-material/Construction'
 
 export interface FilterTab {
   key: string
@@ -17,9 +18,10 @@ const TAB_COLOR = '#6B7280'
 export const FILTER_TABS: FilterTab[] = [
   { key: 'all', label: 'All', Icon: GridViewIcon, color: TAB_COLOR },
   { key: 'hiring', label: 'Hiring', Icon: PersonSearchIcon, color: TAB_COLOR },
-  { key: 'lookingFor', label: 'Looking For', Icon: SearchIcon, color: TAB_COLOR },
-  { key: 'offerings', label: 'Offerings', Icon: BusinessCenterIcon, color: TAB_COLOR },
-  { key: 'resources', label: 'Resources', Icon: MenuBookIcon, color: TAB_COLOR },
+  { key: 'properties', label: 'Properties', Icon: ApartmentIcon, color: TAB_COLOR },
+  { key: 'investments', label: 'Investments', Icon: TrendingUpIcon, color: TAB_COLOR },
+  { key: 'services', label: 'Services', Icon: MiscellaneousServicesIcon, color: TAB_COLOR },
+  { key: 'materials', label: 'Materials', Icon: ConstructionIcon, color: TAB_COLOR },
 ]
 
 export interface ActivityItem {

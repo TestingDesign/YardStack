@@ -11,10 +11,11 @@ export interface DirectoryTab {
 export const DIRECTORY_TABS: DirectoryTab[] = [
   { key: 'all', label: 'All' },
   { key: 'builders', label: 'Builders' },
-  { key: 'developers', label: 'Developers' },
+  { key: 'brokers', label: 'Brokers' },
+  { key: 'architects', label: 'Architects' },
   { key: 'contractors', label: 'Contractors' },
-  { key: 'agents', label: 'Agents' },
-  { key: 'offices', label: 'Offices' }
+  { key: 'legal', label: 'Legal' },
+  { key: 'lenders', label: 'Lenders' }
 ]
 
 export const DIRECTORY_STATS = [

@@ -170,11 +170,13 @@ export default function DirectoryDesktop() {
       <style>{STYLES}</style>
       
       <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col bg-white overflow-y-auto scroll-smooth hide-scrollbar pb-12">
-        <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-1 py-1">
-          <DirectoryTabs active={activeFilter} onChange={setActiveFilter} />
+        <div className="sticky top-0 z-40 shrink-0 bg-white/95 backdrop-blur-sm px-1 pt-1 pb-0">
+          <div className="max-w-[1600px] mx-auto w-full">
+            <DirectoryTabs active={activeFilter} onChange={setActiveFilter} />
+          </div>
         </div>
 
-        <div className="flex-1 flex flex-col gap-6 px-4 md:px-6 py-5 max-w-[1600px] w-full mx-auto">
+        <div className="flex-1 flex flex-col gap-6 px-4 md:px-6 pb-5 pt-0 max-w-[1600px] w-full mx-auto">
           
           <motion.div 
             initial={{ opacity: 0, y: 12 }}

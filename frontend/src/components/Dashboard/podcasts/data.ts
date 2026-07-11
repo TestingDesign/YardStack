@@ -16,14 +16,13 @@ const TAB_COLOR = '#6B7280'
 
 export const FILTER_TABS: TabType[] = [
   { key: 'all', label: 'All', color: TAB_COLOR },
-  { key: 'interviews', label: 'Interviews', color: TAB_COLOR },
-  { key: 'tech', label: 'Technology', color: TAB_COLOR },
-  { key: 'business', label: 'Business', color: TAB_COLOR },
-  { key: 'news', label: 'News & Politics', color: TAB_COLOR },
-  { key: 'education', label: 'Education', color: TAB_COLOR },
-  { key: 'comedy', label: 'Comedy', color: TAB_COLOR }, 
-  { key: 'true-crime', label: 'True Crime', color: TAB_COLOR },
-  { key: 'health', label: 'Health & Fitness', color: TAB_COLOR },
+  { key: 'market-analysis', label: 'Market Analysis', color: TAB_COLOR },
+  { key: 'developer-interviews', label: 'Developer Interviews', color: TAB_COLOR },
+  { key: 'investment', label: 'Investment Strategies', color: TAB_COLOR },
+  { key: 'proptech', label: 'PropTech', color: TAB_COLOR },
+  { key: 'legal', label: 'Legal & Compliance', color: TAB_COLOR },
+  { key: 'sales', label: 'Sales Tactics', color: TAB_COLOR },
+  { key: 'architecture', label: 'Architecture & Design', color: TAB_COLOR },
 ]
 
 export interface PodcastEpisode {

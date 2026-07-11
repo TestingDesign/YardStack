@@ -15,6 +15,7 @@ const ActivityTabs = memo(function ActivityTabs({ active, onChange }: ActivityTa
       active={active}
       onChange={onChange}
       ariaLabel="Opportunity category filters"
+      containerClassName="px-4 py-1"
       extraControls={
         <div className="relative flex items-center flex-1 @md:w-[200px] @lg:w-[240px] h-8 @md:h-9">
           <SearchIcon className="absolute left-2 @md:left-3 top-1/2 -translate-y-1/2 text-[var(--color-text-secondary)] text-[16px] @md:text-[18px]" />

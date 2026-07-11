@@ -19,13 +19,12 @@ const TAB_COLOR = '#6B7280';
 
 export const FILTER_TABS: FilterTab[] = [
   { key: 'all', label: 'All', color: TAB_COLOR },
-  { key: 'real-estate', label: 'Real Estate', color: TAB_COLOR },
-  { key: 'construction', label: 'Construction', color: TAB_COLOR },
-  { key: 'business', label: 'Business', color: TAB_COLOR },
-  { key: 'marketing', label: 'Marketing', color: TAB_COLOR },
-  { key: 'finance', label: 'Finance', color: TAB_COLOR },
-  { key: 'technology', label: 'Technology', color: TAB_COLOR },
-  { key: 'design', label: 'Design', color: TAB_COLOR },
+  { key: 'property-tours', label: 'Property Tours', color: TAB_COLOR },
+  { key: 'construction', label: 'Construction Updates', color: TAB_COLOR },
+  { key: 'launches', label: 'Project Launches', color: TAB_COLOR },
+  { key: 'market-insights', label: 'Market Insights', color: TAB_COLOR },
+  { key: 'broker-tips', label: 'Broker Tips', color: TAB_COLOR },
+  { key: 'interiors', label: 'Home Interiors', color: TAB_COLOR },
 ];
 
 import { type SpotlightLinkData, SPOTLIGHT_LINKS } from './SpotlightLink';

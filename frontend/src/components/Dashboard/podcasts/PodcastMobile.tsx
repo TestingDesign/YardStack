@@ -502,8 +502,10 @@ export default function PodcastMobile() {
 
       <div ref={scrollContainerRef} className="flex-1 min-h-0 w-full h-full overflow-y-auto scroll-smooth bg-white [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] animate-in fade-in duration-500 flex flex-col">
 
-        <div className="sticky top-0 z-40 bg-white backdrop-blur-sm ">
-          <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
+        <div className="sticky top-0 z-40 bg-white backdrop-blur-sm">
+          <div className="w-full">
+            <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
+          </div>
         </div>
 
         <AnimatePresence mode="wait">

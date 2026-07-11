@@ -508,10 +508,12 @@ export default function ActivityBoardMobile() {
   return (
     <div className="flex-1 w-full h-full overflow-y-auto bg-gray-50/30 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none @container outline-none">
       <div className="sticky top-0 z-30 bg-white/80 backdrop-blur-xl transition-all duration-300">
-        <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
+        <div className="max-w-5xl mx-auto w-full">
+          <ActivityTabs active={activeFilter} onChange={handleFilterChange} />
+        </div>
       </div>
 
-      <div className="w-full pt-2 pb-16 max-w-5xl mx-auto px-3">
+      <div className="w-full pt-0 pb-16 max-w-5xl mx-auto px-3">
         <AnimatePresence mode="wait">
           {displayedItems.length === 0 ? (
             <motion.div 

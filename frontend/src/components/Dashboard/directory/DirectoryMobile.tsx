@@ -135,7 +135,7 @@ export default function DirectoryMobile() {
         </div>
 
         <div className="flex-1 flex flex-col pb-10">
-          <div className="px-3.5 flex flex-col gap-4 pt-4">
+          <div className="px-3.5 flex flex-col gap-4 pt-0">
 
             <div className="grid grid-cols-4 gap-2">
               {DIRECTORY_STATS.map((stat, i) => {

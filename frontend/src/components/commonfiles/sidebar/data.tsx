@@ -1,7 +1,6 @@
 import type { SubTabItem } from '../TabBar/SubTabBar' 
 
 import { 
-  Activity, 
   PlayCircle, 
   Mic, 
   Megaphone, 

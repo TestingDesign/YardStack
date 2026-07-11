@@ -167,7 +167,7 @@ export default function DashboardHeader({
             >
               <MenuIcon sx={{ fontSize: 24 }} />
             </motion.button>
-            <img src={LogoPng} alt="N4RE Logo" className="h-8 object-contain shrink-0" />
+            <img src={LogoPng} alt="N4RE Logo" className="h-12 w-auto object-contain shrink-0" />
             <div className="w-px h-6 bg-[var(--color-border-default)] shrink-0 ml-1 mr-1" aria-hidden="true" />
           </div>
         )}

@@ -142,7 +142,7 @@ function DesktopDashboard() {
   }, [])
 
   return (
-    <div className="flex flex-col h-full w-full relative overflow-hidden bg-white">
+    <div className={`flex flex-col h-full w-full relative overflow-hidden ${activeTab === 'pulse' ? 'bg-[#F3F2EF]' : 'bg-white'}`}>
       <DashboardHeader
         navItems={HEADER_NAV_ITEMS}
         activeTab={activeTab}
@@ -158,6 +158,7 @@ function DesktopDashboard() {
           onNavigate={(k) => {
             setActiveFooterTab(k)
           }} 
+          isScrollEffectEnabled={activeTab === 'pulse'}
         />
 
         <main className="flex-1 flex flex-col h-full overflow-hidden">

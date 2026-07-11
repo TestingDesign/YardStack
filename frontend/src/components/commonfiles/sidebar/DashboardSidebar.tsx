@@ -23,6 +23,7 @@ interface DashboardSidebarProps {
   onNavigate?: (k: DashboardNavKey) => void
   isOpen?: boolean
   onToggle?: (isOpen: boolean) => void
+  isScrollEffectEnabled?: boolean
 }
 
 interface TooltipState {
@@ -108,6 +109,7 @@ export default function DashboardSidebar({
   onNavigate,
   isOpen: externalIsOpen,
   onToggle,
+  isScrollEffectEnabled = true,
 }: DashboardSidebarProps) {
   const [internalIsOpen, setInternalIsOpen] = useState(true)
   const isControlled = externalIsOpen !== undefined
@@ -122,7 +124,8 @@ export default function DashboardSidebar({
   }
   const [tooltip, setTooltip] = useState<TooltipState>(HIDDEN_TOOLTIP)
   const [mounted, setMounted] = useState(false)
-  const isScrollHidden = useScrollDirection()
+  const isScrollHiddenRaw = useScrollDirection()
+  const isScrollHidden = isScrollEffectEnabled ? isScrollHiddenRaw : false
 
   const sidebarRef = useRef<HTMLElement>(null)
   const [sidebarWidth, setSidebarWidth] = useState(isOpen ? 240 : 72)

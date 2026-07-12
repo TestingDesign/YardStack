@@ -1,6 +1,6 @@
-import { memo, useCallback, type ElementType } from 'react'
-import { motion } from 'framer-motion'
-import { Users, Plus, LayoutDashboard, Bookmark } from 'lucide-react'
+import { memo, useCallback, useState, type ElementType } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Users, Plus, LayoutDashboard, Bookmark, Video, Briefcase, Clapperboard } from 'lucide-react'
 import LogoPng from '../sidebar/Logo.png'
 
 const LogoIcon = ({ className }: { className?: string }) => (
@@ -26,6 +26,20 @@ const FOOTER_NAV_ITEMS: FooterNavItem[] = [
   { key: 'saved',  label: 'Saved',  Icon: Bookmark },
 ]
 
+interface PostOption {
+  key: string
+  label: string
+  Icon: ElementType
+  color: string
+  bg: string
+}
+
+const POST_OPTIONS: PostOption[] = [
+  { key: 'short', label: 'Short',  Icon: Clapperboard, color: 'text-pink-500', bg: 'bg-pink-500' },
+  { key: 'video', label: 'Video',  Icon: Video,        color: 'text-blue-500', bg: 'bg-blue-500' },
+  { key: 'job',   label: 'Job',    Icon: Briefcase,    color: 'text-amber-500', bg: 'bg-amber-500' },
+]
+
 interface FooterNavButtonProps {
   item: FooterNavItem
   isActive: boolean
@@ -36,12 +50,11 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
   const { key, label, Icon } = item
 
   return (
-    <motion.button
-      whileTap={{ scale: 0.95 }}
+    <button
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
-      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D946EF]/50 focus-visible:ring-inset tap-highlight-transparent"
+      className="group relative flex w-full flex-col items-center justify-center gap-0.5 min-w-0 py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-colors duration-150 focus-visible:outline-none tap-highlight-transparent"
     >
       <div className="relative z-10">
         <Icon
@@ -49,20 +62,20 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
           strokeWidth={isActive ? 2.2 : 2}
           fill={isActive ? 'currentColor' : 'none'}
           aria-hidden="true"
-          className={`transition-all duration-300 ${
+          className={`transition-colors duration-150 ${
             isActive
-              ? 'text-[#D946EF] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] -translate-y-0.5'
-              : 'text-white/65 group-hover:text-white translate-y-0'
+              ? 'text-[#D946EF]'
+              : 'text-white/60 group-hover:text-white/90'
           }`}
         />
       </div>
 
       {label && (
         <span
-          className={`relative z-10 text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 ${
+          className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none transition-colors duration-150 ${
             isActive
-              ? 'font-bold text-[#D946EF] -translate-y-0.5'
-              : 'font-semibold text-white/65 group-hover:text-white translate-y-0'
+              ? 'font-medium text-[#D946EF]'
+              : 'font-medium text-white/60 group-hover:text-white/90'
           }`}
         >
           {label}
@@ -72,67 +85,125 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       {isActive && (
         <motion.div
           layoutId="footerActiveTab"
-          transition={{ type: "spring", stiffness: 300, damping: 24 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
           aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-t-full bg-[#D946EF]"
         />
       )}
-    </motion.button>
+    </button>
   )
 })
 
-const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: FooterNavButtonProps) {
-  const { key, label, Icon } = item
+interface PostNavButtonProps {
+  isOpen: boolean
+  onToggle: () => void
+}
 
+const PostNavButton = memo(function PostNavButton({ isOpen, onToggle }: PostNavButtonProps) {
   return (
-    <motion.button
-      whileTap={{ scale: 0.95 }}
-      type="button"
-      aria-current={isActive ? 'page' : undefined}
-      onClick={() => onClick(key)}
-      className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 sm:py-2 px-1 border-none outline-none cursor-pointer bg-transparent focus-visible:outline-none tap-highlight-transparent"
-    >
-      <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20">
-        <div
-          className={`relative flex items-center justify-center w-11 h-11 rounded-[6px] bg-[linear-gradient(135deg,#2a1550_0%,#1A1A2E_100%)] transition-all duration-300 ease-out border border-[#D946EF]/25 group-active:scale-90 ${
-            isActive 
-              ? 'shadow-[inset_0_0_20px_rgba(217,70,239,0.2),0_4px_16px_rgba(0,0,0,0.5)] translate-y-0.5 bg-[#D946EF]/20' 
-              : 'shadow-[inset_0_0_20px_rgba(217,70,239,0.08),0_4px_12px_rgba(0,0,0,0.4)] hover:-translate-y-0.5 hover:shadow-[inset_0_0_30px_rgba(217,70,239,0.15),0_6px_16px_rgba(0,0,0,0.5)] hover:border-[#D946EF]/40'
-          }`}
+    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 px-1">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-10 h-10 rounded-[4px] flex items-center justify-center border-none outline-none cursor-pointer bg-gradient-to-br from-[#D946EF] to-[#9333EA] shadow-[0_2px_12px_rgba(217,70,239,0.4)] active:scale-95 transition-transform duration-150"
+        aria-label="Create new post"
+      >
+        <motion.div
+          animate={{ rotate: isOpen ? 45 : 0 }}
+          transition={{ duration: 0.2, ease: 'easeOut' }}
         >
-          <Icon
-            size={22}
+          <Plus
+            size={24}
             strokeWidth={2.5}
-            fill={isActive ? 'currentColor' : 'none'}
-            aria-hidden="true"
-            className={`transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
-              isActive 
-                ? 'rotate-135 scale-110 text-[#D946EF] drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]' 
-                : 'rotate-0 scale-100 text-[#D946EF] group-hover:rotate-90 group-hover:drop-shadow-[0_0_5px_rgba(217,70,239,0.3)]'
-            }`}
+            className="text-white"
           />
-        </div>
-      </div>
+        </motion.div>
+      </button>
 
       <span
-        className={`relative z-10 text-[9px] sm:text-[10px] uppercase tracking-[0.2px] leading-none transition-all duration-300 mt-5 sm:mt-6 ${
-          isActive
-            ? 'font-bold text-[#D946EF]'
-            : 'font-semibold text-white/65 group-hover:text-white'
+        className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none mt-6 font-medium transition-colors duration-150 ${
+          isOpen ? 'text-[#D946EF]' : 'text-white/60'
         }`}
       >
-        {label}
+        Post
       </span>
-      
-      {isActive && (
-        <motion.div
-          layoutId="footerActiveTab"
-          transition={{ type: "spring", stiffness: 300, damping: 24 }}
-          aria-hidden="true"
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-[2px] rounded-t-full bg-[#D946EF] shadow-[0_-1px_8px_rgba(217,70,239,0.9)]"
-        />
+    </div>
+  )
+})
+
+interface PostFanMenuProps {
+  isOpen: boolean
+  onSelect: (key: string) => void
+  onClose: () => void
+}
+
+const PostFanMenu = memo(function PostFanMenu({ isOpen, onSelect, onClose }: PostFanMenuProps) {
+  // Fan positions: arc above the "+" button
+  const positions = [
+    { x: -64, y: -80 },  // left
+    { x: 0,   y: -100 }, // center top
+    { x: 64,  y: -80 },  // right
+  ]
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-[9998] bg-black/50 backdrop-blur-[2px]"
+            onClick={onClose}
+          />
+
+          {/* Fan options */}
+          <div className="fixed bottom-[60px] left-1/2 -translate-x-1/2 z-[9999]" style={{ pointerEvents: 'none' }}>
+            {POST_OPTIONS.map((option, idx) => (
+              <motion.button
+                key={option.key}
+                type="button"
+                initial={{ 
+                  x: 0, 
+                  y: 0, 
+                  scale: 0, 
+                  opacity: 0 
+                }}
+                animate={{ 
+                  x: positions[idx].x, 
+                  y: positions[idx].y, 
+                  scale: 1, 
+                  opacity: 1 
+                }}
+                exit={{ 
+                  x: 0, 
+                  y: 0, 
+                  scale: 0, 
+                  opacity: 0 
+                }}
+                transition={{ 
+                  duration: 0.25,
+                  delay: isOpen ? idx * 0.06 : (POST_OPTIONS.length - 1 - idx) * 0.04,
+                  ease: [0.32, 0.72, 0, 1]
+                }}
+                onClick={() => onSelect(option.key)}
+                className="absolute flex flex-col items-center gap-1.5 border-none outline-none cursor-pointer bg-transparent"
+                style={{ pointerEvents: 'auto', left: '-24px', top: '-24px' }}
+              >
+                <div className={`w-12 h-12 rounded-full ${option.bg} flex items-center justify-center shadow-md`}>
+                  <option.Icon size={20} strokeWidth={2} className="text-white" />
+                </div>
+                <span className="text-[10px] font-medium text-white tracking-wide">
+                  {option.label}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        </>
       )}
-    </motion.button>
+    </AnimatePresence>
   )
 })
 
@@ -142,36 +213,58 @@ interface FooterNavProps {
 }
 
 export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
-  const handleClick = useCallback((key: string) => onChange(key), [onChange])
+  const [postMenuOpen, setPostMenuOpen] = useState(false)
+  
+  const handleClick = useCallback((key: string) => {
+    setPostMenuOpen(false)
+    onChange(key)
+  }, [onChange])
+
+  const handlePostToggle = useCallback(() => {
+    setPostMenuOpen(prev => !prev)
+  }, [])
+
+  const handlePostSelect = useCallback((key: string) => {
+    setPostMenuOpen(false)
+    // Could dispatch a specific action based on key (short/video/job)
+    console.log('Post option selected:', key)
+  }, [])
 
   return (
-    <nav
-      aria-label="Bottom Navigation"
-      className="shrink-0 relative z-9999 bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] shadow-[0_-4px_32px_rgba(0,0,0,0.5)] border-t border-white/10"
-    >
-      <ul className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0">
-        {FOOTER_NAV_ITEMS.map((item) => {
-          const isActive = item.key === active
-          
-          return (
-            <li key={item.key} className="flex flex-1">
-              {item.key === 'post' ? (
-                <PostNavButton
-                  item={item}
-                  isActive={isActive}
-                  onClick={handleClick}
-                />
-              ) : (
-                <StandardNavButton
-                  item={item}
-                  isActive={isActive}
-                  onClick={handleClick}
-                />
-              )}
-            </li>
-          )
-        })}
-      </ul>
-    </nav>
+    <>
+      <PostFanMenu 
+        isOpen={postMenuOpen} 
+        onSelect={handlePostSelect} 
+        onClose={() => setPostMenuOpen(false)} 
+      />
+
+      <nav
+        aria-label="Bottom Navigation"
+        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10"
+      >
+        <ul className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0">
+          {FOOTER_NAV_ITEMS.map((item) => {
+            const isActive = item.key === active
+            
+            return (
+              <li key={item.key} className="flex flex-1">
+                {item.key === 'post' ? (
+                  <PostNavButton
+                    isOpen={postMenuOpen}
+                    onToggle={handlePostToggle}
+                  />
+                ) : (
+                  <StandardNavButton
+                    item={item}
+                    isActive={isActive}
+                    onClick={handleClick}
+                  />
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+    </>
   )
 })

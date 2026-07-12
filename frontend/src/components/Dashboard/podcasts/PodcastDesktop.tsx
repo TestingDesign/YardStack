@@ -27,11 +27,11 @@ const STYLES = `
     100% { background-position:  200% center; }
   }
   @keyframes swipeUpFade {
-    0% { opacity: 0; transform: translateY(30px); }
+    0% { opacity: 0; transform: translateY(20px); }
     100% { opacity: 1; transform: translateY(0); }
   }
   .animate-swipe-up {
-    animation: swipeUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: swipeUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
   .card-shimmer::after {
     content: '';
@@ -40,12 +40,12 @@ const STYLES = `
     background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.18) 50%, transparent 60%);
     background-size: 200% 100%;
     opacity: 0;
-    transition: opacity .3s;
+    transition: opacity .2s;
     pointer-events: none;
   }
   .card-shimmer:hover::after {
     opacity: 1;
-    animation: shimmer .7s ease forwards;
+    animation: shimmer .5s ease forwards;
   }
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
@@ -60,25 +60,25 @@ const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.05 },
+    transition: { staggerChildren: 0.03 },
   },
 }
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 15 },
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { type: "spring", stiffness: 300, damping: 24, mass: 0.8 } 
+    transition: { type: "spring", stiffness: 400, damping: 30, mass: 0.8 } 
   },
 }
 
 const swipeUpVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: { 
     opacity: 1, 
     y: 0, 
-    transition: { type: "spring", stiffness: 250, damping: 20 } 
+    transition: { type: "spring", stiffness: 350, damping: 25 } 
   },
 }
 
@@ -95,7 +95,7 @@ const MoreMenu = memo(function MoreMenu({
       <button
         type="button"
         onClick={onToggle}
-        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-200 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+        className={`w-7 h-7 flex items-center justify-center rounded-full transition-all duration-150 border-none cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
           open
             ? 'bg-purple-100 text-purple-700 shadow-inner'
             : 'bg-transparent text-gray-400 hover:bg-gray-100 hover:text-gray-700'
@@ -109,7 +109,7 @@ const MoreMenu = memo(function MoreMenu({
 
       {open && (
         <div
-          className="absolute right-0 top-[110%] w-44 bg-white rounded-md shadow-lg border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-150"
+          className="absolute right-0 top-[110%] w-44 bg-white rounded-[4px] shadow-lg border border-gray-100 z-50 py-1 origin-top-right animate-in fade-in zoom-in-95 duration-150"
           role="menu"
         >
           {[
@@ -153,16 +153,16 @@ const MoreMenu = memo(function MoreMenu({
 })
 
 const DesktopEpisodeSkeleton = () => (
-  <div className="flex flex-col rounded-lg animate-pulse bg-white p-1 pb-2">
-    <div className="w-full aspect-video rounded-md mb-2.5 bg-gray-200/80" />
+  <div className="flex flex-col rounded-[4px] animate-pulse bg-white p-1 pb-2">
+    <div className="w-full aspect-video rounded-[4px] mb-2.5 bg-gray-200/80" />
     <div className="flex flex-col gap-1.5 px-1.5">
-      <div className="h-3.5 bg-gray-200/80 rounded-sm w-5/6" />
-      <div className="h-3.5 bg-gray-200/80 rounded-sm w-2/3" />
+      <div className="h-3.5 bg-gray-200/80 rounded-[2px] w-5/6" />
+      <div className="h-3.5 bg-gray-200/80 rounded-[2px] w-2/3" />
       <div className="flex items-center gap-2 mt-1.5">
         <div className="w-5 h-5 rounded-full bg-gray-200/80 shrink-0" />
-        <div className="h-3 bg-gray-200/80 rounded-sm w-1/2" />
+        <div className="h-3 bg-gray-200/80 rounded-[2px] w-1/2" />
       </div>
-      <div className="h-2.5 bg-gray-200/80 rounded-sm w-1/3 ml-7 mt-0.5" />
+      <div className="h-2.5 bg-gray-200/80 rounded-[2px] w-1/3 ml-7 mt-0.5" />
     </div>
   </div>
 )
@@ -206,7 +206,7 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
       setProgress(videoRef.current.currentTime / videoRef.current.duration)
     }
   }
-  
+
   const handleLoadedMetadata = () => {
   }
 
@@ -222,7 +222,7 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
       initial={{ opacity: 0 }} 
       animate={{ opacity: 1 }} 
       exit={{ opacity: 0 }} 
-      className="absolute inset-0 w-full h-full z-10 bg-black overflow-hidden rounded-md"
+      className="absolute inset-0 w-full h-full z-10 bg-black overflow-hidden rounded-[4px]"
     >
       <video
         ref={videoRef}
@@ -264,7 +264,6 @@ const HoverVideoPreview = memo(function HoverVideoPreview({
   )
 })
 
-
 export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   episode, onPlay, isActive = false, hideDetails = false, idPrefix = 'podcast-card-'
 }: {
@@ -292,7 +291,7 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true)
-    }, 400)
+    }, 200)
   }
 
   const handleMouseLeave = () => {
@@ -310,7 +309,7 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
       variants={itemVariants}
       whileHover={{ y: -2 }}
       whileTap={{ scale: 0.98 }}
-      className={`card-shimmer group flex flex-col rounded-lg overflow-visible cursor-pointer transition-colors duration-300 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
+      className={`card-shimmer group flex flex-col rounded-[4px] overflow-visible cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 ${
         moreOpen ? 'z-50 relative' : ''
       } ${isActive ? 'ring-2 ring-purple-500 ring-offset-2 bg-purple-50/30' : ''}`}
       onClick={() => onPlay(episode)}
@@ -322,26 +321,26 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative w-full aspect-video rounded-md overflow-hidden mb-2.5 flex-shrink-0 bg-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 border border-black/5">
+      <div className="relative w-full aspect-video rounded-[4px] overflow-hidden mb-2.5 flex-shrink-0 bg-gray-100 shadow-sm transition-all duration-300 group-hover:-translate-y-0.5 border border-black/5">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
         {isHovered && <HoverVideoPreview videoSrc="https://www.w3schools.com/html/mov_bbb.mp4" />}
 
         {!isHovered && (
           <>
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-300 group-hover:opacity-80 pointer-events-none" />
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-900/30 via-transparent to-fuchsia-900/20 opacity-0 group-hover:opacity-100 transition-all duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-70 transition-opacity duration-200 group-hover:opacity-80 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-purple-600/40 via-transparent to-fuchsia-500/30 opacity-0 group-hover:opacity-100 transition-all duration-200" />
             
-            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-              <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-white/30">
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
+              <div className="relative w-10 h-10 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform duration-200 hover:bg-white/30">
                 <PlayArrowIcon sx={{ fontSize: 22 }} className="ml-0.5" />
               </div>
             </div>
 
-            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-medium px-1.5 py-0.5 rounded pointer-events-none group-hover:opacity-0 transition-opacity duration-200">
+            <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] font-medium px-1.5 py-0.5 rounded-[4px] pointer-events-none group-hover:opacity-0 transition-opacity duration-150">
               <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
               {episode.duration}
             </div>
@@ -352,21 +351,21 @@ export const DesktopEpisodeCard = memo(function DesktopEpisodeCard({
       {!hideDetails && (
         <div className="flex items-start justify-between gap-2 px-0.5">
           <div className="min-w-0 flex-1">
-            <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
+            <h3 className="text-[13px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-150">
               {episode.title}
             </h3>
             <div className="flex items-center gap-1.5">
-              <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-[#7C3AED] to-[#D946EF] flex items-center justify-center shadow-sm">
+              <div className="w-4 h-4 rounded-full shrink-0 bg-gradient-to-br from-purple-500 to-fuchsia-500 flex items-center justify-center shadow-sm">
                 <span className="text-[8px] font-medium text-white select-none">{speakerInitial}</span>
               </div>
-              <span className="text-[11px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
+              <span className="text-[11px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-150">
                 {episode.speaker}
               </span>
               {episode.verified && (
                 <VerifiedIcon sx={{ fontSize: 10 }} className="text-blue-500 shrink-0" />
               )}
             </div>
-            <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-5.5">
+            <p className="text-[10px] text-gray-500 mt-0.5 truncate font-normal ml-6">
               {episode.role}
             </p>
           </div>
@@ -409,7 +408,7 @@ export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
   const handleMouseEnter = () => {
     hoverTimeoutRef.current = setTimeout(() => {
       setIsHovered(true)
-    }, 400)
+    }, 200)
   }
 
   const handleMouseLeave = () => {
@@ -424,7 +423,7 @@ export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
       id={`${idPrefix}${episode.id}`}
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
-      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-200 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-lg hover:bg-gray-50 ${
+      className={`card-shimmer group relative flex items-start gap-2.5 p-1.5 cursor-pointer transition-colors duration-150 ease-out outline-none focus-visible:ring-2 focus-visible:ring-purple-500 rounded-[4px] hover:bg-gray-50 ${
         moreOpen ? 'z-50 relative' : ''
       } ${isActive ? 'bg-purple-50/50 border border-purple-200 shadow-sm' : ''}`}
       onClick={() => onPlay(episode)}
@@ -436,33 +435,33 @@ export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
         if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPlay(episode) }
       }}
     >
-      <div className="relative shrink-0 w-[180px] aspect-video rounded-md overflow-hidden bg-gray-100 shadow-sm border border-black/5">
+      <div className="relative shrink-0 w-[180px] aspect-video rounded-[4px] overflow-hidden bg-gray-100 shadow-sm border border-black/5">
         <img
           src={episode.thumbnail}
           alt={episode.title}
-          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
+          className={`absolute inset-0 w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105 ${isHovered ? 'opacity-0' : 'opacity-100'}`}
         />
         {isHovered && <HoverVideoPreview videoSrc="https://www.w3schools.com/html/mov_bbb.mp4" />}
         {!isHovered && (
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none" />
         )}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-200 hover:scale-110 shadow-sm">
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          <div className="relative w-8 h-8 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-150 hover:scale-110 shadow-sm">
             <PlayArrowIcon sx={{ fontSize: 16 }} className="ml-0.5" />
           </div>
         </div>
-        <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-medium px-1 py-0.5 rounded group-hover:opacity-0 transition-opacity duration-200">
+        <div className="absolute bottom-1 left-1 flex items-center gap-1 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[9px] font-medium px-1 py-0.5 rounded-[4px] group-hover:opacity-0 transition-opacity duration-150">
           <GraphicEqIcon sx={{ fontSize: 9 }} className="text-fuchsia-400" />
           {episode.duration}
         </div>
       </div>
 
       <div className="flex-1 min-w-0 pt-0.5">
-        <h3 className="text-[12px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-200">
+        <h3 className="text-[12px] font-medium text-gray-900 leading-snug line-clamp-2 mb-1 group-hover:text-purple-700 transition-colors duration-150">
           {episode.title}
         </h3>
         <div className="flex items-center gap-1 mb-0.5">
-          <span className="text-[10px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-200">
+          <span className="text-[10px] font-medium text-gray-600 truncate group-hover:text-purple-600 transition-colors duration-150">
             {episode.speaker}
           </span>
           {episode.verified && (
@@ -485,6 +484,7 @@ export const HorizontalEpisodeCard = memo(function HorizontalEpisodeCard({
     </motion.article>
   )
 })
+
 function StatCard({
   icon, value, label, color, bg,
 }: {
@@ -498,7 +498,7 @@ function StatCard({
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -2 }}
-      className={`p-2.5 rounded-md ${bg} flex items-center gap-2 transition-colors duration-200`}
+      className={`p-2.5 rounded-[4px] ${bg} flex items-center gap-2 transition-colors duration-200`}
     >
       <div className={`w-6 h-6 ${color} flex items-center justify-center shrink-0`}>
         {icon}
@@ -522,7 +522,7 @@ function SectionHeader({ icon, title, badge }: { icon: React.ReactNode; title: s
       </div>
       <h3 className="text-[14px] font-medium text-gray-900 tracking-tight">{title}</h3>
       {badge && (
-        <span className="ml-1 px-1.5 py-0.5 rounded-[3px] bg-purple-100 text-purple-700 text-[9px] font-medium uppercase tracking-wider">
+        <span className="ml-1 px-1.5 py-0.5 rounded-[2px] bg-purple-100 text-purple-700 text-[9px] font-medium uppercase tracking-wider">
           {badge}
         </span>
       )}
@@ -534,7 +534,7 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-[9999] bg-black/60 backdrop-blur-sm flex items-center justify-center animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-xl w-[90%] max-w-[400px] p-5 shadow-xl animate-in zoom-in-95 duration-200"
+        className="bg-white rounded-[4px] w-[90%] max-w-[400px] p-5 shadow-xl animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between mb-4">
@@ -553,14 +553,14 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
             <input 
               type="text" 
               placeholder="E.g. Real Estate Tips" 
-              className="w-full px-3 py-2 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px]"
+              className="w-full px-3 py-2 rounded-[4px] border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px]"
               autoFocus
             />
           </div>
           
           <div className="flex flex-col gap-1">
             <label className="text-[11px] font-medium text-gray-700">Privacy</label>
-            <select className="w-full px-3 py-2 rounded-md border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px] bg-white">
+            <select className="w-full px-3 py-2 rounded-[4px] border border-gray-200 focus:border-purple-500 focus:ring-1 focus:ring-purple-200 outline-none transition-all text-[13px] bg-white">
               <option value="private">Private (Only you can view)</option>
               <option value="public">Public (Anyone can view)</option>
               <option value="unlisted">Unlisted (Anyone with link)</option>
@@ -571,13 +571,13 @@ function CreatePlaylistModal({ onClose }: { onClose: () => void }) {
         <div className="flex items-center justify-end gap-2 mt-5">
           <button 
             onClick={onClose}
-            className="px-4 py-1.5 rounded-md text-[12px] font-medium text-gray-600 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer"
+            className="px-4 py-1.5 rounded-[4px] text-[12px] font-medium text-gray-600 hover:bg-gray-50 transition-colors border-none bg-transparent cursor-pointer"
           >
             Cancel
           </button>
           <button 
             onClick={onClose}
-            className="px-4 py-1.5 rounded-md text-[12px] font-medium text-white bg-purple-600 hover:bg-purple-700 transition-all border-none cursor-pointer"
+            className="px-4 py-1.5 rounded-[4px] text-[12px] font-medium text-white bg-purple-600 hover:bg-purple-700 transition-all border-none cursor-pointer"
           >
             Create
           </button>
@@ -604,6 +604,7 @@ export default function PodcastDesktop() {
       setActiveEpisode(ep)
     }
   }, [activeEpisode])
+  
   const [showPlaylistModal, setShowPlaylistModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
@@ -638,10 +639,13 @@ export default function PodcastDesktop() {
   useEffect(() => {
     const targetId = activeEpisode ? activeEpisode.id : lastPoppedId;
     if (targetId) {
-      const el = document.getElementById(`podcast-card-${targetId}`)
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-      }
+      const timeoutId = setTimeout(() => {
+        const el = document.getElementById(`podcast-card-${targetId}`)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        }
+      }, 50); 
+      return () => clearTimeout(timeoutId);
     }
   }, [activeEpisode, lastPoppedId])
 
@@ -669,14 +673,13 @@ export default function PodcastDesktop() {
     }, 300)
   }
 
-
   const [featuredHovered, setFeaturedHovered] = useState(false)
   const featuredHoverTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleFeaturedMouseEnter = () => {
     featuredHoverTimeoutRef.current = setTimeout(() => {
       setFeaturedHovered(true)
-    }, 600)
+    }, 300)
   }
 
   const handleFeaturedMouseLeave = () => {
@@ -690,7 +693,7 @@ export default function PodcastDesktop() {
     <div className="relative flex-1 w-full h-full flex flex-col bg-[#FDFDFD] overflow-hidden">
       <style>{STYLES}</style>
 
-      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-300 overflow-y-auto scroll-smooth hide-scrollbar pb-6">
+      <div ref={scrollContainerRef} className="flex-1 w-full h-full flex flex-col animate-in fade-in duration-200 overflow-y-auto scroll-smooth hide-scrollbar pb-6">
         <div className="sticky top-0 z-40 shrink-0 bg-white/90 backdrop-blur-md px-2 pt-1 pb-0 opacity-0 animate-swipe-up" style={{ animationDelay: '0ms' }}>
           <div className="max-w-[1400px] mx-auto w-full">
             <PodcastTabs active={activeFilter} onChange={handleFilterChange} />
@@ -705,16 +708,16 @@ export default function PodcastDesktop() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, margin: "50px" }}
-                className="w-full bg-white rounded-lg flex flex-col lg:flex-row group cursor-pointer border border-gray-100 shadow-sm"
+                className="w-full bg-white rounded-[4px] flex flex-col lg:flex-row group cursor-pointer border border-gray-100 shadow-sm"
                 onClick={() => setActiveEpisode(filtered[0])}
                 onMouseEnter={handleFeaturedMouseEnter}
                 onMouseLeave={handleFeaturedMouseLeave}
               >
-                <div className="relative w-full lg:w-[50%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-t-lg lg:rounded-tr-none lg:rounded-l-lg">
+                <div className="relative w-full lg:w-[50%] aspect-video bg-black shrink-0 overflow-hidden mx-auto lg:mx-0 rounded-t-[4px] lg:rounded-tr-none lg:rounded-l-[4px]">
                   <img
                     src={filtered[0]?.thumbnail || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80'}
                     alt="Featured"
-                    className={`w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105 ${featuredHovered ? 'opacity-0' : 'group-hover:opacity-100'}`}
+                    className={`w-full h-full object-cover opacity-90 transition-transform duration-300 group-hover:scale-105 ${featuredHovered ? 'opacity-0' : 'group-hover:opacity-100'}`}
                   />
                   {featuredHovered && (
                     <video
@@ -729,12 +732,12 @@ export default function PodcastDesktop() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent pointer-events-none" />
                   
                   <div className="absolute bottom-3 right-3 z-20">
-                    <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-300 group-hover:scale-110 shadow-sm">
+                    <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white transition-transform duration-200 group-hover:scale-110 shadow-sm">
                       <PlayArrowIcon sx={{ fontSize: 24 }} className="ml-0.5 relative z-10" />
                     </div>
                   </div>
 
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] px-2 py-1 rounded font-medium">
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white text-[10px] px-2 py-1 rounded-[4px] font-medium">
                     <GraphicEqIcon sx={{ fontSize: 10 }} className="text-fuchsia-400" />
                     {filtered[0]?.duration || '28:10'}
                   </div>
@@ -742,12 +745,12 @@ export default function PodcastDesktop() {
 
                 <div className="p-4 lg:p-5 flex flex-col justify-center flex-1">
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-50 text-purple-600 text-[9px] font-medium uppercase tracking-wider rounded">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-purple-50 text-purple-600 text-[9px] font-medium uppercase tracking-wider rounded-[4px]">
                       <TrendingUp size={10} />
                       Trending #1
                     </span>
                   </div>
-                  <h2 className="text-[18px] lg:text-[22px] font-medium text-gray-900 leading-tight mb-2 group-hover:text-purple-600 transition-colors duration-200 line-clamp-2">
+                  <h2 className="text-[18px] lg:text-[22px] font-medium text-gray-900 leading-tight mb-2 group-hover:text-purple-600 transition-colors duration-150 line-clamp-2">
                     {filtered[0]?.title || 'The Future of Real Estate: What to Expect in 2027'}
                   </h2>
                   <p className="text-[13px] text-gray-500 font-medium leading-relaxed mb-4 line-clamp-2 max-w-[450px]">
@@ -755,22 +758,22 @@ export default function PodcastDesktop() {
                   </p>
 
                   <div className="flex items-center gap-3 text-[11px] text-gray-500 font-medium mb-5">
-                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded">
+                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-[4px]">
                       <Eye size={12} className="text-purple-500" /> 28K Views
                     </span>
-                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded">
+                    <span className="flex items-center gap-1 bg-gray-50 px-2 py-1 rounded-[4px]">
                       <GraphicEqIcon sx={{ fontSize: 12 }} className="text-fuchsia-500" />
                       {filtered[0]?.duration || '28:10'}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 mt-auto">
-                    <button className="m-hero-btn flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-[var(--color-primary-600)] via-purple-600 to-[var(--color-primary-600)] text-white text-[12px] font-semibold rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-300 cursor-pointer border-none whitespace-nowrap">
+                    <button className="m-hero-btn flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 text-white text-[12px] font-medium rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 cursor-pointer border-none whitespace-nowrap">
                       <PlayArrowIcon sx={{ fontSize: 16 }} />
                       Watch Now
                     </button>
                     <button
-                      className="flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-[12px] font-medium rounded-md hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="flex items-center gap-1.5 px-4 py-2 bg-white border border-gray-200 text-gray-700 text-[12px] font-medium rounded-[4px] hover:bg-gray-50 transition-colors cursor-pointer"
                       onClick={(e) => { e.stopPropagation(); }}
                     >
                       <BookmarkBorderIcon sx={{ fontSize: 16 }} />
@@ -785,36 +788,34 @@ export default function PodcastDesktop() {
               initial="hidden" 
               whileInView="visible" 
               viewport={{ once: true, margin: "50px" }}
-              className="w-full flex flex-col gap-2 bg-white rounded-lg p-4 border border-gray-50"
+              className="w-full flex flex-col bg-white rounded-[4px] pt-4 px-4 pb-2 border border-gray-50"
             >
               <SectionHeader
                 icon={<Flame className="text-orange-500" size={16} />}
                 title="Trending This Week"
               />
 
-              <div className="relative mt-3">
-                {/* Left arrow – only shown when there's content to scroll left */}
+              <div className="relative mt-1">
                 {canScrollLeft && (
                   <button
                     onClick={() => {
                       const el = trendingScrollRef.current;
                       if (el) el.scrollBy({ left: -280, behavior: 'smooth' });
                     }}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-150 cursor-pointer shadow-md active:scale-90"
                     aria-label="Scroll trending left"
                   >
                     <ChevronLeft size={16} />
                   </button>
                 )}
 
-                {/* Right arrow – only shown when there's content to scroll right */}
                 {canScrollRight && (
                   <button
                     onClick={() => {
                       const el = trendingScrollRef.current;
                       if (el) el.scrollBy({ left: 280, behavior: 'smooth' });
                     }}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-200 cursor-pointer shadow-md active:scale-90"
+                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 z-30 w-8 h-8 rounded-full border border-gray-200 bg-white flex items-center justify-center text-gray-500 hover:text-purple-600 hover:border-purple-300 hover:bg-purple-50 transition-all duration-150 cursor-pointer shadow-md active:scale-90"
                     aria-label="Scroll trending right"
                   >
                     <ChevronRight size={16} />
@@ -823,7 +824,7 @@ export default function PodcastDesktop() {
 
                 <div
                   ref={trendingScrollRef}
-                  className="flex gap-2 overflow-x-auto hide-scrollbar pb-1 px-1 -mx-2 pt-1"
+                  className="flex gap-2 overflow-x-auto hide-scrollbar px-1 -mx-2 pt-1 pb-0.5"
                   style={{ scrollSnapType: 'x mandatory' }}
                 >
                   {filteredWithoutTop.slice(0, 6).map((ep) => {
@@ -832,7 +833,7 @@ export default function PodcastDesktop() {
                     
                     return (
                       <div key={ep.id} className="relative pt-2 pl-2 flex-shrink-0" style={{ width: '220px', scrollSnapAlign: 'start' }}>
-                        <div className={`absolute top-0 left-0 w-[20px] h-[20px] rounded z-20 flex items-center justify-center text-[10px] font-medium border-2 border-white shadow-sm ${
+                        <div className={`absolute top-0 left-0 w-[20px] h-[20px] rounded-[4px] z-20 flex items-center justify-center text-[10px] font-medium border-2 border-white shadow-sm ${
                           rank === 1 ? 'bg-amber-100 text-amber-700' :
                           rank === 2 ? 'bg-gray-100 text-gray-700' :
                           rank === 3 ? 'bg-orange-100 text-orange-700' :
@@ -853,17 +854,17 @@ export default function PodcastDesktop() {
               initial="hidden" 
               whileInView="visible" 
               viewport={{ once: true, margin: "50px" }}
-              className="w-full flex flex-col bg-white rounded-lg p-4 border border-gray-50"
+              className="w-full flex flex-col bg-white rounded-[4px] p-4 border border-gray-50"
             >
               <div className="flex items-center justify-between mb-2">
                 <h2 className="text-[22px] font-medium text-[#0B132B] tracking-tight">
                   All Real Estate Episodes
                 </h2>
                 <div className="flex items-center gap-2">
-                  <div className="flex items-center bg-gray-100 rounded-md p-0.5">
+                  <div className="flex items-center bg-gray-100 rounded-[4px] p-0.5">
                     <button
                       onClick={() => setViewMode('grid')}
-                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                      className={`p-1.5 rounded-[2px] transition-all duration-150 cursor-pointer border-none ${
                         viewMode === 'grid' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
                       }`}
                       aria-label="Grid view"
@@ -872,7 +873,7 @@ export default function PodcastDesktop() {
                     </button>
                     <button
                       onClick={() => setViewMode('list')}
-                      className={`p-1.5 rounded-sm transition-all duration-200 cursor-pointer border-none ${
+                      className={`p-1.5 rounded-[2px] transition-all duration-150 cursor-pointer border-none ${
                         viewMode === 'list' ? 'bg-white shadow-sm text-purple-600' : 'text-gray-400 bg-transparent hover:text-gray-600'
                       }`}
                       aria-label="List view"
@@ -912,7 +913,7 @@ export default function PodcastDesktop() {
                         type="button"
                         onClick={handleLoadMore}
                         disabled={isLoading}
-                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-bold text-purple-600 hover:bg-gradient-to-r hover:from-[var(--color-primary-600)] hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-350 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
+                        className="group flex items-center gap-2 px-7 py-2.5 rounded-[4px] bg-white border border-purple-200 text-[13px] font-medium text-purple-600 hover:bg-gradient-to-r hover:from-purple-600 hover:to-fuchsia-500 hover:text-white hover:border-transparent transition-all duration-200 cursor-pointer shadow-[0_2px_12px_rgba(124,58,237,0.1)] hover:shadow-[0_8px_28px_rgba(124,58,237,0.3)] hover:scale-[1.03] active:scale-[0.97]"
                       >
                         {isLoading ? (
                           <>
@@ -921,7 +922,7 @@ export default function PodcastDesktop() {
                           </>
                         ) : (
                           <>
-                            <AutorenewIcon sx={{ fontSize: 14 }} className="group-hover:rotate-180 transition-transform duration-500" />
+                            <AutorenewIcon sx={{ fontSize: 14 }} className="group-hover:rotate-180 transition-transform duration-300" />
                             Load More Episodes
                           </>
                         )}
@@ -930,7 +931,7 @@ export default function PodcastDesktop() {
                   )}
                 </>
               ) : (
-                <div className="flex flex-col items-center justify-center py-10 text-center bg-gray-50/50 rounded-lg border border-dashed border-gray-200">
+                <div className="flex flex-col items-center justify-center py-10 text-center bg-gray-50/50 rounded-[4px] border border-dashed border-gray-200">
                   <div className="w-10 h-10 mb-2 rounded-full bg-white flex items-center justify-center border border-gray-100">
                     <LayoutGrid size={16} className="text-gray-400" />
                   </div>
@@ -949,7 +950,7 @@ export default function PodcastDesktop() {
               initial="hidden" 
               whileInView="visible" 
               viewport={{ once: true, margin: "50px" }}
-              className="bg-white rounded-lg p-4 relative overflow-hidden border border-gray-50"
+              className="bg-white rounded-[4px] p-4 relative overflow-hidden border border-gray-50"
             >
               <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2" />
               <div className="flex items-center gap-2 mb-3 relative z-10">
@@ -970,7 +971,7 @@ export default function PodcastDesktop() {
               initial="hidden" 
               whileInView="visible" 
               viewport={{ once: true, margin: "50px" }}
-              className="bg-white rounded-lg p-4 border border-gray-50"
+              className="bg-white rounded-[4px] p-4 border border-gray-50"
             >
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -992,7 +993,7 @@ export default function PodcastDesktop() {
                     key={idx}
                     variants={itemVariants}
                     whileHover={{ y: -2 }}
-                    className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-1.5 rounded-md transition-colors"
+                    className="flex items-center justify-between group cursor-pointer hover:bg-gray-50 p-1.5 rounded-[4px] transition-colors"
                   >
                     <div className="flex items-center gap-2.5">
                       <div className="w-7 h-7 rounded-full overflow-hidden shrink-0">

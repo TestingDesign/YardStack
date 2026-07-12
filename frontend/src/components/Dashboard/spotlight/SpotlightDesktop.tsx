@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import React, { useState, useCallback, useRef, useEffect, memo } from 'react'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined'
@@ -25,7 +25,7 @@ const STYLES = `
   }
 `
 
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -36,7 +36,7 @@ const containerVariants = {
   }
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20, scale: 0.95 },
   visible: {
     opacity: 1,

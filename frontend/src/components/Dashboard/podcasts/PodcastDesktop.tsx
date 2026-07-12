@@ -772,7 +772,7 @@ export default function PodcastDesktop() {
                       className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 text-white text-[12px] font-medium rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 cursor-pointer border-none whitespace-nowrap"
                       onClick={(e) => { 
                         e.stopPropagation(); 
-                        handleVideoClick(filtered[0]?.id || 'pd-1'); 
+                        handleSetActiveEpisode(filtered[0] || null); 
                       }}
                     >
                       <PlayArrowIcon sx={{ fontSize: 16 }} />

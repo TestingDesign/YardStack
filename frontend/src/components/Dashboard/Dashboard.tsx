@@ -47,13 +47,14 @@ const LAUNCHING_SOON_KEYS = ['showcase', 'cityInventory', 'surveyPools', 'lms']
 const regularNavItems = NAV_ITEMS.filter(item => !LAUNCHING_SOON_KEYS.includes(item.key))
 
 const TAB_ITEMS = [
-  ...regularNavItems.map(({ key, label, Icon, activeIcon, badge, subTabs }) => ({
+  ...regularNavItems.map(({ key, label, Icon, activeIcon, badge, subTabs, tooltip }) => ({
     key,
     label,
     Icon: Icon || '',
     activeIcon,
     badge,
     subTabs: subTabs ?? [],
+    tooltip,
   })),
   {
     key: 'launchingSoon',
@@ -64,15 +65,17 @@ const TAB_ITEMS = [
     activeIcon: RocketLaunchIcon as any,
     badge: 'Soon',
     subTabs: [],
+    tooltip: 'New features and modules launching soon.',
   }
 ]
 
-const HEADER_NAV_ITEMS = TAB_ITEMS.map(({ key, label, Icon, activeIcon, badge }) => ({
+const HEADER_NAV_ITEMS = TAB_ITEMS.map(({ key, label, Icon, activeIcon, badge, tooltip }) => ({
   key,
   label,
   Icon: Icon || '',
   activeIcon,
   badge,
+  tooltip,
 }))
 
 const StatCards = memo(function StatCards() {

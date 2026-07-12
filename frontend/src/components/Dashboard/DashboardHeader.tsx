@@ -17,7 +17,33 @@ import {
   Users,
   Bell
 } from 'lucide-react'
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import type { TooltipProps } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
 import LogoPng from '../../Home/01.Hero/Logo.png'
+
+const NavTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  zIndex: 9999,
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    color: '#334155',
+    maxWidth: 288,
+    fontSize: '0.75rem',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: '0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.03)',
+    borderRadius: '0.375rem',
+    padding: '1rem',
+    backdropFilter: 'blur(24px)',
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: 'rgba(255, 255, 255, 0.95)',
+    '&::before': {
+      border: '1px solid rgba(255, 255, 255, 0.4)',
+    }
+  },
+}))
 
 export interface NavCardItem {
   key: string
@@ -107,18 +133,27 @@ const NavCard = memo(function NavCard({
   isActive: boolean
   onClick: (key: string) => void
 }) {
-  const [isHovered, setIsHovered] = useState(false)
+  const [open, setOpen] = useState(false)
+  
   const IconComponent = isActive && item.activeIcon ? item.activeIcon : item.Icon
   const isImage = typeof IconComponent === 'string'
 
-  return (
-    <div 
-      className="relative flex items-center justify-center group"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.altKey && e.key === 'ArrowUp') {
+      e.preventDefault()
+      setOpen((prev) => !prev)
+    }
+  }
+
+  const tooltipContent = item.tooltip ? (
+    <span className="block font-medium text-slate-600">{item.tooltip}</span>
+  ) : ""
+
+  const buttonContent = (
+    <div className="relative flex items-center justify-center group">
       <motion.button
         type="button"
+        onKeyDown={handleKeyDown}
         onClick={() => onClick(item.key)}
         whileHover={{ scale: 1.02, y: -1 }}
         whileTap={{ scale: 0.98 }}
@@ -168,32 +203,23 @@ const NavCard = memo(function NavCard({
           </span>
         )}
       </motion.button>
-
-      <AnimatePresence>
-        {isHovered && item.tooltip && (
-          <motion.div
-            initial={{ opacity: 0, y: 15, scale: 0.9, rotateX: -10 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95, transition: { duration: 0.15 } }}
-            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-            className="absolute top-full mt-4 w-72 p-4 bg-white/90 backdrop-blur-xl border border-white/40 text-slate-700 text-xs leading-relaxed rounded shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.03)] z-50 pointer-events-none transform-gpu"
-            style={{ perspective: 1000 }}
-          >
-            <div className="absolute inset-0 rounded shadow-[inset_0_1px_0_rgba(255,255,255,1)] pointer-events-none" />
-            
-            <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-white/90 border-t border-l border-white/40 rotate-45 rounded-tl-sm backdrop-blur-xl" />
-            
-            <div className="relative z-10 flex gap-3 items-start">
-              <div className="shrink-0 p-1.5 bg-violet-50 rounded text-violet-600">
-                {!isImage && <IconComponent className="w-4 h-4" strokeWidth={2} />}
-              </div>
-              <span className="block font-medium text-slate-600 mt-0.5">{item.tooltip}</span>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
+
+  return item.tooltip ? (
+    <NavTooltip 
+      title={tooltipContent} 
+      arrow 
+      placement="bottom" 
+      enterTouchDelay={50}
+      leaveTouchDelay={3000}
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+    >
+      {buttonContent}
+    </NavTooltip>
+  ) : buttonContent
 })
 
 export default function DashboardHeader({

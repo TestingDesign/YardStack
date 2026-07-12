@@ -6,6 +6,7 @@ export interface PrimaryTabItem {
   Icon: string
   activeIcon?: string 
   badge?: string
+  tooltip?: string
 }
 
 export interface PrimaryTabBarProps {
@@ -20,11 +21,51 @@ interface TabCardProps extends Omit<PrimaryTabItem, 'key'> {
   onClick: (key: string, el: HTMLButtonElement) => void
 }
 
-const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClick }: TabCardProps) => {
-  const currentIcon = isActive && activeIcon ? activeIcon : Icon
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import type { TooltipProps } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
+import { useState } from 'react'
 
-  return (
-    <button
+const MobileNavTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  zIndex: 9999,
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    color: '#334155',
+    maxWidth: 288,
+    fontSize: '0.75rem',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: '0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.03)',
+    borderRadius: '0.375rem',
+    padding: '1rem',
+    backdropFilter: 'blur(24px)',
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: 'rgba(255, 255, 255, 0.95)',
+    '&::before': {
+      border: '1px solid rgba(255, 255, 255, 0.4)',
+    }
+  },
+}))
+
+const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, tooltip, isActive, onClick }: TabCardProps) => {
+  const currentIcon = isActive && activeIcon ? activeIcon : Icon
+  const [open, setOpen] = useState(false)
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.altKey && e.key === 'ArrowUp') {
+      e.preventDefault()
+      setOpen((prev) => !prev)
+    }
+  }
+
+  const tooltipContent = tooltip ? (
+    <span className="block font-medium text-slate-600">{tooltip}</span>
+  ) : ""
+
+  const buttonContent = (
+      <button
       type="button"
       role="tab"
       title={label}
@@ -33,10 +74,11 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClic
       tabIndex={isActive ? 0 : -1}
       aria-controls={`panel-${tabKey}`}
       onClick={(e) => onClick(tabKey, e.currentTarget)}
-      className={`relative shrink-0 flex flex-col items-center justify-center gap-0.5 transition-all duration-300 outline-none cursor-pointer w-[68px] h-[52px] px-1 py-0.5 rounded-[4px] ${
+      onKeyDown={handleKeyDown}
+      className={`group relative shrink-0 flex flex-col items-center justify-center gap-0.5 transition-all duration-300 outline-none cursor-pointer w-[68px] h-[52px] px-1 py-0.5 rounded-[4px] border ${
         isActive
-          ? 'bg-gradient-to-r from-[#7C3AED] to-[#EC4899] shadow-sm shadow-violet-500/20'
-          : 'bg-transparent border border-gray-200'
+          ? 'border-transparent bg-gradient-to-r from-[#7C3AED] to-[#EC4899] shadow-sm shadow-violet-500/20'
+          : 'border-slate-200/60 bg-white/50 text-slate-600 hover:bg-white hover:border-slate-300 hover:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)]'
       }`}
     >
       {badge && (
@@ -45,7 +87,7 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClic
         </span>
       )}
 
-      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-5 w-5 text-white text-[16px]' : 'h-4 w-4 text-slate-500 text-[14px]'}`}>
+      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-5 w-5 text-white text-[16px]' : 'h-4 w-4 text-slate-400 group-hover:text-violet-600 text-[14px]'}`}>
         {typeof currentIcon === 'string' && (currentIcon.includes('/') || currentIcon.includes('.png')) ? (
           <img src={currentIcon} alt="" className="w-full h-full object-contain" />
         ) : (
@@ -62,13 +104,28 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, isActive, onClic
       <span
         title={label}
         className={`w-full px-0.5 text-[9px] leading-[1.1] text-center line-clamp-1 break-words transition-all duration-300 ${
-          isActive ? 'font-semibold text-white' : 'font-medium text-[#374151]'
+          isActive ? 'font-bold text-white' : 'font-medium text-slate-600 group-hover:text-slate-900'
         }`}
       >
         {label}
       </span>
     </button>
   )
+
+  return tooltip ? (
+    <MobileNavTooltip 
+      title={tooltipContent} 
+      arrow 
+      placement="bottom" 
+      enterTouchDelay={50}
+      leaveTouchDelay={3000}
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+    >
+      {buttonContent}
+    </MobileNavTooltip>
+  ) : buttonContent
 })
 
 TabCard.displayName = 'TabCard'
@@ -100,6 +157,7 @@ export const PrimaryTabBar = memo(function PrimaryTabBar({ tabs, active, onChang
             Icon={tab.Icon}
             activeIcon={tab.activeIcon}
             badge={tab.badge}
+            tooltip={tab.tooltip}
             isActive={tab.key === active}
             onClick={handleClick}
           />

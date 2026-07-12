@@ -11,6 +11,7 @@ export interface TabItem {
   activeIcon?: string
   badge?: string
   subTabs?: SubTabItem[]
+  tooltip?: string
 }
 
 interface TabBarProps {

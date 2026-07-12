@@ -658,7 +658,7 @@ export default function PodcastDesktop() {
     ? PODCAST_EPISODES
     : PODCAST_EPISODES.filter((ep) => ep.category === activeFilter)
 
-  const topEpisodeId = activeEpisode ? activeEpisode.id : filtered[0]?.id;
+  const topEpisodeId = filtered[0]?.id;
   const filteredWithoutTop = filtered.filter((ep) => ep.id !== topEpisodeId);
 
   const displayedCount = page * perPage

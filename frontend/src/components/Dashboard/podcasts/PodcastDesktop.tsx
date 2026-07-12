@@ -768,7 +768,13 @@ export default function PodcastDesktop() {
                   </div>
 
                   <div className="flex items-center gap-2 mt-auto">
-                    <button className="m-hero-btn flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-600 via-fuchsia-500 to-purple-600 text-white text-[12px] font-medium rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 cursor-pointer border-none whitespace-nowrap">
+                    <button 
+                      className="flex items-center justify-center gap-1.5 px-4 py-2 bg-gradient-to-r from-purple-700 via-fuchsia-600 to-indigo-600 text-white text-[12px] font-medium rounded-[4px] shadow-[0_2px_10px_rgba(124,58,237,0.35)] hover:shadow-[0_4px_16px_rgba(124,58,237,0.5)] hover:scale-[1.03] active:scale-[0.97] transition-all duration-200 cursor-pointer border-none whitespace-nowrap"
+                      onClick={(e) => { 
+                        e.stopPropagation(); 
+                        handleVideoClick(filtered[0]?.id || 'pd-1'); 
+                      }}
+                    >
                       <PlayArrowIcon sx={{ fontSize: 16 }} />
                       Watch Now
                     </button>

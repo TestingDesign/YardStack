@@ -3,12 +3,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import VerifiedIcon from '@mui/icons-material/Verified'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined'
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import type { SpotlightVideo } from './data'
 import SpotlightLink from './SpotlightLink'
 
@@ -24,6 +27,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
   onPrev?: () => void
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark')
   const [isLoading, setIsLoading] = useState(true)
   const [isSaved, setIsSaved] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
@@ -107,18 +111,24 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
   const springTransition = { type: "spring" as const, damping: 20, stiffness: 350 }
 
   return (
-    <div className="w-full h-full flex items-center justify-center overflow-hidden relative">
-      <div className="absolute inset-0 opacity-20 overflow-hidden mix-blend-screen">
-        <img src={video.image} alt="" className="w-full h-full object-cover blur-[80px] scale-150 transition-all duration-500 animate-pulse" />
-      </div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,#050505_80%)] pointer-events-none" />
+    <div className={`w-full h-full flex items-center justify-center overflow-hidden relative transition-colors duration-500 ${theme === 'light' ? 'bg-white' : ''}`}>
+      {theme === 'dark' && (
+        <div className="absolute inset-0 opacity-20 overflow-hidden mix-blend-screen pointer-events-none">
+          <img src={video.image} alt="" className="w-full h-full object-cover blur-[80px] scale-150 transition-all duration-500 animate-pulse" />
+        </div>
+      )}
+      <div className={`absolute inset-0 pointer-events-none transition-colors duration-500 ${theme === 'light' ? 'bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]' : 'bg-[radial-gradient(ellipse_at_center,transparent_20%,#050505_80%)]'}`} />
       
       <button 
         onClick={(e) => {
           e.stopPropagation()
           onClose()
         }}
-        className="absolute top-6 left-4 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-2xl rounded-full text-white/80 hover:text-white transition-all duration-200 hover:scale-110 active:scale-90 z-50 cursor-pointer border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.15)] pr-0.5"
+        className={`absolute top-6 left-4 w-10 h-10 flex items-center justify-center backdrop-blur-2xl rounded-full transition-all duration-200 hover:scale-110 active:scale-90 z-50 cursor-pointer pr-0.5 ${
+          theme === 'light' 
+            ? 'bg-white hover:bg-purple-50 text-gray-600 hover:text-purple-600 border border-gray-100 hover:border-purple-200' 
+            : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border border-white/10 shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_30px_rgba(255,255,255,0.15)]'
+        }`}
         aria-label="Go back"
       >
         <ArrowBackIosNewIcon sx={{ fontSize: 18 }} />
@@ -141,13 +151,13 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
               </div>
               <div className="flex flex-col justify-center min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-white font-semibold text-[16px] hover:underline cursor-pointer drop-shadow-lg truncate transition-colors hover:text-pink-100">{video.author}</span>
+                  <span className={`font-semibold text-[16px] hover:underline cursor-pointer drop-shadow-lg truncate transition-colors ${theme === 'light' ? 'text-gray-800 hover:text-purple-600' : 'text-white hover:text-pink-100'}`}>{video.author}</span>
                   {video.verified && <VerifiedIcon sx={{ fontSize: 16 }} className="text-blue-500 drop-shadow-md shrink-0" />}
                 </div>
               </div>
             </div>
 
-            <p className="text-white/95 text-[16px] leading-relaxed drop-shadow-xl font-medium tracking-wide">
+            <p className={`text-[16px] leading-relaxed drop-shadow-xl font-medium tracking-wide ${theme === 'light' ? 'text-gray-600' : 'text-white/95'}`}>
               {video.title}
             </p>
           </motion.div>
@@ -157,7 +167,11 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ ...springTransition }}
-          className="relative h-full aspect-[9/16] rounded-[4px] overflow-hidden bg-black shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 shrink-0 cursor-pointer transition-shadow duration-300 hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)]"
+          className={`relative h-full aspect-[9/16] rounded-[4px] overflow-hidden bg-black shrink-0 cursor-pointer transition-shadow duration-300 ${
+            theme === 'light' 
+              ? 'border border-gray-100' 
+              : 'shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)]'
+          }`}
           onClick={handleVideoClick}
         >
           <img 
@@ -225,19 +239,20 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
             transition={{ ...springTransition }}
             className="flex flex-col items-center justify-end gap-2 shrink-0 pb-10 z-10 ml-4"
           >
-            <div className="flex flex-col items-center gap-2 mb-4 bg-white/5 backdrop-blur-xl p-2 rounded-[8px] border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)]">
-              <NavButton onClick={onPrev} disabled={!onPrev} icon={<KeyboardArrowUpIcon sx={{ fontSize: 26 }} />} ariaLabel="Previous video" />
-              <div className="w-6 h-px bg-white/10" />
-              <NavButton onClick={onNext} disabled={!onNext} icon={<KeyboardArrowDownIcon sx={{ fontSize: 26 }} />} ariaLabel="Next video" />
+            <div className={`flex flex-col items-center gap-2 mb-4 backdrop-blur-xl p-2 rounded-[8px] border transition-colors duration-500 ${theme === 'light' ? 'bg-white/90 border-gray-100' : 'bg-white/5 border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.2)]'}`}>
+              <NavButton onClick={onPrev} disabled={!onPrev} icon={<KeyboardArrowUpIcon sx={{ fontSize: 26 }} />} ariaLabel="Previous video" theme={theme} />
+              <div className={`w-6 h-px ${theme === 'light' ? 'bg-gray-100' : 'bg-white/10'}`} />
+              <NavButton onClick={onNext} disabled={!onNext} icon={<KeyboardArrowDownIcon sx={{ fontSize: 26 }} />} ariaLabel="Next video" theme={theme} />
             </div>
             
-            <ActionButton icon={<ShareOutlinedIcon sx={{ fontSize: 22 }} />} label="Share" />
+            <ActionButton icon={<ShareOutlinedIcon sx={{ fontSize: 22 }} />} label="Share" theme={theme} />
             
             <ActionButton 
-              icon={<BookmarkBorderIcon sx={{ fontSize: 22 }} />} 
+              icon={isSaved ? <BookmarkIcon sx={{ fontSize: 22 }} /> : <BookmarkBorderIcon sx={{ fontSize: 22 }} />} 
               label="Save" 
               onClick={() => setIsSaved(v => !v)}
               active={isSaved}
+              theme={theme}
             />
             
             <div className="relative flex flex-col items-center" ref={menuRef}>
@@ -245,6 +260,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                 icon={<MoreVertIcon sx={{ fontSize: 22 }} />} 
                 onClick={(e) => { e?.preventDefault(); e?.stopPropagation(); setIsMenuOpen(!isMenuOpen) }}
                 active={isMenuOpen}
+                theme={theme}
               />
               
               <AnimatePresence>
@@ -254,18 +270,25 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
                     transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-48 bg-neutral-900/95 backdrop-blur-2xl rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.8)] py-1.5 z-50 flex flex-col text-[14px] border border-white/10 overflow-hidden"
+                    className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-4 w-48 backdrop-blur-2xl rounded-xl py-1.5 z-50 flex flex-col text-[14px] border overflow-hidden ${theme === 'light' ? 'bg-white/95 border-gray-100' : 'bg-neutral-900/95 border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.8)]'}`}
                   >
                   <button 
+                    onClick={(e) => { e.stopPropagation(); setTheme(theme === 'dark' ? 'light' : 'dark'); setIsMenuOpen(false); }} 
+                    className={`flex items-center gap-3 px-4 py-3 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent ${theme === 'light' ? 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
+                  >
+                    {theme === 'dark' ? <LightModeOutlinedIcon sx={{ fontSize: 18 }} /> : <DarkModeOutlinedIcon sx={{ fontSize: 18 }} />} 
+                    {theme === 'dark' ? 'Light Theme' : 'Dark Theme'}
+                  </button>
+                  <button 
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }} 
-                    className="flex items-center gap-3 px-4 py-3 text-white/80 hover:text-white hover:bg-white/10 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent"
+                    className={`flex items-center gap-3 px-4 py-3 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent ${theme === 'light' ? 'text-gray-600 hover:text-purple-600 hover:bg-purple-50' : 'text-white/80 hover:text-white hover:bg-white/10'}`}
                   >
                     <BookmarkBorderIcon sx={{ fontSize: 18 }} /> Save to playlist
                   </button>
-                  <div className="h-px bg-white/10 mx-3" />
+                  <div className={`h-px mx-3 ${theme === 'light' ? 'bg-gray-100' : 'bg-white/10'}`} />
                   <button 
                     onClick={(e) => { e.stopPropagation(); setIsMenuOpen(false); }} 
-                    className="flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent"
+                    className="flex items-center gap-3 px-4 py-3 text-red-400 hover:text-red-500 hover:bg-red-500/10 transition-all w-full text-left font-medium cursor-pointer border-none bg-transparent"
                   >
                     <ReportProblemOutlinedIcon sx={{ fontSize: 18 }} /> Report Video
                   </button>
@@ -282,35 +305,49 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
 })
 
 function ActionButton({ 
-  icon, label, onClick, active 
+  icon, label, onClick, active, theme = 'dark'
 }: { 
-  icon: React.ReactNode, label?: string, onClick?: (e?: React.MouseEvent) => void, active?: boolean 
+  icon: React.ReactNode, label?: string, onClick?: (e?: React.MouseEvent) => void, active?: boolean, theme?: 'dark' | 'light'
 }) {
   return (
-    <button 
-      onClick={(e) => {
+    <motion.button 
+      onClick={(e: React.MouseEvent) => {
         e.stopPropagation()
         onClick?.(e)
       }}
-      className="flex flex-col items-center gap-1.5 group cursor-pointer border-none bg-transparent p-0 transition-transform duration-200 hover:scale-110 active:scale-90"
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="flex flex-col items-center gap-1.5 group cursor-pointer border-none bg-transparent p-0"
     >
-      <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-200 shadow-lg ${
+      <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 relative overflow-hidden ${
         active 
-          ? 'bg-white/25 border border-white/30 text-white shadow-[0_0_20px_rgba(255,255,255,0.2)]' 
-          : 'bg-white/5 hover:bg-white/15 border border-white/10 hover:border-white/25 text-white/80 hover:text-white hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]'
+          ? (theme === 'light' ? 'bg-gradient-to-tr from-purple-100 to-pink-100 text-purple-700 shadow-[0_4px_20px_rgba(168,85,247,0.4)] border border-purple-200' : 'bg-gradient-to-tr from-purple-600 to-pink-500 text-white shadow-[0_0_20px_rgba(236,72,153,0.5)] border border-pink-400/50')
+          : (theme === 'light' ? 'bg-white/80 hover:bg-white border border-gray-100 hover:border-purple-200 text-gray-600 hover:text-purple-600 shadow-[0_4px_15px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_25px_rgba(168,85,247,0.15)]' : 'bg-white/5 hover:bg-white/20 border border-white/10 hover:border-white/30 text-white/80 hover:text-white shadow-[0_4px_15px_rgba(0,0,0,0.2)] hover:shadow-[0_8px_25px_rgba(255,255,255,0.1)]')
       }`}>
-        {icon}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+        
+        <motion.div
+          animate={active ? { scale: [1, 1.3, 1], rotate: [0, -10, 10, 0] } : { scale: 1, rotate: 0 }}
+          transition={{ duration: 0.5, type: "spring", stiffness: 400, damping: 15 }}
+          className="flex items-center justify-center relative z-10"
+        >
+          {icon}
+        </motion.div>
       </div>
       {label && (
-        <span className={`text-[12px] font-semibold tracking-wide drop-shadow-md transition-colors ${active ? 'text-white' : 'text-white/60 group-hover:text-white/90'}`}>
+        <span className={`text-[12px] font-bold tracking-wide drop-shadow-md transition-all duration-300 ${
+          active 
+            ? (theme === 'light' ? 'text-purple-700 translate-y-0' : 'text-pink-400 translate-y-0') 
+            : (theme === 'light' ? 'text-gray-500 group-hover:text-purple-600 group-hover:-translate-y-0.5' : 'text-white/60 group-hover:text-white group-hover:-translate-y-0.5')
+        }`}>
           {label}
         </span>
       )}
-    </button>
+    </motion.button>
   )
 }
 
-function NavButton({ onClick, disabled, icon, ariaLabel }: { onClick?: () => void, disabled: boolean, icon: React.ReactNode, ariaLabel: string }) {
+function NavButton({ onClick, disabled, icon, ariaLabel, theme = 'dark' }: { onClick?: () => void, disabled: boolean, icon: React.ReactNode, ariaLabel: string, theme?: 'dark' | 'light' }) {
   return (
     <button 
       onClick={(e) => {
@@ -319,13 +356,14 @@ function NavButton({ onClick, disabled, icon, ariaLabel }: { onClick?: () => voi
       }} 
       disabled={disabled} 
       aria-label={ariaLabel}
-      className={`w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 border-none ${
+      className={`relative w-10 h-10 flex items-center justify-center rounded-full transition-all duration-300 border-none overflow-hidden group ${
         !disabled 
-          ? 'bg-transparent hover:bg-white/15 text-white/70 hover:text-white cursor-pointer hover:scale-110 active:scale-90' 
-          : 'bg-transparent text-white/10 cursor-not-allowed'
+          ? (theme === 'light' ? 'bg-transparent hover:bg-white text-gray-500 hover:text-purple-600 cursor-pointer hover:scale-110 active:scale-95 hover:shadow-[0_4px_15px_rgba(168,85,247,0.15)]' : 'bg-transparent hover:bg-white/15 text-white/70 hover:text-white cursor-pointer hover:scale-110 active:scale-95 hover:shadow-[0_4px_15px_rgba(255,255,255,0.15)]')
+          : (theme === 'light' ? 'bg-transparent text-gray-200 cursor-not-allowed' : 'bg-transparent text-white/10 cursor-not-allowed')
       }`}
     >
-      {icon}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <span className="relative z-10 flex items-center justify-center transition-transform duration-200 group-hover:-translate-y-px">{icon}</span>
     </button>
   )
 }

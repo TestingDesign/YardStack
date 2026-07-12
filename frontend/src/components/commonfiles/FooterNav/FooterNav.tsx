@@ -35,7 +35,7 @@ interface PostOption {
 }
 
 const POST_OPTIONS: PostOption[] = [
-  { key: 'short', label: 'Short',  Icon: Clapperboard, color: 'text-pink-500', bg: 'bg-pink-500' },
+  { key: 'short', label: 'Short',  Icon: Clapperboard, color: 'text-emerald-500', bg: 'bg-emerald-500' },
   { key: 'video', label: 'Video',  Icon: Video,        color: 'text-blue-500', bg: 'bg-blue-500' },
   { key: 'job',   label: 'Job',    Icon: Briefcase,    color: 'text-amber-500', bg: 'bg-amber-500' },
 ]
@@ -50,13 +50,16 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
   const { key, label, Icon } = item
 
   return (
-    <button
+    <motion.button
       type="button"
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
+      whileHover={{ scale: 1.1, z: 20, rotateX: -10 }}
+      whileTap={{ scale: 0.9, z: 0 }}
+      style={{ transformStyle: 'preserve-3d' }}
       className="group relative flex w-full flex-col items-center justify-center gap-0.5 min-w-0 py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-colors duration-150 focus-visible:outline-none tap-highlight-transparent"
     >
-      <div className="relative z-10">
+      <div className="relative z-10" style={{ transformStyle: 'preserve-3d' }}>
         <Icon
           size={18}
           strokeWidth={isActive ? 2.2 : 2}
@@ -85,12 +88,12 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       {isActive && (
         <motion.div
           layoutId="footerActiveTab"
-          transition={{ duration: 0.2, ease: 'easeOut' }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
           aria-hidden="true"
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-t-full bg-[#D946EF]"
         />
       )}
-    </button>
+    </motion.button>
   )
 })
 
@@ -101,28 +104,38 @@ interface PostNavButtonProps {
 
 const PostNavButton = memo(function PostNavButton({ isOpen, onToggle }: PostNavButtonProps) {
   return (
-    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 px-1">
-      <button
-        type="button"
-        onClick={onToggle}
-        className="absolute -top-2 left-1/2 -translate-x-1/2 z-20 w-10 h-10 rounded-[4px] flex items-center justify-center border-none outline-none cursor-pointer bg-gradient-to-br from-[#D946EF] to-[#9333EA] shadow-[0_2px_12px_rgba(217,70,239,0.4)] active:scale-95 transition-transform duration-150"
-        aria-label="Create new post"
-      >
-        <motion.div
-          animate={{ rotate: isOpen ? 45 : 0 }}
-          transition={{ duration: 0.2, ease: 'easeOut' }}
+    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 px-1" style={{ transformStyle: 'preserve-3d' }}>
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20" style={{ perspective: '800px' }}>
+        <motion.button
+          type="button"
+          onClick={onToggle}
+          whileHover={{ 
+            scale: 1.15, 
+            rotateX: 15, 
+            z: 30,
+            boxShadow: "0 15px 25px -5px rgba(109,40,217,0.6)" 
+          }}
+          whileTap={{ scale: 0.9, z: 0 }}
+          className="w-10 h-10 rounded-[4px] flex items-center justify-center border-none outline-none cursor-pointer bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 shadow-[0_2px_12px_rgba(109,40,217,0.4)] transition-transform duration-150"
+          aria-label="Create new post"
+          style={{ transformStyle: 'preserve-3d' }}
         >
-          <Plus
-            size={24}
-            strokeWidth={2.5}
-            className="text-white"
-          />
-        </motion.div>
-      </button>
+          <motion.div
+            animate={{ rotate: isOpen ? 135 : 0, z: isOpen ? 10 : 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <Plus
+              size={24}
+              strokeWidth={2.5}
+              className="text-white"
+            />
+          </motion.div>
+        </motion.button>
+      </div>
 
       <span
         className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none mt-6 font-medium transition-colors duration-150 ${
-          isOpen ? 'text-[#D946EF]' : 'text-white/60'
+          isOpen ? 'text-purple-500' : 'text-white/60'
         }`}
       >
         Post
@@ -138,29 +151,26 @@ interface PostFanMenuProps {
 }
 
 const PostFanMenu = memo(function PostFanMenu({ isOpen, onSelect, onClose }: PostFanMenuProps) {
-  // Fan positions: arc above the "+" button
   const positions = [
-    { x: -64, y: -80 },  // left
-    { x: 0,   y: -100 }, // center top
-    { x: 64,  y: -80 },  // right
+    { x: -64, y: -80, rotateZ: -15 },
+    { x: 0,   y: -100, rotateZ: 0 },
+    { x: 64,  y: -80, rotateZ: 15 },
   ]
 
   return (
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[9998] bg-black/50 backdrop-blur-[2px]"
+            className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm"
             onClick={onClose}
           />
 
-          {/* Fan options */}
-          <div className="fixed bottom-[60px] left-1/2 -translate-x-1/2 z-[9999]" style={{ pointerEvents: 'none' }}>
+          <div className="fixed bottom-[60px] left-1/2 -translate-x-1/2 z-[9999]" style={{ pointerEvents: 'none', perspective: '1000px' }}>
             {POST_OPTIONS.map((option, idx) => (
               <motion.button
                 key={option.key}
@@ -168,34 +178,49 @@ const PostFanMenu = memo(function PostFanMenu({ isOpen, onSelect, onClose }: Pos
                 initial={{ 
                   x: 0, 
                   y: 0, 
+                  z: -100,
+                  rotateX: 45,
                   scale: 0, 
                   opacity: 0 
                 }}
                 animate={{ 
                   x: positions[idx].x, 
                   y: positions[idx].y, 
+                  z: 0,
+                  rotateX: 0,
+                  rotateZ: positions[idx].rotateZ,
                   scale: 1, 
                   opacity: 1 
                 }}
                 exit={{ 
                   x: 0, 
                   y: 0, 
+                  z: -100,
+                  rotateX: -45,
                   scale: 0, 
                   opacity: 0 
                 }}
                 transition={{ 
-                  duration: 0.25,
-                  delay: isOpen ? idx * 0.06 : (POST_OPTIONS.length - 1 - idx) * 0.04,
-                  ease: [0.32, 0.72, 0, 1]
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 20,
+                  delay: isOpen ? idx * 0.05 : (POST_OPTIONS.length - 1 - idx) * 0.03,
                 }}
+                whileHover={{ 
+                  scale: 1.2, 
+                  z: 50, 
+                  rotateY: 15,
+                  rotateZ: 0
+                }}
+                whileTap={{ scale: 0.9, z: 0 }}
                 onClick={() => onSelect(option.key)}
                 className="absolute flex flex-col items-center gap-1.5 border-none outline-none cursor-pointer bg-transparent"
-                style={{ pointerEvents: 'auto', left: '-24px', top: '-24px' }}
+                style={{ pointerEvents: 'auto', left: '-24px', top: '-24px', transformStyle: 'preserve-3d' }}
               >
-                <div className={`w-12 h-12 rounded-full ${option.bg} flex items-center justify-center shadow-md`}>
+                <div className={`w-12 h-12 rounded-full ${option.bg} flex items-center justify-center shadow-lg shadow-${option.color}/30`}>
                   <option.Icon size={20} strokeWidth={2} className="text-white" />
                 </div>
-                <span className="text-[10px] font-medium text-white tracking-wide">
+                <span className="text-[10px] font-medium text-white tracking-wide drop-shadow-md">
                   {option.label}
                 </span>
               </motion.button>
@@ -226,7 +251,6 @@ export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
 
   const handlePostSelect = useCallback((key: string) => {
     setPostMenuOpen(false)
-    // Could dispatch a specific action based on key (short/video/job)
     console.log('Post option selected:', key)
   }, [])
 
@@ -240,14 +264,18 @@ export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
 
       <nav
         aria-label="Bottom Navigation"
-        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10"
+        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10 overflow-visible"
+        style={{ perspective: '1200px' }}
       >
-        <ul className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0">
+        <ul 
+          className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
           {FOOTER_NAV_ITEMS.map((item) => {
             const isActive = item.key === active
             
             return (
-              <li key={item.key} className="flex flex-1">
+              <li key={item.key} className="flex flex-1" style={{ transformStyle: 'preserve-3d' }}>
                 {item.key === 'post' ? (
                   <PostNavButton
                     isOpen={postMenuOpen}

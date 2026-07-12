@@ -24,61 +24,121 @@ export default function FooterMobile() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-2 border-t border-white/10 selection:bg-fuchsia-500/30 selection:text-white"
+      className="relative bg-white py-6 border-t border-slate-200 selection:bg-purple-200 selection:text-purple-900 overflow-hidden"
+      style={{ perspective: "1200px" }}
     >
-      <div className="px-4 flex flex-col items-center gap-4">
+      <div className="px-4 flex flex-col items-center gap-6" style={{ transformStyle: "preserve-3d" }}>
         
         <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: "easeOut" }}
-          className="flex flex-col items-center gap-1"
+          initial={{ opacity: 0, rotateX: -60, z: -100 }}
+          whileInView={{ opacity: 1, rotateX: 0, z: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ type: "spring", stiffness: 80, damping: 15, duration: 0.8 }}
+          className="flex flex-col items-center gap-2"
+          style={{ transformStyle: "preserve-3d" }}
         >
-          <img 
+          <motion.img 
+            whileHover={{ 
+              rotateY: 15, 
+              rotateX: -10, 
+              scale: 1.05, 
+              z: 30,
+              filter: "drop-shadow(0px 10px 15px rgba(147, 51, 234, 0.2))"
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             src={LogoPng} 
             alt="N4RE Logo" 
-            className="h-20 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300" 
+            className="h-20 w-auto object-contain cursor-pointer" 
           />
-          <span className="text-[11px] font-medium text-white/65 text-center">
+          <span className="text-[11px] font-medium text-slate-500 text-center">
             {FOOTER_COPYRIGHT}
           </span>
         </motion.div>
 
         <motion.nav 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.15, ease: "easeOut" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+            }
+          }}
           className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3"
+          style={{ transformStyle: "preserve-3d" }}
         >
           {FOOTER_LINKS.map((link) => (
-            <a
+            <motion.a
               key={link.label}
               href={link.href}
-              className="text-[12px] font-bold text-white/65 underline decoration-dotted hover:text-white transition-colors duration-300 outline-none"
+              variants={{
+                hidden: { opacity: 0, rotateX: -90, y: 10 },
+                visible: { 
+                  opacity: 1, 
+                  rotateX: 0, 
+                  y: 0,
+                  transition: { type: "spring", damping: 12 } 
+                }
+              }}
+              whileHover={{ 
+                scale: 1.1, 
+                z: 20, 
+                color: "#9333ea"
+              }}
+              className="inline-block text-[12px] font-bold text-slate-600 underline decoration-dotted transition-colors duration-300 outline-none"
             >
               {link.label}
-            </a>
+            </motion.a>
           ))}
         </motion.nav>
 
         <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial="hidden"
+          whileInView="visible"
           viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.15, delayChildren: 0.4 }
+            }
+          }}
           className="flex items-center gap-4"
+          style={{ transformStyle: "preserve-3d" }}
         >
           {SOCIAL_LINKS.map((social) => (
-            <a
+            <motion.a
               key={social.label}
               href={social.href}
               aria-label={social.label}
-              className="group flex items-center justify-center w-9 h-9 rounded-[4px] bg-white/5 border border-white/10 text-white/65 hover:bg-fuchsia-500/20 hover:text-white hover:border-fuchsia-500/40 hover:shadow-[0_0_15px_rgba(217,70,239,0.4)] transition-all duration-300 ease-out active:scale-95"
+              variants={{
+                hidden: { opacity: 0, scale: 0.5, rotateY: 90, z: -50 },
+                visible: { 
+                  opacity: 1, 
+                  scale: 1, 
+                  rotateY: 0, 
+                  z: 0,
+                  transition: { type: "spring", stiffness: 100, damping: 10 } 
+                }
+              }}
+              whileHover={{ 
+                scale: 1.15, 
+                rotateY: 15, 
+                rotateX: -15, 
+                z: 40,
+                backgroundColor: "#faf5ff", 
+                borderColor: "#e9d5ff", 
+                color: "#9333ea", 
+                boxShadow: "0 15px 25px -5px rgba(147, 51, 234, 0.25)"
+              }}
+              whileTap={{ scale: 0.95, z: 10 }}
+              className="flex items-center justify-center w-10 h-10 rounded-[6px] bg-slate-50 border border-slate-200 text-slate-500 transition-colors duration-300 ease-out"
+              style={{ transformStyle: "preserve-3d" }}
             >
-              <SocialIcon icon={social.icon} size={16} />
-            </a>
+              <SocialIcon icon={social.icon} size={18} />
+            </motion.a>
           ))}
         </motion.div>
         

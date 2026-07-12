@@ -33,7 +33,7 @@ export default function FooterDesktop() {
   return (
     <footer 
       id="footer" 
-      className="relative bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] py-4 lg:py-4 border-t border-white/10 selection:bg-fuchsia-500/30 selection:text-white"
+      className="relative bg-white py-6 lg:py-8 border-t border-slate-200 selection:bg-purple-200 selection:text-purple-900"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
@@ -48,10 +48,10 @@ export default function FooterDesktop() {
             <img 
               src={LogoPng} 
               alt="N4RE Logo" 
-              className="h-10 lg:h-12 w-auto object-contain brightness-0 invert opacity-95 transition-opacity duration-300 hover:opacity-100" 
+              className="h-10 lg:h-12 w-auto object-contain transition-opacity duration-300 hover:opacity-80" 
             />
-            <div className="hidden lg:block w-px h-5 bg-white/10" aria-hidden="true" />
-            <span className="text-[13px] font-medium text-white/65">
+            <div className="hidden lg:block w-px h-5 bg-slate-200" aria-hidden="true" />
+            <span className="text-[13px] font-medium text-slate-500">
               {FOOTER_COPYRIGHT}
             </span>
           </motion.div>
@@ -67,7 +67,7 @@ export default function FooterDesktop() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[13px] font-bold text-white/65 underline decoration-dotted hover:text-white transition-colors duration-300 outline-none focus-visible:text-fuchsia-400 focus-visible:underline underline-offset-4"
+                className="text-[13px] font-bold text-slate-600 underline decoration-dotted hover:text-purple-600 transition-colors duration-300 outline-none focus-visible:text-purple-600 focus-visible:underline underline-offset-4"
               >
                 {link.label}
               </a>
@@ -86,7 +86,7 @@ export default function FooterDesktop() {
                 key={social.label}
                 href={social.href}
                 aria-label={social.label}
-                className="group flex items-center justify-center w-10 h-10 rounded-[4px] bg-white/5 border border-white/10 text-white/65 hover:bg-fuchsia-500/20 hover:text-white hover:border-fuchsia-500/40 hover:shadow-[0_0_15px_rgba(217,70,239,0.4)] transition-all duration-300 ease-out hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E]"
+                className="group flex items-center justify-center w-10 h-10 rounded-[4px] bg-slate-50 border border-slate-200 text-slate-500 hover:bg-purple-50 hover:text-purple-600 hover:border-purple-200 hover:shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
               >
                 <SocialIcon icon={social.icon} size={18} />
               </a>

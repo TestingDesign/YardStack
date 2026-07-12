@@ -157,7 +157,7 @@ const ActiveSpotlightDesktop = memo(function ActiveSpotlightDesktop({
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ ...springTransition }}
-          className="relative h-full aspect-[9/16] rounded-2xl overflow-hidden bg-black shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 shrink-0 cursor-pointer transition-shadow duration-300 hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)]"
+          className="relative h-full aspect-[9/16] rounded-[4px] overflow-hidden bg-black shadow-[0_30px_100px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/10 shrink-0 cursor-pointer transition-shadow duration-300 hover:shadow-[0_30px_100px_-15px_rgba(255,255,255,0.05)]"
           onClick={handleVideoClick}
         >
           <img 

@@ -64,8 +64,10 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, tooltip, isActiv
     <span className="block font-medium text-slate-600">{tooltip}</span>
   ) : ""
 
+  const isMuiIcon = tabKey === 'pulse' || tabKey === 'launchingSoon' || tabKey === 'launching'
+
   const buttonContent = (
-      <button
+    <button
       type="button"
       role="tab"
       title={label}
@@ -87,15 +89,15 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, tooltip, isActiv
         </span>
       )}
 
-      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-5 w-5 text-white text-[16px]' : 'h-4 w-4 text-slate-400 group-hover:text-violet-600 text-[14px]'}`}>
+      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-5 w-5 text-white text-[16px]' : 'h-4 w-4 text-[14px]'}`}>
         {typeof currentIcon === 'string' && (currentIcon.includes('/') || currentIcon.includes('.png')) ? (
           <img src={currentIcon} alt="" className="w-full h-full object-contain" />
         ) : (
-          <span className="flex items-center justify-center w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:stroke-[1.5px]">
+          <span className="flex items-center justify-center w-full h-full">
             {typeof currentIcon === 'object' && currentIcon !== null && '$$typeof' in currentIcon && !('props' in currentIcon)
-              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={1.5} />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={2.5} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
               : typeof currentIcon === 'function'
-              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={1.5} />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={2.5} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
               : currentIcon}
           </span>
         )}
@@ -144,26 +146,36 @@ export const PrimaryTabBar = memo(function PrimaryTabBar({ tabs, active, onChang
   }, [onChange])
 
   return (
-    <div role="tablist" aria-label="Primary Navigation" className="bg-white">
-      <div
-        ref={scrollRef}
-        className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-2 py-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
-      >
-        {tabs.map((tab) => (
-          <TabCard
-            key={tab.key}
-            tabKey={tab.key}
-            label={tab.label}
-            Icon={tab.Icon}
-            activeIcon={tab.activeIcon}
-            badge={tab.badge}
-            tooltip={tab.tooltip}
-            isActive={tab.key === active}
-            onClick={handleClick}
-          />
-        ))}
+    <>
+      <svg width="0" height="0" className="absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tab-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stopColor="#9333EA" offset="0%" />
+            <stop stopColor="#EC4899" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div role="tablist" aria-label="Primary Navigation" className="bg-white">
+        <div
+          ref={scrollRef}
+          className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-2 py-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+        >
+          {tabs.map((tab) => (
+            <TabCard
+              key={tab.key}
+              tabKey={tab.key}
+              label={tab.label}
+              Icon={tab.Icon}
+              activeIcon={tab.activeIcon}
+              badge={tab.badge}
+              tooltip={tab.tooltip}
+              isActive={tab.key === active}
+              onClick={handleClick}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   )
 })
 

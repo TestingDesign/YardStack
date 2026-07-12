@@ -149,8 +149,18 @@ const NavCard = memo(function NavCard({
     <span className="block font-medium text-slate-600">{item.tooltip}</span>
   ) : ""
 
+  const isMuiIcon = item.key === 'pulse' || item.key === 'launchingSoon' || item.key === 'launching'
+
   const buttonContent = (
     <div className="relative flex items-center justify-center group">
+      <svg width="0" height="0" className="absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="header-tab-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stopColor="#9333EA" offset="0%" />
+            <stop stopColor="#EC4899" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
       <motion.button
         type="button"
         onKeyDown={handleKeyDown}
@@ -176,12 +186,17 @@ const NavCard = memo(function NavCard({
         )}
 
         <span className={`relative z-10 flex items-center justify-center transition-all duration-300 ${
-          isActive ? 'text-white scale-110 drop-shadow-md' : 'text-slate-400 group-hover:text-violet-600'
+          isActive ? 'text-white scale-110 drop-shadow-md' : ''
         }`}>
           {isImage ? (
             <img src={IconComponent as string} alt={item.label} className="w-4 h-4 object-contain" draggable={false} />
           ) : (
-            <IconComponent className="w-4 h-4" strokeWidth={isActive ? 2.5 : 2} />
+            <IconComponent 
+              className="w-4 h-4" 
+              strokeWidth={isActive ? 2.5 : 2.5} 
+              color={isActive ? undefined : 'url(#header-tab-icon-gradient)'}
+              sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#header-tab-icon-gradient)' } : undefined}
+            />
           )}
         </span>
 

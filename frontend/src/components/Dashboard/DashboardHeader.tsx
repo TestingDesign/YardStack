@@ -193,7 +193,7 @@ const NavCard = memo(function NavCard({
           ) : (
             <IconComponent 
               className="w-4 h-4" 
-              strokeWidth={isActive ? 2.5 : 2.5} 
+              strokeWidth={isActive ? 2.5 : 2} 
               color={isActive ? undefined : 'url(#header-tab-icon-gradient)'}
               sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#header-tab-icon-gradient)' } : undefined}
             />

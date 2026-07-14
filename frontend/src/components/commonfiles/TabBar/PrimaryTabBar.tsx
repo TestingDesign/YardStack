@@ -95,9 +95,9 @@ const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, tooltip, isActiv
         ) : (
           <span className="flex items-center justify-center w-full h-full">
             {typeof currentIcon === 'object' && currentIcon !== null && '$$typeof' in currentIcon && !('props' in currentIcon)
-              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={2.5} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={isActive ? 2.5 : 2} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
               : typeof currentIcon === 'function'
-              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={2.5} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={isActive ? 2.5 : 2} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
               : currentIcon}
           </span>
         )}

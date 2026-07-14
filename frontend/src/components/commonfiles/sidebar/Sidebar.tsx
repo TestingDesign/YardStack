@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, type MouseEvent, type FocusEvent, type CSSProperties, type ReactNode } from 'react'
+import React, { useState, useEffect, useCallback, type MouseEvent, type FocusEvent, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import { ChevronLeft, Crown } from 'lucide-react'
 import { NAV_ITEMS, type NavKey } from './data'
@@ -85,8 +85,9 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
         />
 
         <ul className="list-none p-0 px-1 m-0 flex flex-col gap-0.5 flex-1" role="list">
-          {NAV_ITEMS.map(({ key, label, Icon }: { key: NavKey; label: string; Icon?: React.ElementType | ReactNode }) => {
+          {NAV_ITEMS.map(({ key, label, Icon, activeIcon }: any) => {
             const isActive = key === active
+            const CurrentIcon = isActive && activeIcon ? activeIcon : Icon
             return (
               <li key={key} className="relative group">
                 <button
@@ -105,31 +106,33 @@ export default function Sidebar({ active = 'activityBoard', onNavigate }: Sideba
                       : 'text-white/75 hover:bg-white/5 hover:text-white'
                   }`}
                 >
-                  {typeof Icon === 'string' || typeof Icon === 'number' ? (
-                    <span
+                  {typeof CurrentIcon === 'string' ? (
+                    <img
+                      src={CurrentIcon}
+                      alt=""
                       aria-hidden="true"
-                      className={`shrink-0 transition-all duration-300 motion-reduce:transition-none ${
-                        isActive ? 'text-white text-[1.1rem]' : 'text-white/60 text-[1rem]'
+                      className={`shrink-0 transition-all duration-300 motion-reduce:transition-none object-contain ${
+                        isCollapsed ? 'w-5 h-5' : 'w-[1.125rem] h-[1.125rem]'
+                      } ${
+                        isActive ? 'opacity-100 drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]' : 'opacity-70 group-hover:opacity-100'
                       }`}
-                    >
-                      {Icon}
-                    </span>
-                  ) : React.isValidElement(Icon) ? (
-                    Icon
-                  ) : (
+                    />
+                  ) : React.isValidElement(CurrentIcon) ? (
+                    CurrentIcon
+                  ) : CurrentIcon ? (
                     (() => {
-                      const IconComp = Icon as React.ElementType
+                      const IconComp = CurrentIcon as React.ElementType
                       return (
                         <IconComp
                           size={isCollapsed ? 20 : 18}
                           aria-hidden="true"
                           className={`shrink-0 transition-all duration-300 motion-reduce:transition-none ${
-                            isActive ? 'text-white stroke-2' : 'text-white/60 stroke-[1.6]'
+                            isActive ? 'text-[#D946EF] stroke-2 drop-shadow-[0_0_8px_rgba(217,70,239,0.5)]' : 'text-white/60 stroke-[1.6]'
                           }`}
                         />
                       )
                     })()
-                  )}
+                  ) : null}
                   <div
                     className={`flex items-start overflow-hidden transition-all duration-500 ease-in-out motion-reduce:transition-none ${
                       isCollapsed ? 'w-0 opacity-0 ml-0' : 'flex-1 opacity-100 ml-3.5'

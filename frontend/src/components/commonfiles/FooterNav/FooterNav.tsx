@@ -1,13 +1,13 @@
 import { memo, useCallback, useState, type ElementType } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Users, Plus, LayoutDashboard, Bookmark, Video, Briefcase, Clapperboard } from 'lucide-react'
-import LogoPng from '../sidebar/Logo.png'
+import LogoPng from '../../../Home/12.TrustVerification/NLogo.png'
 
 const LogoIcon = ({ className }: { className?: string }) => (
   <img 
     src={LogoPng} 
     alt="N4RE" 
-    className={`${className} w-auto h-10 mt-0.5`}
+    className={`${className} w-auto h-8 mt-0`}
     style={{ objectFit: 'contain' }} 
   />
 )
@@ -57,7 +57,7 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
       whileHover={{ scale: 1.1, z: 20, rotateX: -10 }}
       whileTap={{ scale: 0.9, z: 0 }}
       style={{ transformStyle: 'preserve-3d' }}
-      className="group relative flex w-full flex-col items-center justify-center gap-0.5 min-w-0 py-2 px-1 border-none outline-none cursor-pointer bg-transparent transition-colors duration-150 focus-visible:outline-none tap-highlight-transparent"
+      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-2.5 px-1.5 border-none outline-none cursor-pointer bg-transparent transition-colors duration-150 focus-visible:outline-none tap-highlight-transparent"
     >
       <div className="relative z-10" style={{ transformStyle: 'preserve-3d' }}>
         <Icon
@@ -104,7 +104,7 @@ interface PostNavButtonProps {
 
 const PostNavButton = memo(function PostNavButton({ isOpen, onToggle }: PostNavButtonProps) {
   return (
-    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-1.5 px-1" style={{ transformStyle: 'preserve-3d' }}>
+    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-2 px-1.5" style={{ transformStyle: 'preserve-3d' }}>
       <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20" style={{ perspective: '800px' }}>
         <motion.button
           type="button"
@@ -134,7 +134,7 @@ const PostNavButton = memo(function PostNavButton({ isOpen, onToggle }: PostNavB
       </div>
 
       <span
-        className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none mt-6 font-medium transition-colors duration-150 ${
+        className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none mt-5 font-medium transition-colors duration-150 ${
           isOpen ? 'text-purple-500' : 'text-white/60'
         }`}
       >
@@ -264,7 +264,7 @@ export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
 
       <nav
         aria-label="Bottom Navigation"
-        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10 overflow-visible"
+        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10 overflow-visible px-1.5"
         style={{ perspective: '1200px' }}
       >
         <ul 

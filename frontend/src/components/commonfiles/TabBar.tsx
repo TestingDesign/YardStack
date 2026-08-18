@@ -1,4 +1,4 @@
-import { useCallback, type ElementType } from 'react'
+import { useCallback } from 'react'
 import PrimaryTabBar, { type PrimaryTabItem } from './TabBar/PrimaryTabBar'
 import { type SubTabItem } from './TabBar/SubTabBar'
 
@@ -7,14 +7,16 @@ export type { PrimaryTabItem, SubTabItem }
 export interface TabItem {
   key: string
   label: string
-  Icon: ElementType
+  Icon: string
+  activeIcon?: string
+  badge?: string
   subTabs?: SubTabItem[]
+  tooltip?: string
 }
 
 interface TabBarProps {
   tabs: TabItem[]
   active: string
-  activeSubTab: string
   onChange: (key: string) => void
   onSubTabChange: (sub: string) => void
 }
@@ -39,7 +41,7 @@ export default function TabBar({
   return (
     <nav 
       aria-label="Section Navigation" 
-      className="flex flex-col w-full shrink-0 bg-[#041e5c]"
+      className="flex flex-col w-full shrink-0 bg-white"
     >
       <PrimaryTabBar
         tabs={tabs}
@@ -48,4 +50,4 @@ export default function TabBar({
       />
     </nav>
   )
-}
+}

@@ -1,166 +1,182 @@
-import { useRef, useCallback, memo, type ElementType, type RefObject } from 'react'
+import { useRef, useCallback, memo } from 'react'
 
 export interface PrimaryTabItem {
   key: string
   label: string
-  Icon: ElementType
+  Icon: string
+  activeIcon?: string 
+  badge?: string
+  tooltip?: string
 }
 
-interface PrimaryTabBarProps {
+export interface PrimaryTabBarProps {
   tabs: PrimaryTabItem[]
   active: string
   onChange: (key: string) => void
 }
 
-const ShellBackground = memo(function ShellBackground() {
-  return (
-    <svg
-      viewBox="0 0 1400 128"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      className="absolute inset-0 w-full h-full block pointer-events-none"
-    >
-      <defs>
-        <linearGradient id="primaryShellGrad" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#081e4f" />
-          <stop offset="100%" stopColor="#020b24" />
-        </linearGradient>
-      </defs>
-      <path d="M0 128 L0 16 Q0 0 16 0 L1384 0 Q1400 0 1400 16 L1400 128 Z" fill="url(#primaryShellGrad)" />
-    </svg>
-  )
-})
-
-const ActiveSwiggyCurve = memo(function ActiveSwiggyCurve() {
-  return (
-    <svg
-      viewBox="0 0 106 64"
-      aria-hidden="true"
-      className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none -z-10 w-[106px] h-[64px] drop-shadow-[0_-2px_8px_rgba(37,99,235,0.25)]"
-    >
-      <defs>
-        <linearGradient id="activeTabGrad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#10b981" />
-          <stop offset="100%" stopColor="#2563eb" />
-        </linearGradient>
-      </defs>
-      <path
-        d="M 0 64 C 8 64 14 56 14 44 L 14 20 C 14 8 22 0 34 0 L 72 0 C 84 0 92 8 92 20 L 92 44 C 92 56 98 64 106 64"
-        fill="url(#activeTabGrad)"
-        stroke="url(#activeTabGrad)"
-        strokeWidth="1.5"
-      />
-    </svg>
-  )
-})
-
-interface TabCardProps {
+interface TabCardProps extends Omit<PrimaryTabItem, 'key'> {
   tabKey: string
-  label: string
-  Icon: ElementType
   isActive: boolean
   onClick: (key: string, el: HTMLButtonElement) => void
 }
 
-const TabCard = memo(function TabCard({ tabKey, label, Icon, isActive, onClick }: TabCardProps) {
-  return (
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip'
+import type { TooltipProps } from '@mui/material/Tooltip'
+import { styled } from '@mui/material/styles'
+import { useState } from 'react'
+
+const MobileNavTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(() => ({
+  zIndex: 9999,
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    color: '#334155',
+    maxWidth: 288,
+    fontSize: '0.75rem',
+    border: '1px solid rgba(255, 255, 255, 0.4)',
+    boxShadow: '0 20px 40px -15px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.03)',
+    borderRadius: '0.375rem',
+    padding: '1rem',
+    backdropFilter: 'blur(24px)',
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: 'rgba(255, 255, 255, 0.95)',
+    '&::before': {
+      border: '1px solid rgba(255, 255, 255, 0.4)',
+    }
+  },
+}))
+
+const TabCard = memo(({ tabKey, label, Icon, activeIcon, badge, tooltip, isActive, onClick }: TabCardProps) => {
+  const currentIcon = isActive && activeIcon ? activeIcon : Icon
+  const [open, setOpen] = useState(false)
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.altKey && e.key === 'ArrowUp') {
+      e.preventDefault()
+      setOpen((prev) => !prev)
+    }
+  }
+
+  const tooltipContent = tooltip ? (
+    <span className="block font-medium text-slate-600">{tooltip}</span>
+  ) : ""
+
+  const isMuiIcon = tabKey === 'pulse' || tabKey === 'launchingSoon' || tabKey === 'launching'
+
+  const buttonContent = (
     <button
       type="button"
       role="tab"
-      aria-selected={isActive ? 'true' : 'false'}
+      title={label}
+      aria-selected={isActive}
       id={`tab-${tabKey}`}
+      tabIndex={isActive ? 0 : -1}
       aria-controls={`panel-${tabKey}`}
       onClick={(e) => onClick(tabKey, e.currentTarget)}
-      className={`relative flex flex-col items-center justify-center shrink-0 border-none outline-none cursor-pointer transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] [-webkit-tap-highlight-color:transparent] active:scale-[0.94] active:opacity-80 w-[64px] min-h-[66px] gap-[2px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981] focus-visible:ring-inset motion-reduce:transition-none motion-reduce:transform-none ${
+      onKeyDown={handleKeyDown}
+      className={`group relative shrink-0 flex flex-col items-center justify-center gap-0.5 transition-all duration-300 outline-none cursor-pointer w-[68px] h-[52px] px-1 py-0.5 rounded-[4px] border ${
         isActive
-          ? 'bg-transparent hover:bg-transparent rounded-[8px] z-50 pl-1 pr-1 pb-1.5'
-          : 'bg-[rgba(17,42,99,0.5)] hover:bg-[rgba(30,64,138,0.4)] rounded-t-[8px] z-10 pl-2 pr-1'
+          ? 'border-transparent bg-gradient-to-r from-[#7C3AED] to-[#EC4899] shadow-sm shadow-violet-500/20'
+          : 'border-slate-200/60 bg-white/50 text-slate-600 hover:bg-white hover:border-slate-300 hover:shadow-[0_4px_12px_-4px_rgba(0,0,0,0.05)]'
       }`}
     >
-      {isActive && <ActiveSwiggyCurve />}
+      {badge && (
+        <span className="absolute -top-1 left-1/2 -translate-x-1/2 whitespace-nowrap text-[8px] font-semibold px-1 py-0.5 rounded-full bg-[#7C3AED] text-white leading-none z-10">
+          {badge}
+        </span>
+      )}
 
-      <Icon
-        size={18}
-        strokeWidth={1.5}
-        aria-hidden="true"
-        className={`transition-all duration-200 motion-reduce:transition-none motion-reduce:transform-none ${
-          isActive
-            ? 'text-white -translate-y-0.5 drop-shadow-[0_0_2px_rgba(255,255,255,0.3)]'
-            : 'text-slate-400 translate-y-0'
-        }`}
-      />
-
+      <span className={`flex items-center justify-center transition-all duration-300 ${isActive ? 'h-5 w-5 text-white text-[16px]' : 'h-4 w-4 text-[14px]'}`}>
+        {typeof currentIcon === 'string' && (currentIcon.includes('/') || currentIcon.includes('.png')) ? (
+          <img src={currentIcon} alt="" className="w-full h-full object-contain" />
+        ) : (
+          <span className="flex items-center justify-center w-full h-full">
+            {typeof currentIcon === 'object' && currentIcon !== null && '$$typeof' in currentIcon && !('props' in currentIcon)
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={isActive ? 2.5 : 2} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
+              : typeof currentIcon === 'function'
+              ? (() => { const IconCmp = currentIcon as React.ElementType; return <IconCmp strokeWidth={isActive ? 2.5 : 2} color={isActive ? undefined : 'url(#tab-icon-gradient)'} sx={isMuiIcon ? { fill: isActive ? undefined : 'url(#tab-icon-gradient)' } : undefined} />; })()
+              : currentIcon}
+          </span>
+        )}
+      </span>
+      
       <span
-        className={`text-center leading-tight max-w-[64px] transition-all duration-200 text-[0.55rem] motion-reduce:transition-none motion-reduce:transform-none ${
-          isActive
-            ? 'font-bold text-white -translate-y-0.5'
-            : 'font-medium text-slate-400 translate-y-0'
+        title={label}
+        className={`w-full px-0.5 text-[9px] leading-[1.1] text-center line-clamp-1 break-words transition-all duration-300 ${
+          isActive ? 'font-bold text-white' : 'font-medium text-slate-600 group-hover:text-slate-900'
         }`}
       >
         {label}
       </span>
     </button>
   )
+
+  return tooltip ? (
+    <MobileNavTooltip 
+      title={tooltipContent} 
+      arrow 
+      placement="bottom" 
+      enterTouchDelay={50}
+      leaveTouchDelay={3000}
+      open={open}
+      onOpen={() => setOpen(true)}
+      onClose={() => setOpen(false)}
+    >
+      {buttonContent}
+    </MobileNavTooltip>
+  ) : buttonContent
 })
 
-interface InnerProps {
-  tabs: PrimaryTabItem[]
-  active: string
-  onTabClick: (key: string, el: HTMLButtonElement) => void
-  scrollRef: RefObject<HTMLDivElement | null>
-}
+TabCard.displayName = 'TabCard'
 
-const Inner = memo(function Inner({ tabs, active, onTabClick, scrollRef }: InnerProps) {
-  return (
-    <div className="shrink-0 relative min-h-[72px]">
-      <ShellBackground />
-      <div
-        ref={scrollRef}
-        role="tablist"
-        aria-orientation="horizontal"
-        className="box-border relative z-10 flex min-h-[72px] overflow-x-auto items-end gap-0.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] border-b-2 border-b-transparent"
-        style={{
-          borderImage: 'linear-gradient(to right, #10b981, #2563eb) 1',
-        }}
-      >
-        {tabs.map(({ key, label, Icon }) => (
-          <TabCard
-            key={key}
-            tabKey={key}
-            label={label}
-            Icon={Icon}
-            isActive={key === active}
-            onClick={onTabClick}
-          />
-        ))}
-      </div>
-    </div>
-  )
-})
-
-export default function PrimaryTabBar({ tabs, active, onChange }: PrimaryTabBarProps) {
+export const PrimaryTabBar = memo(function PrimaryTabBar({ tabs, active, onChange }: PrimaryTabBarProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  const handleClick = useCallback(
-    (key: string, el: HTMLButtonElement) => {
-      onChange(key)
-      
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      el.scrollIntoView({ 
-        behavior: prefersReducedMotion ? 'auto' : 'smooth', 
-        block: 'nearest', 
-        inline: 'center' 
-      })
-    },
-    [onChange]
-  )
+  const handleClick = useCallback((key: string, el: HTMLButtonElement) => {
+    onChange(key)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({
+      behavior: prefersReducedMotion ? 'auto' : 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    })
+  }, [onChange])
 
   return (
-    <Inner 
-      tabs={tabs} 
-      active={active} 
-      onTabClick={handleClick} 
-      scrollRef={scrollRef} 
-    />
+    <>
+      <svg width="0" height="0" className="absolute" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="tab-icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop stopColor="#9333EA" offset="0%" />
+            <stop stopColor="#EC4899" offset="100%" />
+          </linearGradient>
+        </defs>
+      </svg>
+      <div role="tablist" aria-label="Primary Navigation" className="bg-white">
+        <div
+          ref={scrollRef}
+          className="relative z-10 flex items-center gap-1.5 overflow-x-auto px-2 py-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none"
+        >
+          {tabs.map((tab) => (
+            <TabCard
+              key={tab.key}
+              tabKey={tab.key}
+              label={tab.label}
+              Icon={tab.Icon}
+              activeIcon={tab.activeIcon}
+              badge={tab.badge}
+              tooltip={tab.tooltip}
+              isActive={tab.key === active}
+              onClick={handleClick}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   )
-}
+})
+
+export default PrimaryTabBar;

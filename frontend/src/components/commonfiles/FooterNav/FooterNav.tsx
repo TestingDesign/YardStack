@@ -1,5 +1,16 @@
-import { memo, useCallback, type ElementType } from 'react'
-import { Home, Users, Plus, SlidersHorizontal, Bookmark } from 'lucide-react'
+import { memo, useCallback, useState, type ElementType } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Users, Plus, LayoutDashboard, Bookmark, Video, Briefcase, Clapperboard } from 'lucide-react'
+import LogoPng from '../../../Home/12.TrustVerification/NLogo.png'
+
+const LogoIcon = ({ className }: { className?: string }) => (
+  <img 
+    src={LogoPng} 
+    alt="N4RE" 
+    className={`${className} w-auto h-8 mt-0`}
+    style={{ objectFit: 'contain' }} 
+  />
+)
 
 export interface FooterNavItem {
   key: string
@@ -7,12 +18,26 @@ export interface FooterNavItem {
   Icon: ElementType
 }
 
-export const FOOTER_NAV_ITEMS: FooterNavItem[] = [
-  { key: 'home',   label: 'Home',   Icon: Home },
+const FOOTER_NAV_ITEMS: FooterNavItem[] = [
+  { key: 'home',   label: '',       Icon: LogoIcon },
   { key: 'leads',  label: 'Leads',  Icon: Users },
   { key: 'post',   label: 'Post',   Icon: Plus },
-  { key: 'manage', label: 'Manage', Icon: SlidersHorizontal },
+  { key: 'manage', label: 'Manage', Icon: LayoutDashboard },
   { key: 'saved',  label: 'Saved',  Icon: Bookmark },
+]
+
+interface PostOption {
+  key: string
+  label: string
+  Icon: ElementType
+  color: string
+  bg: string
+}
+
+const POST_OPTIONS: PostOption[] = [
+  { key: 'short', label: 'Short',  Icon: Clapperboard, color: 'text-emerald-500', bg: 'bg-emerald-500' },
+  { key: 'video', label: 'Video',  Icon: Video,        color: 'text-blue-500', bg: 'bg-blue-500' },
+  { key: 'job',   label: 'Job',    Icon: Briefcase,    color: 'text-amber-500', bg: 'bg-amber-500' },
 ]
 
 interface FooterNavButtonProps {
@@ -25,121 +50,185 @@ const StandardNavButton = memo(function StandardNavButton({ item, isActive, onCl
   const { key, label, Icon } = item
 
   return (
-    <button
+    <motion.button
       type="button"
-      aria-label={label}
       aria-current={isActive ? 'page' : undefined}
       onClick={() => onClick(key)}
-      className={`
-        relative flex flex-col items-center justify-center gap-[3px]
-        flex-1 min-w-0 py-2 sm:py-2.5 px-1
-        border-none outline-none cursor-pointer bg-transparent
-        transition-all duration-300 ease-out
-        active:scale-[0.92] active:opacity-80
-        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10b981]/50 focus-visible:ring-inset
-        motion-reduce:transition-none motion-reduce:transform-none
-        [-webkit-tap-highlight-color:transparent]
-        group
-      `}
+      whileHover={{ scale: 1.1, z: 20, rotateX: -10 }}
+      whileTap={{ scale: 0.9, z: 0 }}
+      style={{ transformStyle: 'preserve-3d' }}
+      className="group relative flex w-full flex-col items-center justify-center gap-1 min-w-0 py-2.5 px-1.5 border-none outline-none cursor-pointer bg-transparent transition-colors duration-150 focus-visible:outline-none tap-highlight-transparent"
     >
-      {isActive && (
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-2 inset-y-1 rounded-lg bg-gradient-to-b from-white/10 to-white/[0.02] border border-white/10 shadow-[0_0_15px_rgba(16,185,129,0.1),inset_0_1px_0_rgba(255,255,255,0.15)] animate-[fadeScale_0.3s_ease-out]"
-        />
-      )}
-
-      <div className="relative z-10">
+      <div className="relative z-10" style={{ transformStyle: 'preserve-3d' }}>
         <Icon
-          size={20}
-          strokeWidth={isActive ? 2.2 : 1.6}
+          size={18}
+          strokeWidth={isActive ? 2.2 : 2}
+          fill={isActive ? 'currentColor' : 'none'}
           aria-hidden="true"
-          className={`transition-all duration-300 motion-reduce:transition-none ${
+          className={`transition-colors duration-150 ${
             isActive
-              ? 'text-[#10b981] drop-shadow-[0_0_8px_rgba(16,185,129,0.4)] -translate-y-0.5'
-              : 'text-[#8b95a5] group-hover:text-[#c0c8d4] translate-y-0'
+              ? 'text-[#D946EF]'
+              : 'text-white/60 group-hover:text-white/90'
           }`}
         />
       </div>
 
-      <span
-        className={`relative z-10 text-[0.6rem] leading-none tracking-wide transition-all duration-300 motion-reduce:transition-none ${
-          isActive
-            ? 'font-bold text-white -translate-y-0.5'
-            : 'font-medium text-[#8b95a5] group-hover:text-[#c0c8d4] translate-y-0'
-        }`}
-      >
-        {label}
-      </span>
+      {label && (
+        <span
+          className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none transition-colors duration-150 ${
+            isActive
+              ? 'font-medium text-[#D946EF]'
+              : 'font-medium text-white/60 group-hover:text-white/90'
+          }`}
+        >
+          {label}
+        </span>
+      )}
 
       {isActive && (
-        <div
+        <motion.div
+          layoutId="footerActiveTab"
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
           aria-hidden="true"
-          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-[3px] rounded-sm bg-[#10b981] shadow-[0_0_6px_rgba(16,185,129,0.6)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-t-full bg-[#D946EF]"
         />
       )}
-    </button>
+    </motion.button>
   )
 })
 
-const PostNavButton = memo(function PostNavButton({ item, isActive, onClick }: FooterNavButtonProps) {
-  const { key, label, Icon } = item
+interface PostNavButtonProps {
+  isOpen: boolean
+  onToggle: () => void
+}
 
+const PostNavButton = memo(function PostNavButton({ isOpen, onToggle }: PostNavButtonProps) {
   return (
-    <button
-      type="button"
-      aria-label={label}
-      aria-current={isActive ? 'page' : undefined}
-      onClick={() => onClick(key)}
-      className="
-        group relative flex flex-col items-center justify-end
-        flex-1 min-w-0 py-2 sm:py-2.5 px-1
-        border-none outline-none cursor-pointer bg-transparent
-        focus-visible:outline-none
-        [-webkit-tap-highlight-color:transparent]
-      "
-    >
-      <div className="absolute top-[-16px] left-1/2 -translate-x-1/2 z-20">
-        <div className={`
-          relative flex items-center justify-center
-          w-11 h-11 sm:w-12 sm:h-12 rounded-lg
-          bg-gradient-to-tr from-[#10b981] to-[#34d399]
-          shadow-[0_4px_16px_rgba(16,185,129,0.3)]
-          transition-all duration-300 ease-out
-          border border-white/20
-          group-active:scale-90
-          ${isActive ? 'shadow-[0_0_20px_rgba(16,185,129,0.5)] translate-y-0.5' : 'hover:-translate-y-0.5 hover:shadow-[0_6px_16px_rgba(16,185,129,0.4)]'}
-        `}>
-          <Icon
-            size={22}
-            strokeWidth={2.5}
-            className={`
-              text-white 
-              transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]
-              ${isActive ? 'rotate-[135deg] scale-110' : 'rotate-0 scale-100 group-hover:rotate-90'}
-            `}
-          />
-          <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-white/30 to-transparent opacity-40 pointer-events-none" />
-        </div>
+    <div className="group relative flex w-full flex-col items-center justify-end min-w-0 py-2 px-1.5" style={{ transformStyle: 'preserve-3d' }}>
+      <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-20" style={{ perspective: '800px' }}>
+        <motion.button
+          type="button"
+          onClick={onToggle}
+          whileHover={{ 
+            scale: 1.15, 
+            rotateX: 15, 
+            z: 30,
+            boxShadow: "0 15px 25px -5px rgba(109,40,217,0.6)" 
+          }}
+          whileTap={{ scale: 0.9, z: 0 }}
+          className="w-10 h-10 rounded-[4px] flex items-center justify-center border-none outline-none cursor-pointer bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 shadow-[0_2px_12px_rgba(109,40,217,0.4)] transition-transform duration-150"
+          aria-label="Create new post"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          <motion.div
+            animate={{ rotate: isOpen ? 135 : 0, z: isOpen ? 10 : 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15 }}
+          >
+            <Plus
+              size={24}
+              strokeWidth={2.5}
+              className="text-white"
+            />
+          </motion.div>
+        </motion.button>
       </div>
 
       <span
-        className={`relative z-10 text-[0.6rem] leading-none tracking-wide transition-all duration-300 mt-[22px] sm:mt-[26px] ${
-          isActive
-            ? 'font-bold text-white'
-            : 'font-medium text-[#8b95a5] group-hover:text-[#c0c8d4]'
+        className={`relative z-10 text-[9px] uppercase tracking-[0.2px] leading-none mt-5 font-medium transition-colors duration-150 ${
+          isOpen ? 'text-purple-500' : 'text-white/60'
         }`}
       >
-        {label}
+        Post
       </span>
-      
-      {isActive && (
-        <div
-          aria-hidden="true"
-          className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1.5 h-[3px] rounded-sm bg-[#10b981] shadow-[0_0_6px_rgba(16,185,129,0.6)] animate-[fadeScale_0.3s_ease-out_0.1s_both]"
-        />
+    </div>
+  )
+})
+
+interface PostFanMenuProps {
+  isOpen: boolean
+  onSelect: (key: string) => void
+  onClose: () => void
+}
+
+const PostFanMenu = memo(function PostFanMenu({ isOpen, onSelect, onClose }: PostFanMenuProps) {
+  const positions = [
+    { x: -64, y: -80, rotateZ: -15 },
+    { x: 0,   y: -100, rotateZ: 0 },
+    { x: 64,  y: -80, rotateZ: 15 },
+  ]
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm"
+            onClick={onClose}
+          />
+
+          <div className="fixed bottom-[60px] left-1/2 -translate-x-1/2 z-[9999]" style={{ pointerEvents: 'none', perspective: '1000px' }}>
+            {POST_OPTIONS.map((option, idx) => (
+              <motion.button
+                key={option.key}
+                type="button"
+                initial={{ 
+                  x: 0, 
+                  y: 0, 
+                  z: -100,
+                  rotateX: 45,
+                  scale: 0, 
+                  opacity: 0 
+                }}
+                animate={{ 
+                  x: positions[idx].x, 
+                  y: positions[idx].y, 
+                  z: 0,
+                  rotateX: 0,
+                  rotateZ: positions[idx].rotateZ,
+                  scale: 1, 
+                  opacity: 1 
+                }}
+                exit={{ 
+                  x: 0, 
+                  y: 0, 
+                  z: -100,
+                  rotateX: -45,
+                  scale: 0, 
+                  opacity: 0 
+                }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 250,
+                  damping: 20,
+                  delay: isOpen ? idx * 0.05 : (POST_OPTIONS.length - 1 - idx) * 0.03,
+                }}
+                whileHover={{ 
+                  scale: 1.2, 
+                  z: 50, 
+                  rotateY: 15,
+                  rotateZ: 0
+                }}
+                whileTap={{ scale: 0.9, z: 0 }}
+                onClick={() => onSelect(option.key)}
+                className="absolute flex flex-col items-center gap-1.5 border-none outline-none cursor-pointer bg-transparent"
+                style={{ pointerEvents: 'auto', left: '-24px', top: '-24px', transformStyle: 'preserve-3d' }}
+              >
+                <div className={`w-12 h-12 rounded-full ${option.bg} flex items-center justify-center shadow-lg shadow-${option.color}/30`}>
+                  <option.Icon size={20} strokeWidth={2} className="text-white" />
+                </div>
+                <span className="text-[10px] font-medium text-white tracking-wide drop-shadow-md">
+                  {option.label}
+                </span>
+              </motion.button>
+            ))}
+          </div>
+        </>
       )}
-    </button>
+    </AnimatePresence>
   )
 })
 
@@ -149,56 +238,61 @@ interface FooterNavProps {
 }
 
 export default memo(function FooterNav({ active, onChange }: FooterNavProps) {
-  const handleClick = useCallback(
-    (key: string) => {
-      onChange(key)
-    },
-    [onChange]
-  )
+  const [postMenuOpen, setPostMenuOpen] = useState(false)
+  
+  const handleClick = useCallback((key: string) => {
+    setPostMenuOpen(false)
+    onChange(key)
+  }, [onChange])
+
+  const handlePostToggle = useCallback(() => {
+    setPostMenuOpen(prev => !prev)
+  }, [])
+
+  const handlePostSelect = useCallback((key: string) => {
+    setPostMenuOpen(false)
+    console.log('Post option selected:', key)
+  }, [])
 
   return (
-    <nav
-      aria-label="Footer Navigation"
-      className="shrink-0 relative z-40 bg-[#060c17]/90 backdrop-blur-2xl backdrop-saturate-150 border-t border-white/[0.08]"
-    >
-      <div 
-        aria-hidden="true" 
-        className="absolute inset-0 pointer-events-none"
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-[#020611]/80 via-[#0a1628]/40 to-[#0e1f38]/20" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
-        <div className="absolute top-0 left-[15%] right-[15%] h-8 bg-gradient-to-b from-white/[0.03] to-transparent" />
-      </div>
+    <>
+      <PostFanMenu 
+        isOpen={postMenuOpen} 
+        onSelect={handlePostSelect} 
+        onClose={() => setPostMenuOpen(false)} 
+      />
 
-      <div
-        role="tablist"
-        aria-orientation="horizontal"
-        className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)]"
+      <nav
+        aria-label="Bottom Navigation"
+        className="shrink-0 relative z-[9999] bg-[linear-gradient(175deg,#2a1550_0%,#1A1A2E_30%,#16213E_60%,#1A1A2E_80%,#16213E_100%)] border-t border-white/10 overflow-visible px-1.5"
+        style={{ perspective: '1200px' }}
       >
-        {FOOTER_NAV_ITEMS.map((item) => {
-          const isActive = item.key === active
-          
-          if (item.key === 'post') {
+        <ul 
+          className="relative z-10 flex items-stretch w-full max-w-lg mx-auto pb-[env(safe-area-inset-bottom)] list-none m-0 p-0"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          {FOOTER_NAV_ITEMS.map((item) => {
+            const isActive = item.key === active
+            
             return (
-              <PostNavButton
-                key={item.key}
-                item={item}
-                isActive={isActive}
-                onClick={handleClick}
-              />
+              <li key={item.key} className="flex flex-1" style={{ transformStyle: 'preserve-3d' }}>
+                {item.key === 'post' ? (
+                  <PostNavButton
+                    isOpen={postMenuOpen}
+                    onToggle={handlePostToggle}
+                  />
+                ) : (
+                  <StandardNavButton
+                    item={item}
+                    isActive={isActive}
+                    onClick={handleClick}
+                  />
+                )}
+              </li>
             )
-          }
-
-          return (
-            <StandardNavButton
-              key={item.key}
-              item={item}
-              isActive={isActive}
-              onClick={handleClick}
-            />
-          )
-        })}
-      </div>
-    </nav>
+          })}
+        </ul>
+      </nav>
+    </>
   )
 })

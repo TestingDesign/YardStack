@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700">
+  <rect width="100%" height="100%" fill="black"/>
+
+  <!-- Stylized N icon -->
+  <path d="M90 500 L90 320 L200 320 L330 430 L330 170 L450 240 L450 500 L330 500 L200 390 L200 500 Z"
+        fill="none" stroke="white" stroke-width="18"/>
+
+  <!-- N4RE text -->
+  <text x="500" y="470"
+        font-family="Outfit, sans-serif"
+        font-size="210"
+        font-weight="bold"
+        fill="white">4RE</text>
+
+  <!-- Subtitle -->
+  <line x1="90" y1="560" x2="290" y2="560" stroke="white" stroke-width="8"/>
+  <line x1="1120" y1="560" x2="1320" y2="560" stroke="white" stroke-width="8"/>
+
+  <text x="320" y="575"
+        font-family="Outfit, sans-serif"
+        font-size="55"
+        fill="white">Connect - Collaborate - Convert</text>
+</svg>

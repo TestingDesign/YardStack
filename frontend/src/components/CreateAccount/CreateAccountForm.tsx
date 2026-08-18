@@ -1,4 +1,4 @@
-﻿import React, { useId } from 'react'
+import React, { useId } from 'react'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
@@ -59,17 +59,17 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
     <div className="group">
       <label 
         htmlFor={`${formId}-phone`}
-        className={`block font-semibold text-[#1a1a2e] mb-1 transition-colors group-focus-within:text-[#15803d] ${isMobile ? 'text-[0.7rem]' : 'text-[0.78rem]'}`}
+        className={`block font-medium text-[#1f1633] mb-1 transition-colors group-focus-within:text-[#6a5fc1] ${isMobile ? 'text-[12px]' : 'text-[14px]'}`}
       >
-        Phone Number<span className="text-red-600 ml-0.5" aria-hidden="true">*</span>
+        Phone Number<span className="text-[#fa7faa] ml-0.5" aria-hidden="true">*</span>
         <span className="sr-only">Required</span>
       </label>
       <div 
-        className={`flex items-center bg-white border ${errors.phone ? 'border-red-500' : 'border-[#e0e3eb] group-hover:border-gray-400'} focus-within:!border-[#16a34a] focus-within:ring-1 focus-within:ring-[#16a34a]/20 transition-all duration-300 rounded-[8px] motion-reduce:transition-none`}
+        className={`flex items-center bg-[#ffffff] border ${errors.phone ? 'border-[#fa7faa]' : 'border-[#cfcfdb] hover:border-[#79628c]'} focus-within:!border-[#6a5fc1] focus-within:ring-2 focus-within:ring-[#6a5fc1]/20 transition-all duration-300 rounded-[6px] motion-reduce:transition-none`}
       >
         <span 
           aria-hidden="true" 
-          className={`text-gray-500 shrink-0 group-focus-within:text-[#15803d] transition-colors duration-300 motion-reduce:transition-none ${isMobile ? 'pl-3' : 'pl-3.5'}`}
+          className={`text-[#79628c] shrink-0 group-focus-within:text-[#6a5fc1] transition-colors duration-300 motion-reduce:transition-none ${isMobile ? 'pl-3' : 'pl-3.5'}`}
         >
           <PhoneOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} />
         </span>
@@ -82,11 +82,11 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
           aria-invalid={!!errors.phone}
           aria-describedby={errors.phone ? `${formId}-phone-error` : undefined}
           aria-required="true"
-          className={`flex-1 bg-transparent outline-none text-[#1a1a2e] placeholder-gray-500 ${isMobile ? 'px-2.5 py-2 text-[0.75rem]' : 'px-3 py-2 text-[0.85rem]'}`}
+          className={`flex-1 bg-transparent outline-none text-[#1f1633] placeholder-[#79628c] ${isMobile ? 'px-2.5 py-2 text-[13px]' : 'px-3 py-2 text-[15px]'}`}
         />
       </div>
       {errors.phone && (
-        <p id={`${formId}-phone-error`} className="text-red-600 text-[0.72rem] mt-1 font-medium" role="alert">
+        <p id={`${formId}-phone-error`} className="text-[#fa7faa] text-[12px] mt-1 font-medium" role="alert">
           {errors.phone}
         </p>
       )}
@@ -97,25 +97,25 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
     <div className="group">
       <label 
         id={`${formId}-role-label`}
-        className={`block font-semibold text-[#1a1a2e] mb-1 transition-colors group-focus-within:text-[#15803d] ${isMobile ? 'text-[0.7rem]' : 'text-[0.78rem]'}`}
+        className={`block font-medium text-[#1f1633] mb-1 transition-colors group-focus-within:text-[#6a5fc1] ${isMobile ? 'text-[12px]' : 'text-[14px]'}`}
       >
-        Role<span className="text-red-600 ml-0.5" aria-hidden="true">*</span>
+        Role<span className="text-[#fa7faa] ml-0.5" aria-hidden="true">*</span>
         <span className="sr-only">Required</span>
       </label>
       <div 
-        className={`shadow-sm group-hover:shadow transition-shadow duration-300 motion-reduce:transition-none ${isMobile ? '[&>div>button]:!rounded-[8px] [&>div>button]:!min-h-[36px] [&>div>button]:!text-[0.75rem] rounded-[8px]' : 'rounded-[8px]'}`}
+        className={`shadow-sm group-hover:shadow transition-shadow duration-300 motion-reduce:transition-none ${isMobile ? '[&>div>button]:!rounded-[6px] [&>div>button]:!min-h-[36px] [&>div>button]:!text-[13px] rounded-[6px]' : 'rounded-[6px]'}`}
       >
         <Dropdown
           options={ROLE_OPTIONS}
           value={role}
           onChange={setRole}
           placeholder="Select your role"
-          leftIcon={<BadgeOutlinedIcon sx={{ fontSize: isMobile ? 16 : 16 }} />}
+          leftIcon={<BadgeOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} />}
           id={`${formId}-role`}
         />
       </div>
       {errors.role && (
-        <p className="text-red-600 text-[0.72rem] mt-1 font-medium" role="alert">
+        <p className="text-[#fa7faa] text-[12px] mt-1 font-medium" role="alert">
           {errors.role}
         </p>
       )}
@@ -150,12 +150,12 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
           onClick={() => setShowPwd(!showPwd)} 
           aria-label={showPwd ? "Hide password" : "Show password"}
           aria-pressed={showPwd}
-          className="text-gray-500 hover:text-[#15803d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] rounded-[4px] p-0.5 transition-colors duration-300 motion-reduce:transition-none"
+          className="text-[#79628c] hover:text-[#6a5fc1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 rounded-[4px] p-0.5 transition-colors duration-300 motion-reduce:transition-none"
         >
           {showPwd ? (
-            <VisibilityOutlinedIcon sx={{ fontSize: isMobile ? 16 : 17 }} aria-hidden="true" />
+            <VisibilityOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} aria-hidden="true" />
           ) : (
-            <VisibilityOffOutlinedIcon sx={{ fontSize: isMobile ? 16 : 17 }} aria-hidden="true" />
+            <VisibilityOffOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} aria-hidden="true" />
           )}
         </button>
       }
@@ -180,12 +180,12 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
           onClick={() => setShowConfirm(!showConfirm)} 
           aria-label={showConfirm ? "Hide confirm password" : "Show confirm password"}
           aria-pressed={showConfirm}
-          className="text-gray-500 hover:text-[#15803d] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] rounded-[4px] p-0.5 transition-colors duration-300 motion-reduce:transition-none"
+          className="text-[#79628c] hover:text-[#6a5fc1] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 rounded-[4px] p-0.5 transition-colors duration-300 motion-reduce:transition-none"
         >
           {showConfirm ? (
-            <VisibilityOutlinedIcon sx={{ fontSize: isMobile ? 16 : 17 }} aria-hidden="true" />
+            <VisibilityOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} aria-hidden="true" />
           ) : (
-            <VisibilityOffOutlinedIcon sx={{ fontSize: isMobile ? 16 : 17 }} aria-hidden="true" />
+            <VisibilityOffOutlinedIcon sx={{ fontSize: isMobile ? 16 : 18 }} aria-hidden="true" />
           )}
         </button>
       }
@@ -195,7 +195,11 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
   )
 
   return (
-    <form onSubmit={onSubmit} className={isMobile ? "space-y-3.5" : "space-y-3"} noValidate>
+    <form 
+      onSubmit={onSubmit} 
+      className={`overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isMobile ? "space-y-4" : "space-y-3.5"}`} 
+      noValidate
+    >
       {twoColumn ? (
         <>
           <FormField
@@ -268,28 +272,28 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
 
       {!isMobile && (
         <div 
-          className="bg-[#f0fdf4] border border-[#bbf7d0] rounded-[8px] p-2.5 flex items-center justify-between gap-3 mt-2 shadow-[0_2px_10px_rgba(22,163,74,0.05)] hover:shadow-[0_4px_15px_rgba(22,163,74,0.1)] transition-all duration-300 motion-reduce:transition-none"
+          className="bg-gradient-to-r from-[#f0f0f0] to-white border border-[#e5e7eb] rounded-[8px] p-3 flex items-center justify-between gap-3 mt-3 shadow-sm transition-all duration-300 hover:shadow-md motion-reduce:transition-none"
           role="status"
           aria-label="Security Information"
         >
-          <div className="flex items-start gap-2.5">
-            <SecurityOutlinedIcon sx={{ fontSize: 18, color: '#16a34a', flexShrink: 0, marginTop: '1px' }} aria-hidden="true" />
+          <div className="flex items-start gap-3">
+            <SecurityOutlinedIcon sx={{ fontSize: 20, color: '#422082', flexShrink: 0, mt: 0.2 }} aria-hidden="true" />
             <div>
-              <p className="text-[0.75rem] font-bold text-[#14532d]">Your security is our priority</p>
-              <p className="text-[0.72rem] text-[#166534] leading-relaxed mt-0.5">
+              <p className="text-[13px] font-semibold text-[#1f1633]">Your security is our priority</p>
+              <p className="text-[12px] text-[#79628c] leading-relaxed mt-0.5">
                 We use advanced encryption and security protocols to protect your data.
               </p>
             </div>
           </div>
           <TaskAltIcon 
             className="animate-[pulse_3s_ease-in-out_infinite] motion-reduce:animate-none" 
-            sx={{ fontSize: 26, color: '#16a34a', flexShrink: 0 }} 
+            sx={{ fontSize: 24, color: '#c2ef4e', filter: 'drop-shadow(0 0 4px rgba(194,239,78,0.5))', flexShrink: 0 }} 
             aria-hidden="true" 
           />
         </div>
       )}
 
-      <div className={`flex items-start gap-2.5 group ${isMobile ? 'pt-1' : ''}`}>
+      <div className={`flex items-start gap-2.5 group ${isMobile ? 'pt-1.5' : 'pt-1'}`}>
         <input
           id={`${formId}-agreed`}
           type="checkbox" 
@@ -298,67 +302,67 @@ export default function CreateAccountForm(props: CreateAccountFormProps) {
           aria-invalid={!!errors.agreed}
           aria-describedby={errors.agreed ? `${formId}-agreed-error` : undefined}
           aria-required="true"
-            className={`mt-0.5 rounded-[8px] accent-[#16a34a] shrink-0 transition-transform group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:transform-none ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`}
+          className={`mt-0.5 rounded-[4px] accent-[#422082] shrink-0 transition-transform group-hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 focus-visible:ring-offset-2 motion-reduce:transition-none motion-reduce:transform-none ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`}
         />
-        <span className={`text-[#374151] leading-relaxed ${isMobile ? 'text-[0.72rem]' : 'text-[0.75rem]'}`}>
+        <span className={`text-[#1f1633] leading-relaxed ${isMobile ? 'text-[12px]' : 'text-[13px]'}`}>
           <label htmlFor={`${formId}-agreed`} className="cursor-pointer">I agree to the </label>
           <button 
             type="button" 
-            className="text-[#15803d] underline font-semibold hover:text-[#14532d] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] rounded-[8px] transition-colors"
+            className="text-[#6a5fc1] underline font-medium hover:text-[#422082] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 rounded-[4px] transition-colors"
           >
             Terms of Service
           </button>
           {' '}and{' '}
           <button 
             type="button" 
-            className="text-[#15803d] underline font-semibold hover:text-[#14532d] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] rounded-[8px] transition-colors"
+            className="text-[#6a5fc1] underline font-medium hover:text-[#422082] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 rounded-[4px] transition-colors"
           >
             Privacy Policy
           </button>
         </span>
       </div>
       {errors.agreed && (
-        <p id={`${formId}-agreed-error`} className="text-red-600 font-medium text-[0.72rem] -mt-2" role="alert">
+        <p id={`${formId}-agreed-error`} className="text-[#fa7faa] font-medium text-[12px] -mt-1" role="alert">
           {errors.agreed}
         </p>
       )}
 
       <button
         type="submit"
-        className={`relative ${isMobile ? 'w-full' : 'w-1/2 mx-auto'} flex items-center justify-center font-bold text-white bg-linear-to-r from-[#1d4ed8] via-[#1a7e5a] to-[#16a34a] hover:-translate-y-0.5 active:scale-[0.97] active:opacity-90 shadow-[0_4px_14px_rgba(22,163,74,0.25)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] focus-visible:ring-offset-2 transition-all duration-200 motion-reduce:transition-none motion-reduce:transform-none ${isMobile ? 'py-3 mt-4 text-[0.9rem] rounded-[8px]' : 'py-2.5 px-5 mt-2 text-[0.95rem] rounded-[8px]'}`}
+        className={`relative ${isMobile ? 'w-full' : 'w-1/2 mx-auto'} flex items-center justify-center font-bold text-white uppercase tracking-[0.2px] bg-gradient-to-r from-[#422082] to-[#6a5fc1] hover:from-[#6a5fc1] hover:to-[#422082] active:scale-[0.98] shadow-[0_4px_16px_rgba(66,32,130,0.3)] hover:shadow-[0_6px_20px_rgba(106,95,193,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 focus-visible:ring-offset-2 transition-all duration-300 ease-out motion-reduce:transition-none ${isMobile ? 'py-3 mt-4 text-[13px] rounded-[8px]' : 'py-[12px] px-4 mt-3 text-[14px] rounded-[8px]'}`}
       >
         <span>Create Account</span>
       </button>
 
-      <div className={`flex items-center gap-3 ${isMobile ? 'my-4' : 'my-2'}`} aria-hidden="true">
-        <div className="flex-1 h-px bg-linear-to-r from-transparent to-[#e5e7eb]" />
-        <span className={`font-semibold text-gray-500 tracking-[0.14em] uppercase ${isMobile ? 'text-[0.6rem]' : 'text-[0.63rem]'}`}>
+      <div className={`flex items-center gap-3 ${isMobile ? 'my-4' : 'my-3'}`} aria-hidden="true">
+        <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#cfcfdb] to-[#cfcfdb]" />
+        <span className={`font-semibold text-[#79628c] uppercase tracking-[0.2px] ${isMobile ? 'text-[10px]' : 'text-[11px]'}`}>
           Or sign up with
         </span>
-        <div className="flex-1 h-px bg-linear-to-l from-transparent to-[#e5e7eb]" />
+        <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#cfcfdb] to-[#cfcfdb]" />
       </div>
 
-      <div className="grid grid-cols-3 gap-2.5">
+      <div className="grid grid-cols-3 gap-3">
         {SOCIAL.map(({ label, logo }) => (
           <button 
             key={label} 
             type="button" 
             aria-label={`Sign up with ${label}`}
-            className={`flex items-center justify-center gap-2 border border-[#e0e3eb] font-semibold text-[#374151] bg-white hover:bg-gray-50 hover:-translate-y-0.5 active:scale-[0.96] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] transition-all duration-200 motion-reduce:transition-none motion-reduce:transform-none ${isMobile ? 'py-2 rounded-[8px] text-[0.75rem]' : 'py-2 rounded-[8px] text-[0.8rem] shadow-sm'}`}
+            className={`flex items-center justify-center gap-2 border border-[#cfcfdb] font-medium text-[#1f1633] bg-gradient-to-b from-white to-[#f9fafb] hover:from-[#f0f0f0] hover:to-[#e5e7eb] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 shadow-sm transition-all duration-300 ease-out motion-reduce:transition-none ${isMobile ? 'py-2 rounded-[6px] text-[12px]' : 'py-2.5 rounded-[8px] text-[14px]'}`}
           >
-            <img src={logo} alt="" aria-hidden="true" className={`object-contain ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+            <img src={logo} alt="" aria-hidden="true" className={`object-contain drop-shadow-sm ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
             <span>{label}</span>
           </button>
         ))}
       </div>
 
       {showLoginLink && (
-        <p className={`text-center text-gray-600 ${isMobile ? 'text-[0.75rem] pt-3' : 'text-[0.82rem] pt-2'}`}>
+        <p className={`text-center text-[#79628c] ${isMobile ? 'text-[13px] pt-3' : 'text-[14px] pt-2'}`}>
           Already have an account?{' '}
           <button 
             type="button" 
             onClick={onLoginClick} 
-            className="text-[#15803d] font-bold hover:text-[#14532d] hover:underline underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#16a34a] rounded-[8px] transition-all duration-200 motion-reduce:transition-none"
+            className="text-[#6a5fc1] font-medium hover:text-[#422082] hover:underline underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#6a5fc1]/50 rounded-[4px] transition-all duration-300 motion-reduce:transition-none"
           >
             Login here
           </button>

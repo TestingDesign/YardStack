@@ -1,86 +1,162 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
-*, *::before, *::after {
-  box-sizing: border-box;
+:root {
+  --color-neutral-900: #0F1021;
+  --color-neutral-800: #1A1B2E;
+  --color-neutral-700: #24263A;
+  --color-neutral-600: #3B3D52;
+  --color-neutral-500: #6B7280;
+  --color-neutral-200: #E5E7EB;
+  --color-neutral-100: #F8FAFC;
+  --color-white: #FFFFFF;
+
+  --color-primary-500: #6B21A8;
+  --color-primary-600: #5B1D99;
+  --color-primary-300: #B388FF;
+  --color-secondary-500: #D946EF;
+
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  --color-accent: #6B21A8;
+
+  --color-bg-page: #F8F7FC;
+  --color-bg-sidebar: #1A1B2E;
+  --color-bg-elevated: #24263A;
+  --color-bg-card: #2E3047;
+  --color-border: #3B3D52;
+
+  --color-bg-surface: #FFFFFF;
+  --color-bg-muted: #F8FAFC;
+  --color-border-default: #E5E7EB;
+
+  --color-text-primary: #1A1A2E;
+  --color-text-secondary: #6B7280;
+  --color-text-inverse: #FFFFFF;
+  --color-text-muted: #9CA3AF;
+
+  --color-brand-gradient: linear-gradient(90deg, #6B21A8, #5B1D99);
+  --color-dark-gradient: linear-gradient(90deg, #1A1B2E, #6B21A8);
 }
 
-html, body, #root {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  font-family: 'Outfit' !important;
+}
+
+html,
+body,
+#root {
   height: 100%;
   margin: 0;
   padding: 0;
 }
 
 body {
-  font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: #f5f6f8;
+  font-family: 'Outfit' !important;
+  background: #F3F4F6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 @keyframes ys-fade-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes ys-fade-in-up {
-  from { 
-    opacity: 0; 
-    transform: translateY(14px); 
+  from {
+    opacity: 0;
+    transform: translateY(14px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes ys-fade-in-down {
-  from { 
-    opacity: 0; 
-    transform: translateY(-10px); 
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes ys-slide-in-left {
-  from { 
-    opacity: 0; 
-    transform: translateX(-18px); 
+  from {
+    opacity: 0;
+    transform: translateX(-18px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 @keyframes ys-slide-in-right {
-  from { 
-    opacity: 0; 
-    transform: translateX(18px); 
+  from {
+    opacity: 0;
+    transform: translateX(18px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateX(0); 
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 
 @keyframes ys-scale-in {
-  from { 
-    opacity: 0; 
-    transform: scale(0.97); 
+  from {
+    opacity: 0;
+    transform: scale(0.97);
   }
-  to { 
-    opacity: 1; 
-    transform: scale(1); 
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 
 @keyframes ys-shimmer {
-  from { background-position: -400px 0; }
-  to   { background-position: 400px 0; }
+  from {
+    background-position: -400px 0;
+  }
+
+  to {
+    background-position: 400px 0;
+  }
 }
 
 @keyframes fadeScale {
@@ -88,70 +164,147 @@ body {
     opacity: 0;
     transform: scale(0.85);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
   }
 }
 
-.ys-fade-in { 
-  animation: ys-fade-in 0.28s ease both; 
-  will-change: opacity; 
+@keyframes orbit-rotate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
-.ys-fade-in-up { 
-  animation: ys-fade-in-up 0.32s cubic-bezier(0.4, 0, 0.2, 1) both; 
-  will-change: opacity, transform; 
+@keyframes orbit-counter-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
-.ys-fade-in-down { 
-  animation: ys-fade-in-down 0.28s cubic-bezier(0.4, 0, 0.2, 1) both; 
-  will-change: opacity, transform; 
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 }
 
-.ys-slide-in-left { 
-  animation: ys-slide-in-left 0.32s cubic-bezier(0.4, 0, 0.2, 1) both; 
-  will-change: opacity, transform; 
+@keyframes float-card {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-6px);
+  }
 }
 
-.ys-slide-in-right { 
-  animation: ys-slide-in-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) both; 
-  will-change: opacity, transform; 
+.ys-fade-in {
+  animation: ys-fade-in 0.28s ease both;
+  will-change: opacity;
 }
 
-.ys-scale-in { 
-  animation: ys-scale-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both; 
-  will-change: opacity, transform; 
+.ys-fade-in-up {
+  animation: ys-fade-in-up 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: opacity, transform;
 }
 
-.ys-page-enter { 
-  animation: ys-fade-in 0.25s ease both; 
-  will-change: opacity; 
+.ys-fade-in-down {
+  animation: ys-fade-in-down 0.28s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: opacity, transform;
+}
+
+.ys-slide-in-left {
+  animation: ys-slide-in-left 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: opacity, transform;
+}
+
+.ys-slide-in-right {
+  animation: ys-slide-in-right 0.32s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: opacity, transform;
+}
+
+.ys-scale-in {
+  animation: ys-scale-in 0.25s cubic-bezier(0.4, 0, 0.2, 1) both;
+  will-change: opacity, transform;
+}
+
+.ys-page-enter {
+  animation: ys-fade-in 0.25s ease both;
+  will-change: opacity;
 }
 
 .ys-skeleton {
-  background: linear-gradient(90deg, #f0f2f5 25%, #e8ebee 50%, #f0f2f5 75%);
+  background: linear-gradient(90deg, #f0f0f5 25%, #e8e8ee 50%, #f0f0f5 75%);
   background-size: 400px 100%;
   animation: ys-shimmer 1.4s ease-in-out infinite;
   will-change: background-position;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ys-fade-in, 
-  .ys-fade-in-up, 
+
+  .ys-fade-in,
+  .ys-fade-in-up,
   .ys-fade-in-down,
-  .ys-slide-in-left, 
-  .ys-slide-in-right, 
+  .ys-slide-in-left,
+  .ys-slide-in-right,
   .ys-scale-in,
-  .ys-page-enter { 
-    animation: none !important; 
-    opacity: 1 !important; 
-    transform: none !important; 
+  .ys-page-enter {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
-  
-  .ys-skeleton { 
-    animation: none !important; 
-    background: #f0f2f5 !important;
+
+  .ys-skeleton {
+    animation: none !important;
+    background: #f0f0f5 !important;
     background-image: none !important;
   }
 }
+
+@keyframes ys-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes ys-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes ys-border-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(124,58,237,0.0); }
+  50% { box-shadow: 0 0 0 4px rgba(124,58,237,0.12); }
+}
+
+@keyframes ys-spin-slow {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+.ys-float {
+  animation: ys-float 3s ease-in-out infinite;
+}
+
+.ys-gradient-shift {
+  background-size: 200% 200%;
+  animation: ys-gradient-shift 4s ease infinite;
+}
+
+.ys-stagger-1 { animation-delay: 0ms; }
+.ys-stagger-2 { animation-delay: 80ms; }
+.ys-stagger-3 { animation-delay: 160ms; }
+.ys-stagger-4 { animation-delay: 240ms; }
+.ys-stagger-5 { animation-delay: 320ms; }
+.ys-stagger-6 { animation-delay: 400ms; }

@@ -33,27 +33,27 @@ export default function FormField({
     <div className="group">
       <label 
         htmlFor={id} 
-        className={`block font-semibold text-[#1a1a2e] mb-1 transition-colors duration-300 group-focus-within:text-[#15803d] ${
-          isMobile ? 'text-[0.7rem]' : 'text-[0.78rem]'
+        className={`block font-medium text-[#1f1633] mb-1 transition-colors duration-200 group-focus-within:text-[#6a5fc1] ${
+          isMobile ? 'text-[12px]' : 'text-[14px]'
         }`}
       >
         {label}
         {required && (
-          <span className="text-red-600 ml-0.5" aria-hidden="true">*</span>
+          <span className="text-[#fa7faa] ml-0.5" aria-hidden="true">*</span>
         )}
         {required && <span className="sr-only">Required</span>}
       </label>
       
       <div 
-        className={`flex items-center border bg-white transition-all duration-300 rounded-[8px] motion-reduce:transition-none ${
+        className={`flex items-center border transition-all duration-300 rounded-[6px] motion-reduce:transition-none ${
           error 
-            ? 'border-red-500 ring-1 ring-red-100' 
-            : 'border-[#e0e3eb] hover:border-gray-400 focus-within:!border-[#16a34a] focus-within:ring-1 focus-within:ring-[#16a34a]/20'
+            ? 'border-[#fa7faa] ring-1 ring-[#fa7faa]/20 bg-gradient-to-b from-[#ffffff] to-[#fff0f5]' 
+            : 'border-[#cfcfdb] hover:border-[#79628c] focus-within:!border-[#6a5fc1] focus-within:ring-2 focus-within:ring-[#6a5fc1]/20 bg-gradient-to-b from-[#ffffff] to-[#f9fafb]'
         }`}
       >
         <span 
           aria-hidden="true" 
-          className={`text-gray-500 shrink-0 transition-colors duration-300 group-focus-within:text-[#15803d] motion-reduce:transition-none ${
+          className={`text-[#79628c] shrink-0 transition-colors duration-200 group-focus-within:text-[#6a5fc1] motion-reduce:transition-none ${
             isMobile ? 'pl-3' : 'pl-3.5'
           }`}
         >
@@ -69,8 +69,8 @@ export default function FormField({
           required={required}
           aria-invalid={!!error}
           aria-describedby={error ? errorId : undefined}
-          className={`flex-1 text-[#1a1a2e] placeholder-gray-500 bg-transparent outline-none w-full ${
-            isMobile ? 'px-2.5 py-2 text-[0.75rem]' : 'px-3 py-2 text-[0.85rem]'
+          className={`flex-1 text-[#1f1633] placeholder-[#79628c] bg-transparent outline-none w-full ${
+            isMobile ? 'px-2.5 py-2 text-[13px]' : 'px-3 py-2 text-[15px]'
           }`}
         />
         
@@ -82,7 +82,7 @@ export default function FormField({
       </div>
       
       {error && (
-        <p id={errorId} className="text-red-600 font-medium text-[0.72rem] mt-1" role="alert">
+        <p id={errorId} className="text-[#fa7faa] font-medium text-[12px] mt-1" role="alert">
           {error}
         </p>
       )}

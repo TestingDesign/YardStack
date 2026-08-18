@@ -1,4 +1,4 @@
-import { useCallback, type ElementType } from 'react'
+import { useCallback } from 'react'
 import PrimaryTabBar, { type PrimaryTabItem } from './PrimaryTabBar'
 import { type SubTabItem } from './SubTabBar'
 
@@ -7,7 +7,9 @@ export type { PrimaryTabItem, SubTabItem }
 export interface TabItem {
   key: string
   label: string
-  Icon: ElementType
+  Icon: string
+  activeIcon?: string
+  badge?: string
   subTabs?: SubTabItem[]
 }
 

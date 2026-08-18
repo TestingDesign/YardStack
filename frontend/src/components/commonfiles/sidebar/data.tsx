@@ -1,145 +1,61 @@
-import type React from 'react'
-import {
-  Megaphone,
-  Mic2,
-  BookOpen,
-  Film,
-  Landmark,
-  LayoutGrid,
-  CalendarDays,
-  BarChart3,
-  Settings,
-  Home,
-  Users,
-  PlusSquare,
-  SlidersHorizontal,
-  Bookmark,
-  Radio,
-  Library,
-  UserCircle,
-  TrendingUp,
-  GraduationCap,
-  FileText,
-  Award,
-  Play,
-  Clapperboard,
-  Heart,
-  MapPin,
-  Building2,
-  Search,
-  Filter,
-  Star,
-  Eye,
-  MessageSquare,
-  Calendar,
-  Clock,
-  Ticket,
-  PieChart,
-  LineChart,
-  Activity,
-  Wrench,
-  Bell,
-  Shield,
-  User,
+import type { SubTabItem } from '../TabBar/SubTabBar' 
+
+import { 
+  Rocket, 
+  ClipboardList, 
 } from 'lucide-react'
+import DynamicFeedIcon from '@mui/icons-material/DynamicFeed'
 
-export const COMMON_SUBTABS = [
-  { label: 'Home',   Icon: Home },
-  { label: 'Leads',  Icon: Users },
-  { label: 'Post',   Icon: PlusSquare },
-  { label: 'Manage', Icon: SlidersHorizontal },
-  { label: 'Saved',  Icon: Bookmark },
-]
-
-const PODCAST_SUBTABS = [
-  { label: 'Episodes',  Icon: Radio },
-  { label: 'Series',    Icon: Library },
-  { label: 'Speakers',  Icon: UserCircle },
-  { label: 'Trending',  Icon: TrendingUp },
-]
-
-const LEARN_SUBTABS = [
-  { label: 'Courses',     Icon: GraduationCap },
-  { label: 'Articles',    Icon: FileText },
-  { label: 'Certifications', Icon: Award },
-  { label: 'Saved',       Icon: Bookmark },
-]
-
-const VIDEO_VAULT_SUBTABS = [
-  { label: 'All Videos',  Icon: Play },
-  { label: 'Reels',       Icon: Clapperboard },
-  { label: 'Favourites',  Icon: Heart },
-  { label: 'Trending',    Icon: TrendingUp },
-]
-
-const CITY_INVENTORY_SUBTABS = [
-  { label: 'Localities',  Icon: MapPin },
-  { label: 'Projects',    Icon: Building2 },
-  { label: 'Search',      Icon: Search },
-  { label: 'Filters',     Icon: Filter },
-]
-
-const SHOWCASE_SUBTABS = [
-  { label: 'Featured',    Icon: Star },
-  { label: 'Latest',      Icon: Clock },
-  { label: 'Most Viewed', Icon: Eye },
-  { label: 'Reviews',     Icon: MessageSquare },
-]
-
-const EVENTS_SUBTABS = [
-  { label: 'Upcoming',    Icon: Calendar },
-  { label: 'Past',        Icon: Clock },
-  { label: 'My Events',   Icon: Ticket },
-  { label: 'Saved',       Icon: Bookmark },
-]
-
-const ANALYTICS_SUBTABS = [
-  { label: 'Overview',    Icon: PieChart },
-  { label: 'Performance', Icon: LineChart },
-  { label: 'Insights',    Icon: Activity },
-  { label: 'Reports',     Icon: FileText },
-]
-
-const SETTINGS_SUBTABS = [
-  { label: 'General',       Icon: Wrench },
-  { label: 'Notifications', Icon: Bell },
-  { label: 'Privacy',       Icon: Shield },
-  { label: 'Account',       Icon: User },
-]
+import spotlightPink from './Images/spotlight.png'
+import spotlightWhite from './Images1/spotlight1.png'
+import micPink from './Images/mic.png'
+import micWhite from './Images1/mic1.png'
+import activityPink from './Images/activity.png'
+import activityWhite from './Images1/activity1.png'
+import directoryPink from './Images/directory.png'
+import directoryWhite from './Images1/directory1.png'
+import cityPink from './Images/city.png'
+import cityWhite from './Images1/city1.png'
+import learnPink from './Images/learn.png'
+import learnWhite from './Images1/learn1.png'
 
 export type NavKey =
-  | 'announcements'
+  | 'activityBoard'
   | 'podcasts'
   | 'learn'
-  | 'videoVault'
+  | 'spotlight'
+  | 'directory'
   | 'cityInventory'
   | 'showcase'
   | 'events'
   | 'analytics'
   | 'settings'
-
-export interface SubTabItem {
-  label: string
-  Icon: React.ElementType
-}
+  | 'pulse'
+  | 'showcase'
+  | 'cityInventory'
+  | 'surveyPools'
+  | 'lms'
 
 export interface NavItem {
   key: NavKey
   label: string
-  Icon: React.ElementType
+  activeIcon: string
+  Icon?: string 
+  badge?: string
   hasArrow?: boolean
   subTabs?: SubTabItem[]
+  tooltip?: string
 }
 
 export const NAV_ITEMS: NavItem[] = [
-  { key: 'podcasts',      label: 'RED Expert Conversations', Icon: Mic2,         subTabs: PODCAST_SUBTABS },
-  { key: 'announcements', label: 'Announcement Board', Icon: Megaphone },
-  { key: 'learn',         label: 'Learn',              Icon: BookOpen,     subTabs: LEARN_SUBTABS },
-  { key: 'videoVault',    label: 'Video Vault',        Icon: Film,         subTabs: VIDEO_VAULT_SUBTABS },
-  { key: 'cityInventory', label: 'City Inventory',     Icon: Landmark,     subTabs: CITY_INVENTORY_SUBTABS },
-  { key: 'showcase',      label: 'Showcase',           Icon: LayoutGrid,   subTabs: SHOWCASE_SUBTABS },
-  { key: 'events',        label: 'Events',             Icon: CalendarDays, subTabs: EVENTS_SUBTABS },
-  { key: 'analytics',     label: 'Analytics',          Icon: BarChart3,    subTabs: ANALYTICS_SUBTABS },
-  { key: 'settings',      label: 'Settings',           Icon: Settings,     hasArrow: true, subTabs: SETTINGS_SUBTABS },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { key: 'pulse',         label: 'Pulse',          activeIcon: DynamicFeedIcon as any, Icon: DynamicFeedIcon as any, tooltip: 'Your daily feed of real estate updates, news, and community highlights.' },
+  { key: 'spotlight',     label: 'Spotlight',      activeIcon: spotlightWhite, Icon: spotlightPink, tooltip: 'Bite-sized, high-impact videos to engage, learn, build credibility and stay updated with the real estate ecosystem.' },
+  { key: 'podcasts',      label: 'RED Expert',     activeIcon: micWhite,       Icon: micPink, tooltip: 'In-depth conversations with real estate domain experts, practitioners and industry leaders sharing practical insights and experiences.' },
+  { key: 'activityBoard', label: 'Opportunities',  activeIcon: activityWhite,  Icon: activityPink, tooltip: 'Discover jobs, vendor requirements, agent hiring, partnerships, collaborations and other B2B opportunities across the ecosystem.' },
+  { key: 'directory',     label: 'Directory',      activeIcon: directoryWhite, Icon: directoryPink, tooltip: 'Explore a comprehensive directory of verified professionals, businesses and service providers across the real estate ecosystem.' },
+  { key: 'showcase',      label: 'Launching',      activeIcon: Rocket as any, Icon: Rocket as any, badge: 'Soon', tooltip: 'New features and modules launching soon.' },
+  { key: 'cityInventory', label: 'City Inventory', activeIcon: cityWhite,      Icon: cityPink, tooltip: 'Browse properties and inventory across different cities.' },
+  { key: 'surveyPools',   label: 'Survey Pools',   activeIcon: ClipboardList as any, Icon: ClipboardList as any, tooltip: 'Participate in surveys and share your feedback.' },
+  { key: 'lms',           label: 'LMS',            activeIcon: learnWhite,     Icon: learnPink, tooltip: 'Learning Management System for continuous education.' }
 ]
-

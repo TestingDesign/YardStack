@@ -6,4 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   base: '/YardStack/',
   plugins: [react(), tailwindcss()],
+  optimizeDeps: {
+    include: ['@emotion/react', '@emotion/styled']
+  }
 })

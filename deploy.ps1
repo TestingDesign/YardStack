@@ -122,8 +122,8 @@ Write-Host "  ║   ✓ Deploy complete!                            ║" -Foregr
 Write-Host "  ╚══════════════════════════════════════════════════╝" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Your site will be live at:" -ForegroundColor White
-Write-Host "  • https://FigmaDesign.github.io/YardStack/                    (Landing)" -ForegroundColor DarkGray
-Write-Host "  • https://FigmaDesign.github.io/YardStack/main-version/       (Main)" -ForegroundColor DarkGray
-Write-Host "  • https://FigmaDesign.github.io/YardStack/orange-comb/        (Orange)" -ForegroundColor DarkGray
-Write-Host "  • https://FigmaDesign.github.io/YardStack/purple-pink-com/    (Purple & Pink)" -ForegroundColor DarkGray
+Write-Host "  • https://figmadesign.github.io/YardStack/                    (Landing)" -ForegroundColor DarkGray
+Write-Host "  • https://figmadesign.github.io/YardStack/main-version/       (Main)" -ForegroundColor DarkGray
+Write-Host "  • https://figmadesign.github.io/YardStack/orange-comb/        (Orange)" -ForegroundColor DarkGray
+Write-Host "  • https://figmadesign.github.io/YardStack/purple-pink-com/    (Purple & Pink)" -ForegroundColor DarkGray
 Write-Host ""

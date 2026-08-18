@@ -11,23 +11,23 @@ $base   = "/YardStack/"
 
 function Write-Step($msg) {
     Write-Host ""
-    Write-Host "  ► $msg" -ForegroundColor Cyan
-    Write-Host ("  " + "─" * ($msg.Length + 2)) -ForegroundColor DarkGray
+    Write-Host "  > $msg" -ForegroundColor Cyan
+    Write-Host ("  " + "-" * ($msg.Length + 2)) -ForegroundColor DarkGray
 }
 
 function Write-Ok($msg) {
-    Write-Host "    ✓ $msg" -ForegroundColor Green
+    Write-Host "    v $msg" -ForegroundColor Green
 }
 
 function Write-Warn($msg) {
-    Write-Host "    ⚠ $msg" -ForegroundColor Yellow
+    Write-Host "    ! $msg" -ForegroundColor Yellow
 }
 
 $originalBranch = (git -C $repoRoot rev-parse --abbrev-ref HEAD).Trim()
 Write-Host ""
-Write-Host "  ╔══════════════════════════════════════════════════╗" -ForegroundColor Magenta
-Write-Host "  ║   YardStack — Deploy Purple&Pink-Com Theme       ║" -ForegroundColor Magenta
-Write-Host "  ╚══════════════════════════════════════════════════╝" -ForegroundColor Magenta
+Write-Host "  +--------------------------------------------------+" -ForegroundColor Magenta
+Write-Host "  |   YardStack - Deploy Purple&Pink-Com Theme       |" -ForegroundColor Magenta
+Write-Host "  +--------------------------------------------------+" -ForegroundColor Magenta
 Write-Host ""
 Write-Host "  Current branch: $originalBranch" -ForegroundColor DarkGray
 
@@ -68,7 +68,7 @@ Write-Ok "Build complete"
 
 if (Test-Path $distDir) {
     Copy-Item -Path "$distDir\*" -Destination $stagingDir -Recurse -Force
-    Write-Ok "Copied dist → staging root"
+    Write-Ok "Copied dist -> staging root"
 } else {
     Write-Warn "dist/ not found for branch '$branch'! Skipping."
 }
@@ -94,10 +94,10 @@ Remove-Item $stagingDir -Recurse -Force -ErrorAction SilentlyContinue
 Write-Ok "Staging directory cleaned up"
 
 Write-Host ""
-Write-Host "  ╔══════════════════════════════════════════════════╗" -ForegroundColor Green
-Write-Host "  ║   ✓ Deploy complete!                            ║" -ForegroundColor Green
-Write-Host "  ╚══════════════════════════════════════════════════╝" -ForegroundColor Green
+Write-Host "  +--------------------------------------------------+" -ForegroundColor Green
+Write-Host "  |   v Deploy complete!                             |" -ForegroundColor Green
+Write-Host "  +--------------------------------------------------+" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Your site will be live at:" -ForegroundColor White
-Write-Host "  • https://testingdesign.github.io/YardStack/" -ForegroundColor DarkGray
+Write-Host "  * https://testingdesign.github.io/YardStack/" -ForegroundColor DarkGray
 Write-Host ""

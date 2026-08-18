@@ -3,15 +3,11 @@ $ErrorActionPreference = "Stop"
 $repoRoot     = $PSScriptRoot
 $frontendDir  = Join-Path $repoRoot "frontend"
 $stagingDir   = Join-Path $repoRoot ".deploy-staging"
-$landingDir   = Join-Path $repoRoot "landing-page"
 $viteConfig   = Join-Path $frontendDir "vite.config.ts"
 $distDir      = Join-Path $frontendDir "dist"
 
-$themes = @(
-    @{ Branch = "main";             Folder = "main-version";     Base = "/YardStack/main-version/" },
-    @{ Branch = "Orange-Comb";      Folder = "orange-comb";      Base = "/YardStack/orange-comb/" },
-    @{ Branch = "Purple&Pink-Com";  Folder = "purple-pink-com";  Base = "/YardStack/purple-pink-com/" }
-)
+$branch = "Purple&Pink-Com"
+$base   = "/YardStack/"
 
 function Write-Step($msg) {
     Write-Host ""
@@ -30,7 +26,7 @@ function Write-Warn($msg) {
 $originalBranch = (git -C $repoRoot rev-parse --abbrev-ref HEAD).Trim()
 Write-Host ""
 Write-Host "  ╔══════════════════════════════════════════════════╗" -ForegroundColor Magenta
-Write-Host "  ║   YardStack — Multi-Theme Deploy                ║" -ForegroundColor Magenta
+Write-Host "  ║   YardStack — Deploy Purple&Pink-Com Theme       ║" -ForegroundColor Magenta
 Write-Host "  ╚══════════════════════════════════════════════════╝" -ForegroundColor Magenta
 Write-Host ""
 Write-Host "  Current branch: $originalBranch" -ForegroundColor DarkGray
@@ -42,62 +38,43 @@ if (Test-Path $stagingDir) {
 New-Item -ItemType Directory -Path $stagingDir -Force | Out-Null
 Write-Ok "Staging directory created at: .deploy-staging/"
 
-foreach ($theme in $themes) {
-    $branch = $theme.Branch
-    $folder = $theme.Folder
-    $base   = $theme.Base
-    $outputDir = Join-Path $stagingDir $folder
+Write-Step "Building theme (branch: $branch)"
 
-    Write-Step "Building theme: $folder (branch: $branch)"
+Write-Host "    Checking out branch '$branch'..." -ForegroundColor DarkGray
+git -C $repoRoot checkout $branch --force 2>&1 | Out-Null
+Write-Ok "Checked out '$branch'"
 
-    Write-Host "    Checking out branch '$branch'..." -ForegroundColor DarkGray
-    git -C $repoRoot checkout $branch --force 2>&1 | Out-Null
-    Write-Ok "Checked out '$branch'"
+$originalViteContent = Get-Content $viteConfig -Raw
 
-    $originalViteContent = Get-Content $viteConfig -Raw
+$newViteContent = $originalViteContent -replace "base:\s*'[^']*'", "base: '$base'"
+Set-Content -Path $viteConfig -Value $newViteContent -NoNewline
+Write-Ok "Updated vite.config.ts base to '$base'"
 
-    $newViteContent = $originalViteContent -replace "base:\s*'[^']*'", "base: '$base'"
-    Set-Content -Path $viteConfig -Value $newViteContent -NoNewline
-    Write-Ok "Updated vite.config.ts base to '$base'"
-
-    if (-not (Test-Path (Join-Path $frontendDir "node_modules"))) {
-        Write-Host "    Installing dependencies..." -ForegroundColor DarkGray
-        Push-Location $frontendDir
-        npm ci 2>&1 | Out-Null
-        Pop-Location
-        Write-Ok "Dependencies installed"
-    } else {
-        Write-Ok "node_modules exists, skipping install"
-    }
-
-    Write-Host "    Building..." -ForegroundColor DarkGray
+if (-not (Test-Path (Join-Path $frontendDir "node_modules"))) {
+    Write-Host "    Installing dependencies..." -ForegroundColor DarkGray
     Push-Location $frontendDir
-    npx vite build 2>&1 | ForEach-Object { Write-Host "      $_" -ForegroundColor DarkGray }
+    npm ci 2>&1 | Out-Null
     Pop-Location
-    Write-Ok "Build complete"
-
-    if (Test-Path $distDir) {
-        New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
-        Copy-Item -Path "$distDir\*" -Destination $outputDir -Recurse -Force
-        Write-Ok "Copied dist → $folder/"
-    } else {
-        Write-Warn "dist/ not found for branch '$branch'! Skipping."
-    }
-
-    Set-Content -Path $viteConfig -Value $originalViteContent -NoNewline
-    Write-Ok "Restored vite.config.ts"
-}
-
-Write-Step "Adding landing page"
-
-git -C $repoRoot checkout $originalBranch --force 2>&1 | Out-Null
-
-if (Test-Path $landingDir) {
-    Copy-Item -Path "$landingDir\*" -Destination $stagingDir -Recurse -Force
-    Write-Ok "Landing page copied to staging root"
+    Write-Ok "Dependencies installed"
 } else {
-    Write-Warn "landing-page/ directory not found!"
+    Write-Ok "node_modules exists, skipping install"
 }
+
+Write-Host "    Building..." -ForegroundColor DarkGray
+Push-Location $frontendDir
+npx vite build 2>&1 | ForEach-Object { Write-Host "      $_" -ForegroundColor DarkGray }
+Pop-Location
+Write-Ok "Build complete"
+
+if (Test-Path $distDir) {
+    Copy-Item -Path "$distDir\*" -Destination $stagingDir -Recurse -Force
+    Write-Ok "Copied dist → staging root"
+} else {
+    Write-Warn "dist/ not found for branch '$branch'! Skipping."
+}
+
+Set-Content -Path $viteConfig -Value $originalViteContent -NoNewline
+Write-Ok "Restored vite.config.ts"
 
 New-Item -ItemType File -Path (Join-Path $stagingDir ".nojekyll") -Force | Out-Null
 Write-Ok ".nojekyll file created"
@@ -122,8 +99,5 @@ Write-Host "  ║   ✓ Deploy complete!                            ║" -Foregr
 Write-Host "  ╚══════════════════════════════════════════════════╝" -ForegroundColor Green
 Write-Host ""
 Write-Host "  Your site will be live at:" -ForegroundColor White
-Write-Host "  • https://figmadesign.github.io/YardStack/                    (Landing)" -ForegroundColor DarkGray
-Write-Host "  • https://figmadesign.github.io/YardStack/main-version/       (Main)" -ForegroundColor DarkGray
-Write-Host "  • https://figmadesign.github.io/YardStack/orange-comb/        (Orange)" -ForegroundColor DarkGray
-Write-Host "  • https://figmadesign.github.io/YardStack/purple-pink-com/    (Purple & Pink)" -ForegroundColor DarkGray
+Write-Host "  • https://testingdesign.github.io/YardStack/" -ForegroundColor DarkGray
 Write-Host ""
